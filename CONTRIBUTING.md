@@ -1,4 +1,4 @@
-# Contributing to these Bing Maps V8 Samples #
+# Contributing to these Bing Maps V8 Code Samples #
 
 ## Code of Conduct ##
 
