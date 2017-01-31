@@ -16,15 +16,6 @@ The experimental folder of this project contains code samples that are proof of 
 These samples are primarily for trying things outs and likely contain unsupported code which can break at any time. 
 It is not recommended to use any of these code samples in production applications.
 
-## Additional Resources ##
-
-* [Bing Maps V8 MSDN Documentation](https://msdn.microsoft.com/en-us/library/mt712542.aspx)
-* [Bing Maps V8 Interactive SDK](http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk)
-* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
-* [Bing Maps Blog](http://blogs.bing.com/maps)
-* [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
-* [Bing Maps for Enterpise site](https://www.microsoft.com/maps/)
-
 ## Contributing ##
 
 We welcome contributions. Feel free to submit code samples, file issues and pull requests on the repo and we'll address them as we can. 
@@ -43,3 +34,12 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 MIT
  
 See [License](LICENSE.md) for full license text.
+
+## Additional Resources ##
+
+* [Bing Maps V8 MSDN Documentation](https://msdn.microsoft.com/en-us/library/mt712542.aspx)
+* [Bing Maps V8 Interactive SDK](http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk)
+* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
+* [Bing Maps Blog](http://blogs.bing.com/maps)
+* [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
+* [Bing Maps for Enterpise site](https://www.microsoft.com/maps/)
