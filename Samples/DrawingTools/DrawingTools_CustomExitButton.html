@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, drawingManager;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the DrawingTools module
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create an instance of the DrawingTools class and bind it to the map.
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            //Show the drawing toolbar and enable editting on the map.
+            tools.showDrawingManager(function (manager) {
+                //Store a reference to the drawing manager as it will be useful later.
+                drawingManager = manager;
+
+                //Add events to the drawing manager to track the drawing state.
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingStarted', function () {
+                    document.getElementById('StopDrawingBtn').disabled = false;
+                });
+
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingEnded', function () {
+                    document.getElementById('StopDrawingBtn').disabled = true;
+                });
+            })
+        });
+    }
+
+    function stopDrawing() {
+        //Change the drawing mode to none to stop the drawing.
+        drawingManager.setDrawingMode(Microsoft.Maps.DrawingTools.DrawingMode.none);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <input id="StopDrawingBtn" type="button" value="Stop Drawing" disabled="disabled" onclick="stopDrawing()"/>
+</body>
+</html>

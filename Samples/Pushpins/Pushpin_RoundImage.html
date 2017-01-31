@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(47.620490, -122.349300)
+        });
+
+        createRoundImagePushpin(map.getCenter(), 'images/ssMap.png', 36, function (pin) {
+            map.entities.push(pin);
+        });
+    }
+
+    function createRoundImagePushpin(location, url, radius, callback) {
+        var diameter = radius * 2;
+
+        var img = new Image();
+        img.onload = function () {
+            var c = document.createElement('canvas');
+            c.width = radius * 2;
+            c.height = radius * 2;
+
+            var context = c.getContext('2d');
+
+            //Draw a circle which can be used to clip the image.
+            context.beginPath();
+            context.arc(radius, radius, radius, 0, 2 * Math.PI, false);
+            context.fill();
+
+            //Use the circle to clip.
+            context.clip();
+
+            //Draw the image icon
+            context.drawImage(img, 0, 0, diameter, diameter);
+
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                //Generate a base64 image URL from the canvas.
+                icon: c.toDataURL(),
+                anchor: new Microsoft.Maps.Point(radius, radius)
+            });
+
+            if (callback) {
+                callback(pin);
+            }
+        };
+
+        //Allow cross domain image editting.
+        img.crossOrigin = 'anonymous'; 
+        img.src = url;
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

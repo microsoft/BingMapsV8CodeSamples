@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    //Query URL to the Fourth Coffe Shop data source
+    var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/20181f26d9e94c81acdf9496133d4f23/FourthCoffeeSample/FourthCoffeeShops';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+            //Add an event handler for when the map moves.
+            Microsoft.Maps.Events.addHandler(map, 'viewchangeend', getLocationsInView);
+
+            //Trigger an initial search.
+            getLocationsInView();
+        });
+    }
+
+    function getLocationsInView() {
+        //Remove any existing data from the map.
+        map.entities.clear();
+
+        //Create a query to get data that intrsects the bounds of the map.
+        var queryOptions = {
+            queryUrl: sdsDataSourceUrl,
+            top: 250,
+            spatialFilter: {
+                spatialFilterType: 'intersects',
+                intersects: map.getBounds()
+            }
+        };
+
+        //Process the query.
+        Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
+            //Add results to the map.
+            map.entities.push(data);
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(43.7, -79.3834),
+            zoom: 10
+        });
+
+        //Create the request options.
+        var geoDataRequestOptions = {
+            entityType: 'PopulatedPlace'
+        };
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+
+            //Use the GeoData API manager to get the boundaries of the zip codes.
+            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(
+                map.getCenter(),
+                geoDataRequestOptions,
+                map,
+                function (data) {
+                    //Add the polygons to the map.
+                    if (data.results && data.results.length > 0) {
+                        map.entities.push(data.results[0].Polygons);
+                    }
+                });
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

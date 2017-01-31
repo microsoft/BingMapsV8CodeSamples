@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        }); 
+
+        var center = map.getCenter();
+
+        //Create array of locations
+        var coords = [center, new Microsoft.Maps.Location(center.latitude + 1, center.longitude + 1)];
+
+        //Create a polyline
+        var line = new Microsoft.Maps.Polyline(coords, {
+            strokeColor: 'red',
+            strokeThickness: 3,
+            strokeDashArray: [4, 4]
+        });
+
+        //Add the polyline to map
+        map.entities.push(line);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

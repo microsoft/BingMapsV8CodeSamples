@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, sessionKey, results;
+
+    //Query URL to the NAVTEQ POI data source
+    var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 15
+        });
+
+        //Generate a session key to use with routing service
+        map.getCredentials(function (c) {
+            sessionKey = c;
+
+            //Load the Bing Spatial Data Services module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+                //Add an event handler for when the map moves.
+                Microsoft.Maps.Events.addHandler(map, 'viewchangeend', getNearByLocations);
+
+                //Trigger an initial search.
+                getNearByLocations();
+            });
+        });
+    }
+
+    function getNearByLocations() {
+        //Remove any existing data from the map.
+        map.entities.clear();
+        
+        //Create a query to get nearby data.
+        var queryOptions = {
+            queryUrl: sdsDataSourceUrl,
+            top: 10,
+            spatialFilter: {
+                spatialFilterType: 'nearby',
+                location: map.getCenter(),
+                radius: 25
+            }
+        };
+        
+        //Process the query.
+        Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
+            results = data;
+
+            sortByDrivingDistance(map.getCenter(), function () {
+                //Create a list of the results.
+                var listHTML = ['<table border="1"><tr><td>#</td><td>Name</td><td>Striaght-Line Distance (km)</td><td>Driving Distance (km)</td><td>Drive time (min)</td></tr>'],
+                    locations = [];
+
+                for (var i = 0; i < results.length; i++) {
+                    //Create HTML for each line item in the list. 
+
+                    //Add a column of index numbers.
+                    listHTML.push('<tr><td>', (i + 1), ') </td>');
+
+                    //Add a name column information.
+                    listHTML.push('<td>', results[i].metadata.DisplayName, '</td>');
+
+                    //Add the straight line distance column information.
+                    listHTML.push('<td>', results[i].metadata.__Distance.toFixed(2), '</td>');
+
+                    //Add the driving distance column information.
+                    listHTML.push('<td>', results[i].metadata.__drivingInfo.distance.toFixed(2), '</td>');
+
+                    //Add the drive time column information.
+                    listHTML.push('<td>', (results[i].metadata.__drivingInfo.time / 60).toFixed(0), '</td></tr>');
+
+                    //Add the result number to the pushpin.
+                    data[i].setOptions({ text: i + 1 + '' });
+
+                    locations.push(data[i].getLocation());
+                }
+
+                listHTML.push('</table>');
+
+                document.getElementById('resultList').innerHTML = listHTML.join('');
+
+
+                //Add results to the map.
+                map.entities.push(data);
+            });           
+        });
+    }
+
+    function sortByDrivingDistance(center, callback) {
+        //Generate a multi-waypoint route request from the center to each result.
+        var routeRequest = ['http://dev.virtualearth.net/REST/v1/Routes?'];
+
+        for (var i = 0; i < results.length; i++) {
+            routeRequest.push('&wp.', (i * 2), '=', center.latitude, ',', center.longitude);
+            routeRequest.push('&wp.', (i * 2 + 1), '=', results[i].metadata.Latitude, ',', results[i].metadata.Longitude);
+        }
+
+        routeRequest.push('&output=json&jsonp=routeServiceCallback&key=', sessionKey);
+
+        window['routeServiceCallback'] = routeServiceCallbackCreator(callback);
+
+        CallRestService(routeRequest.join(''));
+    }
+
+    function routeServiceCallbackCreator(r) {
+        return function (r) {
+            if (r &&
+                r.resourceSets &&
+                r.resourceSets.length > 0 &&
+                r.resourceSets[0].resources &&
+                r.resourceSets[0].resources.length > 0) {
+
+                r = r.resourceSets[0].resources[0].routeLegs;
+
+                //Add the driving distance and time infor to the results.
+                for (var i = 0; i < r.length; i += 2) {
+                    results[i / 2].metadata.__drivingInfo = {
+                        distance: r[i].travelDistance,
+                        time: r[i].travelDuration
+                    };
+                }
+
+                //Sort the results by driving distance.
+                results.sort(function (a, b) {
+                    return a.metadata.__drivingInfo.distance - b.metadata.__drivingInfo.distance;
+                });
+            }
+
+            callback();
+        };
+    }
+
+    function CallRestService(request) {
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        script.setAttribute("src", request);
+        document.body.appendChild(script);
+    }
+    </script>
+    <style>
+        table {
+            border-collapse:collapse;
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div><br/>
+    <div id="resultList"></div>
+</body>
+</html>

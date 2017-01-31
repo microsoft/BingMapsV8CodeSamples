@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Create a random 5 sided polyogn that fills a decent portion of the map.
+        var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5, 0.8);
+
+        //Load the DrawingTools module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create an instance of the DrawingTools class and bind it to the map.
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            //Pass the polygon to the drawing tools to be edited.
+            tools.edit(polygon);
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

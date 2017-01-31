@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, drawingManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the DrawingTools module
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create an instance of the DrawingTools class and bind it to the map.
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            //Show the drawing toolbar and enable editting on the map.
+            tools.showDrawingManager(function (manager) {
+                //Store a reference to the drawing manager as it will be useful later.
+                drawingManager = manager;
+            })
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

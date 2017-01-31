@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    //URL to USGS Earthquake feed containing all earthquakes from the past day.
+    var usgsRealtimeEarthquakeUrl = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp';
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey,
+                zoom: 1
+        });
+        
+        //Load the GeoJSON module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+            //Load the real-time earthquake data of the past day from usgs.gov
+            var script = document.createElement('script');
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute('src', usgsRealtimeEarthquakeUrl);
+            document.body.appendChild(script);
+        });
+    }
+
+    //Custom callback function using callback name used in feed.
+    function eqfeed_callback(data) {
+        //Parse the GeoJSON data into Bing Maps shapes and add to map.
+        var shapes = Microsoft.Maps.GeoJson.read(data);
+        map.entities.push(shapes);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

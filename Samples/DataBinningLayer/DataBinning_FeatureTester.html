@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, layer, pins;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        pins = Microsoft.Maps.TestDataGenerator.getPushpins(5000, map.getBounds());
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.DataBinning', function () {
+            layer = new Microsoft.Maps.DataBinningLayer(pins, {
+                radius: 1,
+                distanceUnits: Microsoft.Maps.SpatialMath.DistanceUnits.Miles
+            });
+            map.layers.insert(layer);
+        });
+    }
+
+    function ChangeNumberOfPins(elm) {
+        var numPins = parseInt(elm.options[elm.selectedIndex].value);
+        pins = Microsoft.Maps.TestDataGenerator.getPushpins(numPins, map.getBounds());
+
+        var start = new Date().getTime();
+
+        layer.setPushpins(pins);
+
+        document.getElementById('numBins').innerText = layer.getPrimitives().length;
+        document.getElementById('processingTime').innerText = new Date().getTime() - start;
+    }
+
+    function ChangeDataBinType(elm) {
+        var binType = elm.options[elm.selectedIndex].value;
+        setOptions({ dataBinType: Microsoft.Maps.DataBinType[binType] });
+    }
+
+    function ChangeRadius(elm) {
+        var radius = parseFloat(elm.options[elm.selectedIndex].value);
+        setOptions({ radius: radius });
+    }
+
+    function ToggleColorCallback(elm) {
+        if (elm.checked) {
+            setOptions({ colorCallback: customColorCallback });
+        } else {
+            setOptions({ colorCallback: null });
+        }
+    }
+
+    function customColorCallback(bin, min, max) {
+        return 'rgba(0,0,255,' + bin.metrics.count / max.count + ')';
+    }
+
+    function ToggleScaleCallback(elm) {
+        if (elm.checked) {
+            setOptions({ scaleCallback: customScaleCallback });
+        } else {
+            setOptions({ scaleCallback: null });
+        }
+    }
+
+    function customScaleCallback(bin, min, max) {
+        return bin.metrics.count / max.count;
+    }
+
+    function ToggleVisibility(elm) {
+        if (elm.checked) {
+            layer.setVisible(true);
+        } else {
+            layer.setVisible(false);
+        }
+    }
+
+    function setOptions(opt) {
+        var start = new Date().getTime();
+
+        layer.setOptions(opt);
+
+        document.getElementById('numBins').innerText = layer.getPrimitives().length;
+        document.getElementById('processingTime').innerText = new Date().getTime() - start;
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div><br />
+
+    # of Pushpins:
+    <select onchange="ChangeNumberOfPins(this);">
+        <option value="1000">1,000</option>
+        <option selected="selected" value="5000">5,000</option>
+        <option value="10000">10,000</option>
+        <option value="50000">50,000</option>
+        <option value="100000">100,000</option>  
+        <option value="150000">150,000</option>        
+    </select>
+
+    Data Bin Type:
+    <select onchange="ChangeDataBinType(this);">
+        <option value="circle">Circle</option>
+        <option selected="selected" value="hexagon">Hexagon</option>
+        <option value="hexCircle">Hex Circle</option>
+        <option value="pointyHexagon">Pointy Hexagon</option>
+        <option value="square">Square</option>
+    </select>
+
+    Radius (miles):
+    <select onchange="ChangeRadius(this);">
+        <option value="0.1">0.1</option>
+        <option value="0.5">0.5</option>
+        <option selected="selected" value="1">1</option>
+        <option value="2">2</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="50">50</option>
+        <option value="75">75</option>
+        <option value="100">100</option>
+    </select>
+
+    Color Callback: 
+    <input type="checkbox" onclick="ToggleColorCallback(this)"/>
+
+    Scale Callback:
+    <input type="checkbox" onclick="ToggleScaleCallback(this)" />
+
+    Visible:
+    <input type="checkbox" onclick="ToggleVisibility(this)" checked="checked"/>
+
+    <br />
+    <br/>
+    Number of bins: <span id="numBins"></span>
+    <br />
+    Processing time (ms): <span id="processingTime"></span>
+</body>
+</html>

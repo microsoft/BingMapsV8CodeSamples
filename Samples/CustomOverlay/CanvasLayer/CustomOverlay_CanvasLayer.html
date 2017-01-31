@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 5
+        });
+
+        //Register the custom module.
+        Microsoft.Maps.registerModule('CanvasOverlayModule', 'CanvasOverlayModule.js');
+
+        //Load the module.
+        Microsoft.Maps.loadModule('CanvasOverlayModule', function () {
+            var locations = Microsoft.Maps.TestDataGenerator.getLocations(15000, map.getBounds());
+
+            //Implement the new custom overlay class.
+            var overlay = new CanvasOverlay(function (canvas) {
+                //Calculate pixel coordinates of locations.
+                var points = map.tryLocationToPixel(locations, Microsoft.Maps.PixelReference.control);
+
+                //Create an off screen canvas.
+                var offScreenCanvas = document.createElement('canvas');
+                offScreenCanvas.width = 10;
+                offScreenCanvas.height = 10;
+
+                //Draw a circle on the off screen canvas.
+                var offCtx = offScreenCanvas.getContext('2d');
+                offCtx.fillStyle = 'red';
+                offCtx.beginPath();
+                offCtx.arc(5, 5, 5, 0, 2 * Math.PI);
+                offCtx.closePath();
+                offCtx.fill();
+
+                //Get the context of the main canvas.
+                var ctx = canvas.getContext("2d");
+
+                //Draw the off screen canvas for each location.
+                for (var i = 0, len = points.length; i < len; i++) {
+                    ctx.drawImage(offScreenCanvas, points[i].x - 5, points[i].y - 5, 10, 10);
+                }
+            });
+
+            //Add a click event to the map and check to see if a circle is clicked.
+            Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
+                //Get the pixel coordinates of the locations.
+                var points = map.tryLocationToPixel(locations, Microsoft.Maps.PixelReference.control);
+
+                //Reverse  the array as the top most circle will intersect the mouse first.
+                points.reverse();
+
+                //Calculate the square of the radius. As r^2 = x^2 + y^2.
+                var r2 = 5 * 5;
+                var dx, dy;
+                var selectedIdx = -1;
+
+                //Loop through the pixel coordinates until we find one that is within 5 pixel distance of the mouse location.
+                for (var i = 0, len = points.length; i < len; i++) {
+                    dx = points[i].x - e.point.x;
+                    dy = points[i].y - e.point.y;
+
+                    //Check to see if the mouse location is within radial distance of the point.
+                    if (dx * dx + dy * dy <= r2) {
+                        //Calculate the index of the point in the un-reversed array
+                        selectedIdx = len - i - 1;
+                        break;
+                    }
+                }
+
+                if (selectedIdx >= 0) {
+                    //Use the selected index value to retrieve the original location object.
+                    alert('Selected circle at index ' + selectedIdx + ' which is at ' + locations[selectedIdx]);
+                }
+            });
+
+            //Add the custom overlay to the map.
+            map.layers.insert(overlay);
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Canvas Overlay Sample</legend>
+        This sample shows how to use a canvas to create a custom rendering layer.
+        The rendering layer in this case draws red circles for pushpin locations
+        and adds a click event to them. By rendering point based data as simple objects on a canvas,
+        a lot more points can be rendered on the map than if standard Pushpins are used.
+    </fieldset>
+</body>
+</html>

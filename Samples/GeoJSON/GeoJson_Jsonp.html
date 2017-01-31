@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var usgsEarthquakeUrl = 'http://earthquake.usgs.gov/fdsnws/event/1/query?minmagnitude=3&format=geojson';
+
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 5
+        });
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+
+            Microsoft.Maps.GeoJson.readFromUrl(usgsEarthquakeUrl,
+                function (shapes) {
+                    //Add the shape(s) to the map.
+                    map.entities.push(shapes);
+                }, 'callback');
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

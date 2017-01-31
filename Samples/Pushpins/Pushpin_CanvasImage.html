@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        createColoredPushpin(map.getCenter(), 'red', function (pin) {
+            map.entities.push(pin);
+        });        
+    }
+
+    function createColoredPushpin(location, color, callback) {
+        var img = new Image();
+        img.onload = function () {
+            var c = document.createElement('canvas');
+            c.width = img.width;
+            c.height = img.height;
+
+            var context = c.getContext('2d');
+
+            //Draw a colored circle behind the pin
+            context.beginPath();
+            context.arc(13, 13, 11, 0, 2 * Math.PI, false);
+            context.fillStyle = color;
+            context.fill();
+
+            //Draw the pushpin icon
+            context.drawImage(img, 0, 0);
+
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                //Generate a base64 image URL from the canvas.
+                icon: c.toDataURL(),
+                anchor: new Microsoft.Maps.Point(12, 39)
+            });
+
+            if (callback) {
+                callback(pin);
+            }
+        };
+
+        img.src = 'images/TransparentPushpin.png';
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

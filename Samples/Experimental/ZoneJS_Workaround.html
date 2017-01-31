@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- Load Zone JS -->
+    <script src="https://unpkg.com/zone.js@0.6.23?main=browser"></script>
+    <script>
+        // Store a copy of the ZoneAwarePromise defined above
+        window["zoneAwarePromise"] = window["Promise"];
+    </script>
+
+    <!-- Load the Bing Maps Script -->
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        // After Bing has loaded everything, put back the ZoneAwarePromise.
+        //If you comment out this line of code you will see the issue.
+        window["Promise"] = window["zoneAwarePromise"];
+
+        //This line isn't required to fix the issue. It is only here to try and trigger the issue. 
+        Zone.assertZonePatched();
+
+        //Load the map
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>ZoneJS Workaround Sample</legend>
+        there is a known compatibility issue with Bing Maps V8 and ZoneJS, primarily with the Promise library. 
+        This sample shows a simple workaround for addressing this issue. 
+        The Bing Maps team is also investigating possible solutions to address this issue from the Bing Maps V8 API side of things. 
+    </fieldset>
+</body>
+</html>

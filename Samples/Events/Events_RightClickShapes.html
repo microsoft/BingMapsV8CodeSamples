@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+        var map;
+        var infobox;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Add an infobox to the map so that we can display it when a shape is right clicked.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: false });
+        infobox.setMap(map);
+
+        //Create a layer.
+        var layer = new Microsoft.Maps.Layer();
+
+        //Add a pushpin to the layer.
+        var pin = new Microsoft.Maps.Pushpin(map.getCenter());
+        layer.add(pin);
+
+        //Add a polygon to the layer.
+        var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds());
+        layer.add(polygon);
+
+        //Add layer to map.
+        map.layers.insert(layer);
+
+        //Add right click mouse event to the layer.
+        Microsoft.Maps.Events.addHandler(layer, 'rightclick', function (e) {
+            //Get the shape that the user right clicked on in the layer.
+            var shape = e.primitive;
+
+            var loc;
+            var desc;
+
+            //Depending on the type of shape that was clicked.
+            if (shape instanceof Microsoft.Maps.Pushpin) {
+                loc = shape.getLocation();
+                desc = 'Pushpin right clicked';
+            } else {
+                loc = e.location;
+                desc = 'Polyline or Polygon right clicked';
+            }
+
+            //Display the infobox with an unpdated location and description.
+            infobox.setOptions({
+                location: loc,
+                description: desc,
+                visible: true
+            });
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

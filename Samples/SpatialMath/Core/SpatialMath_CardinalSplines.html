@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath', function () {
+            //Generate some random locations on the map.
+            var locs = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+
+            //Add pushpins to the map to show the random locations that were generated.
+            for (var i = 0; i < locs.length; i++) {
+                map.entities.push(new Microsoft.Maps.Pushpin(locs[i]));
+            }
+
+            //Generate the locations of a cardinal spline that passes through these locations.
+            locs = Microsoft.Maps.SpatialMath.getCardinalSpline(locs);
+
+            //Create a polyline from the cardinal spline locations.
+            var spline = new Microsoft.Maps.Polyline(locs, { strokeThickness: 3 });
+            map.entities.push(spline);
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

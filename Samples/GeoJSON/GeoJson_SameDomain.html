@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 1
+        });
+
+        //Load GeoJSON module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+
+            //Read the GeoJSON file that is hosted on the same domain.
+            Microsoft.Maps.GeoJson.readFromUrl('data/Countries.js',
+                function (shapes) {
+                    //Add the shape(s) to the map.
+                    map.entities.push(shapes);
+                });
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:1000px;height:800px;"></div>
+</body>
+</html>

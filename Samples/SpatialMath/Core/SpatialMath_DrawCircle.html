@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+        var map,
+            outputPanel,
+            circle,
+            mouseDownEventHandler,
+            mouseMoveEventHandler,
+            mouseUpEventHandler;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath');
+
+        outputPanel = document.getElementById('output');
+    }
+
+    function DrawCircle() {
+        ClearDrawing();        
+
+        mouseDownEventHandler = Microsoft.Maps.Events.addHandler(map, 'mousedown', function (e) {
+            //Lock map so it doesn't move when dragging.
+            map.setOptions({ disablePanning: true });
+
+            //Create a polygon for the circle.
+            circle = new Microsoft.Maps.Polygon([e.location, e.location, e.location]);
+
+            //store the center point in the polygons metadata.
+            circle.metadata = {
+                center: e.location
+            };
+
+            map.entities.push(circle);
+        });
+
+        mouseMoveEventHandler = Microsoft.Maps.Events.addHandler(map, 'mousemove', function (e) {
+            if (circle) {
+                UpdateCircle(e);
+            }
+        });
+
+        mouseUpEventHandler = Microsoft.Maps.Events.addHandler(map, 'mouseup', function (e) {
+            UpdateCircle(e);
+
+            //Unlock map panning.
+            map.setOptions({ disablePanning: false });
+
+            //Remove event handlers.
+            Microsoft.Maps.Events.removeHandler(mouseDownEventHandler);
+            Microsoft.Maps.Events.removeHandler(mouseMoveEventHandler);
+            Microsoft.Maps.Events.removeHandler(mouseUpEventHandler);
+        });
+    }
+
+    function ClearDrawing() {
+        map.entities.clear();
+        circle = null;
+        outputPanel.innerHTML = '';
+    }
+
+    function UpdateCircle(e) {
+        //Calculate distance from circle center to mouse.
+        var distance = Microsoft.Maps.SpatialMath.getDistanceTo(circle.metadata.center, e.location, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
+
+        //Calculate circle locations.
+        var locs = Microsoft.Maps.SpatialMath.getRegularPolygon(circle.metadata.center, distance, 36, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
+
+        //Update the circles location.
+        circle.setLocations(locs);
+
+        //Display the radius in miles rounded to 2 decimal places.
+        outputPanel.innerHTML = 'Radius: ' + Math.round(distance*1000)/1000 + ' miles';
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <br/>
+    <input type="button" value="Draw Circle" onclick="DrawCircle()"/>
+    <br/>
+    <div id="output"></div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 4
+        });
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath", function () {
+            showMapTileBounds();
+
+            //Recaulte the map tiles bounds everytime the map moves.
+            Microsoft.Maps.Events.addHandler(map, 'viewchangeend', showMapTileBounds);
+        });
+    }
+
+    function showMapTileBounds() {
+        map.entities.clear();
+
+        //Get a list of all the tiles in the current map view.
+        var tiles = Microsoft.Maps.SpatialMath.Tiles.getTilesInBounds(map.getBounds(), map.getZoom());
+
+        for (var i = 0; i < tiles.length; i++) {
+            //Calculate the bounding rectangle of the tile.
+            var tileLocRect = Microsoft.Maps.SpatialMath.Tiles.tileToLocationRect(tiles[i]);
+
+            //Create a polygon for the tile and add it to the map.
+            var poly = Microsoft.Maps.SpatialMath.locationRectToPolygon(tileLocRect);
+            map.entities.push(poly);
+
+            //Add a pushpin with the quadkey value set as the title. 
+            var pin = new Microsoft.Maps.Pushpin(tileLocRect.center, {
+                title: tiles[i].quadKey
+            });
+            map.entities.push(pin);
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

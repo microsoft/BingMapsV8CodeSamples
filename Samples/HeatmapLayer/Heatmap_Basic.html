@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Generate a 1,000 random locations that are within the bounds of the map view.
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(1000, map.getBounds());
+
+        //Load the HeatMap module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.HeatMap', function () {
+            var heatmap = new Microsoft.Maps.HeatMapLayer(locs);
+            map.layers.insert(heatmap);
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

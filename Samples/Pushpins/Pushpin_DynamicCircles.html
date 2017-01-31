@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Generate 2 random locations within the current map view.
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(2, map.getBounds());
+
+        //Create a blue circle that has a 25 pixel radius as a pushpin and add to map.
+        var pin1 = createCirclePushpin(locs[0], 25, 'rgba(0, 0, 255, 0.5');
+        map.entities.push(pin1);
+
+        //Create a white circle that has a 35 pixel radius and a black outline as a pushpin and add to map.
+        var pin2 = createCirclePushpin(locs[1], 35, 'rgba(255, 255, 255, 0.8)', 'black', 1);
+        map.entities.push(pin2);
+    }
+
+    function createCirclePushpin(location, radius, fillColor, strokeColor, strokeWidth) {
+        strokeWidth = strokeWidth || 0;
+
+        //Create an SVG string of a circle with the specified radius and color.
+        var svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="', (radius * 2),
+            '" height="', (radius * 2), '"><circle cx="', radius, '" cy="', radius, '" r="',
+            (radius - strokeWidth), '" stroke="', strokeColor, '" stroke-width="', strokeWidth, '" fill="', fillColor, '"/></svg>'];
+
+        //Create a pushpin from the SVG and anchor it to the center of the circle.
+        return new Microsoft.Maps.Pushpin(location, {
+            icon: svg.join(''),
+            anchor: new Microsoft.Maps.Point(radius, radius)
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

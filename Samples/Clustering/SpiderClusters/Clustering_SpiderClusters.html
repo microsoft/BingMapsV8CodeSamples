@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <!--<script type='text/javascript' src='SpiderClusterManager.js'></script>-->
+    <script type="text/javascript">
+    var map, infobox, clusterLayer, spiderManager;
+
+    function GetMap() {
+	    map = new Microsoft.Maps.Map('#myMap',{
+	        credentials: YourBingMapsKey,
+            zoom: 3
+	    });
+
+        //Create an infobox at the center of the map but don't show it.
+	    infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+	        visible: false
+	    });
+	    infobox.setMap(map);
+
+        //Hide infobox when user clicks or moves the map.
+	    Microsoft.Maps.Events.addHandler(map, 'click', hideInfobox);
+	    Microsoft.Maps.Events.addHandler(map, 'viewchangestart', hideInfobox);
+
+        //Register the spaider cluster manager module.
+	    Microsoft.Maps.registerModule('SpiderClusterManager', 'SpiderClusterManager.js');
+
+        //Load the clustering and spider clustering manager module.
+        Microsoft.Maps.loadModule(['SpiderClusterManager'], function () {
+            //Generate 1000 random pushpins in the map view.
+            var pins = Microsoft.Maps.TestDataGenerator.getPushpins(1000, map.getBounds());
+
+            //Add some metadata to the pushpins so we can show it in the infobox when clicked.
+            for (var i = 0, len = pins.length; i < len; i++) {
+                pins[i].metadata = {
+                    value: Math.round(Math.random() * 100)
+                };
+            }
+
+            spiderManager = new SpiderClusterManager(map, pins, {
+                pinSelected: function (pin, cluster) {
+                    if (cluster) {
+                        showInfobox(cluster.getLocation(), pin.metadata);
+                    } else {
+                        showInfobox(pin.getLocation(), pin.metadata);
+                    }
+                },
+                pinUnselected: function(){
+                    hideInfobox();
+                },
+                gridSize: 80
+            });
+        });
+    }
+
+    function showInfobox(location, metadata) {
+        infobox.setOptions({
+            location: location,
+            title: 'Has a value of ' + metadata.value + '%',
+            visible: true
+        });
+    }
+
+    function hideInfobox() {
+        infobox.setOptions({ visible: false });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

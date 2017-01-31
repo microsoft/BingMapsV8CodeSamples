@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, infobox;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            visible: false
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
+
+        //Create a pushpin at a random location in the map bounds.
+        var randomLocation = Microsoft.Maps.TestDataGenerator.getLocations(1, map.getBounds());
+        var pin = new Microsoft.Maps.Pushpin(randomLocation);
+
+        //Store some metadata with the pushpin.
+        pin.metadata = {
+            title: 'Pin Title',
+            description: 'Pin discription'
+        };
+
+        //Add a click event handler to the pushpin.
+        Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+
+        //Add pushpin to the map.
+        map.entities.push(pin);
+    }
+
+    function pushpinClicked(e) {
+        //Make sure the infobox has metadata to display.
+        if (e.target.metadata) {
+            //Set the infobox options with the metadata of the pushpin.
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

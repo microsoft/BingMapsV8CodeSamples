@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, contextMenu;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Use an Infobox with custom HTML to create a context menu UI.
+        contextMenu = new Microsoft.Maps.Infobox(map.getCenter(), {
+            htmlContent: '<div style="background-color:gray;border:1px solid black;padding:10px;"><input type="button" value="zoom in" onclick="map.setView({zoom: map.getZoom() + 1});closeContextMenu();"/></div>',
+            visible: false
+        });
+        contextMenu.setMap(map);
+
+        //Add a right click event to the map 
+        Microsoft.Maps.Events.addHandler(map, 'rightclick', function(e){
+            //Open context menu.
+            contextMenu.setOptions({
+                location: e.location,
+                visible: true
+            });
+        });
+
+        //Close the context menu if the user presses the mouse down anywhere else on the screen.
+        document.body.onmousedown = function () {
+            closeContextMenu();
+        };
+    }
+
+    function closeContextMenu() {
+        contextMenu.setOptions({ visible: false });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

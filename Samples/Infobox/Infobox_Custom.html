@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    //Define an HTML template for a custom infobox.
+    var infoboxTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        var center = map.getCenter();
+
+        //Define a title and description for the infobox.
+        var title = 'This is the title';
+        var description = '<img src="https://www.bingmapsportal.com/Content/images/poi_custom.png" align="left" style="margin-right:5px;"/>This is a description with custom html. <a href="http://bing.com/maps" target="_blank">Link</a>';
+
+        //Pass the title and description into the template and pass it into the infobox as an option.
+        var infobox = new Microsoft.Maps.Infobox(center, {
+            htmlContent: infoboxTemplate.replace('{title}', title).replace('{description}', description)
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
+    }
+    </script>
+    <style>
+        /* CSS styles used by custom infobox template */
+        .customInfobox {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            max-width: 200px;
+            border-radius: 10px;
+            padding: 10px;
+            font-size:12px;
+            pointer-events:auto !important;
+        }
+
+            .customInfobox .title {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+    </style>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

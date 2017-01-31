@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    var defaultColor = 'blue';
+    var hoverColor = 'red';
+    var mouseDownColor = 'purple';
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        var pin = new Microsoft.Maps.Pushpin(map.getCenter(), {
+            color: defaultColor
+        });
+
+        map.entities.push(pin);
+
+        Microsoft.Maps.Events.addHandler(pin, 'mouseover', function (e) {
+            e.target.setOptions({ color: hoverColor });
+        });
+
+        Microsoft.Maps.Events.addHandler(pin, 'mousedown', function (e) {
+            e.target.setOptions({ color: mouseDownColor });
+        });
+
+        Microsoft.Maps.Events.addHandler(pin, 'mouseout', function (e) {
+            e.target.setOptions({ color: defaultColor });
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

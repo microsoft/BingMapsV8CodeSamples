@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 4
+        });
+
+        var center = map.getCenter();
+        var pins = [];
+
+        //Create 3 red pushpins.
+        for (var i = 0; i < 3; i++) {
+            //Create a location object of where to place the pushpin on the map.
+            var loc = new Microsoft.Maps.Location(center.latitude, center.longitude + i * 10);
+
+            //Create a pushpin 
+            var pin = new Microsoft.Maps.Pushpin(loc, { color: 'red' });
+
+            pins.push(pin);
+        }
+
+        //Create 3 yellow pushpins.
+        for (var i = 0; i < 3; i++) {
+            //Create a location object of where to place the pushpin on the map.
+            var loc = new Microsoft.Maps.Location(center.latitude - 10, center.longitude + i * 10);
+
+            //Create a pushpin 
+            var pin = new Microsoft.Maps.Pushpin(loc, { color: 'yellow' });
+
+            pins.push(pin);
+        }
+
+        //Add the pushpins to the map
+        map.entities.push(pins);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

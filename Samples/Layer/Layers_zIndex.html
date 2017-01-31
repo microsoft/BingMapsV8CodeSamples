@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+	<script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+		map = new Microsoft.Maps.Map('#myMap', {
+			credentials: YourBingMapsKey
+		});
+		
+		var center = map.getCenter();
+		
+		//Create a layer that has a zIndex of 3000 and add it to the map.
+		var layer = new Microsoft.Maps.Layer();
+		layer.setZIndex(3000);
+		map.layers.insert(layer);
+		
+		//Create a polygon and add it to the layer.
+		var polygon = new Microsoft.Maps.Polygon([new Microsoft.Maps.Location(center.latitude - 0.05, center.longitude - 0.15),
+			new Microsoft.Maps.Location(center.latitude + 0.01, center.longitude - 0.15),
+			new Microsoft.Maps.Location(center.latitude + 0.01, center.longitude - 0.05)], null);
+
+		layer.add(polygon);
+		
+		//Create a tilelayer and give it a zIndex of 3000.
+		var katrinaTileLayer = new Microsoft.Maps.TileLayer({
+			mercator: new Microsoft.Maps.TileSource({
+				uriConstructor: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
+				minZoom: 1,
+				maxZoom: 10,
+				bounds: Microsoft.Maps.LocationRect.fromEdges(35.176, -101.065, 14.01, -80.538)
+			}),
+			zIndex: 3000
+		});
+		map.layers.insert(katrinaTileLayer);
+
+		//Load the traffic module. The Polygon and TileLayer should render below the traffic flow tile layer. 
+		Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+			var manager = new Microsoft.Maps.Traffic.TrafficManager(map);
+			manager.show();
+		});
+	}
+	</script>	
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

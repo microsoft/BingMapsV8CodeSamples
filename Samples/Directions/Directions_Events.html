@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+        var map;
+        var directionsManager;
+
+        function GetMap()
+        {
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey
+            });
+
+            //Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                //Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+                directionsManager.setRequestOptions({
+                    routeMode: Microsoft.Maps.Directions.RouteMode.driving
+                });
+
+                //Create waypoints to route between.
+                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' });
+                directionsManager.addWaypoint(seattleWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' });
+                directionsManager.addWaypoint(workWaypoint);
+
+                //Add event handlers to directions manager.
+                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsError', directionsError);
+                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', directionsUpdated);
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+            });
+        }
+
+        function directionsUpdated(e) {
+            //Get the current route index.
+            var routeIdx = directionsManager.getRequestOptions().routeIndex;
+
+            //Get the distance of the route, rounded to 2 decimal places.
+            var distance = Math.round(e.routeSummary[routeIdx].distance * 100)/100;
+
+            //Get the distance units used to calculate the route.
+            var units = directionsManager.getRequestOptions().distanceUnit;
+            var distanceUnits = '';
+
+            if (units == Microsoft.Maps.Directions.DistanceUnit.km) {
+                distanceUnits = 'km'
+            } else {
+                //Must be in miles
+                distanceUnits = 'miles'
+            }
+
+            //Time is in seconds, convert to minutes and round off.
+            var time = Math.round(e.routeSummary[routeIdx].timeWithTraffic / 60);
+
+            document.getElementById('routeInfoPanel').innerHTML = 'Distance: ' + distance + ' ' + distanceUnits + '<br/>Time with Traffic: ' + time + ' minutes';
+        }
+
+        function directionsError(e) {
+            alert('Error: ' + e.message + '\r\nResponse Code: ' + e.responseCode)
+        }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <div id='routeInfoPanel'></div>
+</body>
+</html>

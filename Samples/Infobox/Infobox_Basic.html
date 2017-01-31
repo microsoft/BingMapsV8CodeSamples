@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, infobox;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(47.60357, -122.32945)
+        });
+
+        var center = map.getCenter();
+
+        //Create an infobox that will render in the center of the map.
+        infobox = new Microsoft.Maps.Infobox(center, {
+            title: 'Map Center',
+            description: 'Seattle'
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

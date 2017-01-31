@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(40.75, -99.47),
+            zoom: 4
+        });
+
+        //Weather radar tiles from Iowa Environmental Mesonet of Iowa State University
+        var weatherTileLayer = new Microsoft.Maps.TileLayer({
+            mercator: new Microsoft.Maps.TileSource({
+                uriConstructor: 'http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
+            })
+        });
+        map.layers.insert(weatherTileLayer);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

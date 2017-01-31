@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, contextMenu;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            
+            //Hide the default navigation bar.
+            showDashboard: false 
+        });
+    }
+    </script>
+    <style>
+        .mapContainer, #myMap{
+            position:relative;
+            width:600px;
+            height:400px;
+        }
+
+        .customNavBar {
+            position:absolute;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapContainer">
+        <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+        <div class="customNavBar">
+            <input type="button" value="Road" onclick="map.setView({mapTypeId:Microsoft.Maps.MapTypeId.road});"/>
+            <input type="button" value="Aerial" onclick="map.setView({mapTypeId:Microsoft.Maps.MapTypeId.aerial});" />
+        </div>
+    </div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Custom Navigation Bar Sample</legend>
+        This sample shows how to create a custom navigation bar by hiding the default navigation bar and floating custom navigation controls over the map.
+    </fieldset>
+</body>
+</html>

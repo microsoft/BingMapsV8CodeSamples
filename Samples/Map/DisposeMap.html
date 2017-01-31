@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol' async defer></script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+
+    <script type='text/javascript'>
+    var map;
+
+    function loadMap()
+    {
+        if (!map) {
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey
+            });
+        }
+    }
+
+    function disposeMap() {
+        if (map) {
+            map.dispose();
+            map = null;
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div><br/>
+    <input type="button" value="Load Map" onclick="loadMap()" />
+    <input type="button" value="Dispose Map" onclick="disposeMap()"/>
+</body>
+</html>

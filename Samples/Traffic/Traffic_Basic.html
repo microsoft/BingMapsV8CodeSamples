@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, trafficManager;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load traffic module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+            //Create an instance of the traffic manager and bind to map.
+            trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
+
+            //Display the traffic data layer.
+            trafficManager.show();
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

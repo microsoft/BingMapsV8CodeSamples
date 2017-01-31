@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        var center = map.getCenter();
+
+        //Add a standard red pushpin that doesn't have dragging enabled.
+        var redPin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude), { color: '#f00' });
+        map.entities.push(redPin);
+
+        //Add a green pushpin that has dragging enabled and events attached to it.
+        var greenPin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude - 0.1), { color: '#0f0', draggable: true });
+        map.entities.push(greenPin);
+
+        Microsoft.Maps.Events.addHandler(greenPin, 'drag', function () { highlight('pushpinDrag'); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'dragend', function () { highlight('pushpinDragEnd'); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'dragstart', function () { highlight('pushpinDragStart'); });
+
+        //Add a blue pushpin that has dragging enabled but no events attached to it.
+        var bluePin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude + 0.1), { color: '#00f', draggable: true });
+        map.entities.push(bluePin);
+    }
+
+    function highlight(id) {
+        //Highlight the mouse event div to indicate that the event has fired.
+        document.getElementById(id).style.background = 'LightGreen';
+
+        //Remove the highlighting after a second.
+        setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <div id="pushpinDrag">drag</div>
+    <div id="pushpinDragEnd">dragend</div>
+    <div id="pushpinDragStart">dragstart</div>
+</body>
+</html>

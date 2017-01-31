@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, layer, pins;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Generate random test pushpins. 
+        pins = Microsoft.Maps.TestDataGenerator.getPushpins(100, map.getBounds());
+        
+        //Load the Data Binning module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DataBinning', function () {
+            layer = new Microsoft.Maps.DataBinningLayer(pins, {
+                dataBinType: Microsoft.Maps.DataBinType.square,
+                radius: 3,
+                distanceUnits: Microsoft.Maps.SpatialMath.DistanceUnits.Miles,
+                polygonOptions: {
+                    strokeColor: 'white'
+                }
+            });
+            map.layers.insert(layer);
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map, processEnterKey = false;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        document.getElementById('searchBox').onkeypress = function (e) {
+            if (e.keyCode == 13) {
+                //Set a flag to process the enter key event but wait to see if the selected suggestion callback fired.
+                processEnterKey = true;
+
+                setTimeout(function () {
+                    if (processEnterKey) {
+                        //Enter key pressed.
+                        alert('Enter key pressed without a suggestion being selected.');
+                    }
+                }, 500);
+            }
+        };
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+            var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
+            manager.attachAutosuggest('#searchBox', '#searchBoxContainer', selectedSuggestion);
+        });
+    }
+
+    function selectedSuggestion(result) {
+        //Set the flag to false as a suggestion was captured.
+        processEnterKey = false;
+
+        //Remove previously selected suggestions from the map.
+        map.entities.clear();
+
+        //Show the suggestion as a pushpin and center map over it.
+        var pin = new Microsoft.Maps.Pushpin(result.location);
+        map.entities.push(pin);
+
+        map.setView({ bounds: result.bestView });
+    }
+    </script>
+</head>
+<body>
+    <div id='searchBoxContainer'>
+        <input type='text' id='searchBox' />
+    </div>
+
+    <div id="myMap" style="position:relative;width:400px;height:300px;"></div>
+</body>
+</html>

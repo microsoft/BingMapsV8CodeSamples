@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+        var map, infobox, currentPushpin;
+
+        function GetMap()
+        {
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey
+            });
+
+            //Add a click event to the map.
+            Microsoft.Maps.Events.addHandler(map, 'click', mapClicked);
+
+            //Create an infobox, but hide it. We can reuse it for each pushpin.
+            infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: false });
+            infobox.setMap(map);
+        }
+
+        function mapClicked(e) {
+            //Create a pushpin.
+            currentPushpin = new Microsoft.Maps.Pushpin(e.location);
+
+            //Add a click event to the pushpin.
+            Microsoft.Maps.Events.addHandler(currentPushpin, 'click', pushpinClicked);
+
+            //Add the pushpin to the map.
+            map.entities.push(currentPushpin);
+
+            //Open up an input form here the user can enter in details for pushpin. 
+            document.getElementById('inputForm').style.display = '';
+        }
+
+        function saveData() {
+            //Get the data from form and add it to the pushpin
+            currentPushpin.metadata = {
+                title: document.getElementById('titleTbx').value,
+                description: document.getElementById('descriptionTbx').value
+            };
+
+            //Optionally save this data somewhere (like a database or local storage).
+            
+            //Clear the fields in the form and then hide the form.
+            document.getElementById('titleTbx').value = '';
+            document.getElementById('descriptionTbx').value = '';
+            document.getElementById('inputForm').style.display = 'none';
+        }
+
+        function pushpinClicked(e) {
+            if (e.target.metadata) {
+                infobox.setOptions({
+                    location: e.target.getLocation(),
+                    title: e.target.metadata.title,
+                    description: e.target.metadata.description,
+                    visible: true
+                });
+            }
+        }
+    </script>
+    <style>
+        #myMap {
+            position:relative;
+            width:800px;
+            height:600px;
+        }
+
+        #inputForm {
+            position:absolute;
+            top:200px;
+            left:250px;
+            padding:10px;
+            background-color:white;
+            border:1px solid #000;
+            border-radius:10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap" style=""></div>
+
+    <div id="inputForm" style="display:none;">
+        <table>
+            <tr><td colspan="2"></td></tr>
+            <tr><td>Title</td><td><input id="titleTbx" type="text" /></td></tr>
+            <tr><td>Description</td><td><input id="descriptionTbx" type="text" /></td></tr>
+            <tr><td colspan="2"><input type="button" value="Save" onclick="saveData()" style="float:right;"/></td></tr>
+        </table>
+    </div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Create Pushpin and Add Metadata Sample</legend>
+        This sample shows how a form can be displayed to enter metadata for a pushpin after it has been added to the map. 
+        To try this out, click on the map to add a pushpin. Enter some metadata into the form that is displayed and press 
+        save. Click on the pushpin to see the metadata that was saved for the pushpin.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+    var tools;
+    var currentShape;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the DrawingTools module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create an instance of the DrawingTools class and bind it to the map.
+            tools = new Microsoft.Maps.DrawingTools(map);
+        
+            //When the user presses 'esc', take the polygon out of edit mode and re-add to base map.
+            document.getElementById('myMap').onkeypress = function (e) {
+                if (e.charCode === 27) {
+                    tools.finish(shapeDrawn);
+                    currentShape = null;
+                }
+            };
+        });
+    }
+
+    function drawPolygon() {
+        //Stop any current drawing. 
+        if (currentShape) {
+            tools.finish(shapeDrawn);
+            currentShape = null;
+        }
+
+        //Create a new polygon.
+        tools.create(Microsoft.Maps.DrawingTools.ShapeType.polygon, function (s) {
+            currentShape = s;
+        });
+    }
+
+    function shapeDrawn(s) {
+        //Do something with the shape that was drawn.
+        //For this demo add it as a standard shape on the map.
+        map.entities.push(s);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div><br/>
+    <input type="button" onclick="drawPolygon()" value="Draw Polygon"/>
+</body>
+</html>

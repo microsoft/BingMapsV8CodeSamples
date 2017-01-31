@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{81B4D554-BEE6-4897-95A9-F1CB38631F7A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samples</RootNamespace>
+    <AssemblyName>Samples</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="AnimatedTileLayer\AnimatedTileLayer_Controls.html" />
+    <Content Include="AnimatedTileLayer\AnimatedTileLayer_Events.html" />
+    <Content Include="AnimatedTileLayer\AnimatedTileLayer_WeatherRadarMap.html" />
+    <Content Include="Article Samples\SimpleStoreLocator\css\Locator.css" />
+    <Content Include="Article Samples\SimpleStoreLocator\images\logo.png" />
+    <Content Include="Article Samples\SimpleStoreLocator\images\red_pin.png" />
+    <Content Include="Article Samples\SimpleStoreLocator\js\Locator.js" />
+    <Content Include="Article Samples\SimpleStoreLocator\SimpleStoreLocator.html" />
+    <Content Include="Autosuggest\Autosuggest_AddressForm.html" />
+    <Content Include="Autosuggest\Autosuggest_DefaultUI.html" />
+    <Content Include="BingMapsCredentials.js" />
+    <Content Include="Clustering\Clustering_Basic.html" />
+    <Content Include="Clustering\Clustering_Customization.html" />
+    <Content Include="Clustering\Clustering_PushpinList.html" />
+    <Content Include="Clustering\SpiderClusters\Clustering_SpiderClusters.html" />
+    <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
+    <Content Include="ContourLayer\ContourLayer_Basic.html" />
+    <Content Include="ContourLayer\ContourLayer_FromGeoJSON.html" />
+    <Content Include="ContourLayer\CountourLayer_Cirlces.html" />
+    <Content Include="CustomOverlay\CustomOverlay_BasicOverlay.html" />
+    <Content Include="CustomOverlay\CanvasLayer\CustomOverlay_CanvasLayer.html" />
+    <Content Include="CustomOverlay\HtmlPushpinLayer\CustomOverlay_HtmlPushpinLayer.html" />
+    <Content Include="CustomOverlay\CustomOverlay_TopographicOverlay.html" />
+    <Content Include="DataBinningLayer\DataBinning_Bivariate.html" />
+    <Content Include="DataBinningLayer\DataBinning_Options.html" />
+    <Content Include="DataBinningLayer\DataBinning_Events.html" />
+    <Content Include="DataBinningLayer\DataBinning_FeatureTester.html" />
+    <Content Include="DataBinningLayer\DataBinning_GradientColorScale.html" />
+    <Content Include="Default.aspx" />
+    <Content Include="Directions\Directions_Basic.html" />
+    <Content Include="Directions\Directions_Events.html" />
+    <Content Include="Directions\Directions_InputPanel.html" />
+    <Content Include="Directions\Directions_Transit.html" />
+    <Content Include="Directions\Directions_WithOptions.html" />
+    <Content Include="DrawingTools\DrawingTools_Basic.html" />
+    <Content Include="DrawingTools\DrawingTools_Clear.html" />
+    <Content Include="DrawingTools\DrawingTools_CustomExitButton.html" />
+    <Content Include="DrawingTools\DrawingTools_CustomToolbar.html" />
+    <Content Include="DrawingTools\DrawingTools_EditExistingPolygon.html" />
+    <Content Include="DrawingTools\DrawingTools_TogglePolygonEdit.html" />
+    <Content Include="DrawingTools\DrawingTools_CreateShape.html" />
+    <Content Include="DrawingTools\DrawingTools_Events.html" />
+    <Content Include="DrawingTools\DrawingTools_GetDrawnShapes.html" />
+    <Content Include="DrawingTools\DrawingTools_MeasuringTape.html" />
+    <Content Include="Events\Events_BasicMapEvents.html" />
+    <Content Include="Events\Events_RightClickShapes.html" />
+    <Content Include="Autosuggest\Autosuggest_EnterKeyPress.html" />
+    <Content Include="Directions\Directions_EvenlySpacedLocations.html" />
+    <Content Include="Directions\Directions_SnapWaypoint.html" />
+    <Content Include="Events\Events_CustomFreeHandDrawing.html" />
+    <Content Include="Events\Events_MapViewEvents.html" />
+    <Content Include="Experimental\Map_WithAngular1.html" />
+    <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
+    <Content Include="Experimental\images\blueSquare.png" />
+    <Content Include="Experimental\Pushpin_RestrictedDrag.html" />
+    <Content Include="Map\CustomNavigationBar.html" />
+    <Content Include="Modules\DraggableShapes\Modules_DraggableShapeManager.html" />
+    <Content Include="Other\CreatePushpinAddMetadata.html" />
+    <Content Include="SpatialMath\Core\SpatialMath_DrawCircle.html" />
+    <Content Include="Map\Map_KeyEvents.html" />
+    <Content Include="Other\NorthCarolinaMap.html" />
+    <Content Include="Layer\Layer_zIndexSwap.html" />
+    <Content Include="Map\Map_ContextMenu.html" />
+    <Content Include="Map\DisposeMap.html" />
+    <Content Include="Map\Map_LazyLoading.html" />
+    <Content Include="Map\OverrideMouseWheelZoom.html" />
+    <Content Include="Other\Netherlands\NetherlandsCensusMap.html" />
+    <Content Include="Pushpins\Pushpin_Scaled.html" />
+    <Content Include="Other\USAMap.html" />
+    <Content Include="Experimental\ZoneJS_Workaround.html" />
+    <Content Include="GeoJSON\GeoJson_Choropleth.html" />
+    <Content Include="GeoJSON\GeoJson_CORS.html" />
+    <Content Include="GeoJSON\GeoJson_CrossDomain_NoJsonp.html" />
+    <Content Include="GeoJSON\GeoJson_SameDomain.html" />
+    <Content Include="GeoJSON\GeoJson_Write.html" />
+    <Content Include="Infobox\Infobox_Events.html" />
+    <Content Include="Layer\Layers_zIndex.html" />
+    <Content Include="Localization\Localization_Chinese.html" />
+    <Content Include="Localization\Localization_English.html" />
+    <Content Include="Map\Map_Resize.html" />
+    <Content Include="Map\ReusableMap.html" />
+    <Content Include="Pushpins\Pushpin_Colors.html" />
+    <Content Include="Pushpins\images\ssMap.png" />
+    <Content Include="Pushpins\Pushpin_HoverStyle.html" />
+    <Content Include="Pushpins\Pushpin_ChangedEvent.html" />
+    <Content Include="Pushpins\Pushpin_DragEvents.html" />
+    <Content Include="Pushpins\Pushpin_FontBasedIcons.html" />
+    <Content Include="Pushpins\Pushpin_RotatedImage.html" />
+    <Content Include="Pushpins\Pushpin_RoundImage.html" />
+    <Content Include="Resources\images\bingMapsLogo.png" />
+    <Content Include="Resources\images\bingUrlIcon.png" />
+    <Content Include="Resources\scripts\default.js" />
+    <Content Include="Resources\styles\default.css" />
+    <Content Include="Rest Services\RestServices_Angular1.html" />
+    <Content Include="Rest Services\RestServices_ElevationProfiles.html" />
+    <Content Include="Rest Services\RestServices_jQuery.html" />
+    <Content Include="Rest Services\RestServices_JSONP.html" />
+    <Content Include="SpatialMath\Core\SpatialMath_AccuracyCircle.html" />
+    <Content Include="SpatialMath\Core\SpatialMath_CardinalSplineFeatures.html" />
+    <Content Include="SpatialMath\Core\SpatialMath_CardinalSplines.html" />
+    <Content Include="SpatialMath\Core\SpatialMath_Circles.html" />
+    <Content Include="SpatialMath\Geometry\SpatialMath_BinaryOperations.html" />
+    <Content Include="SpatialMath\Tile Math\SpatialMath_QuadkeyLocator.html" />
+    <Content Include="SpatialMath\Tile Math\SpatialMath_TileMathExample.html" />
+    <Content Include="TileLayer\TileLayer_BaseMercator.html" />
+    <Content Include="TileLayer\TileLayer_WMS.html" />
+    <Content Include="UserLocation\UserLocation_Basic.html" />
+    <Content Include="UserLocation\UserLocation_Continuous.html" />
+    <Content Include="HeatmapLayer\Heatmap_Features.html" />
+    <Content Include="HeatmapLayer\Heatmap_Basic.html" />
+    <Content Include="HeatmapLayer\Heatmap_Customized.html" />
+    <Content Include="HeatmapLayer\Heatmap_GeoJSON.html" />
+    <Content Include="HeatmapLayer\Heatmap_Gradients.html" />
+    <Content Include="Infobox\Infobox_Basic.html" />
+    <Content Include="Infobox\Infobox_Custom.html" />
+    <Content Include="Infobox\Infobox_ExpandingTooltip.html" />
+    <Content Include="Infobox\Infobox_MultiplePushpins.html" />
+    <Content Include="Infobox\Infobox_Options.html" />
+    <Content Include="Infobox\Infobox_IPrimitiveClicked.html" />
+    <Content Include="Infobox\Infobox_PushpinClick.html" />
+    <Content Include="Layer\Layer_Basic.html" />
+    <Content Include="Layer\Layer_Events.html" />
+    <Content Include="Map\LoadMapAsync.html" />
+    <Content Include="Map\LoadMap.html" />
+    <Content Include="Map\Map_Events.html" />
+    <Content Include="Map\Map_SetView.html" />
+    <Content Include="Map\Map_Streetside.html" />
+    <Content Include="Modules\GpxModule\GpxModule_WithMetadata.html" />
+    <Content Include="Modules\GpxModule\data\gps_points.xml" />
+    <Content Include="Modules\GpxModule\GPXParserModule.js" />
+    <Content Include="Modules\GpxModule\GpxModule.html" />
+    <Content Include="Modules\GpxModule\data\Tourist_locations_UK-England.xml" />
+    <Content Include="PointCompression\PointCompression.html" />
+    <Content Include="Polygons\Polygon_Events.html" />
+    <Content Include="Polygons\Polygon_WithHole.html" />
+    <Content Include="Polylines\Polyline_Basics.html" />
+    <Content Include="Polylines\Polyline_Events.html" />
+    <Content Include="Pushpins\images\TransparentPushpin.png" />
+    <Content Include="Pushpins\Pushpin_Base64Icon.html" />
+    <Content Include="Pushpins\Pushpin_Base64IconFromCanvas.html" />
+    <Content Include="Pushpins\Pushpin_Basic.html" />
+    <Content Include="Pushpins\Pushpin_DynamicCircles.html" />
+    <Content Include="Pushpins\Pushpin_Events.html" />
+    <Content Include="Pushpins\Pushpin_ImageUrlIcon.html" />
+    <Content Include="Pushpins\Pushpin_InlineSvgIcon.html" />
+    <Content Include="Pushpins\Pushpin_SetColor.html" />
+    <Content Include="Pushpins\Pushpin_SvgUrlIcon.html" />
+    <Content Include="Pushpins\Pushpin_CanvasImage.html" />
+    <Content Include="SpatialDataServices\GeoData_ChoroplethMap.html" />
+    <Content Include="SpatialDataServices\SpatialDataServices_Filters.html" />
+    <Content Include="SpatialDataServices\QueryAPI_AlongRoute.html" />
+    <Content Include="SpatialDataServices\QueryAPI_BasicIntersection.html" />
+    <Content Include="SpatialDataServices\QueryAPI_ChoroplethMap.html" />
+    <Content Include="SpatialDataServices\QueryAPI_DrawSearchArea.html" />
+    <Content Include="SpatialDataServices\QueryAPI_FindByProperty.html" />
+    <Content Include="SpatialDataServices\QueryAPI_Intersection.html" />
+    <Content Include="SpatialDataServices\QueryAPI_Paging.html" />
+    <Content Include="SpatialDataServices\QueryAPI_Nearby.html" />
+    <Content Include="SpatialDataServices\QueryAPI_SortByDrivingDistance.html" />
+    <Content Include="Search\Geocode_SearchResults.html" />
+    <Content Include="SpatialMath\Core\SpatialMath_Basics.html" />
+    <Content Include="TestDataGenerator\TestDataGenerator.html" />
+    <Content Include="TileLayer\TileLayer_Quadkey.html" />
+    <Content Include="TileLayer\TileLayer_XYZoom.html" />
+    <Content Include="Traffic\Traffic_Basic.html" />
+    <Content Include="Welcome.html" />
+    <Content Include="WellKnownText\WKT_Read.html" />
+    <Content Include="WellKnownText\WKT_ReadSDS.html" />
+    <Content Include="WellKnownText\WKT_Write.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GeoJSON\GeoJson_BasicWithStyle.html" />
+    <Content Include="GeoJSON\GeoJson_LocalFile.html" />
+    <Content Include="GeoJSON\GeoJson_Jsonp.html" />
+    <Content Include="Pushpins\images\cylinder.svg" />
+    <Content Include="Polygons\Polygon_Basic.html" />
+    <Content Include="GeoJSON\Data\Countries.js" />
+    <Content Include="SpatialDataServices\GeoData_Basic.html" />
+    <Content Include="SpatialDataServices\GeoData_MultipleLocations.html" />
+    <Content Include="SpatialDataServices\GeoData_WithSearch.html" />
+    <Content Include="Search\Geocode.html" />
+    <Content Include="Search\ReverseGeocode.html" />
+    <Content Include="template.html" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Other\Netherlands\wmo.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pushpins\data\US_State_Literacy.tsv" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Clustering\SpiderClusters\SpiderClusterManager.ts" />
+    <TypeScriptCompile Include="CustomOverlay\CanvasLayer\CanvasOverlayModule.ts" />
+    <TypeScriptCompile Include="CustomOverlay\HtmlPushpinLayer\HtmlPushpinLayerModule.ts" />
+    <TypeScriptCompile Include="Modules\DraggableShapes\DraggableShapesModule.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Microsoft.Maps.All.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Microsoft.Maps.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\Autosuggest.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\Clustering.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\Contour.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\DataBinning.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\Directions.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\DrawingTools.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\GeoJson.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\HeatMapLayer.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\Search.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\SpatialDataService.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\SpatialMath.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\Traffic.d.ts" />
+    <TypeScriptCompile Include="Resources\typings\MicrosoftMaps\Modules\WellKnownText.d.ts" />
+    <Content Include="SpatialDataServices\data\US_State_Literacy.tsv" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GeoJSON\Data\US_Counties.json" />
+    <Content Include="Rest Services\RestServices_Angular1.6.html" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>5479</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5479/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

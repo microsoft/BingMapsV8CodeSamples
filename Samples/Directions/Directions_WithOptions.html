@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+        var map;
+        var directionsManager;
+
+        function GetMap()
+        {
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey
+            });
+
+            //Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                //Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+                //Create waypoints to route between.
+                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'London, UK' });
+                directionsManager.addWaypoint(seattleWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'Paris, FR' });
+                directionsManager.addWaypoint(workWaypoint);
+
+                //Set the request options that avoid highways and uses kilometers.
+                directionsManager.setRequestOptions({
+                    distanceUnit: Microsoft.Maps.Directions.DistanceUnit.km,
+                    routeAvoidance: [Microsoft.Maps.Directions.RouteAvoidance.avoidLimitedAccessHighway]
+                });
+
+                directionsManager.setRenderOptions({
+                    itineraryContainer: '#directionsItinerary',
+                    //TODO: Change color of route line or style waypoints when supported.
+                });
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <div id='directionsItinerary'></div>
+</body>
+</html>

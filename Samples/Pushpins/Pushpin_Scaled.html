@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        createScaledPushpin(map.getCenter(), 'images/blueSquare.png', 2, function (pin) {
+            map.entities.push(pin);
+        });
+    }
+
+    function createScaledPushpin(location, imgUrl, scale, callback) {
+        var img = new Image();
+        img.onload = function () {
+            var c = document.createElement('canvas');
+            c.width = img.width * scale;
+            c.height = img.height * scale;
+
+            var context = c.getContext('2d');
+
+            //Draw scaled image
+            context.drawImage(img, 0, 0, c.width, c.height);
+
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                //Generate a base64 image URL from the canvas.
+                icon: c.toDataURL(),
+
+                //Anchor based on the bottom middle of the image.
+                anchor: new Microsoft.Maps.Point(c.width/2, c.height)
+            });
+
+            if (callback) {
+                callback(pin);
+            }
+        };
+
+        img.src = imgUrl;
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Scaled Pushpin Sample</legend>
+        This sample shows how to use a canvas to create a scaled pushpin. 
+        Requires the pushpin to be in the same domain, or its hosting server to have CORs enabled.
+    </fieldset>
+</body>
+</html>

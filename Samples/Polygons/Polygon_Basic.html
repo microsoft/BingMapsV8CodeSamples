@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        var center = map.getCenter();
+
+        //Create array of locations to form a ring.
+        var exteriorRing = [
+            center,
+            new Microsoft.Maps.Location(center.latitude - 0.5, center.longitude - 1),
+            new Microsoft.Maps.Location(center.latitude - 0.5, center.longitude + 1),
+            center
+        ];
+
+        //Create a polygon
+        var polygon = new Microsoft.Maps.Polygon(exteriorRing, {
+            fillColor: 'rgba(0, 255, 0, 0.5)',
+            strokeColor: 'red',
+            strokeThickness: 2
+        });
+
+        //Add the polygon to map
+        map.entities.push(polygon);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>
