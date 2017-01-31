@@ -1,9 +1,16 @@
+![Bing Maps Logo](Samples/Resources/images/bingMapsLogo.png) 
+
+[![license](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE.md)
+
+# Bing Maps V8 Code Samples #
 
 This is a collection of over a hundred code samples for the Bing Maps V8 web control. These samples have been collected from a number of different sources. 
 Some of these samples where created to assist developers on the Bing Maps forums will many others where created for the [Bing Maps blog](http://blogs.bing.com/maps), 
 [MSDN documentation](https://msdn.microsoft.com/en-us/library/mt712542.aspx) and [interactive SDK](http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk).
 
-## Warning: Experimental Folder ##
+[Try it now](http://bingmapsv8samples.azurewebsites.net/)
+
+**Warning: Experimental Folder**
 
 The experimental folder of this project contains code samples that are proof of concepts, hacks, workarounds, untested code or simply experiments. 
 These samples are primarily for trying things outs and likely contain unsupported code which can break at any time. 
