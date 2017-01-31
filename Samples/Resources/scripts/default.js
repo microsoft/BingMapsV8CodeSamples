@@ -1,4 +1,4 @@
-﻿var githubProjectUrl = 'http://github.com/';
+﻿var githubProjectUrl = 'https://github.com/Microsoft/BingMapsV8CodeSamples/blob/master/Samples/';
 var currentSampleElm;
 
 function loadSample(name, path, sourcePath) {
@@ -16,7 +16,7 @@ function loadSample(name, path, sourcePath) {
     window.location.hash = name;
     document.getElementById('displayWindow').src = path;
     document.getElementById('sourceCodeLinkPanel').style.display = '';
-    document.getElementById('sourceCodeLink').href = githubProjectUrl + path;
+    document.getElementById('sourceCodeLink').href = githubProjectUrl + sourcePath;
     document.getElementById('displayWindow').focus();
 }
 

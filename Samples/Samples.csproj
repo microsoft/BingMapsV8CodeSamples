@@ -96,7 +96,7 @@
     <Content Include="Events\Events_MapViewEvents.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
-    <Content Include="Experimental\images\blueSquare.png" />
+    <Content Include="Pushpins\images\blueSquare.png" />
     <Content Include="Experimental\Pushpin_RestrictedDrag.html" />
     <Content Include="Map\CustomNavigationBar.html" />
     <Content Include="Modules\DraggableShapes\Modules_DraggableShapeManager.html" />
@@ -120,8 +120,6 @@
     <Content Include="GeoJSON\GeoJson_Write.html" />
     <Content Include="Infobox\Infobox_Events.html" />
     <Content Include="Layer\Layers_zIndex.html" />
-    <Content Include="Localization\Localization_Chinese.html" />
-    <Content Include="Localization\Localization_English.html" />
     <Content Include="Map\Map_Resize.html" />
     <Content Include="Map\ReusableMap.html" />
     <Content Include="Pushpins\Pushpin_Colors.html" />

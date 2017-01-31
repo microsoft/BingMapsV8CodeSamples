@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Samples")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Bing Maps V8 Code Samples")]
+[assembly: AssemblyDescription("A collection of code samples for the Bing Maps V8 web control.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Samples")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("Bing Maps V8 Code Samples")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

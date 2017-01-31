@@ -28,7 +28,7 @@
             <a href="https://social.msdn.microsoft.com/Forums/en-US/home?category=bingmaps" target="_blank">Forums</a>
             <a href="https://msdn.microsoft.com/en-us/library/mt712542.aspx" target="_blank">Documentation</a>
             <a href="http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk" target="_blank">Interactive SDK</a>
-            <a href="http://github.com" target="_blank">GitHub Project</a>
+            <a href="https://github.com/Microsoft/BingMapsV8CodeSamples" target="_blank">GitHub Project</a>
         </span>
     </div>
 
