@@ -10,6 +10,11 @@
 
     <link href="Resources/images/bingUrlIcon.png" rel="shortcut icon" />
     <link type="text/css" rel="stylesheet" href="Resources/styles/default.css" />
+
+    <script type="text/javascript">
+        var warningMsg = '<%=WarningMessage%>';
+    </script>
+
     <style>
     body, html {
         padding: 0;
@@ -36,9 +41,13 @@
         <div id="sampleTreeContainer">
             <form id="form1" runat="server">
                 <asp:TreeView ID="SampleTreeView" ExpandDepth="0" 
-                    NodeStyle-CssClass="categoryNode"
-                    LeafNodeStyle-CssClass="sampleNode"
-                    EnableClientScript="true" runat="server" />
+                    HoverNodeStyle-CssClass="sampleListHover"
+                    EnableClientScript="true" runat="server">
+                    <LevelStyles>
+                        <asp:TreeNodeStyle CssClass="categoryNode"/>
+                        <asp:TreeNodeStyle CssClass="sampleNode"/>
+                    </LevelStyles>
+                </asp:TreeView>
             </form>
         </div>
 
@@ -53,6 +62,8 @@
         # of Samples: <asp:Label ID="SampleCountLabel" runat="server"></asp:Label>
         <span class="copyrights">&copy; Microsoft 2017</span>
     </div>
+
+    <asp:Label ID="ErrorLabel" runat="server"></asp:Label>
 
     <script type="text/javascript" src="Resources/scripts/default.js"></script>
 </body>

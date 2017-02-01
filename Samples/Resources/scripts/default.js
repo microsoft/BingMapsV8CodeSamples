@@ -12,15 +12,24 @@ function loadSample(name, path, sourcePath) {
         currentSampleElm = sampleNode;
         currentSampleElm.classList.add('selectedNode');
     }
-
-    window.location.hash = name;
+    
+    window.location.hash = encodeURIComponent(name);
     document.getElementById('displayWindow').src = path;
-    document.getElementById('sourceCodeLinkPanel').style.display = '';
-    document.getElementById('sourceCodeLink').href = githubProjectUrl + sourcePath;
+
+    if (sourcePath && sourcePath != '') {
+        document.getElementById('sourceCodeLinkPanel').style.display = '';
+        document.getElementById('sourceCodeLink').href = githubProjectUrl + sourcePath;
+    } else {
+        document.getElementById('sourceCodeLinkPanel').style.display = 'none';
+    }
     document.getElementById('displayWindow').focus();
 }
 
+var spaceRx = /\s/g;
+
 function getSampleNode(name) {
+    name = decodeURIComponent(name);
+
     var sampleLinks = document.getElementById('SampleTreeView').getElementsByTagName('a');
 
     for (var i = 0; i < sampleLinks.length; i++) {
@@ -37,6 +46,10 @@ function getSamplesParent(sampleElm) {
 }
 
 window.onload = function () {
+    if (warningMsg) {
+        alert(warningMsg);
+    }
+
     var hash = window.location.hash;
 
     if (hash) {
@@ -54,7 +67,9 @@ window.onload = function () {
             var parentId = childNodesArg.replace('Nodes', '');
             var nodeIndex = parentId.charAt(parentId.length - 1);
 
-            TreeView_ToggleNode(SampleTreeView_Data, nodeIndex, document.getElementById(parentId), ' ', document.getElementById(childNodesArg));
+            if (/[0-9]+/.test(nodeIndex)) {
+                TreeView_ToggleNode(SampleTreeView_Data, nodeIndex, document.getElementById(parentId), ' ', document.getElementById(childNodesArg));
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 There are a couple of ways you can contribute to this repo:
 * **Code Samples**: Have an interesting code sample that others might find useful. Follow the Code Sample Guidelines below and submit a PR! 
-* **Ideas, feature requests and sample bugs**: We are open to all ideas and we want to get rid of bugs! 
+* **Ideas, feature requests and sample bugs**: We are open to all ideas, and we want to get rid of bugs! 
 Use the [Issues section](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/issues) to either report a new issue, 
 provide your ideas or contribute to existing threads
 * **Documentation**: Found a typo or strangely worded sentences? Submit a PR!
@@ -21,15 +21,25 @@ contact the [Bing Maps Enterprise support team](https://www.microsoft.com/maps/s
 
 ## Code Sample Guidelines ##
 
-If you would like to submit a code sample we ask that your sample follows the following guidelines:
+If you would like to submit a code sample, we ask that your sample follows the following guidelines:
 
-* The sample should show something new. Be sure that an existing sample that does the same thing doesn't already exist. 
-If it does, feel free to submit imrpovements to the existing sample.
-* Instead of adding a Bing Maps key directly into your code sample, reference in the **BingMapsCredentials.js** file and use the **YourBingMapsKey** variable. 
-This will help to ensure that someones Bing Maps key doesn'tacciedntially get checked in. It also makes these samples easier to use as users only have to add their key in one place.
-* Create a **map** variable for the map and give your map div an id of **myMap**. This will help keep the samples consistant. This may not make sense for all samples.
-* Add your sample to one of the existing folders if one makes sense. If you feel a new folder should be created, create one and we will review it.
+* **Align with Terms of Use**: Be sure that your sample aligns with the [Bing Maps terms of use](https://www.microsoft.com/maps/product/terms.html). 
+* **Add Useful Samples**: The sample should show something new. Be sure that an existing sample that does the same thing doesn't already exist. 
+If it does, feel free to submit improvements to the existing sample.
+* **Unique file names**: Ensure that your sample has a unique file name. These are used to create links in the URL to each sample. If more than one sample has the same file name, an warning will be displayed when running the Default.aspx page.
+* **Bing Maps Credentials**: Instead of adding a Bing Maps key directly into your code sample, reference in the **BingMapsCredentials.js** file and use the **YourBingMapsKey** variable. 
+This will help to ensure that someone's Bing Maps key doesn't accidentally get checked in. It also makes these samples easier to use as users only have to add their key in one place.
+* **Keep Consistency**: Create a **map** variable for the map and give your map div an id of **myMap**. This will help keep the samples consistent. This may not make sense for all samples.
+* **Folder Structure**: Add your sample to one of the existing folders if one makes sense. If your sample consists of multiple files, create a subfolder to group these files together. 
+If you feel a new folder should be created, create one and we will review it.
 If you aren't sure which folder to put the sample into, use the **Other** folder. 
-If your code is implementing a workaround, hack, proof of concept or simply an experiment that may not be wise to use in production applicaitons, add it to the **Experimental** folder.
+If your code is implementing a workaround, hack, proof of concept or uses features only available in the experimental branch of Bing Maps V8, or is not considered ready to be used in production applications, add it to the **Experimental** folder.
+* **Large or Complex Samples**: If your sample has a lot of dependencies and consists, more than a few files, or uses languages other than HTML, JavaScript, TypeScript, or CSS, 
+consider hosting your code sample in its own GitHub repository or in the [MSDN Code Gallery](https://code.msdn.microsoft.com/) and then add a link in the [ExternalSamples.js](https://github.com/Microsoft/BingMapsV8CodeSamples/tree/master/Samples/ExternalSamples.js) file of this project. 
+If a pull request contains a sample that we feel falls into this category we will reach out to you to discuss options.
+* **Sample Description**: If your sample is not self explanatory add a description in your HTML that explains what the sample demonstrates or how to use it. 
+* **External Dependencies**: If your sample uses external dependencies, using a CDN url when possible rather than adding the code for that library into this project. This will help keep the project clean.  
+If you must add the code for an external dependency into this project, please ensure that it uses an MIT license or includes its appropriate license text at the top of its files. 
+Also make a note in the sample description of the external dependencies being used.
 
-Please don't be disppointed or offended if we modify your code sample to align with these guidelines. 
+Please don't be disappointed or offended if we modify your code sample to align with these guidelines. 

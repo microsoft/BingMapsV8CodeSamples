@@ -56,6 +56,18 @@
     height: calc(100vh - 80px);
 }
 
+.subpageContent{    
+    font-size:14px;
+}
+
+    .subpageContent a, .subpageContent:visited{
+        color: #00abec;
+    }
+
+    .subpageContent a:hover{
+        color: teal;
+    }
+
 #sampleTreeContainer {
     width: 350px;
     float: left;
@@ -70,13 +82,13 @@
     font-size:16px;
 }
 
-.sampleNode {
+.sampleNode, #tableOfContents a, #tableOfContents a:visited {
     color: black;
     font-size:14px;
     text-decoration: none;
 }
 
-.sampleNode:hover,  .categoryNode:hover {
+.sampleListHover, #tableOfContents a:hover {
     color: #00abec;
 }
 
@@ -113,10 +125,6 @@
     }
 
     .blueAnchorButton:hover {
-        color: white;
-    }
-
-    .blueAnchorButton:hover {
         background-color: #00abec;
-        color: white;
+        color: white !important;
     }

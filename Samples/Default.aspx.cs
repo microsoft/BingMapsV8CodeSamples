@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Web.UI.WebControls;
 
 namespace Samples
@@ -7,12 +9,27 @@ namespace Samples
     public partial class Default : System.Web.UI.Page
     {
         private int NumberOfSamples = 0;
+        private List<string> PageNames;
+        private List<string> DuplicatePageNames;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 NumberOfSamples = 0;
+                PageNames = new List<string>();
+                DuplicatePageNames = new List<string>();
+
+                var welcomeNode = new TreeNode("Welcome")
+                {
+                    SelectAction = TreeNodeSelectAction.Select
+                };
+
+                welcomeNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", welcomeNode.Text, "welcome.html", null);
+
+                SampleTreeView.Nodes.Add(welcomeNode);
+
+                PageNames.Add(welcomeNode.Text);
 
                 DirectoryInfo directory = null;
                 directory = new DirectoryInfo(Server.MapPath("~"));
@@ -42,9 +59,34 @@ namespace Samples
                     }
                 }
 
+                var externalNode = new TreeNode("External Samples")
+                {
+                    SelectAction = TreeNodeSelectAction.Select
+                };
+
+                externalNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", externalNode.Text, "ExternalSamples.html", null);
+
+                SampleTreeView.Nodes.Add(externalNode);
+
+                PageNames.Add(externalNode.Text);
+                
+                if (DuplicatePageNames.Count > 0)
+                {
+                    var sb = new StringBuilder("Warning: Duplicate sample names found:");
+
+                    foreach(var dn in DuplicatePageNames)
+                    {
+                        sb.AppendFormat("\\r\\n{0}", dn);
+                    }
+
+                    WarningMessage += sb.ToString();
+                }
+
                 SampleCountLabel.Text = NumberOfSamples.ToString();
             }
         }
+
+        public string WarningMessage { get; set; }
 
         private void AddSampleNodes(DirectoryInfo dir, DirectoryInfo dir2, TreeNode parentNode)
         {
@@ -76,7 +118,7 @@ namespace Samples
                         sourcePath = path;
                     }
 
-                    string name = fi.Name.Replace(".html", "");
+                    string name = fi.Name.Replace(".html", "").Replace("'", "\\'");
 
                     var fileNode = new TreeNode(name)
                     {
@@ -85,6 +127,15 @@ namespace Samples
                     };
 
                     parentNode.ChildNodes.Add(fileNode);
+
+                    if (PageNames.Contains(name))
+                    {
+                        DuplicatePageNames.Add(name);
+                    }
+                    else
+                    {
+                        PageNames.Add(name);
+                    }
 
                     NumberOfSamples++;
                 }
