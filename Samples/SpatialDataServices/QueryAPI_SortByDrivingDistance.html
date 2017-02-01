@@ -107,7 +107,7 @@
         CallRestService(routeRequest.join(''));
     }
 
-    function routeServiceCallbackCreator(r) {
+    function routeServiceCallbackCreator(callback) {
         return function (r) {
             if (r &&
                 r.resourceSets &&
