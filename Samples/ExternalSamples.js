@@ -8,6 +8,9 @@
 */
 
 var externalSamples = {
+    'Bots': [
+        { title: 'Bing Location Control for Microsoft Bot Framework', 'href': 'https://github.com/Microsoft/BotBuilder-Location', description: 'An open-source location picker control for Microsoft Bot Framework powered by Bing Maps REST services. ' }
+    ],
     'JavaScript Frameworks': [
         { title: 'Angular 2 implementation of Bing Maps V8', href: 'https://github.com/youjustgo/ng2-bingmaps' }
     ],
