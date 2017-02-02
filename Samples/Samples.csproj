@@ -99,7 +99,7 @@
     <Content Include="ExternalSamples.html" />
     <Content Include="Pushpins\images\blueSquare.png" />
     <Content Include="Experimental\Pushpin_RestrictedDrag.html" />
-    <Content Include="Map\CustomNavigationBar.html" />
+    <Content Include="Map\Custom Navigation Bar.html" />
     <Content Include="Modules\DraggableShapes\Modules_DraggableShapeManager.html" />
     <Content Include="Other\Create Pushpin Add Metadata.html" />
     <Content Include="ExternalSamples.js" />
@@ -147,6 +147,9 @@
     <Content Include="Spatial Math\Geometry\SpatialMath_BinaryOperations.html" />
     <Content Include="Spatial Math\Tile Math\SpatialMath_QuadkeyLocator.html" />
     <Content Include="Spatial Math\Tile Math\SpatialMath_TileMathExample.html" />
+    <Content Include="Test Data Generator\TestDataGenerator_CreatePolygons.html" />
+    <Content Include="Test Data Generator\TestDataGenerator_CreatePolylines.html" />
+    <Content Include="Test Data Generator\TestDataGenerator_CreatePushpins.html" />
     <Content Include="Tile Layers\TileLayer_BaseMercator.html" />
     <Content Include="Tile Layers\TileLayer_WMS.html" />
     <Content Include="User Location\UserLocation_Basic.html" />
@@ -204,7 +207,6 @@
     <Content Include="Spatial Data Services\QueryAPI_SortByDrivingDistance.html" />
     <Content Include="Search\Geocode_SearchResults.html" />
     <Content Include="Spatial Math\Core\SpatialMath_Basics.html" />
-    <Content Include="Test Data Generator\TestDataGenerator_Basic.html" />
     <Content Include="Tile Layers\TileLayer_Quadkey.html" />
     <Content Include="Tile Layers\TileLayer_XYZoom.html" />
     <Content Include="Traffic\Traffic_Basic.html" />

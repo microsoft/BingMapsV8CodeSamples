@@ -13,12 +13,19 @@
             credentials: YourBingMapsKey
         });
 
-        var polygons = Microsoft.Maps.TestDataGenerator.getPolygons(3, map.getBounds(), 5, null, null, true);
-        map.entities.push(polygons);
+        // getPushpins(num?: number, bounds?: LocationRect, options?: IPushpinOptions)
+        var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(3, map.getBounds());
+        map.entities.push(pushpins);
     }
     </script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>TestDataGenerator Create Pushpins Sample</legend>
+        This sample shows how to use the TestDataGenerator to create random pushpins using the getPushpins function.
+        <a href="https://msdn.microsoft.com/en-us/library/mt712874.aspx">TestDataGenerator documentation</a>
+    </fieldset>
 </body>
 </html>

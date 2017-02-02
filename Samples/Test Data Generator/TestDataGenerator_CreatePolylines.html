@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        // getPolylines(num?: number, bounds?: LocationRect, size?: number, scaleFactor?: number, options?: IPolylineOptions)
+        var polylines = Microsoft.Maps.TestDataGenerator.getPolylines(5, map.getBounds());
+        map.entities.push(polylines);
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>TestDataGenerator Create Polylines Sample</legend>
+        This sample shows how to use the TestDataGenerator to create random polylines using the getPolylines function.
+        <a href="https://msdn.microsoft.com/en-us/library/mt712874.aspx">TestDataGenerator documentation</a>
+    </fieldset>
+</body>
+</html>
