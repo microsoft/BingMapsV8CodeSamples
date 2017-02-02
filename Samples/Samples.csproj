@@ -111,7 +111,7 @@
     <Content Include="Map\Dispose Map.html" />
     <Content Include="Map\Map_LazyLoading.html" />
     <Content Include="Map\Override Mouse Wheel Zoom.html" />
-    <Content Include="Other\Netherlands\NetherlandsCensusMap.html" />
+    <Content Include="Other\Netherlands\Netherlands Census Map.html" />
     <Content Include="Pushpins\Pushpin_Scaled.html" />
     <Content Include="Other\USA Map.html" />
     <Content Include="Experimental\ZoneJS_Workaround.html" />

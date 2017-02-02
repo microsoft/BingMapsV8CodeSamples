@@ -10,13 +10,16 @@
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey
+            credentials: YourBingMapsKey,
+            zoom: 5
         });
 
         //Load the HeatMap module
         Microsoft.Maps.loadModule('Microsoft.Maps.HeatMap', function () {
             heatmap = new Microsoft.Maps.HeatMapLayer([]);
             map.layers.insert(heatmap);
+
+            UpdateHeatMap();
         });
     }
 

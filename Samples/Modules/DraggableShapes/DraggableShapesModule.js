@@ -53,7 +53,7 @@ var DraggableShapesManager = (function () {
         this._dragMethod = DragMethod.pixel;
         this._shapes = [];
         this._map = map;
-        if (dragMethod) {
+        if (typeof dragMethod != 'undefined') {
             this._dragMethod = dragMethod;
         }
         var self = this;
@@ -144,7 +144,7 @@ var DraggableShapesManager = (function () {
      * @param dragMethod The drag method used by the DraggabeShapesManager.
      */
     DraggableShapesManager.prototype.setDragMethod = function (dragMethod) {
-        if (dragMethod) {
+        if (typeof dragMethod !== 'undefined') {
             this._dragMethod = dragMethod;
         }
     };

@@ -74,7 +74,7 @@ class DraggableShapesManager {
     constructor(map, dragMethod?: DragMethod) {
         this._map = map;
 
-        if (dragMethod) {
+        if (typeof dragMethod != 'undefined') {
             this._dragMethod = dragMethod;
         }
 
@@ -182,7 +182,7 @@ class DraggableShapesManager {
      * @param dragMethod The drag method used by the DraggabeShapesManager.
      */
     public setDragMethod(dragMethod: DragMethod): void {
-        if (dragMethod) {
+        if (typeof dragMethod !== 'undefined') {
             this._dragMethod = dragMethod;
         }
     }

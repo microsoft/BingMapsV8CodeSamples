@@ -51,7 +51,7 @@
         if (elm.checked) {
             setOptions({ colorCallback: customColorCallback });
         } else {
-            setOptions({ colorCallback: null });
+            setOptions({ colorCallback: function () { return 'rgba(0,255,0,0.2)'; } });
         }
     }
 
@@ -63,7 +63,7 @@
         if (elm.checked) {
             setOptions({ scaleCallback: customScaleCallback });
         } else {
-            setOptions({ scaleCallback: null });
+            setOptions({ scaleCallback: function () { return 1; } });
         }
     }
 
