@@ -4,6 +4,11 @@
     <title></title>
 	<meta charset="utf-8" />
     <link type="text/css" rel="stylesheet" href="Resources/styles/default.css" />
+    <script>
+        window.onload = function () {
+            document.getElementById('numberOfSamples').innerText = window.parent.NumberOfSamples;
+        };
+    </script>
 </head>
 <body>
     <div class="subpageContent" style="max-width:800px;margin:10px;">
@@ -15,6 +20,9 @@
         <a href="https://msdn.microsoft.com/en-us/library/mt712542.aspx" target="_blank">MSDN Documentation</a> and
         <a href="http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk" target="_blank">Interactive SDK</a> while others where submitted by Bing Maps community developers. 
         Be sure to also take a look at the list of <a href="javascript:window.parent.loadSample('External Samples', 'ExternalSamples.html');">external samples</a> as well.
+        <br />
+        <br />
+        # of samples: <span id="numberOfSamples"></span>
         <br />
         <br />
         <br />

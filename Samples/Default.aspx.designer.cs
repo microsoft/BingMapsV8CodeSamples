@@ -31,15 +31,6 @@ namespace Samples {
         protected global::System.Web.UI.WebControls.TreeView SampleTreeView;
         
         /// <summary>
-        /// SampleCountLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label SampleCountLabel;
-        
-        /// <summary>
         /// ErrorLabel control.
         /// </summary>
         /// <remarks>

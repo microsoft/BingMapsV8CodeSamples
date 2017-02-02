@@ -12,7 +12,8 @@
     <link type="text/css" rel="stylesheet" href="Resources/styles/default.css" />
 
     <script type="text/javascript">
-        var warningMsg = '<%=WarningMessage%>';
+        var WarningMessage = '<%=WarningMessage%>';
+        var NumberOfSamples = <%=NumberOfSamples%>;
     </script>
 
     <style>
@@ -59,7 +60,8 @@
     </div>
 
     <div class="footer">
-        # of Samples: <asp:Label ID="SampleCountLabel" runat="server"></asp:Label>
+        <span><a href="http://go.microsoft.com/fwlink/?LinkId=521839&CLCID=0409">Privacy</a></span>
+        <span><a href="http://go.microsoft.com/fwlink/?LinkID=246338&CLCID=0409">Legal</a></span>
         <span class="copyrights">&copy; Microsoft 2017</span>
     </div>
 

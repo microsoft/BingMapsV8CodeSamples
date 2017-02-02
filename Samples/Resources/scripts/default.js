@@ -46,8 +46,8 @@ function getSamplesParent(sampleElm) {
 }
 
 window.onload = function () {
-    if (warningMsg) {
-        alert(warningMsg);
+    if (WarningMessage) {
+        alert(WarningMessage);
     }
 
     var hash = window.location.hash;

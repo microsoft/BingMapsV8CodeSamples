@@ -8,7 +8,7 @@ namespace Samples
 {
     public partial class Default : System.Web.UI.Page
     {
-        private int NumberOfSamples = 0;
+
         private List<string> PageNames;
         private List<string> DuplicatePageNames;
 
@@ -81,12 +81,12 @@ namespace Samples
 
                     WarningMessage += sb.ToString();
                 }
-
-                SampleCountLabel.Text = NumberOfSamples.ToString();
             }
         }
 
         public string WarningMessage { get; set; }
+
+        public int NumberOfSamples { get; set; }
 
         private void AddSampleNodes(DirectoryInfo dir, DirectoryInfo dir2, TreeNode parentNode)
         {
