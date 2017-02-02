@@ -35,6 +35,10 @@ MIT
  
 See [License](LICENSE.md) for full license text.
 
+## Related Projects ##
+
+* [Bing Maps V8 TypeScript Definitions](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions)
+
 ## Additional Resources ##
 
 * [Bing Maps V8 MSDN Documentation](https://msdn.microsoft.com/en-us/library/mt712542.aspx)
