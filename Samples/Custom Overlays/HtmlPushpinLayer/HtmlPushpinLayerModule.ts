@@ -22,7 +22,7 @@
  * THE SOFTWARE. 
 */
 
-/// <reference path="../../Resources/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
+/// <reference path="../../Common/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
 
 /**
  * A simple class that defines a HTML pushpin.

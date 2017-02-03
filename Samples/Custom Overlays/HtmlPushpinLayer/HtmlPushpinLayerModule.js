@@ -26,7 +26,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../../Resources/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
+/// <reference path="../../Common/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
 /**
  * A simple class that defines a HTML pushpin.
  */

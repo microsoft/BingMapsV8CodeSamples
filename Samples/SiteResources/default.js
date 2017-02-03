@@ -18,6 +18,7 @@ function loadSample(name, path, sourcePath) {
 
     if (sourcePath && sourcePath != '') {
         document.getElementById('sourceCodeLinkPanel').style.display = '';
+        document.getElementById('newWindowLink').href = path;
         document.getElementById('sourceCodeLink').href = githubProjectUrl + sourcePath;
     } else {
         document.getElementById('sourceCodeLinkPanel').style.display = 'none';

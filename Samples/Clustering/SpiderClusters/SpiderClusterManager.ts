@@ -29,7 +29,7 @@
 * Based on: https://github.com/jawj/OverlappingMarkerSpiderfier-Leaflet
 *********************************************/
 
-/// <reference path="../../Resources/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
+/// <reference path="../../Common/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
 
 /**
 * Options used to customize how the SpiderClusterManager renders clusters.

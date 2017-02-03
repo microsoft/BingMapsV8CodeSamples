@@ -28,7 +28,7 @@
 * License: MIT
 *********************************************/
 
-/// <reference path="../../Resources/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
+/// <reference path="../../Common/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
 
 /**
 * An enumeration which defines how a shape is dragged on the map.

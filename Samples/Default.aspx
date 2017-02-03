@@ -8,8 +8,8 @@
 	<meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
 
-    <link href="Resources/images/bingUrlIcon.png" rel="shortcut icon" />
-    <link type="text/css" rel="stylesheet" href="Resources/styles/default.css" />
+    <link href="SiteResources/bingUrlIcon.png" rel="shortcut icon" />
+    <link type="text/css" rel="stylesheet" href="SiteResources/default.css" />
 
     <script type="text/javascript">
         var WarningMessage = '<%=WarningMessage%>';
@@ -26,7 +26,7 @@
 </head>
 <body>  
      <div class="header">
-        <img src="Resources/images/bingMapsLogo.png" />
+        <img src="SiteResources/bingMapsLogo.png" />
         <span class="subTitle">V8 Code Samples</span>
 
         <span class="pageLinks">
@@ -55,6 +55,7 @@
         <iframe id="displayWindow" src="Welcome.html" allowfullscreen></iframe>
 
         <div id="sourceCodeLinkPanel" style="display:none;">
+            <a id="newWindowLink" class="blueAnchorButton" href="http://bing.com" target="_blank">Open in New Window</a>
             <a id="sourceCodeLink" class="blueAnchorButton" href="http://bing.com" target="_blank">Source code</a>
         </div>
     </div>
@@ -67,7 +68,7 @@
 
     <asp:Label ID="ErrorLabel" runat="server"></asp:Label>
 
-    <script type="text/javascript" src="Resources/scripts/default.js"></script>
+    <script type="text/javascript" src="SiteResources/default.js"></script>
 </body>
 </html>
 
