@@ -1,4 +1,4 @@
-![Bing Maps Logo](Samples/Resources/images/bingMapsLogo.png) 
+![Bing Maps Logo](Samples/SiteResources/bingMapsLogo.png) 
 
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE.md)
 
