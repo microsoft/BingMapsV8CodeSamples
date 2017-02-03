@@ -52,7 +52,7 @@
             </form>
         </div>
 
-        <iframe id="displayWindow" src="Welcome.html"></iframe>
+        <iframe id="displayWindow" src="Welcome.html" allowfullscreen></iframe>
 
         <div id="sourceCodeLinkPanel" style="display:none;">
             <a id="sourceCodeLink" class="blueAnchorButton" href="http://bing.com" target="_blank">Source code</a>
