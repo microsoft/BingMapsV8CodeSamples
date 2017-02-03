@@ -40,6 +40,6 @@ If a pull request contains a sample that we feel falls into this category we wil
 * **Sample Description**: If your sample is not self explanatory add a description in your HTML that explains what the sample demonstrates or how to use it. 
 * **External Dependencies**: If your sample uses external dependencies, using a CDN url when possible rather than adding the code for that library into this project. This will help keep the project clean.  
 If you must add the code for an external dependency into this project, please ensure that it uses an MIT license or includes its appropriate license text at the top of its files. 
-Also make a note in the sample description of the external dependencies being used.
+Also make a note in the sample description of the external dependencies being used. If it is likely that this dependancy will be used by more than one sample (i.e. jQuery), add it to appropriate subfolder of the Common folder.
 
 Please don't be disappointed or offended if we modify your code sample to align with these guidelines. 
