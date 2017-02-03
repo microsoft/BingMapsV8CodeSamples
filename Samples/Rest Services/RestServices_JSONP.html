@@ -10,7 +10,7 @@
     function geocode() {
         var query = document.getElementById('input').value;
 
-        var geocodeRequest = "http://dev.virtualearth.net/REST/v1/Locations?query=" + encodeURIComponent(query) + "&jsonp=GeocodeCallback&key=" + YourBingMapsKey;
+        var geocodeRequest = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(query) + '&key=' + YourBingMapsKey;
 
         CallRestService(geocodeRequest, GeocodeCallback);
     }
@@ -39,11 +39,32 @@
         }
     }
 
-    function CallRestService(request) {
-        var script = document.createElement("script");
-        script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", request);
-        document.body.appendChild(script);
+    function CallRestService(request, callback) {
+        if (callback) {
+            var uniqueName = getUniqueName();
+
+            request += '&jsonp=' + uniqueName;
+
+            window[uniqueName] = function (response) {
+                callback(response);
+                delete (window[uniqueName]);
+            };
+
+            var script = document.createElement("script");
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute("src", request);
+            document.body.appendChild(script);
+        }
+    }
+
+    function getUniqueName(){
+        var name = '__callback' + Math.round(Math.random() * 100000);
+
+        while (window[name]) {
+            name = '__callback' + Math.round(Math.random() * 100000);
+        }
+
+        return name;
     }
     </script>
 </head>

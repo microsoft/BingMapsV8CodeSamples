@@ -59,6 +59,8 @@
     <Content Include="Clustering\Clustering_PushpinList.html" />
     <Content Include="Clustering\SpiderClusters\Clustering_SpiderClusters.html" />
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
+    <Content Include="Common\images\endPin.png" />
+    <Content Include="Common\images\startPin.png" />
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
     <Content Include="Contour Layer\ContourLayer_FromGeoJSON.html" />
     <Content Include="Contour Layer\ContourLayer_Cirlces.html" />
@@ -103,6 +105,7 @@
     <Content Include="Modules\DraggableShapes\Modules_DraggableShapeManager.html" />
     <Content Include="Other\Create Pushpin Add Metadata.html" />
     <Content Include="ExternalSamples.js" />
+    <Content Include="Rest Services\RestServices_MultipleRoutes.html" />
     <Content Include="Spatial Math\Core\SpatialMath_DrawCircle.html" />
     <Content Include="Map\Map_KeyEvents.html" />
     <Content Include="Other\North Carolina Map.html" />
@@ -302,7 +305,9 @@
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Common\scripts\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
