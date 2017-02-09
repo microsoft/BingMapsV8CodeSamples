@@ -63,7 +63,7 @@ var HtmlPushpinLayer = (function (_super) {
     /**
     * @constructor
     */
-    function HtmlPushpinLayer() {
+    function HtmlPushpinLayer(pushpins) {
         _super.call(this, { beneathLabels: false });
         /**********************
         * Private Properties
@@ -74,6 +74,7 @@ var HtmlPushpinLayer = (function (_super) {
         this.viewChangeEventHandler = null;
         /** A variable to store a reference to the container for the HTML pushpins. */
         this.container = null;
+        this._pushpins = pushpins || [];
     }
     /**********************
     * Overridden functions
@@ -113,14 +114,40 @@ var HtmlPushpinLayer = (function (_super) {
     * Public Functions
     ***********************/
     /**
-    * Sets the pushpins to be overlaid on top of the map.
+    * Adds a HTML pushpin or array of HTML pushpins to add to the layer.
+    * @param pushpin A HTML pushpin or array of HTML pushpins to add to the layer.
+    */
+    HtmlPushpinLayer.prototype.add = function (pushpin) {
+        if (pushpin) {
+            if (pushpin instanceof HtmlPushpin) {
+                this._pushpins.push(pushpin);
+                this.container.appendChild(pushpin._element);
+            }
+            else if (pushpin instanceof Array) {
+                //Add the pushpins to the container.
+                for (var i = 0, len = pushpin.length; i < len; i++) {
+                    this.container.appendChild(pushpin[i]._element);
+                }
+            }
+            this._updatePositions();
+        }
+    };
+    /**
+     * Removes all pushpins in the layer.
+     */
+    HtmlPushpinLayer.prototype.clear = function () {
+        this._pushpins = [];
+        this.container.innerHTML = '';
+    };
+    /**
+    * Sets the pushpins to be overlaid on top of the map. This will remove any pushpins already in the layer.
     * @param pushpins The HTML pushpins to overlay on the map.
     */
     HtmlPushpinLayer.prototype.setPushpins = function (pushpins) {
         //Store the pushpin data.
-        this._pushpins = pushpins;
+        this._pushpins = pushpins || [];
         //Clear the container.
-        if (this.container) {
+        if (pushpins && this.container) {
             this.container.innerHTML = '';
             if (pushpins) {
                 //Add the pushpins to the container.

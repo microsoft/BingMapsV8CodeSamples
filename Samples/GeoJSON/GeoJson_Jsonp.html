@@ -6,7 +6,7 @@
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript'>
-    var usgsEarthquakeUrl = 'http://earthquake.usgs.gov/fdsnws/event/1/query?minmagnitude=3&format=geojson';
+    var usgsEarthquakeUrl = 'https://earthquake.usgs.gov/fdsnws/event/1/query?minmagnitude=3&format=geojson';
 
     function GetMap() {
         var map = new Microsoft.Maps.Map('#myMap', {

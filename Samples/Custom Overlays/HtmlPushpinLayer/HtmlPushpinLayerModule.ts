@@ -89,8 +89,10 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /**
     * @constructor
     */
-    constructor() {
+    constructor(pushpins?: HtmlPushpin[]) {
         super({ beneathLabels: false });
+
+        this._pushpins = pushpins || [];
     }
     
     /**********************
@@ -140,15 +142,43 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     ***********************/
 
     /**
-    * Sets the pushpins to be overlaid on top of the map.
+    * Adds a HTML pushpin or array of HTML pushpins to add to the layer.
+    * @param pushpin A HTML pushpin or array of HTML pushpins to add to the layer.
+    */
+    public add(pushpin: HtmlPushpin | HtmlPushpin[]) {
+        if (pushpin) {
+            if (pushpin instanceof HtmlPushpin) {
+                this._pushpins.push(pushpin);
+                this.container.appendChild(pushpin._element);
+            } else if (pushpin instanceof Array) {
+                //Add the pushpins to the container.
+                for (var i = 0, len = pushpin.length; i < len; i++) {
+                    this.container.appendChild(pushpin[i]._element);
+                }
+            }
+
+            this._updatePositions();
+        }
+    }
+
+    /**
+     * Removes all pushpins in the layer.
+     */
+    public clear() {
+        this._pushpins = [];
+        this.container.innerHTML = '';
+    }
+
+    /**
+    * Sets the pushpins to be overlaid on top of the map. This will remove any pushpins already in the layer.
     * @param pushpins The HTML pushpins to overlay on the map.
     */
     public setPushpins(pushpins: HtmlPushpin[]) {
         //Store the pushpin data.
-        this._pushpins = pushpins;
+        this._pushpins = pushpins  || [];
 
         //Clear the container.
-        if (this.container) {
+        if (pushpins && this.container) {
             this.container.innerHTML = '';
 
             if (pushpins) {

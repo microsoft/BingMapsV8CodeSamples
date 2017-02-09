@@ -7,6 +7,10 @@
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript'>
     var map;
+    var layer;
+
+    //Create a simple reusable HTML template to keep things easy.
+    var htmlTemplate = '<div style="color:red;background-color:white;width:100px;padding:2px;text-align:center;">{text}</div>';
 
     function GetMap()
     {
@@ -21,27 +25,40 @@
         Microsoft.Maps.loadModule('HtmlPushpinLayerModule', function () {
             //Create some HTML pushpins in random locations. 
             var locs = Microsoft.Maps.TestDataGenerator.getLocations(3, map.getBounds());
-
-            //Create a simple reusable HTML template to keep things easy.
-            var htmlTemplate = '<div style="color:red;background-color:white;width:100px;padding:2px;text-align:center;">{text}</div>';
-
+                       
+            //Create an array of Html Pushpins.
             var pins = [
                 new HtmlPushpin(locs[0], htmlTemplate.replace('{text}', 'Hello World!'), new Microsoft.Maps.Point(50, 12)),
                 new HtmlPushpin(locs[1], htmlTemplate.replace('{text}', 'My Pushpin'), new Microsoft.Maps.Point(50, 12)),
                 new HtmlPushpin(locs[2], htmlTemplate.replace('{text}', 'HTML Rules!'), new Microsoft.Maps.Point(50, 12))
             ];
 
-            var layer = new HtmlPushpinLayer();
-            layer.setPushpins(pins);
+            //Create an Html Pushpin Layer and pass in the array of pushpins.
+            layer = new HtmlPushpinLayer(pins);
 
             //Add the HTML pushpin to the map.
             map.layers.insert(layer);
         });
     }
+
+    var addedPinIdx = 1;
+
+    function AddPushpin() {
+        //Get a random location in the current map view. 
+        var loc = Microsoft.Maps.TestDataGenerator.getLocations(1, map.getBounds());
+
+        //Create an Html Pushpin and add it to the layer.
+        layer.add(new HtmlPushpin(loc, htmlTemplate.replace('{text}', 'Add Pin: ' + addedPinIdx), new Microsoft.Maps.Point(50, 12)));
+
+        addedPinIdx++;
+    }
     </script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <br/>
+    <input type="button" value="Add Pushpin" onclick="AddPushpin()"/>
+    <input type="button" value="Clear Layer" onclick="layer.clear();" />
 
     <fieldset style="width:600px;margin-top:10px;">
         <legend>HTML Pushpin Layer Sample</legend>
