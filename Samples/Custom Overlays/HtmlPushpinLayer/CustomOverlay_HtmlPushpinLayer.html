@@ -52,6 +52,10 @@
 
         addedPinIdx++;
     }
+
+    function BringIntoView() {
+        map.setView({ bounds: layer.getBounds(), padding: 100 });
+    }
     </script>
 </head>
 <body>
@@ -59,6 +63,7 @@
     <br/>
     <input type="button" value="Add Pushpin" onclick="AddPushpin()"/>
     <input type="button" value="Clear Layer" onclick="layer.clear();" />
+    <input type="button" value="Bring into View" onclick="BringIntoView();" />
 
     <fieldset style="width:600px;margin-top:10px;">
         <legend>HTML Pushpin Layer Sample</legend>

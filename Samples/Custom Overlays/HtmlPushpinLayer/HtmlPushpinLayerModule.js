@@ -140,6 +140,24 @@ var HtmlPushpinLayer = (function (_super) {
         this.container.innerHTML = '';
     };
     /**
+     * Retrieves a bounding box that contains all the HTML Pushpin locations.
+     * @returns A bounding box that contains all the HTML Pushpin locations.
+     */
+    HtmlPushpinLayer.prototype.getBounds = function () {
+        var locs = [];
+        for (var i = 0, len = this._pushpins.length; i < len; i++) {
+            locs.push(this._pushpins[i].location);
+        }
+        return Microsoft.Maps.LocationRect.fromLocations(locs);
+    };
+    /**
+     * Retrieves all HTML pushpins in the layer.
+     * @returns All HTML pushpins in the layer.
+     */
+    HtmlPushpinLayer.prototype.getPushpins = function () {
+        return this._pushpins;
+    };
+    /**
     * Sets the pushpins to be overlaid on top of the map. This will remove any pushpins already in the layer.
     * @param pushpins The HTML pushpins to overlay on the map.
     */

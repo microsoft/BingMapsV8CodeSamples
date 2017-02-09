@@ -145,7 +145,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     * Adds a HTML pushpin or array of HTML pushpins to add to the layer.
     * @param pushpin A HTML pushpin or array of HTML pushpins to add to the layer.
     */
-    public add(pushpin: HtmlPushpin | HtmlPushpin[]) {
+    public add(pushpin: HtmlPushpin | HtmlPushpin[]): void {
         if (pushpin) {
             if (pushpin instanceof HtmlPushpin) {
                 this._pushpins.push(pushpin);
@@ -164,9 +164,30 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /**
      * Removes all pushpins in the layer.
      */
-    public clear() {
+    public clear(): void {
         this._pushpins = [];
         this.container.innerHTML = '';
+    }
+
+    /**
+     * Retrieves a bounding box that contains all the HTML Pushpin locations.
+     * @returns A bounding box that contains all the HTML Pushpin locations.
+     */
+    public getBounds(): Microsoft.Maps.LocationRect {
+        var locs = [];
+        for (var i = 0, len = this._pushpins.length; i < len; i++) {
+            locs.push(this._pushpins[i].location);
+        }
+
+        return Microsoft.Maps.LocationRect.fromLocations(locs);
+    }
+
+    /**
+     * Retrieves all HTML pushpins in the layer.
+     * @returns All HTML pushpins in the layer.
+     */
+    public getPushpins(): HtmlPushpin[] {
+        return this._pushpins;
     }
 
     /**
