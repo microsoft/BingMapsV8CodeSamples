@@ -18,14 +18,29 @@
             credentials: YourBingMapsKey
         });
 
+        var layer = new Microsoft.Maps.Layer();
+        map.layers.insert(layer);
+
+        var hoverLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(hoverLayer);
+
+        //Add some random pushpins to fill the map and cover our hoverable main pushpin.
+        var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(300, map.getBounds());
+        layer.add(pushpins);
+
+        //Create our hoverable pushpin.
         var pin = new Microsoft.Maps.Pushpin(map.getCenter(), {
             color: defaultColor
         });
 
-        map.entities.push(pin);
+        layer.add(pin);
 
         Microsoft.Maps.Events.addHandler(pin, 'mouseover', function (e) {
             e.target.setOptions({ color: hoverColor });
+
+            //Move pin to hover layer.
+            layer.remove(pin);
+            hoverLayer.add(pin);
         });
 
         Microsoft.Maps.Events.addHandler(pin, 'mousedown', function (e) {
@@ -34,11 +49,21 @@
 
         Microsoft.Maps.Events.addHandler(pin, 'mouseout', function (e) {
             e.target.setOptions({ color: defaultColor });
+
+            //Move pin to main layer.
+            hoverLayer.remove(pin);
+            layer.add(pin);
         });
     }
     </script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Pushpin Hover Style Sample</legend>
+        This sample shows how to change the style of a pushpin when it is hovered. Additionally, when hovered the pushpin is displayed in a 
+        secondary data layer which allows the hovered pushpin to appear above all other pushpins on the map while hovered.
+    </fieldset>
 </body>
 </html>

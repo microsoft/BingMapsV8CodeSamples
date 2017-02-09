@@ -24,7 +24,7 @@
 }
 
 .footer {    
-    position:absolute;
+    position:fixed;
     width: calc(100% - 30px);
     height: 30px;
     color: gray;
