@@ -33,12 +33,22 @@ class HtmlPushpin {
     * Public Properties
     ***********************/
 
-    public anchor: Microsoft.Maps.Point;
-    public location: Microsoft.Maps.Location;
     public metadata: any;
+
+    /**********************
+    * Internal Properties
+    ***********************/
 
     /** This is an internal property used by the HtmlPushpinLayer. */
     public _element: HTMLElement;    
+    public _layer: HtmlPushpinLayer;
+
+    /**********************
+    * Private  Properties
+    ***********************/
+
+    private _anchor: Microsoft.Maps.Point;
+    private _location: Microsoft.Maps.Location;
 
     /**********************
     * Constructor
@@ -51,8 +61,8 @@ class HtmlPushpin {
     * @param anchor An anchor to offset the position of the html so that it aligns with the location.
     */
     constructor(loc: Microsoft.Maps.Location, html: string, anchor?: Microsoft.Maps.Point) {
-        this.location = loc;
-        this.anchor = anchor;
+        this._location = loc;
+        this._anchor = anchor;
 
         //A property for storing data relative to the pushpin.
         this.metadata = null;
@@ -61,6 +71,38 @@ class HtmlPushpin {
         this._element = document.createElement('div');
         this._element.innerHTML = html;
         this._element.style.position = 'absolute';
+    }
+
+    /**
+     * Gets the anchor point of the pushpin.
+     * @returns The anchor point of the pushpin.
+     */
+    public getAnchor(): Microsoft.Maps.Point {
+        return this._anchor;
+    }
+
+    /**
+     * Sets the anchor point of the pushpin.
+     * @param anchor The anchor point of the pushpin.
+     */
+    public setAnchor(anchor: Microsoft.Maps.Point): void {
+        this._anchor = anchor;
+    }
+
+    /**
+     * Gets the location of the pushpin.
+     * @returns The location of the pushpin.
+     */
+    public getLocation(): Microsoft.Maps.Location {
+        return this._location;
+    }
+
+    /**
+     * Sets the location of the pushpin.
+     * @param loc The location of the pushpin.
+     */
+    public setLocation(loc: Microsoft.Maps.Location): void {
+        this._location = loc;
     }
 }
 
@@ -149,10 +191,12 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         if (pushpin) {
             if (pushpin instanceof HtmlPushpin) {
                 this._pushpins.push(pushpin);
+                pushpin._layer = this;
                 this.container.appendChild(pushpin._element);
             } else if (pushpin instanceof Array) {
                 //Add the pushpins to the container.
                 for (var i = 0, len = pushpin.length; i < len; i++) {
+                    pushpin[i]._layer = this;
                     this.container.appendChild(pushpin[i]._element);
                 }
             }
@@ -165,8 +209,16 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
      * Removes all pushpins in the layer.
      */
     public clear(): void {
+        //Clear any pushpins already in the layer.
+        if (this._pushpins) {
+            for (var i = 0, len = this._pushpins.length; i < len; i++) {
+                this._pushpins[i]._layer = null;
+            }
+        }
         this._pushpins = [];
-        this.container.innerHTML = '';
+        if (this.container) {
+            this.container.innerHTML = '';
+        }
     }
 
     /**
@@ -176,7 +228,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     public getBounds(): Microsoft.Maps.LocationRect {
         var locs = [];
         for (var i = 0, len = this._pushpins.length; i < len; i++) {
-            locs.push(this._pushpins[i].location);
+            locs.push(this._pushpins[i].getLocation());
         }
 
         return Microsoft.Maps.LocationRect.fromLocations(locs);
@@ -195,18 +247,13 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     * @param pushpins The HTML pushpins to overlay on the map.
     */
     public setPushpins(pushpins: HtmlPushpin[]) {
-        //Store the pushpin data.
-        this._pushpins = pushpins  || [];
+        this.clear();
 
-        //Clear the container.
-        if (pushpins && this.container) {
-            this.container.innerHTML = '';
-
-            if (pushpins) {
-                //Add the pushpins to the container.
-                for (var i = 0, len = pushpins.length; i < len; i++) {
-                    this.container.appendChild(pushpins[i]._element);
-                }
+        if (pushpins) {
+            //Add the pushpins to the container.
+            for (var i = 0, len = pushpins.length; i < len; i++) {
+                pushpins[i]._layer = this;
+                this.container.appendChild(pushpins[i]._element);
             }
         }
 
@@ -225,11 +272,12 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
 
         if (map) {
             //Calculate the pixel location of the pushpin.
-            var topLeft = <Microsoft.Maps.Point>map.tryLocationToPixel(pin.location, Microsoft.Maps.PixelReference.control);
+            var topLeft = <Microsoft.Maps.Point>map.tryLocationToPixel(pin.getLocation(), Microsoft.Maps.PixelReference.control);
 
             //Offset position to account for anchor.
-            topLeft.x -= pin.anchor.x;
-            topLeft.y -= pin.anchor.y;
+            var anchor = pin.getAnchor();
+            topLeft.x -= anchor.x;
+            topLeft.y -= anchor.y;
 
             //Update the position of the pushpin element.
             pin._element.style.left = topLeft.x + 'px';

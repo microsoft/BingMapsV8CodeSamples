@@ -41,8 +41,8 @@ var HtmlPushpin = (function () {
      * @param anchor An anchor to offset the position of the html so that it aligns with the location.
      */
     function HtmlPushpin(loc, html, anchor) {
-        this.location = loc;
-        this.anchor = anchor;
+        this._location = loc;
+        this._anchor = anchor;
         //A property for storing data relative to the pushpin.
         this.metadata = null;
         //Create the pushpins DOM element.
@@ -50,6 +50,34 @@ var HtmlPushpin = (function () {
         this._element.innerHTML = html;
         this._element.style.position = 'absolute';
     }
+    /**
+     * Gets the anchor point of the pushpin.
+     * @returns The anchor point of the pushpin.
+     */
+    HtmlPushpin.prototype.getAnchor = function () {
+        return this._anchor;
+    };
+    /**
+     * Sets the anchor point of the pushpin.
+     * @param anchor The anchor point of the pushpin.
+     */
+    HtmlPushpin.prototype.setAnchor = function (anchor) {
+        this._anchor = anchor;
+    };
+    /**
+     * Gets the location of the pushpin.
+     * @returns The location of the pushpin.
+     */
+    HtmlPushpin.prototype.getLocation = function () {
+        return this._location;
+    };
+    /**
+     * Sets the location of the pushpin.
+     * @param loc The location of the pushpin.
+     */
+    HtmlPushpin.prototype.setLocation = function (loc) {
+        this._location = loc;
+    };
     return HtmlPushpin;
 }());
 /**
@@ -121,11 +149,13 @@ var HtmlPushpinLayer = (function (_super) {
         if (pushpin) {
             if (pushpin instanceof HtmlPushpin) {
                 this._pushpins.push(pushpin);
+                pushpin._layer = this;
                 this.container.appendChild(pushpin._element);
             }
             else if (pushpin instanceof Array) {
                 //Add the pushpins to the container.
                 for (var i = 0, len = pushpin.length; i < len; i++) {
+                    pushpin[i]._layer = this;
                     this.container.appendChild(pushpin[i]._element);
                 }
             }
@@ -136,8 +166,16 @@ var HtmlPushpinLayer = (function (_super) {
      * Removes all pushpins in the layer.
      */
     HtmlPushpinLayer.prototype.clear = function () {
+        //Clear any pushpins already in the layer.
+        if (this._pushpins) {
+            for (var i = 0, len = this._pushpins.length; i < len; i++) {
+                this._pushpins[i]._layer = null;
+            }
+        }
         this._pushpins = [];
-        this.container.innerHTML = '';
+        if (this.container) {
+            this.container.innerHTML = '';
+        }
     };
     /**
      * Retrieves a bounding box that contains all the HTML Pushpin locations.
@@ -146,7 +184,7 @@ var HtmlPushpinLayer = (function (_super) {
     HtmlPushpinLayer.prototype.getBounds = function () {
         var locs = [];
         for (var i = 0, len = this._pushpins.length; i < len; i++) {
-            locs.push(this._pushpins[i].location);
+            locs.push(this._pushpins[i].getLocation());
         }
         return Microsoft.Maps.LocationRect.fromLocations(locs);
     };
@@ -162,16 +200,12 @@ var HtmlPushpinLayer = (function (_super) {
     * @param pushpins The HTML pushpins to overlay on the map.
     */
     HtmlPushpinLayer.prototype.setPushpins = function (pushpins) {
-        //Store the pushpin data.
-        this._pushpins = pushpins || [];
-        //Clear the container.
-        if (pushpins && this.container) {
-            this.container.innerHTML = '';
-            if (pushpins) {
-                //Add the pushpins to the container.
-                for (var i = 0, len = pushpins.length; i < len; i++) {
-                    this.container.appendChild(pushpins[i]._element);
-                }
+        this.clear();
+        if (pushpins) {
+            //Add the pushpins to the container.
+            for (var i = 0, len = pushpins.length; i < len; i++) {
+                pushpins[i]._layer = this;
+                this.container.appendChild(pushpins[i]._element);
             }
         }
         this._updatePositions();
@@ -186,10 +220,11 @@ var HtmlPushpinLayer = (function (_super) {
         var map = this.getMap();
         if (map) {
             //Calculate the pixel location of the pushpin.
-            var topLeft = map.tryLocationToPixel(pin.location, Microsoft.Maps.PixelReference.control);
+            var topLeft = map.tryLocationToPixel(pin.getLocation(), Microsoft.Maps.PixelReference.control);
             //Offset position to account for anchor.
-            topLeft.x -= pin.anchor.x;
-            topLeft.y -= pin.anchor.y;
+            var anchor = pin.getAnchor();
+            topLeft.x -= anchor.x;
+            topLeft.y -= anchor.y;
             //Update the position of the pushpin element.
             pin._element.style.left = topLeft.x + 'px';
             pin._element.style.top = topLeft.y + 'px';
