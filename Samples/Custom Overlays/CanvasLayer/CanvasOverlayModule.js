@@ -151,4 +151,3 @@ var CanvasOverlay = (function (_super) {
 }(Microsoft.Maps.CustomOverlay));
 //Call the module loaded function.
 Microsoft.Maps.moduleLoaded('CanvasOverlayModule');
-//# sourceMappingURL=CanvasOverlayModule.js.map

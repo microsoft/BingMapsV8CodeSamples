@@ -32,6 +32,7 @@ interface IHtmlPushpinOptions {
     /** A boolean indicating whether the pushpin can be dragged to a new position with the mouse or by touch. */
     draggable?: boolean;
 
+    /** The HTML that represents the pushpin. */
     htmlContent?: string | HTMLElement;
 
     /** The location of the pushpin. */
