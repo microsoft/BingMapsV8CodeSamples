@@ -24,6 +24,48 @@
 
 /// <reference path="../../Common/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
 
+/** Options used to customize how a Html Pushpin is rendered. */
+interface IHtmlPushpinOptions {
+    /** The point on the pushpin icon, in pixels, which is anchored to the pushpin location. An anchor of (0,0) is the top left corner of the icon. */
+    anchor?: Microsoft.Maps.Point;
+
+    /** The location of the pushpin. */
+    location?: Microsoft.Maps.Location;
+
+    /** A boolean indicating whether the pushpin can be dragged to a new position with the mouse or by touch. */
+    draggable?: boolean;
+
+    /** A boolean indicating whether to show or hide the pushpin. The default value is true. A value of false indicates that the pushpin is hidden, although it is still an entity on the map. */
+    visible?: boolean;
+}
+
+/** An Html Pushpin Event object. */
+interface IHtmlPushpinEvent {
+    /** The event that occurred. */
+    eventName: string;
+
+    /** If the target is a shape, this will be the layer that the shape is in. */
+    layer: HtmlPushpinLayer;
+
+    /** The map location of where the event occurred. */
+    location: Microsoft.Maps.Location;
+
+    /** The x-value of the pixel coordinate on the page of the mouse cursor. */
+    pageX: number;
+
+    /** The y-value of the pixel coordinate on the page of the mouse cursor. */
+    pageY: number;
+
+    /** The pixel coordinate of the mouse cusrsor relative to the top left corner of the map div. */
+    point: Microsoft.Maps.Point;
+
+    /** The object that triggered the event. */
+    target: HtmlPushpin;
+
+    /** The type of the object that the event is attached to. Valid values include the following: ‘map’, 'layer', ‘polygon’, ‘polyline’, or ‘pushpin’ */
+    targetType: string;
+}
+
 /**
  * A simple class that defines a HTML pushpin.
  */
@@ -36,33 +78,54 @@ class HtmlPushpin {
     public metadata: any;
 
     /**********************
-    * Internal Properties
+    * Public Events
     ***********************/
 
-    /** This is an internal property used by the HtmlPushpinLayer. */
-    public _element: HTMLElement;    
-    public _layer: HtmlPushpinLayer;
+    //TODO: consider exposing these in a way that can use addEventListener/removeEventListener
+
+    public onDragStart: (event: IHtmlPushpinEvent) => void;
+
+    public onDrag: (event: IHtmlPushpinEvent) => void;
+
+    public onDragEnd: (event: IHtmlPushpinEvent) => void;
+
+    public onMouseDown: (event: IHtmlPushpinEvent) => void;
+
+    public onMouseUp: (event: IHtmlPushpinEvent) => void;
+    
+    public onMouseMove: (event: IHtmlPushpinEvent) => void;
+
+    //TODO: Mouse over, out, click, dblcick.
 
     /**********************
-    * Private  Properties
+    * Internal Properties
     ***********************/
+    
+    /** This is an internal property used by the HtmlPushpinLayer. */
+    public _options: IHtmlPushpinOptions = {
+        visible: true
+    };
 
-    private _anchor: Microsoft.Maps.Point;
-    private _location: Microsoft.Maps.Location;
+    public _element: HTMLDivElement;   
+     
+    public _layer: HtmlPushpinLayer;
 
+    private _isDragging: boolean;
+    
     /**********************
     * Constructor
     ***********************/
     
-   /**
-    * @constructor
-    * @param loc The location of the pushpin.
-    * @param html The HTML to display as the pushpin.
-    * @param anchor An anchor to offset the position of the html so that it aligns with the location.
-    */
-    constructor(loc: Microsoft.Maps.Location, html: string, anchor?: Microsoft.Maps.Point) {
-        this._location = loc;
-        this._anchor = anchor;
+    /**
+     * @constructor
+     * @param loc The location of the pushpin.
+     * @param html The HTML to display as the pushpin.
+     * @param anchor An anchor to offset the position of the html so that it aligns with the location.
+     */
+    constructor(loc: Microsoft.Maps.Location, html: string, options?: IHtmlPushpinOptions) {
+        this._options = options || <IHtmlPushpinOptions>{};
+
+        this._options.location = loc;
 
         //A property for storing data relative to the pushpin.
         this.metadata = null;
@@ -71,6 +134,36 @@ class HtmlPushpin {
         this._element = document.createElement('div');
         this._element.innerHTML = html;
         this._element.style.position = 'absolute';
+
+        //Add event listeners
+        var self = this;
+        
+        this._element.addEventListener('mousedown', (e) => { self._pinMouseDown(e) });
+        this._element.addEventListener('mouseup', (e) => { self._pinMouseUp(e) });
+        this._element.addEventListener('mousemove', (e) => { self._pinMouseMove(e) });        
+    }
+
+    /**
+     * Disposes the pushpin and releases its resources.
+     */
+    public dispose(): void {
+        //Remove mouse events.
+        if (this._element) {
+            this._element.removeEventListener('mousedown', (e) => { this._pinMouseDown(<MouseEvent>e) });
+            this._element.removeEventListener('mouseup', (e) => { this._pinMouseUp(<MouseEvent>e) });
+            this._element.removeEventListener('mousemove', (e) => { this._pinMouseMove(<MouseEvent>e) });
+        }
+
+        this._layer = null;
+        this._options = null;
+        this._element = null;
+        this._isDragging = null;
+
+        this.onDrag = null;
+        this.onDragStart = null;
+        this.onDragEnd = null;
+
+        this.metadata = null;
     }
 
     /**
@@ -78,15 +171,15 @@ class HtmlPushpin {
      * @returns The anchor point of the pushpin.
      */
     public getAnchor(): Microsoft.Maps.Point {
-        return this._anchor;
+        return this._options.anchor;
     }
 
     /**
-     * Sets the anchor point of the pushpin.
-     * @param anchor The anchor point of the pushpin.
+     * Gets a boolean indicating if the pushpin is draggable or not.
+     * @returns A boolean indicating if the pushpin is draggable or not.
      */
-    public setAnchor(anchor: Microsoft.Maps.Point): void {
-        this._anchor = anchor;
+    public getDraggable(): boolean {
+        return this._options.draggable;
     }
 
     /**
@@ -94,15 +187,150 @@ class HtmlPushpin {
      * @returns The location of the pushpin.
      */
     public getLocation(): Microsoft.Maps.Location {
-        return this._location;
+        return this._options.location;
+    }
+
+    /**
+     * Gets the visibility option of the pushpin.
+     * @returns The visibility of the pushpin.
+     */
+    public getVisible(): boolean {
+        return this._options.visible;
     }
 
     /**
      * Sets the location of the pushpin.
-     * @param loc The location of the pushpin.
+     * @param loc The location to display the pushpin at.
      */
     public setLocation(loc: Microsoft.Maps.Location): void {
-        this._location = loc;
+        if (loc && loc instanceof Microsoft.Maps.Location) {
+            this._options.location = loc;
+            this._layer._updatePushpinPosition(this);
+        }
+    }
+
+    /**
+     * Sets the options of the pushpin.
+     * @param options The options of the pushpin.
+     */
+    public setOptions(options: IHtmlPushpinOptions) {
+        var reposition = false;
+
+        if (options.anchor && options.anchor instanceof Microsoft.Maps.Point) {
+            this._options.anchor = options.anchor;
+            reposition = true;
+        }
+
+        if (options.location && options.location instanceof Microsoft.Maps.Location) {
+            this._options.location = options.location;
+            reposition = true;
+        }
+
+        if (typeof options.draggable === 'boolean') {
+            this._options.draggable = options.draggable;
+        }
+
+        if (typeof options.visible === 'boolean') {
+            this._options.visible = options.visible;
+        }
+
+        if (reposition) {
+            this._layer._updatePushpinPosition(this);
+        }
+    }
+
+    /**********************
+    * Private Functions
+    ***********************/
+
+    /**
+     * Mouse down event handler.
+     * @param e The mouse event.
+     */
+    private _pinMouseDown(e: MouseEvent): void {
+        if (this._options.draggable) {
+            this._isDragging = true;           
+
+            if (this.onDragStart) {
+                this.onDragStart(this._getEventInfo('dragstart', e));
+            }
+        }
+
+        if (this.onMouseDown) {
+            this.onMouseDown(this._getEventInfo('mousedown', e));
+        }
+    }
+
+    /**
+     * Mouse up event handler.
+     * @param e The mouse event.
+     */
+    private _pinMouseUp(e: MouseEvent): void {
+        if (this._isDragging) {
+            this._isDragging = false;
+
+            if (this.onDragEnd) {
+                this.onDragEnd(this._getEventInfo('dragend', e));
+            }
+        }
+
+        if (this.onMouseDown) {
+            this.onMouseDown(this._getEventInfo('mouseup', e));
+        }
+    }
+
+    /**
+     * Mouse move event handler.
+     * @param e The mouse event.
+     */
+    private _pinMouseMove(e: MouseEvent): void {  
+        if (this._isDragging) {
+            var eventInfo = this._getEventInfo('drag', e);
+
+            this._options.location = eventInfo.location;
+            this._layer._updatePushpinPosition(this);
+
+            if (this.onDrag) {
+                this.onDrag(eventInfo);
+            }
+        }
+
+        if (this.onMouseMove) {
+            this.onMouseMove(this._getEventInfo('mousemove', e));
+        }
+    }
+
+    /**
+     * Converts a mouse event into a Html Pushpin event.
+     * @param eventName The name of the event that occured.
+     * @param e The original mouse event.
+     * @returns An Html Pushpin event.
+     */
+    private _getEventInfo(eventName: string, e: MouseEvent): IHtmlPushpinEvent {
+        //Drag the pushpins.
+        var x;
+        var y;
+        if (e.pageX || e.pageY) {
+            x = e.pageX;
+            y = e.pageY;
+        }
+        else {
+            x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+            y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        }
+
+        var point = new Microsoft.Maps.Point(x, y);
+
+       return <IHtmlPushpinEvent>{
+           eventName: eventName,
+            layer: this._layer,
+            pageX: x,
+            pageY: y,
+            point: point,
+            target: this,
+            targetType: 'HtmlPushpin',
+            location: <Microsoft.Maps.Location>this._layer.getMap().tryPixelToLocation(point, Microsoft.Maps.PixelReference.page)
+        };
     }
 }
 
@@ -161,7 +389,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         var self = this;
 
         //Reset pushpins as overlay is now loaded.
-        self.setPushpins(self._pushpins);
+        self._renderPushpins();
 
         //Update the position of the pushpin when the view changes.
         this.viewChangeEventHandler = Microsoft.Maps.Events.addHandler(self.getMap(), 'viewchange', function () {
@@ -212,9 +440,10 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         //Clear any pushpins already in the layer.
         if (this._pushpins) {
             for (var i = 0, len = this._pushpins.length; i < len; i++) {
-                this._pushpins[i]._layer = null;
+                this._pushpins[i].dispose();
             }
         }
+
         this._pushpins = [];
         if (this.container) {
             this.container.innerHTML = '';
@@ -231,7 +460,11 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
             locs.push(this._pushpins[i].getLocation());
         }
 
-        return Microsoft.Maps.LocationRect.fromLocations(locs);
+        if (locs.length > 0) {
+            return Microsoft.Maps.LocationRect.fromLocations(locs);
+        }
+
+        return null;
     }
 
     /**
@@ -249,15 +482,10 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     public setPushpins(pushpins: HtmlPushpin[]) {
         this.clear();
 
-        if (pushpins) {
-            //Add the pushpins to the container.
-            for (var i = 0, len = pushpins.length; i < len; i++) {
-                pushpins[i]._layer = this;
-                this.container.appendChild(pushpins[i]._element);
-            }
+        if (pushpins) {    
+            this._pushpins = pushpins;
+            this._renderPushpins();
         }
-
-        this._updatePositions();
     }
 
     /**********************
@@ -265,9 +493,22 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     ***********************/
 
     /**
+    * Renders the pushpins on the layer.
+    */
+    private _renderPushpins(): void {
+        //Add the pushpins to the container.
+        for (var i = 0, len = this._pushpins.length; i < len; i++) {
+            this._pushpins[i]._layer = this;
+            this.container.appendChild(this._pushpins[i]._element);
+        }
+
+        this._updatePositions();
+    }
+
+    /**
     * Updates the position of a HTML pushpin element on the map.
     */
-    private _updatePushpinPosition(pin: HtmlPushpin) {
+    public _updatePushpinPosition(pin: HtmlPushpin) {
         var map = this.getMap();
 
         if (map) {

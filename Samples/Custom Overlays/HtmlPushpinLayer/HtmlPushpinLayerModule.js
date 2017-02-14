@@ -40,43 +40,190 @@ var HtmlPushpin = (function () {
      * @param html The HTML to display as the pushpin.
      * @param anchor An anchor to offset the position of the html so that it aligns with the location.
      */
-    function HtmlPushpin(loc, html, anchor) {
-        this._location = loc;
-        this._anchor = anchor;
+    function HtmlPushpin(loc, html, options) {
+        //TODO: Mouse over, out, click, dblcick.
+        /**********************
+        * Internal Properties
+        ***********************/
+        /** This is an internal property used by the HtmlPushpinLayer. */
+        this._options = {
+            visible: true
+        };
+        this._options = options || {};
+        this._options.location = loc;
         //A property for storing data relative to the pushpin.
         this.metadata = null;
         //Create the pushpins DOM element.
         this._element = document.createElement('div');
         this._element.innerHTML = html;
         this._element.style.position = 'absolute';
+        //Add event listeners
+        var self = this;
+        this._element.addEventListener('mousedown', function (e) { self._pinMouseDown(e); });
+        this._element.addEventListener('mouseup', function (e) { self._pinMouseUp(e); });
+        this._element.addEventListener('mousemove', function (e) { self._pinMouseMove(e); });
     }
+    /**
+     * Disposes the pushpin and releases its resources.
+     */
+    HtmlPushpin.prototype.dispose = function () {
+        var _this = this;
+        //Remove mouse events.
+        if (this._element) {
+            this._element.removeEventListener('mousedown', function (e) { _this._pinMouseDown(e); });
+            this._element.removeEventListener('mouseup', function (e) { _this._pinMouseUp(e); });
+            this._element.removeEventListener('mousemove', function (e) { _this._pinMouseMove(e); });
+        }
+        this._layer = null;
+        this._options = null;
+        this._element = null;
+        this._isDragging = null;
+        this.onDrag = null;
+        this.onDragStart = null;
+        this.onDragEnd = null;
+        this.metadata = null;
+    };
     /**
      * Gets the anchor point of the pushpin.
      * @returns The anchor point of the pushpin.
      */
     HtmlPushpin.prototype.getAnchor = function () {
-        return this._anchor;
+        return this._options.anchor;
     };
     /**
-     * Sets the anchor point of the pushpin.
-     * @param anchor The anchor point of the pushpin.
+     * Gets a boolean indicating if the pushpin is draggable or not.
+     * @returns A boolean indicating if the pushpin is draggable or not.
      */
-    HtmlPushpin.prototype.setAnchor = function (anchor) {
-        this._anchor = anchor;
+    HtmlPushpin.prototype.getDraggable = function () {
+        return this._options.draggable;
     };
     /**
      * Gets the location of the pushpin.
      * @returns The location of the pushpin.
      */
     HtmlPushpin.prototype.getLocation = function () {
-        return this._location;
+        return this._options.location;
+    };
+    /**
+     * Gets the visibility option of the pushpin.
+     * @returns The visibility of the pushpin.
+     */
+    HtmlPushpin.prototype.getVisible = function () {
+        return this._options.visible;
     };
     /**
      * Sets the location of the pushpin.
-     * @param loc The location of the pushpin.
+     * @param loc The location to display the pushpin at.
      */
     HtmlPushpin.prototype.setLocation = function (loc) {
-        this._location = loc;
+        if (loc && loc instanceof Microsoft.Maps.Location) {
+            this._options.location = loc;
+            this._layer._updatePushpinPosition(this);
+        }
+    };
+    /**
+     * Sets the options of the pushpin.
+     * @param options The options of the pushpin.
+     */
+    HtmlPushpin.prototype.setOptions = function (options) {
+        var reposition = false;
+        if (options.anchor && options.anchor instanceof Microsoft.Maps.Point) {
+            this._options.anchor = options.anchor;
+            reposition = true;
+        }
+        if (options.location && options.location instanceof Microsoft.Maps.Location) {
+            this._options.location = options.location;
+            reposition = true;
+        }
+        if (typeof options.draggable === 'boolean') {
+            this._options.draggable = options.draggable;
+        }
+        if (typeof options.visible === 'boolean') {
+            this._options.visible = options.visible;
+        }
+        if (reposition) {
+            this._layer._updatePushpinPosition(this);
+        }
+    };
+    /**********************
+    * Private Functions
+    ***********************/
+    /**
+     * Mouse down event handler.
+     * @param e The mouse event.
+     */
+    HtmlPushpin.prototype._pinMouseDown = function (e) {
+        if (this._options.draggable) {
+            this._isDragging = true;
+            if (this.onDragStart) {
+                this.onDragStart(this._getEventInfo('dragstart', e));
+            }
+        }
+        if (this.onMouseDown) {
+            this.onMouseDown(this._getEventInfo('mousedown', e));
+        }
+    };
+    /**
+     * Mouse up event handler.
+     * @param e The mouse event.
+     */
+    HtmlPushpin.prototype._pinMouseUp = function (e) {
+        if (this._isDragging) {
+            this._isDragging = false;
+            if (this.onDragEnd) {
+                this.onDragEnd(this._getEventInfo('dragend', e));
+            }
+        }
+        if (this.onMouseDown) {
+            this.onMouseDown(this._getEventInfo('mouseup', e));
+        }
+    };
+    /**
+     * Mouse move event handler.
+     * @param e The mouse event.
+     */
+    HtmlPushpin.prototype._pinMouseMove = function (e) {
+        if (this._isDragging) {
+            var eventInfo = this._getEventInfo('drag', e);
+            this._options.location = eventInfo.location;
+            this._layer._updatePushpinPosition(this);
+            if (this.onDrag) {
+                this.onDrag(eventInfo);
+            }
+        }
+        if (this.onMouseMove) {
+            this.onMouseMove(this._getEventInfo('mousemove', e));
+        }
+    };
+    /**
+     * Converts a mouse event into a Html Pushpin event.
+     * @param eventName The name of the event that occured.
+     * @param e The original mouse event.
+     * @returns An Html Pushpin event.
+     */
+    HtmlPushpin.prototype._getEventInfo = function (eventName, e) {
+        //Drag the pushpins.
+        var x;
+        var y;
+        if (e.pageX || e.pageY) {
+            x = e.pageX;
+            y = e.pageY;
+        }
+        else {
+            x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+            y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        }
+        var point = new Microsoft.Maps.Point(x, y);
+        return {
+            eventName: eventName,
+            layer: this._layer,
+            pageX: x,
+            pageY: y,
+            point: point,
+            target: this,
+            targetType: 'HtmlPushpin',
+            location: this._layer.getMap().tryPixelToLocation(point, Microsoft.Maps.PixelReference.page)
+        };
     };
     return HtmlPushpin;
 }());
@@ -124,7 +271,7 @@ var HtmlPushpinLayer = (function (_super) {
     HtmlPushpinLayer.prototype.onLoad = function () {
         var self = this;
         //Reset pushpins as overlay is now loaded.
-        self.setPushpins(self._pushpins);
+        self._renderPushpins();
         //Update the position of the pushpin when the view changes.
         this.viewChangeEventHandler = Microsoft.Maps.Events.addHandler(self.getMap(), 'viewchange', function () {
             self._updatePositions();
@@ -169,7 +316,7 @@ var HtmlPushpinLayer = (function (_super) {
         //Clear any pushpins already in the layer.
         if (this._pushpins) {
             for (var i = 0, len = this._pushpins.length; i < len; i++) {
-                this._pushpins[i]._layer = null;
+                this._pushpins[i].dispose();
             }
         }
         this._pushpins = [];
@@ -186,7 +333,10 @@ var HtmlPushpinLayer = (function (_super) {
         for (var i = 0, len = this._pushpins.length; i < len; i++) {
             locs.push(this._pushpins[i].getLocation());
         }
-        return Microsoft.Maps.LocationRect.fromLocations(locs);
+        if (locs.length > 0) {
+            return Microsoft.Maps.LocationRect.fromLocations(locs);
+        }
+        return null;
     };
     /**
      * Retrieves all HTML pushpins in the layer.
@@ -202,17 +352,24 @@ var HtmlPushpinLayer = (function (_super) {
     HtmlPushpinLayer.prototype.setPushpins = function (pushpins) {
         this.clear();
         if (pushpins) {
-            //Add the pushpins to the container.
-            for (var i = 0, len = pushpins.length; i < len; i++) {
-                pushpins[i]._layer = this;
-                this.container.appendChild(pushpins[i]._element);
-            }
+            this._pushpins = pushpins;
+            this._renderPushpins();
         }
-        this._updatePositions();
     };
     /**********************
     * Private Functions
     ***********************/
+    /**
+    * Renders the pushpins on the layer.
+    */
+    HtmlPushpinLayer.prototype._renderPushpins = function () {
+        //Add the pushpins to the container.
+        for (var i = 0, len = this._pushpins.length; i < len; i++) {
+            this._pushpins[i]._layer = this;
+            this.container.appendChild(this._pushpins[i]._element);
+        }
+        this._updatePositions();
+    };
     /**
     * Updates the position of a HTML pushpin element on the map.
     */
