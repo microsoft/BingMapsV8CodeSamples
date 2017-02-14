@@ -29,12 +29,14 @@ interface IHtmlPushpinOptions {
     /** The point on the pushpin icon, in pixels, which is anchored to the pushpin location. An anchor of (0,0) is the top left corner of the icon. */
     anchor?: Microsoft.Maps.Point;
 
-    /** The location of the pushpin. */
-    location?: Microsoft.Maps.Location;
-
     /** A boolean indicating whether the pushpin can be dragged to a new position with the mouse or by touch. */
     draggable?: boolean;
 
+    htmlContent?: string | HTMLElement;
+
+    /** The location of the pushpin. */
+    location?: Microsoft.Maps.Location;
+    
     /** A boolean indicating whether to show or hide the pushpin. The default value is true. A value of false indicates that the pushpin is hidden, although it is still an entity on the map. */
     visible?: boolean;
 }
@@ -119,21 +121,23 @@ class HtmlPushpin {
     /**
      * @constructor
      * @param loc The location of the pushpin.
-     * @param html The HTML to display as the pushpin.
-     * @param anchor An anchor to offset the position of the html so that it aligns with the location.
+     * @param htmlContent The HTML to display as the pushpin.
+     * @param options The options used to customize how the pushpin is displayed.
      */
-    constructor(loc: Microsoft.Maps.Location, html: string, options?: IHtmlPushpinOptions) {
-        this._options = options || <IHtmlPushpinOptions>{};
-
-        this._options.location = loc;
+    constructor(loc: Microsoft.Maps.Location, htmlContent: string | HTMLElement, options?: IHtmlPushpinOptions) {       
 
         //A property for storing data relative to the pushpin.
         this.metadata = null;
 
         //Create the pushpins DOM element.
         this._element = document.createElement('div');
-        this._element.innerHTML = html;
         this._element.style.position = 'absolute';
+
+        //Set the options.
+        options = options || <IHtmlPushpinOptions>{};
+        options.location = loc;
+        options.htmlContent = htmlContent;
+        this.setOptions(options);
 
         //Add event listeners
         var self = this;
@@ -183,6 +187,14 @@ class HtmlPushpin {
     }
 
     /**
+     * Gets the Html content of the pushpins.
+     * @returns The Html content of the pushpins.
+     */
+    public getHtmlContent(): string | HTMLElement {
+        return this._options.htmlContent;
+    }
+
+    /**
      * Gets the location of the pushpin.
      * @returns The location of the pushpin.
      */
@@ -203,7 +215,7 @@ class HtmlPushpin {
      * @param loc The location to display the pushpin at.
      */
     public setLocation(loc: Microsoft.Maps.Location): void {
-        if (loc && loc instanceof Microsoft.Maps.Location) {
+        if (this._layer && loc && loc instanceof Microsoft.Maps.Location) {
             this._options.location = loc;
             this._layer._updatePushpinPosition(this);
         }
@@ -234,7 +246,24 @@ class HtmlPushpin {
             this._options.visible = options.visible;
         }
 
-        if (reposition) {
+        if (options.htmlContent) {
+            this._options.htmlContent = options.htmlContent;
+
+            if (this._element) {
+                if (typeof options.htmlContent === 'string') {
+                    this._element.innerHTML = <string>options.htmlContent;
+                } else {
+                    //Remove any child elements.
+                    for (var i = 0, len = this._element.childElementCount; i < len; i++) {
+                        this._element.removeChild(this._element.childNodes[i])
+                    }
+
+                    this._element.appendChild(<HTMLElement>options.htmlContent);
+                }
+            }
+        }
+
+        if (this._layer && reposition) {
             this._layer._updatePushpinPosition(this);
         }
     }

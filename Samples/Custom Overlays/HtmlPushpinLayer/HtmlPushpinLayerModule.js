@@ -37,10 +37,10 @@ var HtmlPushpin = (function () {
     /**
      * @constructor
      * @param loc The location of the pushpin.
-     * @param html The HTML to display as the pushpin.
-     * @param anchor An anchor to offset the position of the html so that it aligns with the location.
+     * @param htmlContent The HTML to display as the pushpin.
+     * @param options The options used to customize how the pushpin is displayed.
      */
-    function HtmlPushpin(loc, html, options) {
+    function HtmlPushpin(loc, htmlContent, options) {
         //TODO: Mouse over, out, click, dblcick.
         /**********************
         * Internal Properties
@@ -49,14 +49,16 @@ var HtmlPushpin = (function () {
         this._options = {
             visible: true
         };
-        this._options = options || {};
-        this._options.location = loc;
         //A property for storing data relative to the pushpin.
         this.metadata = null;
         //Create the pushpins DOM element.
         this._element = document.createElement('div');
-        this._element.innerHTML = html;
         this._element.style.position = 'absolute';
+        //Set the options.
+        options = options || {};
+        options.location = loc;
+        options.htmlContent = htmlContent;
+        this.setOptions(options);
         //Add event listeners
         var self = this;
         this._element.addEventListener('mousedown', function (e) { self._pinMouseDown(e); });
@@ -98,6 +100,13 @@ var HtmlPushpin = (function () {
         return this._options.draggable;
     };
     /**
+     * Gets the Html content of the pushpins.
+     * @returns The Html content of the pushpins.
+     */
+    HtmlPushpin.prototype.getHtmlContent = function () {
+        return this._options.htmlContent;
+    };
+    /**
      * Gets the location of the pushpin.
      * @returns The location of the pushpin.
      */
@@ -116,7 +125,7 @@ var HtmlPushpin = (function () {
      * @param loc The location to display the pushpin at.
      */
     HtmlPushpin.prototype.setLocation = function (loc) {
-        if (loc && loc instanceof Microsoft.Maps.Location) {
+        if (this._layer && loc && loc instanceof Microsoft.Maps.Location) {
             this._options.location = loc;
             this._layer._updatePushpinPosition(this);
         }
@@ -141,7 +150,22 @@ var HtmlPushpin = (function () {
         if (typeof options.visible === 'boolean') {
             this._options.visible = options.visible;
         }
-        if (reposition) {
+        if (options.htmlContent) {
+            this._options.htmlContent = options.htmlContent;
+            if (this._element) {
+                if (typeof options.htmlContent === 'string') {
+                    this._element.innerHTML = options.htmlContent;
+                }
+                else {
+                    //Remove any child elements.
+                    for (var i = 0, len = this._element.childElementCount; i < len; i++) {
+                        this._element.removeChild(this._element.childNodes[i]);
+                    }
+                    this._element.appendChild(options.htmlContent);
+                }
+            }
+        }
+        if (this._layer && reposition) {
             this._layer._updatePushpinPosition(this);
         }
     };
