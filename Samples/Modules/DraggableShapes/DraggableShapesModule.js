@@ -296,3 +296,4 @@ var DraggableShapesManager = (function () {
 Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath', function () {
     Microsoft.Maps.moduleLoaded('DraggableShapesModule');
 });
+//# sourceMappingURL=DraggableShapesModule.js.map

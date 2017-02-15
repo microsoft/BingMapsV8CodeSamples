@@ -264,3 +264,4 @@ var SpiderClusterManager = (function () {
 Microsoft.Maps.loadModule('Microsoft.Maps.Clustering', function () {
     Microsoft.Maps.moduleLoaded('SpiderClusterManager');
 });
+//# sourceMappingURL=SpiderClusterManager.js.map

@@ -425,3 +425,4 @@ var HtmlPushpinLayer = (function (_super) {
 }(Microsoft.Maps.CustomOverlay));
 //Call the module loaded function.
 Microsoft.Maps.moduleLoaded('HtmlPushpinLayerModule');
+//# sourceMappingURL=HtmlPushpinLayerModule.js.map

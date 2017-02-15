@@ -99,6 +99,7 @@
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
     <Content Include="ExternalSamples.html" />
+    <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
     <Content Include="Pushpins\images\blueSquare.png" />
     <Content Include="Experimental\Pushpin_RestrictedDrag.html" />
