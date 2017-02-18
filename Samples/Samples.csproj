@@ -96,6 +96,7 @@
     <Content Include="Directions\Directions_SnapWaypoint.html" />
     <Content Include="Events\Events_CustomFreeHandDrawing.html" />
     <Content Include="Events\Events_MapViewEvents.html" />
+    <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
     <Content Include="ExternalSamples.html" />

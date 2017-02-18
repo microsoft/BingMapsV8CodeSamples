@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Create a layer.
+        var layer = new Microsoft.Maps.Layer();
+
+        //Generate 3 random test locations in the current map view.
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(3, map.getBounds());
+
+        //Create pushpins from the locations.
+        var pin1 = new Microsoft.Maps.Pushpin(locs[0]);
+        pin1.metadata = {
+            name: 'Pin 1',
+            value: 20
+        };
+        layer.add(pin1);
+
+        var pin2 = new Microsoft.Maps.Pushpin(locs[1]);
+        pin2.metadata = {
+            name: 'Pin 2',
+            value: 40,
+            bonusData: 'hello'
+        };
+        layer.add(pin2);
+
+        var pin3 = new Microsoft.Maps.Pushpin(locs[2]);
+        pin3.metadata = {
+            name: 'Pin 3',
+            value: 35
+        };
+        layer.add(pin3);
+
+        //Add layer to map.
+        map.layers.insert(layer);
+
+        //Add click event to the layer.
+        Microsoft.Maps.Events.addHandler(layer, 'click', layerClicked);
+    }
+
+    function layerClicked(e) {
+        var html = [];
+
+        if (e && e.target && e.target.metadata) {
+            //Create a table from the data. Alteritively, this data could be inserted into fields of a form if desired.
+            html.push('<table border="1">');
+
+            //Loop through each property in the metadata object ad write its property name and value.
+            Object.keys(e.target.metadata).forEach(function (key) {
+                html.push('<tr><td><b>', key, '</b></td><td>', e.target.metadata[key], '</td></tr>');
+            });
+            
+            html.push('</table>');
+        }
+
+        document.getElementById('outputArea').innerHTML = html.join('');
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <div id="outputArea" style="margin:10px"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>View Shape Metadata Sample</legend>
+        This sample adds a click event to a layer. When any shape in the layer is clicked, it's metadata is then displayed as a table.
+    </fieldset>
+</body>
+</html>
