@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+    <html>
+    <head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 1
+        });
+
+        //Load the Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+            //Create an array of state boundaries to retrieve.
+            var states = ['Dubai', 'California', 'nevada', 'utah', 'arizona', 'colorado', 'dc', 'maryland', 'new york', 'British Columbia', 'Beijing', 'England', 'Scotland', 'Northern Island'];
+
+            //Create geoData request options to retrieve state boundaries.
+            var stateRequestOptions = {
+                entityType: 'AdminDivision1',
+                getAllPolygons: false,
+            };
+        
+            //Use the GeoData API manager to get the State. 
+            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(states, stateRequestOptions, map, function (data) {
+                if (data.results && data.results.length > 0) {
+                    map.entities.push(data.results[0].Polygons);
+                }
+            });
+
+            //Create an array of country boundaries to retrieve.
+            var countries = ['New Zealand', 'Australia', 'Japan', 'Singapore', 'Russia', 'France', 'Netherland', 'South Korea', 'Tonga', 'Ireland', 'Mongolia'];
+
+            //Create geoData request options to retrieve country boundaries.
+            var countryRequestOptions = {
+                entityType: 'AdminDivision1',
+                getAllPolygons: false,
+            };
+
+            //Use the GeoData API manager to retrieve the country boundaries.
+            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(countries, countryRequestOptions, map, function (data) {
+                if (data.results && data.results.length > 0) {
+                    map.entities.push(data.results[0].Polygons);
+                }
+            });
+        });
+    }
+    </script>
+    </head>
+    <body>
+        <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+        <fieldset style="width:600px;margin-top:10px;">
+            <legend>Multiple GeoData Entity Type Boundaries Sample</legend>
+            This sample shows how to load multiple boundaries for different entity type.
+        </fieldset>
+    </body>
+</html>
