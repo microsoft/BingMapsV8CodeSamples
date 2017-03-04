@@ -159,6 +159,7 @@
     <Content Include="Test Data Generator\TestDataGenerator_CreatePushpins.html" />
     <Content Include="Tile Layers\TileLayer_BaseMercator.html" />
     <Content Include="Tile Layers\TileLayer_WMS.html" />
+    <Content Include="Traffic\Traffic - Custom Legend.html" />
     <Content Include="User Location\UserLocation_Basic.html" />
     <Content Include="User Location\UserLocation_Continuous.html" />
     <Content Include="Heatmap Layers\Heatmap_Features.html" />
