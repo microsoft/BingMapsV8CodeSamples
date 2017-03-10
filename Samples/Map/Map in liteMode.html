@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />    
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            liteMode: true
+        });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Map in liteMode Sample</legend>
+        This sample shows how to put the map into liteMode. When liteMode is set to true vector labels are disabled and are 
+        rendered directly on the map tiles like previous versions of Bing Maps. The provides a performance boost, but also 
+        means labels will appear behind the data and that there is no label collision detection. Find out more about vector 
+        labels <a href="https://msdn.microsoft.com/en-us/library/mt750538.aspx" target="_blank">here</a>.
+    </fieldset>
+</body>
+</html>

@@ -102,6 +102,7 @@
     <Content Include="ExternalSamples.html" />
     <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
+    <Content Include="Map\Map in liteMode.html" />
     <Content Include="Pushpins\images\blueSquare.png" />
     <Content Include="Experimental\Pushpin_RestrictedDrag.html" />
     <Content Include="Map\Custom Navigation Bar.html" />
