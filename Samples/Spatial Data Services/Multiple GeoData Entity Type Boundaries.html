@@ -3,8 +3,6 @@
     <head>
     <title></title>
     <meta charset="utf-8" />
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript'>
     var map;
 
@@ -50,13 +48,15 @@
         });
     }
     </script>
-    </head>
-    <body>
-        <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
 
-        <fieldset style="width:600px;margin-top:10px;">
-            <legend>Multiple GeoData Entity Type Boundaries Sample</legend>
-            This sample shows how to load multiple boundaries for different entity type.
-        </fieldset>
-    </body>
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Multiple GeoData Entity Type Boundaries Sample</legend>
+        This sample shows how to load multiple boundaries for different entity type.
+    </fieldset>
+</body>
 </html>

@@ -122,7 +122,6 @@
     <Content Include="Other\Netherlands\Netherlands Census Map.html" />
     <Content Include="Pushpins\Pushpin_Scaled.html" />
     <Content Include="Other\USA Map.html" />
-    <Content Include="Experimental\ZoneJS_Workaround.html" />
     <Content Include="GeoJSON\GeoJson_Choropleth.html" />
     <Content Include="GeoJSON\GeoJson_CORS.html" />
     <Content Include="GeoJSON\GeoJson_CrossDomain_NoJsonp.html" />
