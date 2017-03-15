@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, directionsManager;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the directions module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+            //Specify where to display the route instructions.
+            directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+
+            //Specify the where to display the input panel
+            directionsManager.showInputPanel('directionsPanel');
+        });
+    }
+
+    function GetDirections() {
+        if (!directionsManager) {
+            //Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                //Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+                //Calculate the directions.
+                GetDirections();
+            });
+        } else {
+            //Clear any previously calculated directions.
+            directionsManager.clearAll();
+
+            //Create waypoints to route between.
+            var start = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('fromTbx').value });
+            directionsManager.addWaypoint(start);
+
+            var end = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('toTbx').value });
+            directionsManager.addWaypoint(end);
+            
+            //Calculate directions.
+            directionsManager.calculateDirections();
+        }
+    }
+    </script>
+
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <div style="margin-top:10px;">
+        From: <input id="fromTbx" type="text" value="Redmond, WA"/>
+        To: <input id="toTbx" type="text" value="Bellevue, WA"/>
+        <input type="button" onclick="GetDirections()" value="Calculate" />
+    </div>    
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Simple Custom Directions Input Panel Sample</legend>
+        This sample shows how to create a simple custom input panel for direction calculations.
+    </fieldset>
+</body>
+</html>

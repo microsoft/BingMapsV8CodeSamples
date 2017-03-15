@@ -74,6 +74,7 @@
     <Content Include="Data Binning Layers\DataBinning_FeatureTester.html" />
     <Content Include="Data Binning Layers\DataBinning_GradientColorScale.html" />
     <Content Include="Default.aspx" />
+    <Content Include="Directions\Simple Custom Directions Input Panel.html" />
     <Content Include="Directions\Directions_Basic.html" />
     <Content Include="Directions\Directions_Events.html" />
     <Content Include="Directions\Directions_InputPanel.html" />
@@ -96,6 +97,7 @@
     <Content Include="Directions\Directions_SnapWaypoint.html" />
     <Content Include="Events\Events_CustomFreeHandDrawing.html" />
     <Content Include="Events\Events_MapViewEvents.html" />
+    <Content Include="Events\Single vs Double Click.html" />
     <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
