@@ -61,6 +61,9 @@ interface ISpiderClusterOptions {
 
     /** A callback that is fired when a pin is unselected or a spider cluster is collapsed. */
     pinUnselected?: () => void;
+
+    /** A boolean indicating if the cluster layer is visible or not. */
+    visible?: boolean;
 }
 
 /**
@@ -226,6 +229,10 @@ class SpiderClusterManager {
 
             if (options.pinUnselected) {
                 this._options.pinUnselected = options.pinUnselected;
+            }
+
+            if (typeof options.visible === 'bolean') {
+                this._options.visible = options.visible;
             }
 
             this._clusterLayer.setOptions(options);

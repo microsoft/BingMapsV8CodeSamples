@@ -155,6 +155,9 @@ var SpiderClusterManager = (function () {
             if (options.pinUnselected) {
                 this._options.pinUnselected = options.pinUnselected;
             }
+            if (typeof options.visible === 'bolean') {
+                this._options.visible = options.visible;
+            }
             this._clusterLayer.setOptions(options);
         }
     };
