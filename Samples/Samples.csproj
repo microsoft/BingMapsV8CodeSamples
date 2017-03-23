@@ -85,6 +85,7 @@
     <Content Include="Drawing Tools\DrawingTools_CustomExitButton.html" />
     <Content Include="Drawing Tools\DrawingTools_CustomToolbar.html" />
     <Content Include="Drawing Tools\DrawingTools_EditExistingPolygon.html" />
+    <Content Include="Drawing Tools\DrawingTools_ShapeMetadata.html" />
     <Content Include="Drawing Tools\DrawingTools_TogglePolygonEdit.html" />
     <Content Include="Drawing Tools\DrawingTools_CreateShape.html" />
     <Content Include="Drawing Tools\DrawingTools_Events.html" />
