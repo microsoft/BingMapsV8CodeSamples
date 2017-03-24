@@ -154,6 +154,7 @@
     <Content Include="Spatial Math\Core\SpatialMath_CardinalSplineFeatures.html" />
     <Content Include="Spatial Math\Core\SpatialMath_CardinalSplines.html" />
     <Content Include="Spatial Math\Core\SpatialMath_Circles.html" />
+    <Content Include="Spatial Math\Geometry\Calculate Distance From Route.html" />
     <Content Include="Spatial Math\Geometry\SpatialMath_BinaryOperations.html" />
     <Content Include="Spatial Math\Tile Math\SpatialMath_QuadkeyLocator.html" />
     <Content Include="Spatial Math\Tile Math\SpatialMath_TileMathExample.html" />

@@ -48,10 +48,7 @@
     }
 
     function directionsUpdated(e) {
-        //Get the current route index.
-        var routeIdx = directionsManager.getRequestOptions().routeIndex;
-
-        var route = e.route[routeIdx];
+        var route = directionsManager.getCurrentRoute();
 
         var locs = [];
         var distances = [0];
