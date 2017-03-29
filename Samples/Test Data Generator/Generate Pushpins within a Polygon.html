@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath', function () {
+            //The polygon that you want to generate random locations inside of.
+            var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5);
+            map.entities.push(polygon);
+
+            var pins = GetPushpinsWithinPolygon(polygon, 100);
+            map.entities.push(pins);
+        });
+    }
+
+    function GetPushpinsWithinPolygon(polygon, numPins) {
+        var bounds = Microsoft.Maps.SpatialMath.Geometry.bounds(polygon);
+
+        //Make sure the polygon is visible so we can see the result.
+        map.setView({ bounds: bounds });
+
+        var pins;
+        var pinsInPolygon = [];
+        var intersection;
+
+        while (pinsInPolygon.length < numPins) {
+            //Generate random pushpins that are within the bounding box of the polygon.
+            pins = Microsoft.Maps.TestDataGenerator.getPushpins(numPins - pinsInPolygon.length, bounds);
+
+            //Filter the random pushpins to those that are within the polygon.
+            intersection = Microsoft.Maps.SpatialMath.Geometry.intersection(pins, polygon);
+            if (intersection) {
+                pinsInPolygon = pinsInPolygon.concat(intersection);
+            }
+        }
+
+        return pinsInPolygon;
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Generate Pushpins within a Polygon Sample</legend>
+        This sample shows how to use the TestDataGenerator and the Spatial Math module to generate random pushpins using the getPushpins function that are inside a polygon.
+        <a href="https://msdn.microsoft.com/en-us/library/mt712874.aspx">TestDataGenerator documentation</a>
+        <a href="https://msdn.microsoft.com/en-US/library/mt762861.aspx">Spatial Math Geometry documentation</a>
+    </fieldset>
+</body>
+</html>

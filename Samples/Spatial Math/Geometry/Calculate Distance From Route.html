@@ -15,7 +15,7 @@
                 center: new Microsoft.Maps.Location(47.634003, -122.229652)
             });
 
-            //Load the directions module.
+            //Load the directions and Spatial Math modules.
             Microsoft.Maps.loadModule(['Microsoft.Maps.Directions', 'Microsoft.Maps.SpatialMath'], function () {
                 //Create a draggable pushpin to calculate the distance from the route path.
                 dragPin = new Microsoft.Maps.Pushpin(map.getCenter(), { draggable: true });

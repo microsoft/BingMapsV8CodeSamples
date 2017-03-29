@@ -158,6 +158,7 @@
     <Content Include="Spatial Math\Geometry\SpatialMath_BinaryOperations.html" />
     <Content Include="Spatial Math\Tile Math\SpatialMath_QuadkeyLocator.html" />
     <Content Include="Spatial Math\Tile Math\SpatialMath_TileMathExample.html" />
+    <Content Include="Test Data Generator\Generate Pushpins within a Polygon.html" />
     <Content Include="Test Data Generator\TestDataGenerator_CreatePolygons.html" />
     <Content Include="Test Data Generator\TestDataGenerator_CreatePolylines.html" />
     <Content Include="Test Data Generator\TestDataGenerator_CreatePushpins.html" />
