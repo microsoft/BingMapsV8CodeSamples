@@ -7,13 +7,16 @@
     <title>Bing Maps V8 Code Samples</title>
 	<meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link href="SiteResources/bingUrlIcon.png" rel="shortcut icon" />
     <link type="text/css" rel="stylesheet" href="SiteResources/default.css" />
+    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/themes/base/jquery-ui.css"/>
 
     <script type="text/javascript">
         var WarningMessage = '<%=WarningMessage%>';
         var NumberOfSamples = <%=NumberOfSamples%>;
+        var SampleList = <%=SampleList%>;
     </script>
 
     <style>
@@ -40,6 +43,8 @@
 
     <div class="content">
         <div id="sampleTreeContainer">
+            <input id="searchTbx"/>
+
             <form id="form1" runat="server">
                 <asp:TreeView ID="SampleTreeView" ExpandDepth="0" 
                     HoverNodeStyle-CssClass="sampleListHover"
@@ -68,6 +73,9 @@
 
     <asp:Label ID="ErrorLabel" runat="server"></asp:Label>
 
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="SiteResources/default.js"></script>
 </body>
 </html>

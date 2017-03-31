@@ -46,6 +46,25 @@ function getSamplesParent(sampleElm) {
     return sampleElm.parentNode.parentNode.parentNode.parentNode.parentNode.id;
 }
 
+function loadSampleByHash(hash) {
+    var sampleNode = getSampleNode(hash);
+
+    if (sampleNode) {
+        currentSampleElm = sampleNode;
+        currentSampleElm.classList.add('selectedNode');
+
+        window.location = sampleNode.href;
+
+        var childNodesArg = getSamplesParent(sampleNode);
+        var parentId = childNodesArg.replace('Nodes', '');
+        var nodeIndex = parentId.charAt(parentId.length - 1);
+
+        if (/[0-9]+/.test(nodeIndex)) {
+            TreeView_ToggleNode(SampleTreeView_Data, nodeIndex, document.getElementById(parentId), ' ', document.getElementById(childNodesArg));
+        }
+    }
+}
+
 window.onload = function () {
     if (WarningMessage) {
         alert(WarningMessage);
@@ -55,22 +74,52 @@ window.onload = function () {
 
     if (hash) {
         hash = hash.replace('#', '');
+        loadSampleByHash(hash);
+    }
+};
 
-        var sampleNode = getSampleNode(hash);
+$(function () {
+    $.widget("custom.catcomplete", $.ui.autocomplete, {
+        _create: function () {
+            this._super();
+            this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+        },
+        _renderMenu: function (ul, items) {
+            var that = this,
+              currentCategory = "";
+            $.each(items, function (index, item) {
+                var li;
+                if (item.category != currentCategory) {
+                    ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+                    currentCategory = item.category;
+                }
+                li = that._renderItemData(ul, item);
+                if (item.category) {
+                    li.attr("aria-label", item.category + " : " + item.label);
+                }
+            });
+        }
+    });
 
-        if (sampleNode) {
-            currentSampleElm = sampleNode;
-            currentSampleElm.classList.add('selectedNode');
+    SampleList.sort(function (a, b) {
+        var nameA = a.label.toLowerCase(), nameB = b.label.toLowerCase()
+        if (nameA < nameB) //sort string ascending
+            return -1
+        if (nameA > nameB)
+            return 1
+        return 0 //default return value (no sorting)
+    });
 
-            window.location = sampleNode.href;
-
-            var childNodesArg = getSamplesParent(sampleNode);
-            var parentId = childNodesArg.replace('Nodes', '');
-            var nodeIndex = parentId.charAt(parentId.length - 1);
-
-            if (/[0-9]+/.test(nodeIndex)) {
-                TreeView_ToggleNode(SampleTreeView_Data, nodeIndex, document.getElementById(parentId), ' ', document.getElementById(childNodesArg));
+    $("#searchTbx").autocomplete({
+        delay: 0,
+        source: SampleList,
+        delay:0,
+        select: function (event, ui) {
+            if (ui && ui.item && ui.item.action) {
+                ui.item.action();
             }
         }
-    }
-}
+    }).click(function () {
+        $(this).val('');
+    });
+});

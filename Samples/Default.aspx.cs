@@ -20,12 +20,16 @@ namespace Samples
                 PageNames = new List<string>();
                 DuplicatePageNames = new List<string>();
 
+                var sampleList = new StringBuilder("[");
+
                 var welcomeNode = new TreeNode("Welcome")
                 {
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
                 welcomeNode.NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", welcomeNode.Text, "welcome.html", null);
+
+                sampleList.AppendFormat("{{label:'{0}',category:'',action:function(){{{1}}}}},", welcomeNode.Text, welcomeNode.NavigateUrl.Replace("javascript:", ""));
 
                 SampleTreeView.Nodes.Add(welcomeNode);
 
@@ -47,11 +51,11 @@ namespace Samples
                     {
                         foreach (var d in dirs)
                         {
-                            AddSampleNodes(dir, d, categoryNode);
+                            AddSampleNodes(dir, d, categoryNode, sampleList);
                         }
                     }
 
-                    AddSampleNodes(dir, null, categoryNode);
+                    AddSampleNodes(dir, null, categoryNode, sampleList);
 
                     if (categoryNode.ChildNodes != null && categoryNode.ChildNodes.Count > 0)
                     {
@@ -81,6 +85,9 @@ namespace Samples
 
                     WarningMessage += sb.ToString();
                 }
+
+                sampleList.Append("]");
+                SampleList = sampleList.ToString();
             }
         }
 
@@ -88,7 +95,9 @@ namespace Samples
 
         public int NumberOfSamples { get; set; }
 
-        private void AddSampleNodes(DirectoryInfo dir, DirectoryInfo dir2, TreeNode parentNode)
+        public string SampleList { get; set; }
+
+        private void AddSampleNodes(DirectoryInfo dir, DirectoryInfo dir2, TreeNode parentNode, StringBuilder sampleList)
         {
             FileInfo[] files;
 
@@ -135,6 +144,7 @@ namespace Samples
                     else
                     {
                         PageNames.Add(name);
+                        sampleList.AppendFormat("{{label:'{0}',category:'{1}',action:function(){{{2}}}}},", fileNode.Text, dir.Name, fileNode.NavigateUrl.Replace("javascript:", ""));
                     }
 
                     NumberOfSamples++;

@@ -128,3 +128,20 @@
         background-color: #00abec;
         color: white !important;
     }
+
+#searchTbx {
+    margin-bottom: 10px;
+    margin-left: 10px;
+    width: 300px;
+}
+
+.ui-autocomplete {
+    font-size:12px;
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+    max-height: 50%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
