@@ -48,6 +48,9 @@
         //Remove any existing data from the layer.
         layer.clear();
 
+        //Hide infobox.
+        infobox.setOptions({ visible: false });
+
         //Create a query to get nearby data.
         var queryOptions = {
             queryUrl: sdsDataSourceUrl,
