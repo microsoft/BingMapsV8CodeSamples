@@ -4,7 +4,7 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-    var map;
+    var map, infobox, layer;
 
     //Query URL to the NAVTEQ POI data source
     var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
@@ -13,6 +13,26 @@
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey
         });
+
+        //Create an infobox to display content for each result.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: false });
+        infobox.setMap(map);
+
+        //Create a layer for the results.
+        layer = new Microsoft.Maps.Layer();
+        map.layers.insert(layer);        
+
+        //Add a click event to the layer to show an infobox when a pushpin is clicked.
+        Microsoft.Maps.Events.addHandler(layer, 'click', function (e) {
+            var m = e.target.metadata;
+
+            infobox.setOptions({
+                title: m.DisplayName,
+                description: m.AddressLine + ', ' + m.Locality,
+                location: e.target.getLocation(),
+                visible: true
+            });
+        });       
 
         //Load the Bing Spatial Data Services module.
         Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
@@ -25,8 +45,8 @@
     }
 
     function getNearByLocations() {
-        //Remove any existing data from the map.
-        map.entities.clear();
+        //Remove any existing data from the layer.
+        layer.clear();
 
         //Create a query to get nearby data.
         var queryOptions = {
@@ -41,8 +61,8 @@
 
         //Process the query.
         Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
-            //Add results to the map.
-            map.entities.push(data);
+            //Add results to the layer.
+            layer.add(data);
         });
     }
     </script>
@@ -51,5 +71,11 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Find Nearby Search using the SDS Query API Sample</legend>
+        This sample shows how to do a nearby search using the Bing Spatial Data Services Query API to find gas stations that are within 25km of the center of the map. 
+        Move the map to load data for the new map view. Click on a pushpin to see some basic information for that location.
+    </fieldset>
 </body>
 </html>

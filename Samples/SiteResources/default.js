@@ -47,6 +47,12 @@ function getSamplesParent(sampleElm) {
 }
 
 function loadSampleByHash(hash) {
+    var redirect = sampleRedirects[hash];
+
+    if (redirect) {
+        hash = redirect;
+    }
+
     var sampleNode = getSampleNode(hash);
 
     if (sampleNode) {
@@ -123,3 +129,8 @@ $(function () {
         $(this).val('');
     });
 });
+
+var sampleRedirects = {
+    'CustomOverlay_HtmlPushpinLayer': 'Html Pushpin Layer via Custom Overlay',
+    'QueryAPI_Nearby': 'Find Nearby Search - Query API'
+};

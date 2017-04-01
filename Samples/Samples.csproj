@@ -66,7 +66,7 @@
     <Content Include="Contour Layer\ContourLayer_Cirlces.html" />
     <Content Include="Custom Overlays\CustomOverlay_BasicOverlay.html" />
     <Content Include="Custom Overlays\CanvasLayer\CustomOverlay_CanvasLayer.html" />
-    <Content Include="Custom Overlays\HtmlPushpinLayer\CustomOverlay_HtmlPushpinLayer.html" />
+    <Content Include="Custom Overlays\HtmlPushpinLayer\Html Pushpin Layer via Custom Overlay.html" />
     <Content Include="Custom Overlays\CustomOverlay_TopographicOverlay.html" />
     <Content Include="Data Binning Layers\DataBinning_Bivariate.html" />
     <Content Include="Data Binning Layers\DataBinning_Options.html" />
@@ -216,7 +216,7 @@
     <Content Include="Spatial Data Services\QueryAPI_FindByProperty.html" />
     <Content Include="Spatial Data Services\QueryAPI_Intersection.html" />
     <Content Include="Spatial Data Services\QueryAPI_Paging.html" />
-    <Content Include="Spatial Data Services\QueryAPI_Nearby.html" />
+    <Content Include="Spatial Data Services\Find Nearby Search - Query API.html" />
     <Content Include="Spatial Data Services\QueryAPI_SortByDrivingDistance.html" />
     <Content Include="Search\Geocode_SearchResults.html" />
     <Content Include="Spatial Math\Basics Spatial Math Functions.html" />
