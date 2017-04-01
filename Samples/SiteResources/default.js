@@ -131,6 +131,7 @@ $(function () {
 });
 
 var sampleRedirects = {
-    'CustomOverlay_HtmlPushpinLayer': 'Html Pushpin Layer via Custom Overlay',
-    'QueryAPI_Nearby': 'Find Nearby Search - Query API'
+    'CustomOverlay_HtmlPushpinLayer': 'Html Pushpin Layer',
+    'QueryAPI_Nearby': 'Find Nearby Search - Query API',
+    'CustomOverlay_CanvasLayer': 'Canvas Layer'
 };

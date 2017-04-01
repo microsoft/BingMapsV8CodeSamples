@@ -11,7 +11,7 @@
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
-            zoom: 5
+            zoom: 3
         });
 
         //Register the custom module.
@@ -21,30 +21,40 @@
         Microsoft.Maps.loadModule('CanvasOverlayModule', function () {
             var locations = Microsoft.Maps.TestDataGenerator.getLocations(15000, map.getBounds());
 
+            //Create a pushpin icon on an off screen canvas.
+            var offScreenCanvas = document.createElement('canvas');
+            offScreenCanvas.width = 14;
+            offScreenCanvas.height = 14;
+
+            //Draw a circle on the off screen canvas.
+            var offCtx = offScreenCanvas.getContext('2d');
+            offCtx.fillStyle = 'red';
+            offCtx.lineWidth = 2;
+            offCtx.strokeStyle = 'black';
+            offCtx.beginPath();
+            offCtx.arc(7, 7, 5, 0, 2 * Math.PI);
+            offCtx.closePath();
+            offCtx.fill();
+            offCtx.stroke();
+
             //Implement the new custom overlay class.
             var overlay = new CanvasOverlay(function (canvas) {
                 //Calculate pixel coordinates of locations.
                 var points = map.tryLocationToPixel(locations, Microsoft.Maps.PixelReference.control);
 
-                //Create an off screen canvas.
-                var offScreenCanvas = document.createElement('canvas');
-                offScreenCanvas.width = 10;
-                offScreenCanvas.height = 10;
-
-                //Draw a circle on the off screen canvas.
-                var offCtx = offScreenCanvas.getContext('2d');
-                offCtx.fillStyle = 'red';
-                offCtx.beginPath();
-                offCtx.arc(5, 5, 5, 0, 2 * Math.PI);
-                offCtx.closePath();
-                offCtx.fill();
-
                 //Get the context of the main canvas.
                 var ctx = canvas.getContext("2d");
 
+                //Buffer map dimensions to account for radius of points.
+                var mapWidth = map.getWidth() + 7;
+                var mapHeight = map.getHeight() + 7;
+
                 //Draw the off screen canvas for each location.
                 for (var i = 0, len = points.length; i < len; i++) {
-                    ctx.drawImage(offScreenCanvas, points[i].x - 5, points[i].y - 5, 10, 10);
+                    //Don't draw the point if it is not in view. This greatly improves performance when zoomed in.
+                    if (points[i].x >= -7 && points[i].y >= -7 && points[i].x <= mapWidth && points[i].y <= mapHeight) {
+                        ctx.drawImage(offScreenCanvas, points[i].x - 7, points[i].y - 7, 10, 10);
+                    }
                 }
             });
 
