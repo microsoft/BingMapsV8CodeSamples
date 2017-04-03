@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+
+    //Query URL to the 2010 US Census Zip Code tabulation areas data source
+    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/f42cab32d0ee41738d90856badd638d3/USCensus2010_ZCTA5/ZCTA5';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(40.10, -82.80),
+            zoom: 7
+        });
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+            //Create a query to get zip code tabulation areas in view.
+            var query = {
+                queryUrl: sdsDataSourceUrl,
+                inlineCount: true,
+                skip: 0,
+                top: 250,
+                spatialFilter: {
+                    spatialFilterType: 'intersects',
+                    intersects: map.getBounds()
+                }
+            };
+
+            //Trigger an initial search.
+            Microsoft.Maps.SpatialDataService.QueryAPIManager.search(query, map, function (data, inlineCount) {
+                var results = data;
+
+                var pages = Math.ceil(inlineCount / query.top);
+                var pagesLoaded = 1;
+
+                //Now that we know how may results there are, make multiple requests in parallel.
+                for (var i = 1; i < pages; i++) {
+                    Microsoft.Maps.SpatialDataService.QueryAPIManager.search({
+                        queryUrl: sdsDataSourceUrl,
+                        inlineCount: true,
+                        skip: 250 * i,
+                        top: 250,
+                        spatialFilter: {
+                            spatialFilterType: 'intersects',
+                            intersects: map.getBounds()
+                        }
+                    }, map, function (data, inlineCount) {
+                        pagesLoaded++;
+
+                        //Concatenate the results
+                        results = results.concat(data);
+
+                        //Check to see if all result pages have been loaded.
+                        if (pagesLoaded == pages) {
+                            //Add all the results to the map.
+                            map.entities.push(results);
+                        }
+                    });
+                }
+            });
+        });
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Query API - Load all results in parallel Sample</legend>
+        This sample shows how to load all results for a query by making parallel requests. This is slightly faster than the other similar sample, but doesn't show anything progress will data is being queried.
+        The Query API allows a maximium of 250 results to be returned in a single request.
+        This sample shows how to make multiple requests in parallel that page through the results and downloads all of the data that matches the query.
+    </fieldset>
+</body>
+</html>

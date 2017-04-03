@@ -115,6 +115,8 @@
     <Content Include="ExternalSamples.js" />
     <Content Include="Rest Services\RestServices_MultipleRoutes.html" />
     <Content Include="Spatial Data Services\Multiple GeoData Entity Type Boundaries.html" />
+    <Content Include="Spatial Data Services\QueryAPI - Load all results.html" />
+    <Content Include="Spatial Data Services\QueryAPI - Load all results in parallel.html" />
     <Content Include="Spatial Math\Draw Circle with mouse.html" />
     <Content Include="Map\Map_KeyEvents.html" />
     <Content Include="Other\North Carolina Map.html" />
