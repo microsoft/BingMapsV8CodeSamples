@@ -55,7 +55,7 @@ var MapImageGenerator = (function () {
             }
             catch (e) {
                 if (errorCallback) {
-                    errorCallback(e);
+                    errorCallback(e.message);
                 }
             }
         }, function (e) {
@@ -86,43 +86,56 @@ var MapImageGenerator = (function () {
      * @param succesCallback A callback function that is called when the map image canvas is successfully generated.
      */
     MapImageGenerator.prototype.getMapCanvas = function (successCallback, errorCallback) {
-        var root = this._map.getRootElement();
-        var canvases = root.getElementsByTagName('canvas');
-        var mapCanvas = document.createElement('canvas');
-        mapCanvas.width = this._map.getWidth();
-        mapCanvas.height = this._map.getHeight();
-        var ctx = mapCanvas.getContext('2d');
-        for (var i = 0; i < canvases.length; i++) {
-            var c = canvases[i];
-            ctx.drawImage(c, c.offsetLeft, c.offsetTop);
+        try {
+            var root = this._map.getRootElement();
+            var canvases = root.getElementsByTagName('canvas');
+            var mapCanvas = document.createElement('canvas');
+            mapCanvas.width = this._map.getWidth();
+            mapCanvas.height = this._map.getHeight();
+            var ctx = mapCanvas.getContext('2d');
+            for (var i = 0; i < canvases.length; i++) {
+                var c = canvases[i];
+                ctx.drawImage(c, c.offsetLeft, c.offsetTop);
+            }
+            var logoUrl;
+            switch (this._map.getMapTypeId()) {
+                case Microsoft.Maps.MapTypeId.aerial:
+                    ctx.fillStyle = 'white';
+                    logoUrl = this._options.lightBingLogoUrl;
+                    break;
+                case Microsoft.Maps.MapTypeId.streetside:
+                    throw 'Streetside is not supported.';
+                case Microsoft.Maps.MapTypeId['birdseye']:
+                case Microsoft.Maps.MapTypeId.ordnanceSurvey:
+                    throw 'The Bing Maps terms of use does not allow printing this type of imagery.';
+                default:
+                    ctx.fillStyle = 'black';
+                    logoUrl = this._options.darkBingLogoUrl;
+                    break;
+            }
+            //Add copyright information.
+            var copyrights = root.getElementsByClassName('CopyrightAttributionStyle')[0].innerHTML;
+            ctx.font = "10px Verdana";
+            var copyrightWidth = ctx.measureText(copyrights).width;
+            ctx.fillText(copyrights, mapCanvas.width - copyrightWidth - 5, mapCanvas.height - 5);
+            //Add logo to canvas.
+            var logoImg = new Image();
+            logoImg.onload = function () {
+                ctx.drawImage(logoImg, 5, mapCanvas.height - 22);
+                successCallback(mapCanvas);
+            };
+            logoImg.onerror = function () {
+                if (errorCallback) {
+                    errorCallback('Unable to load Bing logo. Map image generation failed.');
+                }
+            };
+            logoImg.src = logoUrl;
         }
-        var logoUrl;
-        switch (this._map.getMapTypeId()) {
-            case Microsoft.Maps.MapTypeId.aerial:
-            case Microsoft.Maps.MapTypeId['birdseye']:
-                ctx.fillStyle = 'white';
-                logoUrl = this._options.lightBingLogoUrl;
-                break;
-            default:
-                ctx.fillStyle = 'black';
-                logoUrl = this._options.darkBingLogoUrl;
-                break;
+        catch (e) {
+            if (errorCallback) {
+                errorCallback(e.message);
+            }
         }
-        //Add copyright information.
-        var copyrights = root.getElementsByClassName('CopyrightAttributionStyle')[0].innerHTML;
-        ctx.font = "10px Verdana";
-        var copyrightWidth = ctx.measureText(copyrights).width;
-        ctx.fillText(copyrights, mapCanvas.width - copyrightWidth - 5, mapCanvas.height - 5);
-        //Add logo to canvas.
-        var logoImg = new Image();
-        logoImg.onload = function () {
-            ctx.drawImage(logoImg, 5, mapCanvas.height - 22);
-            successCallback(mapCanvas);
-        };
-        logoImg.onerror = function () {
-            throw 'Unable to load Bing logo. Map image generation failed.';
-        };
-        logoImg.src = logoUrl;
     };
     /**
      * Converts a dataUri to Blob.
