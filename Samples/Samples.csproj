@@ -61,6 +61,7 @@
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
     <Content Include="Common\images\endPin.png" />
     <Content Include="Common\images\startPin.png" />
+    <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
     <Content Include="Contour Layer\ContourLayer_FromGeoJSON.html" />
     <Content Include="Contour Layer\ContourLayer_Cirlces.html" />
@@ -99,6 +100,9 @@
     <Content Include="Events\Events_CustomFreeHandDrawing.html" />
     <Content Include="Events\Events_MapViewEvents.html" />
     <Content Include="Events\Single vs Double Click.html" />
+    <Content Include="Experimental\MapImageGenerator\BingLogoDark.png" />
+    <Content Include="Experimental\MapImageGenerator\BingLogoLight.png" />
+    <Content Include="Experimental\MapImageGenerator\Map Image Generator.html" />
     <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
@@ -269,6 +273,7 @@
     <TypeScriptCompile Include="Clustering\SpiderClusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Custom Overlays\CanvasLayer\CanvasOverlayModule.ts" />
     <TypeScriptCompile Include="Custom Overlays\HtmlPushpinLayer\HtmlPushpinLayerModule.ts" />
+    <TypeScriptCompile Include="Experimental\MapImageGenerator\MapImageGeneratorModule.ts" />
     <TypeScriptCompile Include="Modules\DraggableShapes\DraggableShapesModule.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Microsoft.Maps.All.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Microsoft.Maps.d.ts" />
@@ -318,9 +323,7 @@
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
