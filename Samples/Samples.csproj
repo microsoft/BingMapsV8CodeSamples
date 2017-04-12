@@ -117,6 +117,7 @@
     <Content Include="Modules\DraggableShapes\Modules_DraggableShapeManager.html" />
     <Content Include="Other\Create Pushpin Add Metadata.html" />
     <Content Include="ExternalSamples.js" />
+    <Content Include="Pushpins\Inline SVG Pushpin Template.html" />
     <Content Include="Rest Services\RestServices_MultipleRoutes.html" />
     <Content Include="Spatial Data Services\Multiple GeoData Entity Type Boundaries.html" />
     <Content Include="Spatial Data Services\QueryAPI - Load all results %28recursive%29.html" />
