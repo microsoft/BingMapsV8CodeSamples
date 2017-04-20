@@ -87,7 +87,7 @@ class CanvasOverlay extends Microsoft.Maps.CustomOverlay {
 
         //When the map moves, move the canvas accordingly. 
         self._viewChangeEvent = Microsoft.Maps.Events.addHandler(map, 'viewchange', (e) => {
-            if (map.getMapTypeId() == Microsoft.Maps.MapTypeId.streetside) {
+            if (map.getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
                 //Don't show the canvas if the map is in Streetside mode.
                 self._canvas.style.display = 'none';
             } else {
@@ -117,7 +117,7 @@ class CanvasOverlay extends Microsoft.Maps.CustomOverlay {
         //When the map stops moving, render new data on the canvas.
         self._viewChangeEndEvent = Microsoft.Maps.Events.addHandler(map, 'viewchangeend', (e) => {
             //Only render the canvas if it isn't in streetside mode.
-            if (map.getMapTypeId() != Microsoft.Maps.MapTypeId.streetside) {
+            if (map.getMapTypeId() !== Microsoft.Maps.MapTypeId.streetside) {
                 self._canvas.style.display = '';
 
                 //Reset CSS position and dimensions of canvas.

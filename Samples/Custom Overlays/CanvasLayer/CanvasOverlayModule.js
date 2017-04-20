@@ -69,7 +69,7 @@ var CanvasOverlay = (function (_super) {
         self._redraw();
         //When the map moves, move the canvas accordingly. 
         self._viewChangeEvent = Microsoft.Maps.Events.addHandler(map, 'viewchange', function (e) {
-            if (map.getMapTypeId() == Microsoft.Maps.MapTypeId.streetside) {
+            if (map.getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
                 //Don't show the canvas if the map is in Streetside mode.
                 self._canvas.style.display = 'none';
             }
@@ -95,7 +95,7 @@ var CanvasOverlay = (function (_super) {
         //When the map stops moving, render new data on the canvas.
         self._viewChangeEndEvent = Microsoft.Maps.Events.addHandler(map, 'viewchangeend', function (e) {
             //Only render the canvas if it isn't in streetside mode.
-            if (map.getMapTypeId() != Microsoft.Maps.MapTypeId.streetside) {
+            if (map.getMapTypeId() !== Microsoft.Maps.MapTypeId.streetside) {
                 self._canvas.style.display = '';
                 //Reset CSS position and dimensions of canvas.
                 self._updatePosition(0, 0, map.getWidth(), map.getHeight());

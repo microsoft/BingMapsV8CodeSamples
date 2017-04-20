@@ -40,7 +40,12 @@
 
             //Update the position of the image when the view changes.
             Microsoft.Maps.Events.addHandler(map, 'viewchange', function () {
-                repositionOverlay();
+                if (map.getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
+                    img.style.display = 'none';
+                } else {
+                    img.style.display = '';
+                    repositionOverlay();
+                }
             });
         };
 

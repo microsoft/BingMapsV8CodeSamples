@@ -421,9 +421,14 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         //Reset pushpins as overlay is now loaded.
         self._renderPushpins();
 
-        //Update the position of the pushpin when the view changes.
+        //Update the position of the pushpin when the view changes. Hide the layer if map changed to streetside.
         this.viewChangeEventHandler = Microsoft.Maps.Events.addHandler(self.getMap(), 'viewchange', function () {
-            self._updatePositions();
+            if (self.getMap().getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
+                self.container.style.display = 'none';
+            } else {
+                self.container.style.display = '';
+                self._updatePositions()
+            }
         });
     }
 
