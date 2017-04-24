@@ -17,18 +17,17 @@
             var pins = Microsoft.Maps.TestDataGenerator.getPushpins(3000, map.getBounds());
 
             //Create a ClusterLayer with options and add it to the map.
-            clusterLayer = new Microsoft.Maps.ClusterLayer(pins, {
-                clusteredPinCallback: customizeClusteredPin
-            });
+            clusterLayer = new Microsoft.Maps.ClusterLayer(pins);
+
+            //Add a click event to the clusterLayer
+            Microsoft.Maps.Events.addHandler(clusterLayer, 'click', clusterClicked);
+
             map.layers.insert(clusterLayer);
         });
 	}
 
-	function customizeClusteredPin(cluster) {
-	    Microsoft.Maps.Events.addHandler(cluster, 'click', clusterClicked);
-	}
-
 	function clusterClicked(e) {
+        //Check to see if the clicked pushpin has any contained pushpins (this would be a cluster).
 	    if (e.target.containedPushpins) {
 	        var locs = [];
 	        for (var i = 0, len = e.target.containedPushpins.length; i < len; i++) {
