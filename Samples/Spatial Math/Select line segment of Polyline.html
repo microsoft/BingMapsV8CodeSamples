@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, highlightLayer;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });      
+
+        //Load the Spatial Math modules.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath', function () {
+            //Create a random polyline, that has 5 locations and is half the size of the map view.
+            var line = Microsoft.Maps.TestDataGenerator.getPolylines(1, map.getBounds(), 5, 0.5, { strokeColor: 'blue', strokeThickness: 3 });
+            map.entities.push(line);
+
+            //Add a click event to the polyline.
+            Microsoft.Maps.Events.addHandler(line, 'click', lineClicked);
+
+            //create a layer to display the highlight line segment
+            highlightLayer = new Microsoft.Maps.Layer();
+            map.layers.insert(highlightLayer);
+        });
+    }
+
+    function lineClicked(e) {
+        highlightLayer.clear();
+
+        var clickLocation = e.location;
+        var line = e.target;
+
+        var lineSegment = getLineSegment(clickLocation, line);
+
+        if (lineSegment) {
+            //Create a polyline to highlight the line segement.
+            highlightLayer.add(lineSegment.path);
+        }
+    }
+
+    function getLineSegment(loc, line){
+        var locs = line.getLocations();
+
+        var minDistance = Number.MAX_VALUE;
+        var lineSegment = null;
+        
+        //Loop through each pair of locations in the polyine and calculate the distance from the clicked location.
+        for(var  i=0, len = locs.length - 1; i < len; i++){
+            var path = new Microsoft.Maps.Polyline([locs[i], locs[i + 1]], { strokeColor: 'red', strokeThickness: 3 });
+
+            var d = Microsoft.Maps.SpatialMath.Geometry.distance(loc, path);
+
+            if (d < minDistance) {
+                minDistance = d;
+                lineSegment = {
+                    startIdx: i,
+                    endIdx: i + 1,
+                    path: path
+                };
+            }
+        }
+        
+        return lineSegment;
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Select line segment of Polyline Sample</legend>
+        This sample shows how to use the Spatil Math module to calculate which part of a polyline was selected.
+    </fieldset>
+</body>
+</html>

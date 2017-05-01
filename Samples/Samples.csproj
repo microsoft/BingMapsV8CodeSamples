@@ -159,6 +159,7 @@
     <Content Include="Rest Services\RestServices_ElevationProfiles.html" />
     <Content Include="Rest Services\RestServices_jQuery.html" />
     <Content Include="Rest Services\RestServices_JSONP.html" />
+    <Content Include="Spatial Math\Select line segment of Polyline.html" />
     <Content Include="User Location\User Location Accuracy Circle.html" />
     <Content Include="Spatial Math\Cardinal Spline Features.html" />
     <Content Include="Spatial Math\Cardinal Splines - Basic.html" />
