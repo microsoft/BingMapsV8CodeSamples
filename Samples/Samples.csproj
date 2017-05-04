@@ -81,6 +81,7 @@
     <Content Include="Directions\Directions_InputPanel.html" />
     <Content Include="Directions\Directions_Transit.html" />
     <Content Include="Directions\Directions_WithOptions.html" />
+    <Content Include="Drawing Tools\Add events to newly drawn shapes.html" />
     <Content Include="Drawing Tools\DrawingTools_Basic.html" />
     <Content Include="Drawing Tools\DrawingTools_Clear.html" />
     <Content Include="Drawing Tools\DrawingTools_CustomExitButton.html" />
@@ -110,6 +111,7 @@
     <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
     <Content Include="Map\Map in liteMode.html" />
+    <Content Include="Map\New Map Styles.html" />
     <Content Include="Pushpins\Pushpin Bar Chart %28inline SVG%29.html" />
     <Content Include="Polylines\Polyline Simple Label.html" />
     <Content Include="Pushpins\images\blueSquare.png" />
@@ -124,12 +126,12 @@
     <Content Include="Spatial Data Services\QueryAPI - Load all results %28recursive%29.html" />
     <Content Include="Spatial Data Services\QueryAPI - Load all results %28parallel%29.html" />
     <Content Include="Spatial Math\Draw Circle with mouse.html" />
-    <Content Include="Map\Map_KeyEvents.html" />
+    <Content Include="Map\Map Key Events.html" />
     <Content Include="Other\North Carolina Map.html" />
     <Content Include="Layers\Layer_zIndexSwap.html" />
-    <Content Include="Map\Map_ContextMenu.html" />
+    <Content Include="Map\Context Menu.html" />
     <Content Include="Map\Dispose Map.html" />
-    <Content Include="Map\Map_LazyLoading.html" />
+    <Content Include="Map\Lazy Loading the Map.html" />
     <Content Include="Map\Override Mouse Wheel Zoom.html" />
     <Content Include="Other\Netherlands\Netherlands Census Map.html" />
     <Content Include="Pushpins\Pushpin_Scaled.html" />
@@ -141,7 +143,7 @@
     <Content Include="GeoJSON\GeoJson_Write.html" />
     <Content Include="Infobox\Infobox_Events.html" />
     <Content Include="Layers\Layers_zIndex.html" />
-    <Content Include="Map\Map_Resize.html" />
+    <Content Include="Map\Resize the Map.html" />
     <Content Include="Map\Reusable Map.html" />
     <Content Include="Pushpins\Pushpin_Colors.html" />
     <Content Include="Pushpins\images\ssMap.png" />
@@ -193,9 +195,9 @@
     <Content Include="Layers\Layer_Events.html" />
     <Content Include="Map\Load Map Async.html" />
     <Content Include="Map\Load Map.html" />
-    <Content Include="Map\Map_Events.html" />
-    <Content Include="Map\Map_SetView.html" />
-    <Content Include="Map\Map_Streetside.html" />
+    <Content Include="Map\Map Events.html" />
+    <Content Include="Map\Set Map View.html" />
+    <Content Include="Map\Streetside - Basic.html" />
     <Content Include="Modules\GpxModule\GpxModule_WithMetadata.html" />
     <Content Include="Modules\GpxModule\data\gps_points.xml" />
     <Content Include="Modules\GpxModule\GPXParserModule.js" />

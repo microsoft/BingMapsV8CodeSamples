@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+    <br/>
+    <input type="button" value="Canvas Dark" onclick="map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.canvasDark })"/>
+    <input type="button" value="Canvas Light" onclick="map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.canvasLight })" />
+    <input type="button" value="Grayscale" onclick="map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.grayscale })" />
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>New Map Styles Sample</legend>
+        This sample shows how to use the new map styles in Bing Maps V8; Canvas Dark, Canvas Light, and Grayscale
+    </fieldset>
+</body>
+</html>

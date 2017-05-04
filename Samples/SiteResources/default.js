@@ -133,5 +133,8 @@ $(function () {
 var sampleRedirects = {
     'CustomOverlay_HtmlPushpinLayer': 'Html Pushpin Layer',
     'QueryAPI_Nearby': 'Find Nearby Search - Query API',
-    'CustomOverlay_CanvasLayer': 'Canvas Layer'
+    'CustomOverlay_CanvasLayer': 'Canvas Layer',
+    "Map_ContextMenu": "Context Menu",
+    "Map_KeyEvents": "Map Key Events",
+    "Map_LazyLoading": "Lazy Loading the Map"
 };

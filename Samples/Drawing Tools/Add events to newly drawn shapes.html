@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, baseLayer, drawingManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the DrawingTools module
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create a base layer to add drawn shapes.
+            baseLayer = new Microsoft.Maps.Layer();
+
+            //Add a click event to the base layer.
+            Microsoft.Maps.Events.addHandler(baseLayer, 'click', function (e) {
+                alert("shape clicked");
+            });
+
+            map.layers.insert(baseLayer);
+            
+            //Create an instance of the DrawingTools class and bind it to the map.
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            //Show the drawing toolbar and enable editting on the map.
+            tools.showDrawingManager(function (manager) {
+                drawingManager = manager;
+
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingEnded', function (e) {
+                    //When use finisihes drawing a shape, removing it from the drawing layer and add it to the base layer.
+                    var shapes = drawingManager.getPrimitives();
+
+                    if (shapes) {
+                        drawingManager.clear();
+                        baseLayer.add(shapes);
+                    }
+                });
+            })
+        });
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Add events to newly drawn shapes sample</legend>
+        This sample shows how to add events to a shape that has just been drawn on the map. This is achieved by moving a shape 
+        from the drawing layer to a seperate base layer which has the events on it. 
+    </fieldset>
+</body>
+</html>
