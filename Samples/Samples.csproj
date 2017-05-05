@@ -110,6 +110,8 @@
     <Content Include="ExternalSamples.html" />
     <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
+    <Content Include="Map\Localize the Map %28en-GB%29.html" />
+    <Content Include="Map\Localize the Map %28fr-FR%29.html" />
     <Content Include="Map\Map in liteMode.html" />
     <Content Include="Map\New Map Styles.html" />
     <Content Include="Pushpins\Pushpin Bar Chart %28inline SVG%29.html" />

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            mapTypeId: Microsoft.Maps.MapTypeId.ordnanceSurvey,
+            center: new Microsoft.Maps.Location(51.552, -0.1586),
+            zoom: 15
+        });
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=en&setMkt=en-GB' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Localize the Map (en-GB) Sample</legend>
+        This sample shows how to localize the map to the en-GB market and language (British English). 
+        In this market the Ordnance Survey map style is available at certain levels. 
+        This is a custom map type only available in the UK.
+    </fieldset>
+</body>
+</html>
