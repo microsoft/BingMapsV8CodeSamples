@@ -32,13 +32,13 @@
         });
 
         //When the user presses 'esc', take the polygon out of edit mode and re-add to base map.
-        document.getElementById('myMap').onkeypress = function (e) {
-            if (e.charCode === 27) {
+        document.addEventListener("keydown", function (e) {
+            if (e.keyCode === 27) {
                 tools.finish(function (s) {
                     map.entities.push(s);
                 });
             }
-        };
+        }, false);
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
