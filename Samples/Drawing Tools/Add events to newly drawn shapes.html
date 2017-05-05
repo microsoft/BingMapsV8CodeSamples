@@ -32,19 +32,30 @@
 
                 Microsoft.Maps.Events.addHandler(drawingManager, 'drawingEnded', function (e) {
                     //When use finisihes drawing a shape, removing it from the drawing layer and add it to the base layer.
-                    var shapes = drawingManager.getPrimitives();
+                    moveShapesBetweenLayers(drawingManager, baseLayer);
+                });
 
-                    if (shapes) {
-                        drawingManager.clear();
-                        baseLayer.add(shapes);
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingModeChanged', function (e) {
+                    //When the mode changes to edit or erase, move all shapes in the baseLayer to the drawing layer.
+                    if (e === Microsoft.Maps.DrawingTools.DrawingMode.edit || e === Microsoft.Maps.DrawingTools.DrawingMode.erase) {
+                        moveShapesBetweenLayers(baseLayer, drawingManager);
                     }
                 });
             })
         });
     }
+
+    function moveShapesBetweenLayers(fromLayer, toLayer) {
+        var shapes = fromLayer.getPrimitives();
+
+        if (shapes) {
+            fromLayer.clear();
+            toLayer.add(shapes);
+        }
+    }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:600px;height:400px;"></div>
