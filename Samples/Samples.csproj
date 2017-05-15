@@ -64,7 +64,7 @@
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
     <Content Include="Contour Layer\ContourLayer_FromGeoJSON.html" />
-    <Content Include="Contour Layer\ContourLayer_Cirlces.html" />
+    <Content Include="Contour Layer\ContourLayer_Circles.html" />
     <Content Include="Custom Map Styles\Set Custom Map Style.html" />
     <Content Include="Custom Map Styles\Load Map with Custom Style.html" />
     <Content Include="Custom Overlays\CustomOverlay_BasicOverlay.html" />
