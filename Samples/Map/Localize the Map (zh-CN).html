@@ -10,20 +10,22 @@
     {
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
-            zoom: 2
+            mapTypeId: Microsoft.Maps.MapTypeId.ordnanceSurvey,
+            center: new Microsoft.Maps.Location(51.552, -0.1586),
+            zoom: 15
         });
     }
     </script>
 
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=fr&setMkt=fr-FR' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=zh-CN&setMkt=zh-CN' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:600px;margin-top:10px;">
-        <legend>Localize the Map (fr-FR) Sample</legend>
-        This sample shows how to localize the map to the fr-FR market and language (French).
+        <legend>Localize the Map (zh-CN) Sample</legend>
+        This sample shows how to localize the map to the zh-CN market and language (Chinese). 
     </fieldset>
 </body>
 </html>

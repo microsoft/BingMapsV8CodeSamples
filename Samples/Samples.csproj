@@ -65,6 +65,8 @@
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
     <Content Include="Contour Layer\ContourLayer_FromGeoJSON.html" />
     <Content Include="Contour Layer\ContourLayer_Cirlces.html" />
+    <Content Include="Custom Map Styles\Set Custom Map Style.html" />
+    <Content Include="Custom Map Styles\Load Map with Custom Style.html" />
     <Content Include="Custom Overlays\CustomOverlay_BasicOverlay.html" />
     <Content Include="Custom Overlays\CanvasLayer\Canvas Layer.html" />
     <Content Include="Custom Overlays\HtmlPushpinLayer\Html Pushpin Layer.html" />
@@ -110,6 +112,7 @@
     <Content Include="ExternalSamples.html" />
     <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
+    <Content Include="Map\Localize the Map %28zh-CN%29.html" />
     <Content Include="Map\Localize the Map %28en-GB%29.html" />
     <Content Include="Map\Localize the Map %28fr-FR%29.html" />
     <Content Include="Map\Map in liteMode.html" />

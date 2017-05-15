@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />       
+    <script type='text/javascript'>
+    var map;
+
+    var sampleStyle = {
+        "elements": {
+            "park": { "fillColor": "#A9A9D4BE" },
+            "controlledAccessHighway": { "fillColor": "#e6c317", "strokeColor": "#D3B300", "labelColor": "#444444", "labelOutlineColor": "#60ffffff" },
+            "highway": { "fillColor": "#e6c317", "strokeColor": "#D3B300", "labelColor": "#444444", "labelOutlineColor": "#60ffffff" },
+            "water": { "fillColor": "#B7CDDE" },
+            "medicalBuilding": { "fillColor": "#fceced" },
+            "majorRoad": { "fillColor": "#f0d85a" },
+            "education": { "fillColor": "#f0e8f8" },
+            "arterialRoad": { "fillColor": "#ffed91" },
+            "structure": { "fillColor": "#faf8ed" },
+            "buildinglobal": { "fillColor": "#e5e0d8" },
+            "forest": { "fillColor": "#deebdd" },
+            "vegetation": { "fillColor": "#deebdd" },
+            "reserve": { "fillColor": "#deebdd" },
+            "street": { "fillColor": "#ffffff", "strokeColor": "#e6e3df" },
+            "roadShield": { "fillColor": "#ffffff" },
+            "medical": { "fillColor": "#ffddee" },
+            "educationBuildinglobal": { "fillColor": "#f6f0f1" },
+            "golfCourse": { "fillColor": "#c5dabb" }
+        },
+        "settings": { "landColor": "#F6F4E3" }
+    };
+
+    var sampleStyle2 = {
+        "elements": {
+            "water": { "fillColor": "#a1e0ff" },
+            "waterPoint": { "iconColor": "#a1e0ff" },
+            "transportation": { "strokeColor": "#aa6de0" },
+            "road": { "fillColor": "#b892db" },
+            "railway": { "strokeColor": "#a495b2" },
+            "structure": { "fillColor": "#ffffff" },
+            "runway": { "fillColor": "#ff7fed" },
+            "area": { "fillColor": "#f39ebd" },
+            "political": { "borderStrokeColor": "#fe6850", "borderOutlineColor": "#55ffff" },
+            "point": { "iconColor": "#ffffff", "fillColor": "#FF6FA0", "strokeColor": "#DB4680" },
+            "transit": { "fillColor": "#AA6DE0" }
+        }
+    };
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle })" value="Custom Style 1"/>
+    <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle2 })" value="Custom Style 2" />
+    <input type="button" onclick="map.setOptions({ customMapStyle: {} })" value="Clear Custom Style" />
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Set Custom Map Style Sample</legend>
+        This sample shows how to set the custom map style after the map is loaded.
+    </fieldset>
+</body>
+</html>

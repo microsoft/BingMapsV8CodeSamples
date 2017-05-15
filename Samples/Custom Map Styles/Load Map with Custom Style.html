@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+    var sampleStyle = {
+        "elements": {
+            "park": { "fillColor": "#A9A9D4BE" },
+            "controlledAccessHighway": { "fillColor": "#e6c317", "strokeColor": "#D3B300", "labelColor": "#444444", "labelOutlineColor": "#60ffffff" },
+            "highway": { "fillColor": "#e6c317", "strokeColor": "#D3B300", "labelColor": "#444444", "labelOutlineColor": "#60ffffff" },
+            "water": { "fillColor": "#B7CDDE" },
+            "medicalBuilding": { "fillColor": "#fceced" },
+            "majorRoad": { "fillColor": "#f0d85a" },
+            "education": { "fillColor": "#f0e8f8" },
+            "arterialRoad": { "fillColor": "#ffed91" },
+            "structure": { "fillColor": "#faf8ed" },
+            "buildinglobal": { "fillColor": "#e5e0d8" },
+            "forest": { "fillColor": "#deebdd" },
+            "vegetation": { "fillColor": "#deebdd" },
+            "reserve": { "fillColor": "#deebdd" },
+            "street": { "fillColor": "#ffffff", "strokeColor": "#e6e3df" },
+            "roadShield": { "fillColor": "#ffffff" },
+            "medical": { "fillColor": "#ffddee" },
+            "educationBuildinglobal": { "fillColor": "#f6f0f1" },
+            "golfCourse": { "fillColor": "#c5dabb" }
+        },
+        "settings": { "landColor": "#F6F4E3" }
+    };
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            customMapStyle: sampleStyle
+        });
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Load Map with Custom Style Sample</legend>
+        This sample shows how to load the map with a custom map style.
+    </fieldset>
+</body>
+</html>
