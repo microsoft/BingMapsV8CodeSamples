@@ -4,29 +4,31 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-        function GetMap() {
-            var map = new Microsoft.Maps.Map('#myMap', {
-                credentials: YourBingMapsKey,
-                center: new Microsoft.Maps.Location(25, -90),
-                zoom: 5,
-                mapTypeId: Microsoft.Maps.MapTypeId.aerial
-            });
+    var map;
 
-            //Define the tile source using custom tiles of Hurricane Katrina for zoom level 1-10
-            var katrinaTileSource = new Microsoft.Maps.TileSource({
-                uriConstructor: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
-                minZoom: 1,
-                maxZoom: 10,
-                bounds: Microsoft.Maps.LocationRect.fromEdges(35.176, -101.065, 14.01, -80.538)
-            });
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(25, -90),
+            zoom: 5,
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial
+        });
 
-            //Create a tile layer from the tile source
-            var katrinaTileLayer = new Microsoft.Maps.TileLayer({
-                mercator: katrinaTileSource
-            });
+        //Define the tile source using custom tiles of Hurricane Katrina for zoom level 1-10
+        var katrinaTileSource = new Microsoft.Maps.TileSource({
+            uriConstructor: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
+            minZoom: 1,
+            maxZoom: 10,
+            bounds: Microsoft.Maps.LocationRect.fromEdges(35.176, -101.065, 14.01, -80.538)
+        });
 
-            //Add tile layer to the map.
-            map.layers.insert(katrinaTileLayer);
+        //Create a tile layer from the tile source
+        var katrinaTileLayer = new Microsoft.Maps.TileLayer({
+            mercator: katrinaTileSource
+        });
+
+        //Add tile layer to the map.
+        map.layers.insert(katrinaTileLayer);
         }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>

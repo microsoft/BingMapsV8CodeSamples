@@ -6,8 +6,10 @@
     <script type='text/javascript'>
     //Source: http://www.nws.noaa.gov/gis/services.html 
 
+    var map;
+
     function GetMap() {
-        var map = new Microsoft.Maps.Map('#myMap', {
+        map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
             center: new Microsoft.Maps.Location(40, -99),
             zoom: 4
