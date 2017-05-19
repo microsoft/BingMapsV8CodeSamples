@@ -72,6 +72,22 @@
             return canvas.toDataURL();
         }
 
+        this.dispose = function () {
+            if (tileLayer) {
+                map.layers.remove(tileLayer);
+                tileLayer = null;
+                img = null;
+            }
+        };
+
+        this.getBaseTileLayer = function () {
+            return tileLayer;
+        };
+
+        this.setOptions = function (options) {
+            tileLayer.setOptions(options);
+        };
+
         loadLayer();
     };
     </script>
@@ -80,5 +96,10 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Image Overlay Tile Layer Sample</legend>
+        This sample shows how to extend a tile layer such that it breaks an bounded image overlay up into invidiual tiles and renders it.
+    </fieldset>
 </body>
 </html>
