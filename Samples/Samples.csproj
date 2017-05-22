@@ -118,6 +118,7 @@
     <Content Include="Map\Localize the Map %28fr-FR%29.html" />
     <Content Include="Map\Map in liteMode.html" />
     <Content Include="Map\New Map Styles.html" />
+    <Content Include="Other\Solar Terminator\Solar Terminator.html" />
     <Content Include="Pushpins\Pushpin Bar Chart %28inline SVG%29.html" />
     <Content Include="Polylines\Polyline Simple Label.html" />
     <Content Include="Pushpins\images\blueSquare.png" />
@@ -303,6 +304,7 @@
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\Traffic.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\WellKnownText.d.ts" />
     <Content Include="Spatial Data Services\data\US_State_Literacy.tsv" />
+    <TypeScriptCompile Include="Other\Solar Terminator\SolarTerminatorModule.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GeoJSON\Data\US_Counties.json" />

@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, terminator, sunPin;
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 1
+        });
+
+        //Register the custom module.
+        Microsoft.Maps.registerModule('SolarTerminatorModule', 'SolarTerminatorModule.js');
+
+        //Load the module.
+        Microsoft.Maps.loadModule('SolarTerminatorModule', function () {
+            //Create a terminator and add it to the map.
+            terminator = new SolarTerminator();
+            map.entities.push(terminator);
+
+            //Get the position of the sun and add a pushpin to the map to show it.
+            sunPin = new Microsoft.Maps.Pushpin(terminator.getSunLocation());
+            map.entities.push(sunPin);
+
+            SetSliderValues();
+        });
+    }
+
+    function SetSliderValues() {
+        var d = new Date();
+
+        //Set slider values.
+        document.getElementById('YearSlider').value = d.getFullYear();
+        document.getElementById('MonthSlider').value = d.getMonth();
+        document.getElementById('DaySlider').value = d.getDate();
+        document.getElementById('HoursSlider').value = d.getHours();
+
+        //Update info spans.
+        document.getElementById('YearInfo').innerText = d.getFullYear();
+        document.getElementById('MonthInfo').innerText = monthNames[d.getMonth()];
+        document.getElementById('DayInfo').innerText = d.getDate();
+        document.getElementById('HourInfo').innerText = d.getHours();
+    }
+
+    function DateUpdated() {
+        var year = parseInt(document.getElementById('YearSlider').value);
+        var month = parseInt(document.getElementById('MonthSlider').value);
+        var day = parseInt(document.getElementById('DaySlider').value);
+        var hour = parseInt(document.getElementById('HoursSlider').value);
+
+        //Create a date object from slider values.
+        var d = new Date(year, month, day, hour, 0, 0, 0);
+
+        //Update info spans.
+        document.getElementById('YearInfo').innerText = d.getFullYear();
+        document.getElementById('MonthInfo').innerText = monthNames[d.getMonth()];
+        document.getElementById('DayInfo').innerText = d.getDate();
+        document.getElementById('HourInfo').innerText = d.getHours();
+
+        //Update terminator and sun location pushpin.
+        terminator.setDateTime(d);
+        sunPin.setLocation(terminator.getSunLocation());
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:600px;"></div>
+
+    Year: <input id="YearSlider" type="range" min="1990" max="2050" onchange="DateUpdated()" /> <span id="YearInfo"></span><br/>
+    Month: <input id="MonthSlider" type="range" min="0" max="11" onchange="DateUpdated()" /> <span id="MonthInfo"></span><br />
+    Day: <input id="DaySlider" type="range" min="0" max="30" onchange="DateUpdated()" /> <span id="DayInfo"></span><br />
+    Hours: <input id="HoursSlider" type="range" min="0" max="24" onchange="DateUpdated()"/> <span id="HourInfo"></span>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Solar Terminator Sample</legend>
+        This sample is of a module that calculates the Solar terminator (shadow of where the sun don't shine) as well as the suns approximate overhead location on the map. 
+    </fieldset>
+</body>
+</html>
