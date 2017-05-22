@@ -79,12 +79,12 @@ var SolarTerminator = (function (_super) {
             latLng[i + 1] = new Microsoft.Maps.Location(lat, lng);
         }
         if (sunEqPos.delta < 0) {
-            latLng[0] = new Microsoft.Maps.Location(90, -179.999999);
-            latLng[latLng.length] = new Microsoft.Maps.Location(90, 179.999999);
+            latLng[0] = new Microsoft.Maps.Location(90, -180);
+            latLng[latLng.length] = new Microsoft.Maps.Location(90, 180);
         }
         else {
-            latLng[0] = new Microsoft.Maps.Location(-90, -179.999999);
-            latLng[latLng.length] = new Microsoft.Maps.Location(-90, 179.999999);
+            latLng[0] = new Microsoft.Maps.Location(-90, -180);
+            latLng[latLng.length] = new Microsoft.Maps.Location(-90, 180);
         }
         return latLng;
     };
