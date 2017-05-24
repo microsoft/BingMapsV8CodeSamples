@@ -8,7 +8,7 @@
     var layer;
 
     //Create a simple reusable HTML template to keep things easy.
-    var htmlTemplate = '<div style="color:red;background-color:white;width:100px;padding:2px;text-align:center;">{text}</div>';
+    var htmlTemplate = '<div class="htmlPushpin">{text}</div>';
 
     function GetMap()
     {
@@ -61,6 +61,21 @@
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <style>
+        .htmlPushpin {
+            color:red;
+            background-color:white;
+            width:100px;
+            padding:2px;
+            text-align:center;
+
+            /* Disable the ability to select the text */
+            -webkit-user-select: none;  /* Chrome all / Safari all */
+            -moz-user-select: none;     /* Firefox all */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* Likely future */      
+        }
+    </style>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

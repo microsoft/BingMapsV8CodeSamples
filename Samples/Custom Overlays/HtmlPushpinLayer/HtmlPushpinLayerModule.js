@@ -63,7 +63,6 @@ var HtmlPushpin = (function () {
         var self = this;
         this._element.addEventListener('mousedown', function (e) { self._pinMouseDown(e); });
         this._element.addEventListener('mouseup', function (e) { self._pinMouseUp(e); });
-        this._element.addEventListener('mousemove', function (e) { self._pinMouseMove(e); });
     }
     /**
      * Disposes the pushpin and releases its resources.
@@ -74,7 +73,6 @@ var HtmlPushpin = (function () {
         if (this._element) {
             this._element.removeEventListener('mousedown', function (e) { _this._pinMouseDown(e); });
             this._element.removeEventListener('mouseup', function (e) { _this._pinMouseUp(e); });
-            this._element.removeEventListener('mousemove', function (e) { _this._pinMouseMove(e); });
         }
         this._layer = null;
         this._options = null;
@@ -179,6 +177,7 @@ var HtmlPushpin = (function () {
     HtmlPushpin.prototype._pinMouseDown = function (e) {
         if (this._options.draggable) {
             this._isDragging = true;
+            this._layer._dragTarget = this;
             if (this.onDragStart) {
                 this.onDragStart(this._getEventInfo('dragstart', e));
             }
@@ -194,6 +193,7 @@ var HtmlPushpin = (function () {
     HtmlPushpin.prototype._pinMouseUp = function (e) {
         if (this._isDragging) {
             this._isDragging = false;
+            this._layer._dragTarget = null;
             if (this.onDragEnd) {
                 this.onDragEnd(this._getEventInfo('dragend', e));
             }
@@ -206,17 +206,9 @@ var HtmlPushpin = (function () {
      * Mouse move event handler.
      * @param e The mouse event.
      */
-    HtmlPushpin.prototype._pinMouseMove = function (e) {
-        if (this._isDragging) {
-            var eventInfo = this._getEventInfo('drag', e);
-            this._options.location = eventInfo.location;
-            this._layer._updatePushpinPosition(this);
-            if (this.onDrag) {
-                this.onDrag(eventInfo);
-            }
-        }
-        if (this.onMouseMove) {
-            this.onMouseMove(this._getEventInfo('mousemove', e));
+    HtmlPushpin.prototype._pinDragged = function (e) {
+        if (this.onDrag) {
+            this.onDrag(e);
         }
     };
     /**
@@ -226,9 +218,8 @@ var HtmlPushpin = (function () {
      * @returns An Html Pushpin event.
      */
     HtmlPushpin.prototype._getEventInfo = function (eventName, e) {
-        //Drag the pushpins.
-        var x;
-        var y;
+        var x = 0;
+        var y = 0;
         if (e.pageX || e.pageY) {
             x = e.pageX;
             y = e.pageY;
@@ -264,9 +255,6 @@ var HtmlPushpinLayer = (function (_super) {
     */
     function HtmlPushpinLayer(pushpins) {
         _super.call(this, { beneathLabels: false });
-        /**********************
-        * Private Properties
-        ***********************/
         /** Store the pushpins. */
         this._pushpins = null;
         /** A variable to store the viewchange event handler id. */
@@ -293,6 +281,7 @@ var HtmlPushpinLayer = (function (_super) {
      * Layer loaded, add map events for updating position of data.
      */
     HtmlPushpinLayer.prototype.onLoad = function () {
+        var _this = this;
         var self = this;
         //Reset pushpins as overlay is now loaded.
         self._renderPushpins();
@@ -306,14 +295,24 @@ var HtmlPushpinLayer = (function (_super) {
                 self._updatePositions();
             }
         });
+        document.body.addEventListener('mousemove', function (e) { _this._updateDragPushpin(e); });
+        document.body.addEventListener('mouseup', function (e) { if (_this._dragTarget) {
+            _this._dragTarget._pinMouseUp(e);
+        } });
     };
     /**
      * Layer removed from map. Release resources.
      */
     HtmlPushpinLayer.prototype.onRemove = function () {
+        var _this = this;
         this.setHtmlElement(null);
+        this._dragTarget = null;
         //Remove the event handler that is attached to the map.
         Microsoft.Maps.Events.removeHandler(this.viewChangeEventHandler);
+        document.body.removeEventListener('mousemove', function (e) { _this._updateDragPushpin(e); });
+        document.body.removeEventListener('mouseup', function (e) { if (_this._dragTarget) {
+            _this._dragTarget._pinMouseUp(e);
+        } });
     };
     /**********************
     * Public Functions
@@ -415,6 +414,37 @@ var HtmlPushpinLayer = (function (_super) {
             //Update the position of the pushpin element.
             pin._element.style.left = topLeft.x + 'px';
             pin._element.style.top = topLeft.y + 'px';
+        }
+    };
+    HtmlPushpinLayer.prototype._updateDragPushpin = function (e) {
+        if (this._dragTarget) {
+            var map = this.getMap();
+            if (map) {
+                var x = 0;
+                var y = 0;
+                if (e.pageX || e.pageY) {
+                    x = e.pageX;
+                    y = e.pageY;
+                }
+                else {
+                    x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                    y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                }
+                var point = new Microsoft.Maps.Point(x, y);
+                var loc = map.tryPixelToLocation(point, Microsoft.Maps.PixelReference.page);
+                this._dragTarget.setLocation(loc);
+                this._dragTarget._pinDragged({
+                    eventName: 'drag',
+                    layer: this,
+                    location: loc,
+                    pageX: e.pageX,
+                    pageY: e.pageY,
+                    point: point,
+                    target: this._dragTarget,
+                    targetType: 'HtmlPushpin'
+                });
+                e.preventDefault();
+            }
         }
     };
     /**

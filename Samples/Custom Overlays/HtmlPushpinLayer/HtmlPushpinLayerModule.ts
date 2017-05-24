@@ -51,7 +51,7 @@ interface IHtmlPushpinEvent {
     layer: HtmlPushpinLayer;
 
     /** The map location of where the event occurred. */
-    location: Microsoft.Maps.Location;
+    location?: Microsoft.Maps.Location;
 
     /** The x-value of the pixel coordinate on the page of the mouse cursor. */
     pageX: number;
@@ -95,8 +95,6 @@ class HtmlPushpin {
     public onMouseDown: (event: IHtmlPushpinEvent) => void;
 
     public onMouseUp: (event: IHtmlPushpinEvent) => void;
-    
-    public onMouseMove: (event: IHtmlPushpinEvent) => void;
 
     //TODO: Mouse over, out, click, dblcick.
 
@@ -144,8 +142,7 @@ class HtmlPushpin {
         var self = this;
         
         this._element.addEventListener('mousedown', (e) => { self._pinMouseDown(e) });
-        this._element.addEventListener('mouseup', (e) => { self._pinMouseUp(e) });
-        this._element.addEventListener('mousemove', (e) => { self._pinMouseMove(e) });        
+        this._element.addEventListener('mouseup', (e) => { self._pinMouseUp(e) });     
     }
 
     /**
@@ -156,7 +153,6 @@ class HtmlPushpin {
         if (this._element) {
             this._element.removeEventListener('mousedown', (e) => { this._pinMouseDown(<MouseEvent>e) });
             this._element.removeEventListener('mouseup', (e) => { this._pinMouseUp(<MouseEvent>e) });
-            this._element.removeEventListener('mousemove', (e) => { this._pinMouseMove(<MouseEvent>e) });
         }
 
         this._layer = null;
@@ -226,7 +222,7 @@ class HtmlPushpin {
      * Sets the options of the pushpin.
      * @param options The options of the pushpin.
      */
-    public setOptions(options: IHtmlPushpinOptions) {
+    public setOptions(options: IHtmlPushpinOptions): void {
         var reposition = false;
 
         if (options.anchor && options.anchor instanceof Microsoft.Maps.Point) {
@@ -279,7 +275,9 @@ class HtmlPushpin {
      */
     private _pinMouseDown(e: MouseEvent): void {
         if (this._options.draggable) {
-            this._isDragging = true;           
+            this._isDragging = true;  
+
+            this._layer._dragTarget = this;
 
             if (this.onDragStart) {
                 this.onDragStart(this._getEventInfo('dragstart', e));
@@ -295,9 +293,10 @@ class HtmlPushpin {
      * Mouse up event handler.
      * @param e The mouse event.
      */
-    private _pinMouseUp(e: MouseEvent): void {
+    public _pinMouseUp(e: MouseEvent): void {
         if (this._isDragging) {
             this._isDragging = false;
+            this._layer._dragTarget = null;
 
             if (this.onDragEnd) {
                 this.onDragEnd(this._getEventInfo('dragend', e));
@@ -313,20 +312,9 @@ class HtmlPushpin {
      * Mouse move event handler.
      * @param e The mouse event.
      */
-    private _pinMouseMove(e: MouseEvent): void {  
-        if (this._isDragging) {
-            var eventInfo = this._getEventInfo('drag', e);
-
-            this._options.location = eventInfo.location;
-            this._layer._updatePushpinPosition(this);
-
-            if (this.onDrag) {
-                this.onDrag(eventInfo);
-            }
-        }
-
-        if (this.onMouseMove) {
-            this.onMouseMove(this._getEventInfo('mousemove', e));
+    public _pinDragged(e: IHtmlPushpinEvent): void {  
+        if (this.onDrag) {
+            this.onDrag(e);
         }
     }
 
@@ -337,9 +325,9 @@ class HtmlPushpin {
      * @returns An Html Pushpin event.
      */
     private _getEventInfo(eventName: string, e: MouseEvent): IHtmlPushpinEvent {
-        //Drag the pushpins.
-        var x;
-        var y;
+        var x = 0;
+        var y = 0;
+
         if (e.pageX || e.pageY) {
             x = e.pageX;
             y = e.pageY;
@@ -373,6 +361,9 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     * Private Properties
     ***********************/
 
+    /** Internal property */
+    public _dragTarget: HtmlPushpin;
+
     /** Store the pushpins. */
     private _pushpins: HtmlPushpin[] = null;
 
@@ -402,7 +393,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /**
     * Layer added to map. Setup rendering container.
     */
-    public onAdd() {
+    public onAdd(): void {
         //Create a div that will hold the pushpins.
         this.container = document.createElement('div');
         this.container.style.position = 'absolute';
@@ -415,7 +406,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /**
      * Layer loaded, add map events for updating position of data.
      */
-    public onLoad() {
+    public onLoad(): void {
         var self = this;
 
         //Reset pushpins as overlay is now loaded.
@@ -430,16 +421,23 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
                 self._updatePositions()
             }
         });
+
+        document.body.addEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
+        document.body.addEventListener('mouseup', (e) => { if (this._dragTarget) { this._dragTarget._pinMouseUp(<MouseEvent>e); } });
     }
 
     /**
      * Layer removed from map. Release resources.
      */
-    public onRemove() {
+    public onRemove(): void {
         this.setHtmlElement(null);
+        this._dragTarget = null;
 
         //Remove the event handler that is attached to the map.
         Microsoft.Maps.Events.removeHandler(this.viewChangeEventHandler);
+
+        document.body.removeEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
+        document.body.removeEventListener('mouseup', (e) => { if (this._dragTarget) { this._dragTarget._pinMouseUp(<MouseEvent>e); } });
     }
 
     /**********************
@@ -514,7 +512,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     * Sets the pushpins to be overlaid on top of the map. This will remove any pushpins already in the layer.
     * @param pushpins The HTML pushpins to overlay on the map.
     */
-    public setPushpins(pushpins: HtmlPushpin[]) {
+    public setPushpins(pushpins: HtmlPushpin[]): void {
         this.clear();
 
         if (pushpins) {    
@@ -543,7 +541,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /**
     * Updates the position of a HTML pushpin element on the map.
     */
-    public _updatePushpinPosition(pin: HtmlPushpin) {
+    public _updatePushpinPosition(pin: HtmlPushpin): void {
         var map = this.getMap();
 
         if (map) {
@@ -561,10 +559,47 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         }
     }
 
+    private _updateDragPushpin(e: MouseEvent): void {
+        if (this._dragTarget) {
+            var map = this.getMap();
+
+            if (map) {
+                var x = 0;
+                var y = 0;
+
+                if (e.pageX || e.pageY) {
+                    x = e.pageX;
+                    y = e.pageY;
+                }
+                else {
+                    x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                    y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                }
+
+                var point = new Microsoft.Maps.Point(x, y);
+                var loc = <Microsoft.Maps.Location>map.tryPixelToLocation(point, Microsoft.Maps.PixelReference.page);
+                this._dragTarget.setLocation(loc);
+
+                this._dragTarget._pinDragged({
+                    eventName: 'drag',
+                    layer: this,
+                    location: loc,
+                    pageX: e.pageX,
+                    pageY: e.pageY,
+                    point: point,
+                    target: this._dragTarget,
+                    targetType: 'HtmlPushpin'
+                });
+
+                e.preventDefault();
+            }            
+        }
+    }
+
     /**
      * Updates the positions of all HTML pushpins in the layer.
      */
-    private _updatePositions() {
+    private _updatePositions(): void {
         if (this._pushpins) {
             for (var i = 0, len = this._pushpins.length; i < len; i++) {
                 this._updatePushpinPosition(this._pushpins[i]);
