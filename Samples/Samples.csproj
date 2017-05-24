@@ -96,6 +96,7 @@
     <Content Include="Drawing Tools\DrawingTools_Events.html" />
     <Content Include="Drawing Tools\DrawingTools_GetDrawnShapes.html" />
     <Content Include="Drawing Tools\DrawingTools_MeasuringTape.html" />
+    <Content Include="Drawing Tools\Restrict drawing to Polygon area.html" />
     <Content Include="Events\Events_BasicMapEvents.html" />
     <Content Include="Events\Events_RightClickShapes.html" />
     <Content Include="Autosuggest\Autosuggest_EnterKeyPress.html" />
