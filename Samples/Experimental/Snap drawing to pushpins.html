@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        var map, drawingManager, drawingTools, currentShape, clickedLoc;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+        
+        //Create a few random pushpins to snap to on the map.
+        var pins = Microsoft.Maps.TestDataGenerator.getPushpins(5, map.getBounds());
+
+        //Use a layer to store the pushpins so we only need to add a click event to the layer rather than to each individual pushpin.
+        var layer = new Microsoft.Maps.Layer();
+        layer.add(pins);
+
+        Microsoft.Maps.Events.addHandler(layer, 'click', pushpinClicked);
+
+        map.layers.insert(layer);
+
+        //Load the Drawing Tools modules.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            drawingTools = new Microsoft.Maps.DrawingTools(map);
+            drawingTools.showDrawingManager(function (manager) {
+                //Store a reference to the drawing manager.
+                drawingManager = manager;
+                
+                //Add drawingChanged and drawingEnded events to the drawing manager to keep track of the curren shape.
+                Microsoft.Maps.Events.addHandler(manager, 'drawingChanged', function (shape) {
+                    currentShape = shape;
+                });
+
+                Microsoft.Maps.Events.addHandler(manager, 'drawingEnded', function () {
+                    currentShape = null;
+                });
+            })
+        });
+    }
+
+    function pushpinClicked(e){   
+        //Get the loction of the click pushpin.
+        var loc = e.target.getLocation();
+
+        //Get the current drawing mode.
+        var mode = drawingManager.getDrawingMode();
+
+        if (mode === Microsoft.Maps.DrawingTools.DrawingMode.pushpin) {
+            //If in drawing mode, add a new pushpin at the same location as the clicked pushpin.
+            drawingManager.add(new Microsoft.Maps.Pushpin(loc, { color: 'green' }));
+
+            //Need to rest the drawing mode as it exits its current mode when we add a shape.
+            drawingManager.setDrawingMode(mode);
+        } else if (currentShape instanceof Microsoft.Maps.Polyline) {
+            var locs = currentShape.getLocations();
+
+            if (locs.length > 0) {
+                locs[locs.length - 1] = loc;    //Update preview location.
+                locs.push(loc);                 //Add new snapped location.
+                currentShape.setLocations(locs);
+            } else {
+                //Not supported.
+            }
+        } else if (currentShape instanceof Microsoft.Maps.Polygon) {
+            var locs = currentShape.getLocations();
+            if (locs.length > 0) {
+                locs[locs.length - 2] = loc;    //Update preview location.
+                locs[locs.length - 1] = loc;   //Add new snapped location.
+                currentShape.setLocations(locs);
+            } else {
+                //Not supported.
+            }
+        }
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Snap drawing to pushpins Sample</legend>
+        This sample shows how to snap a drawing to pushpins on a map. This is an experimental sample as it has issues:<br/>
+        <ul>
+            <li>1. The preview line coordinates can't be updated. As such the line won't snap until you stop drawing.</li>
+            <li>2. Unable to start a polyline or polygon by clicking on a pushpin.</li>
+            <li>3. Editting a shape doesn't snap to pushpin.</li>
+        </ul>
+    </fieldset>
+</body>
+</html>

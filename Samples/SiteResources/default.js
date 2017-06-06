@@ -119,7 +119,7 @@ $(function () {
     $("#searchTbx").autocomplete({
         delay: 0,
         source: SampleList,
-        delay:0,
+        delay: 0,
         select: function (event, ui) {
             if (ui && ui.item && ui.item.action) {
                 ui.item.action();
@@ -128,6 +128,8 @@ $(function () {
     }).click(function () {
         $(this).val('');
     });
+
+    $("#searchTbx").val('Search the samples');
 });
 
 var sampleRedirects = {

@@ -97,6 +97,7 @@
     <Content Include="Drawing Tools\DrawingTools_GetDrawnShapes.html" />
     <Content Include="Drawing Tools\DrawingTools_MeasuringTape.html" />
     <Content Include="Drawing Tools\Restrict drawing to Polygon area.html" />
+    <Content Include="Experimental\Snap drawing to pushpins.html" />
     <Content Include="Events\Events_BasicMapEvents.html" />
     <Content Include="Events\Events_RightClickShapes.html" />
     <Content Include="Autosuggest\Autosuggest_EnterKeyPress.html" />
@@ -120,6 +121,8 @@
     <Content Include="Map\Map in liteMode.html" />
     <Content Include="Map\New Map Styles.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
+    <Content Include="Pushpins\Image Sprite Pushpins using a Canvas.html" />
+    <Content Include="Pushpins\images\PushpinSprite.png" />
     <Content Include="Pushpins\Pushpin Bar Chart %28inline SVG%29.html" />
     <Content Include="Polylines\Polyline Simple Label.html" />
     <Content Include="Pushpins\images\blueSquare.png" />
@@ -356,7 +359,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5479</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5479/</IISUrl>
+          <IISUrl>http://localhost:5478/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

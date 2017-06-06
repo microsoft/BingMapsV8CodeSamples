@@ -7,8 +7,6 @@
         var map, drawingManager, drawingArea;
 
     function GetMap() {
-        outputPanel = document.getElementById('output');
-
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey
         });
@@ -59,7 +57,6 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
-
 
     <fieldset style="width:600px;margin-top:10px;">
         <legend>Restrict drawing to Polygon area Sample</legend>

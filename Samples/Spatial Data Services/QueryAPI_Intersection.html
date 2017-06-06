@@ -20,6 +20,8 @@
 
         //Load the SpatialDataServices module.
         Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialDataService'], function () {
+
+            //TODO: Remove WKT step after next release update as intersects will support IPrimitives directly.
             var shapeWkt = Microsoft.Maps.WellKnownText.write(searchArea);
 
             //Create a query to get data that intrsects the polygon.
