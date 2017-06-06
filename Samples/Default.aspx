@@ -11,7 +11,7 @@
 
     <link href="SiteResources/bingUrlIcon.png" rel="shortcut icon" />
     <link type="text/css" rel="stylesheet" href="SiteResources/default.css" />
-    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/themes/base/jquery-ui.css"/>
 
     <script type="text/javascript">
         var WarningMessage = '<%=WarningMessage%>';
