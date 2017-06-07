@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script type='text/javascript'>
+        var map;
+
+        var sampleStyle = {
+            "elements": {
+                "park": { "fillColor": "#A9A9D4BE" },
+                "controlledAccessHighway": { "fillColor": "#e6c317", "strokeColor": "#D3B300", "labelColor": "#444444", "labelOutlineColor": "#60ffffff" },
+                "highway": { "fillColor": "#e6c317", "strokeColor": "#D3B300", "labelColor": "#444444", "labelOutlineColor": "#60ffffff" },
+                "water": { "fillColor": "#B7CDDE" },
+                "medicalBuilding": { "fillColor": "#fceced" },
+                "majorRoad": { "fillColor": "#f0d85a" },
+                "education": { "fillColor": "#f0e8f8" },
+                "arterialRoad": { "fillColor": "#ffed91" },
+                "structure": { "fillColor": "#faf8ed" },
+                "buildinglobal": { "fillColor": "#e5e0d8" },
+                "forest": { "fillColor": "#deebdd" },
+                "vegetation": { "fillColor": "#deebdd" },
+                "reserve": { "fillColor": "#deebdd" },
+                "street": { "fillColor": "#ffffff", "strokeColor": "#e6e3df" },
+                "roadShield": { "fillColor": "#ffffff" },
+                "medical": { "fillColor": "#ffddee" },
+                "educationBuildinglobal": { "fillColor": "#f6f0f1" },
+                "golfCourse": { "fillColor": "#c5dabb" }
+            },
+            "settings": { "landColor": "#F6F4E3" },
+            "version": "1.0"
+        };
+
+        function GetMap()
+        {
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey,
+                showDashboard: false,
+                customMapStyle: sampleStyle
+            });
+
+            document.getElementById('inputTbx').value = JSON.stringify(sampleStyle);
+        }
+
+        function updateMapStyle() {
+            //Get the user inputted style.
+            var styleString = document.getElementById('inputTbx').value;
+
+            //Clean the style string to make it a valid JSON string. (i.e. double quote property names).
+            styleString = styleString.replace(/(['"])?([a-zA-Z0-9#]+)(['"])?:/g, '"$2": ');
+
+            //Parse the style string into a JSON object.
+            var style = JSON.parse(styleString);
+
+            var options = {
+                credentials: YourBingMapsKey,
+                showDashboard: false,
+                customMapStyle: style,
+                center: map.getCenter(),
+                zoom: map.getZoom()
+            };
+
+            //Dispose the map and recreate it with the new style. This is a workaround until the map supports updating the style using setOptions.
+            map.dispose();
+
+            map = new Microsoft.Maps.Map('#myMap', options);
+        }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap"></div>
+
+    <div style="position:absolute;top:10px; left:10px;width:400px;height:100%">
+        <textarea id="inputTbx" style="width:100%;height:400px"></textarea>
+        <input type="button" value="Update Map Style" onclick="updateMapStyle()" />
+    </div>
+</body>
+</html>

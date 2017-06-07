@@ -46,6 +46,19 @@
         }
     };
 
+    var sampleStyle3 = {
+        "elements": {
+            "vegetation": { "fillColor": "#c5dea2" },
+            "naturalPoint": { "visible": false, "labelVisible": false },
+            "transportation": { "labelOutlineColor": "#ffffff", "fillColor": "#ffffff", "strokeColor": "#d7d6d5" },
+            "water": { "fillColor": "#b1bdd6", "labelColor": "#ffffff", "labelOutlineColor": "#9aa9ca" },
+            "structure": { "fillColor": "#d7d6d5" },
+            "indigenousPeoplesReserve": { "visible": false },
+            "military": { "visible": false }
+        },
+        "settings": { "landColor": "#e7e6e5" }
+    };
+
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -61,6 +74,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
     <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle })" value="Custom Style 1"/>
     <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle2 })" value="Custom Style 2" />
+    <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle3 })" value="Custom Style 3" />
     <input type="button" onclick="map.setOptions({ customMapStyle: {} })" value="Clear Custom Style" />
 
     <fieldset style="width:600px;margin-top:10px;">
