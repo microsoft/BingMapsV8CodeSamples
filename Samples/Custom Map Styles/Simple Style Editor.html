@@ -68,18 +68,18 @@
         }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
     <style>
-        html, body {
-            padding: 0;
-            margin: 0;
+        html, body{
+            padding:0;
+            margin:0;
         }
     </style>
 </head>
 <body>
-    <div id="myMap"></div>
+    <div id="myMap" style="position:relative;width:100%;height:100vh;"></div>
 
-    <div style="position:absolute;top:10px; left:10px;width:400px;height:100%">
+    <div style="position:absolute;top:10px; left:10px;width:400px;height:430px">
         <textarea id="inputTbx" style="width:100%;height:400px"></textarea>
         <input type="button" value="Update Map Style" onclick="updateMapStyle()" />
     </div>
