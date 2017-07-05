@@ -1,0 +1,66 @@
+﻿body, html {
+    padding:0;
+    margin:0;
+}
+
+h2 {
+    margin: 10px 0 0 0;
+    font-size: 20px;
+}
+
+h3 {
+    margin: 15px 0 10px 0;
+    font-size: 16px;
+}
+
+.sidePanel {
+    border-right: 1px solid #000;
+    font-family: arial;
+    float: left;
+    position: relative;
+    width: 400px;
+    padding: 5px;
+    height: calc(100vh - 10px);
+    overflow-y:auto;
+}
+
+.rightPanel {
+    margin-left: 10px;
+    float: left;
+    position: relative;
+    width: calc(100vw - 450px);
+    height: calc(100vh);
+}
+
+#myMap {
+    margin-top:50px;
+    position:relative;
+    float:left;
+    width: 100%;
+    height: calc(100% - 418px);
+}
+
+#svgList, #symbolList {
+    overflow-y: auto;
+    height: 150px;
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+.svgListItem {
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.svgListItem:hover, .selectdItem {
+    background-color:#aad0ff;
+}
+
+#svgOutput {
+    position:relative;
+    float:left;
+    height: 352px;
+    margin-top: 10px;
+    width: 100%;
+}

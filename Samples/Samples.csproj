@@ -134,6 +134,9 @@
     <Content Include="Other\Create Pushpin Add Metadata.html" />
     <Content Include="ExternalSamples.js" />
     <Content Include="Pushpins\Inline SVG Pushpin Template.html" />
+    <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
+    <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
+    <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
     <Content Include="Pushpins\V7 SVG Pushpin Template.html" />
     <Content Include="Rest Services\RestServices_MultipleRoutes.html" />
     <Content Include="Spatial Data Services\Multiple GeoData Entity Type Boundaries.html" />
@@ -209,7 +212,6 @@
     <Content Include="Layers\Layer_Basic.html" />
     <Content Include="Layers\Layer_Events.html" />
     <Content Include="Map\Load Map Async.html" />
-    <Content Include="Map\Load Map.html" />
     <Content Include="Map\Map Events.html" />
     <Content Include="Map\Set Map View.html" />
     <Content Include="Map\Streetside - Basic.html" />

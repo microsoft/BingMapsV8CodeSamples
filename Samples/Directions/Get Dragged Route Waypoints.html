@@ -35,9 +35,9 @@
             var route = e.route[0];
             
             //Get the original waypoints used to calculate the route.
-            var originalWaypoints = directionsManager.getAllWaypoints();
+            var waypoints = directionsManager.getAllWaypoints();
 
-            var waypoints = [];
+            /*var waypoints = [];
 
             //Loop through the route and inspect the route legs that have more than one subLeg.
             //This will indicate that there is a via waypoint in that leg which has been dragged
@@ -62,7 +62,7 @@
             }
 
             //Add the final waypoint for the route.
-            waypoints.push(originalWaypoints[originalWaypoints.length - 1]);
+            waypoints.push(originalWaypoints[originalWaypoints.length - 1]);*/
 
             //Display the waypoint information as a table.
             var html = ['<table><tr><td>Address</td><td>Location</td><td>IsViapoint</td></tr>'];
@@ -79,7 +79,7 @@
         }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
