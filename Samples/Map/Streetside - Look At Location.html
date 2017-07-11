@@ -4,24 +4,20 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-    var map;
+    var map, loc;
 
-    function GetMap()
-    {
+    function GetMap() {
+        loc = new Microsoft.Maps.Location(39.47618, -121.53738);
+
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
-            center: new Microsoft.Maps.Location(31.375965, 110.23336),
-            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-            zoom: 14
+            center: loc,
+            mapTypeId: Microsoft.Maps.MapTypeId.streetside,
+            streetsideOptions: { locationToLookAt: loc }
         });
-
-        //Add your post map load code here.
     }
     </script>
-    
-    <!-- Reference to the Bing Maps SDK -->
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>

@@ -116,12 +116,16 @@
     <Content Include="ExternalSamples.html" />
     <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
+    <Content Include="Map\Map Localization\Map Localization.html" />
+    <Content Include="Map\Map Localization\IframableLocalizedMap.html" />
     <Content Include="Map\Localize the Map %28zh-CN%29.html" />
     <Content Include="Map\Localize the Map %28en-GB%29.html" />
     <Content Include="Map\Localize the Map %28fr-FR%29.html" />
     <Content Include="Map\Map in liteMode.html" />
     <Content Include="Map\Map Pan Buttons.html" />
+    <Content Include="Map\Map View Automatic Transition.html" />
     <Content Include="Map\New Map Styles.html" />
+    <Content Include="Map\Streetside - Look At Location.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
     <Content Include="Pushpins\Image Sprite Pushpins using a Canvas.html" />
     <Content Include="Pushpins\images\PushpinSprite.png" />

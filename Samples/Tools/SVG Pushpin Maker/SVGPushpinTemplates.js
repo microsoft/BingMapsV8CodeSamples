@@ -49,7 +49,7 @@
     },
     {
         desc: 'Triangle 2 with thin border',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 34 34" xml:space="preserve"><polygon points="16,0 32,32 0,32 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="25" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 34 34" xml:space="preserve"><g transform="translate(1 1)"><polygon points="16,0 32,32 0,32 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="25" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></g></svg>',
         symContainer: '<image x="10" y="14" width="13" height="13" xlink:href="data:image/svg+xml,{symbol}"/>',
         width: 34,
         height: 34,
@@ -61,7 +61,7 @@
     },
     {
         desc: 'Diamond with thin border',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 34 34" xml:space="preserve"><polygon points="0,16 16,32 32,16 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 34 34" xml:space="preserve"><g transform="translate(1 1)"><polygon points="0,16 16,32 32,16 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></g></svg>',
         symContainer: '<image x="8" y="8" width="16" height="16" xlink:href="data:image/svg+xml,{symbol}"/>',
         width: 34,
         height: 34,
@@ -98,26 +98,26 @@
     },
     {
         desc: 'Triangle 3 with thick border',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="16,0 32,32 0,32 16,0" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="16" y="25" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 36" xml:space="preserve"><g transform="translate(2 2)"><polygon points="16,0 32,32 0,32 16,0" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="16" y="25" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></g></svg>',
         symContainer: '<image x="10" y="14" width="13" height="13" xlink:href="data:image/svg+xml,{symbol}"/>',
         width: 36,
-        height: 34,
+        height: 36,
         roundClickableArea: false,
         anchor: {
             x: 18,
-            y: 17
+            y: 18
         }
     },
     {
         desc: 'Diamond with thick border',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="0,16 16,32 32,16 16,0" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 36" xml:space="preserve"><g transform="translate(2 2)"><polygon points="0,16 16,32 32,16 16,0" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></g></svg>',
         symContainer: '<image x="8" y="8" width="16" height="16" xlink:href="data:image/svg+xml,{symbol}"/>',
         width: 36,
-        height: 34,
+        height: 36,
         roundClickableArea: true,
         anchor: {
             x: 18,
-            y: 17
+            y: 18
         }
     },
     {
@@ -146,7 +146,7 @@
     },
     {
         desc: 'Triangle with small symbol in corner',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="16,0 32,32 0,32 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="25" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><g transform="translate(1 1)"><polygon points="16,0 32,32 0,32 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="25" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></g></svg>',
         symContainer: '<image x="21" y="0" width="14" height="14" xlink:href="data:image/svg+xml,{symbol}"/>',
         width: 36,
         height: 34,
@@ -158,7 +158,7 @@
     },
     {
         desc: 'Diamond with small symbol in corner',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="0,16 16,32 32,16 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><g transform="translate(1 1)"><polygon points="0,16 16,32 32,16 16,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:14px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></g></svg>',
         symContainer: '<image x="21" y="0" width="14" height="14" xlink:href="data:image/svg+xml,{symbol}"/>',
         width: 36,
         height: 34,

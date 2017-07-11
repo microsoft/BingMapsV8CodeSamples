@@ -59,6 +59,128 @@
         "settings": { "landColor": "#e7e6e5" }
     };
 
+    var midnightCommander = {
+        "version": "1.0",
+        "settings": {
+            "landColor": "#0B334D"
+        },
+        "elements": {
+            "mapElement": {
+                "labelColor": "#FFFFFF",
+                "labelOutlineColor": "#000000"
+            },
+            "political": {
+                "borderStrokeColor": "#144B53",
+                "borderOutlineColor": "#00000000"
+            },
+            "point": {
+                "iconColor": "#0C4152",
+                "fillColor": "#000000",
+                "strokeColor": "#0C4152"
+            },
+            "transportation": {
+                "strokeColor": "#000000",
+                "fillColor": "#000000"
+            },
+            "highway": {
+                "strokeColor": "#158399",
+                "fillColor": "#000000"
+            },
+            "controlledAccessHighway": {
+                "strokeColor": "#158399",
+                "fillColor": "#000000"
+            },
+            "arterialRoad": {
+                "strokeColor": "#157399",
+                "fillColor": "#000000"
+            },
+            "majorRoad": {
+                "strokeColor": "#157399",
+                "fillColor": "#000000"
+            },
+            "railway": {
+                "strokeColor": "#146474",
+                "fillColor": "#000000"
+            },
+            "structure": {
+                "fillColor": "#115166"
+            },
+            "water": {
+                "fillColor": "#021019"
+            },
+            "area": {
+                "fillColor": "#115166"
+            }
+        }
+    };
+
+    var countriesOnly = {
+        "version": "1.0",
+        "elements": {
+            "mapElement": {
+                "labelVisible": false
+            },
+            "area": {
+                "visible": false
+            },
+            "transportation": {
+                "visible": false
+            },
+            "countryRegion": {
+                "borderStrokeColor": "#444444",
+                "borderOutlineColor": "#00000000",
+                "borderWidthScale": 2,
+                "fillColor": "#888888",
+                "visible": true
+            },
+            "adminDistrict": {
+                "borderVisible": false
+            },
+            "water": {
+                "fillColor": "#FFFFFF"
+            },
+            "point": {
+                "visible": false
+            }
+        }
+    };
+
+    var fadedMap = {
+        "version": "1.0",
+        "elements": {
+            "vegetation": {
+                "fillColor": "#c5dea2"
+            },
+            "naturalPoint": {
+                "visible": false,
+                "labelVisible": false
+            },
+            "transportation": {
+                "labelOutlineColor": "#ffffff",
+                "fillColor": "#ffffff",
+                "strokeColor": "#d7d6d5"
+            },
+            "water": {
+                "fillColor": "#b1bdd6",
+                "labelColor": "#ffffff",
+                "labelOutlineColor": "#9aa9ca"
+            },
+            "structure": {
+                "fillColor": "#d7d6d5"
+            },
+            "indigenousPeoplesReserve": {
+                "visible": false
+            },
+            "military": {
+                "visible": false
+            }
+        },
+        "settings": {
+            "landColor": "#e7e6e5",
+            "shadedReliefVisible": false
+        }
+    };
+
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -75,6 +197,9 @@
     <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle })" value="Custom Style 1"/>
     <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle2 })" value="Custom Style 2" />
     <input type="button" onclick="map.setOptions({ customMapStyle: sampleStyle3 })" value="Custom Style 3" />
+    <input type="button" onclick="map.setOptions({ customMapStyle: midnightCommander })" value="Midnight Commander" />
+    <input type="button" onclick="map.setOptions({ customMapStyle: countriesOnly })" value="Countries Only" />
+    <input type="button" onclick="map.setOptions({ customMapStyle: fadedMap })" value="Faded Map" />
     <input type="button" onclick="map.setOptions({ customMapStyle: {} })" value="Clear Custom Style" />
 
     <fieldset style="width:600px;margin-top:10px;">

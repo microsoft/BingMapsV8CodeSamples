@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        function LoadMap() {            
+            var mktOptions = document.getElementById("mktOptions");
+            var mkt = mktOptions.options[mktOptions.selectedIndex].value;
+
+            var langOptions = document.getElementById("langOptions");
+            var lang = langOptions.options[langOptions.selectedIndex].value;
+            
+            document.getElementById('mapContainer').src = 'IframableLocalizedMap.html?setLang=' + lang + '&setMkt=' + mkt; 
+        }
+    </script>
+</head>
+<body>
+    Market/Language: 
+    <select id="mktOptions">
+        <option value="ar-SA">Arabic - Saudi Arabia (ar-SA)</option>
+        <option value="eu">Basque (eu)</option>
+        <option value="bg">Bulgarian (bg)</option>
+        <option value="bg-BG">Bulgarian - Bulgaria (bg-BG)</option>
+        <option value="ca">Catalan Spanish (ca)</option>
+        <option value="ku-Arab">Central Kurdish (ku-Arab)</option>
+        <option value="zh-CN">Chinese - China (zh-CN)</option>
+        <option value="zh-HK">Chinese - Hong Kong (zh-HK)</option>
+        <option value="zh-Hans">Chinese - Simplified (zh-Hans)</option>
+        <option value="zh-TW">Chinese - Taiwan (zh-TW)</option>
+        <option value="zh-Hant">Chinese - Traditional (zh-Hant)</option>
+        <option value="cs">Czech (cs)</option>
+        <option value="cs-CZ">Czech - Czech Republic (cs-CZ)</option>
+        <option value="da">Danish (da)</option>
+        <option value="da-DK">Danish - Denmark (da-DK)</option>
+        <option value="nl-BE">Dutch - Belgium (nl-BE)</option>
+        <option value="nl">Dutch - Netherlands (nl)</option>
+        <option value="nl-NL">Dutch - Netherlands (nl-NL)</option>
+        <option value="en-AU">English - Australia (en-AU)</option>
+        <option value="en-CA">English - Canada (en-CA)</option>
+        <option value="en-IN">English - India (en-IN)</option>
+        <option value="en-GB">English - United Kingdom (en-GB)</option>
+        <option value="en-US">English - United States (en-US)</option>
+        <option value="fi">Finnish (fi)</option>
+        <option value="fi-FI">Finnish - Finland (fi-FI)</option>
+        <option value="fr-BE">French - Belgium (fr-BE)</option>
+        <option value="fr-CA">French - Canada (fr-CA)</option>
+        <option value="fr">French - France (fr)</option>
+        <option value="fr-FR">French - France (fr-FR)</option>
+        <option value="fr-CH">French - Switzerland (fr-CH)</option>
+        <option value="gl">Galician (gl)</option>
+        <option value="de">German - Germany (de)</option>
+        <option value="de-DE">German - Germany (de-DE)</option>
+        <option value="el">Greek (el)</option>
+        <option value="he">Hebrew (he)</option>
+        <option value="he-IL">Hebrew - Israel (he-IL)</option>
+        <option value="hi">Hindi (hi)</option>
+        <option value="hi-IN">Hindi - India (hi-IN)</option>
+        <option value="hu">Hungarian (hu)</option>
+        <option value="hu-HU">Hungarian - Hungary (hu-HU)</option>
+        <option value="is">Icelandic (is)</option>
+        <option value="is-IS">Icelandic - Iceland (is-IS)</option>
+        <option value="it">Italian - Italy (it)</option>
+        <option value="it-IT">Italian - Italy (it-IT)</option>
+        <option value="ja">Japanese (ja)</option>
+        <option value="ja-JP">Japanese - Japan (ja-JP)</option>
+        <option value="ko">Korean (ko)</option>
+        <option value="Ko-KR">Korean - Korea (Ko-KR)</option>
+        <option value="ky-Cyrl">Kyrgyz (ky-Cyrl)</option>
+        <option value="lv">Latvian (lv)</option>
+        <option value="lv-LV">Latvian - Latvia (lv-LV)</option>
+        <option value="lt">Lithuanian (lt)</option>
+        <option value="lt-LT">Lithuanian - Lithuania (lt-LT)</option>
+        <option value="nb">Norwegian - Bokmål (nb)</option>
+        <option value="nb-NO">Norwegian - Bokmal - Norway (nb-NO)</option>
+        <option value="nn">Norwegian - Nynorsk (nn)</option>
+        <option value="pl">Polish (pl)</option>
+        <option value="pl-PL">Polish - Poland (pl-PL)</option>
+        <option value="pt-BR">Portuguese - Brazil (pt-BR)</option>
+        <option value="pt-PT">Portuguese - Portugal (pt-PT)</option>
+        <option value="ru">Russian (ru)</option>
+        <option value="ru-RU">Russian - Russia (ru-RU)</option>
+        <option value="es-MX">Spanish - Mexico (es-MX)</option>
+        <option value="es">Spanish - Spain (es)</option>
+        <option value="es-ES">Spanish - Spain (es-ES)</option>
+        <option value="es-US">Spanish - United States (es-US)</option>
+        <option value="sv">Swedish - Sweden (sv)</option>
+        <option value="sv-SE">Swedish - Sweden (sv-SE)</option>
+        <option value="tt-Cyrl">Tatar - Cyrillic (tt-Cyrl)</option>
+        <option value="th">Thai (th)</option>
+        <option value="th-TH">Thai - Thailand (th-TH)</option>
+        <option value="tr">Turkish (tr)</option>
+        <option value="tr-TR">Turkish - Turkey (tr-TR)</option>
+        <option value="uk">Ukrainian (uk)</option>
+        <option value="uk-UA">Ukrainian - Ukraine (uk-UA)</option>
+        <option value="ug-Arab">Uyghur (ug-Arab)</option>
+        <option value="ca-ES-valencia">Valencian (ca-ES-valencia)</option>
+        <option value="vi">Vietnamese (vi)</option>
+        <option value="vi-VN">Vietnamese - Vietnam (vi-VN)</option>
+
+    </select>
+
+    Language: 
+    <select id="langOptions">
+        <option value="ar-SA">Arabic - Saudi Arabia (ar-SA)</option>
+        <option value="eu">Basque (eu)</option>
+        <option value="bg">Bulgarian (bg)</option>
+        <option value="bg-BG">Bulgarian - Bulgaria (bg-BG)</option>
+        <option value="ca">Catalan Spanish (ca)</option>
+        <option value="ku-Arab">Central Kurdish (ku-Arab)</option>
+        <option value="zh-CN">Chinese - China (zh-CN)</option>
+        <option value="zh-HK">Chinese - Hong Kong (zh-HK)</option>
+        <option value="zh-Hans">Chinese - Simplified (zh-Hans)</option>
+        <option value="zh-TW">Chinese - Taiwan (zh-TW)</option>
+        <option value="zh-Hant">Chinese - Traditional (zh-Hant)</option>
+        <option value="cs">Czech (cs)</option>
+        <option value="cs-CZ">Czech - Czech Republic (cs-CZ)</option>
+        <option value="da">Danish (da)</option>
+        <option value="da-DK">Danish - Denmark (da-DK)</option>
+        <option value="nl-BE">Dutch - Belgium (nl-BE)</option>
+        <option value="nl">Dutch - Netherlands (nl)</option>
+        <option value="nl-NL">Dutch - Netherlands (nl-NL)</option>
+        <option value="en-AU">English - Australia (en-AU)</option>
+        <option value="en-CA">English - Canada (en-CA)</option>
+        <option value="en-IN">English - India (en-IN)</option>
+        <option value="en-GB">English - United Kingdom (en-GB)</option>
+        <option value="en-US">English - United States (en-US)</option>
+        <option value="fi">Finnish (fi)</option>
+        <option value="fi-FI">Finnish - Finland (fi-FI)</option>
+        <option value="fr-BE">French - Belgium (fr-BE)</option>
+        <option value="fr-CA">French - Canada (fr-CA)</option>
+        <option value="fr">French - France (fr)</option>
+        <option value="fr-FR">French - France (fr-FR)</option>
+        <option value="fr-CH">French - Switzerland (fr-CH)</option>
+        <option value="gl">Galician (gl)</option>
+        <option value="de">German - Germany (de)</option>
+        <option value="de-DE">German - Germany (de-DE)</option>
+        <option value="el">Greek (el)</option>
+        <option value="he">Hebrew (he)</option>
+        <option value="he-IL">Hebrew - Israel (he-IL)</option>
+        <option value="hi">Hindi (hi)</option>
+        <option value="hi-IN">Hindi - India (hi-IN)</option>
+        <option value="hu">Hungarian (hu)</option>
+        <option value="hu-HU">Hungarian - Hungary (hu-HU)</option>
+        <option value="is">Icelandic (is)</option>
+        <option value="is-IS">Icelandic - Iceland (is-IS)</option>
+        <option value="it">Italian - Italy (it)</option>
+        <option value="it-IT">Italian - Italy (it-IT)</option>
+        <option value="ja">Japanese (ja)</option>
+        <option value="ja-JP">Japanese - Japan (ja-JP)</option>
+        <option value="ko">Korean (ko)</option>
+        <option value="Ko-KR">Korean - Korea (Ko-KR)</option>
+        <option value="ky-Cyrl">Kyrgyz (ky-Cyrl)</option>
+        <option value="lv">Latvian (lv)</option>
+        <option value="lv-LV">Latvian - Latvia (lv-LV)</option>
+        <option value="lt">Lithuanian (lt)</option>
+        <option value="lt-LT">Lithuanian - Lithuania (lt-LT)</option>
+        <option value="nb">Norwegian - Bokmål (nb)</option>
+        <option value="nb-NO">Norwegian - Bokmal - Norway (nb-NO)</option>
+        <option value="nn">Norwegian - Nynorsk (nn)</option>
+        <option value="pl">Polish (pl)</option>
+        <option value="pl-PL">Polish - Poland (pl-PL)</option>
+        <option value="pt-BR">Portuguese - Brazil (pt-BR)</option>
+        <option value="pt-PT">Portuguese - Portugal (pt-PT)</option>
+        <option value="ru">Russian (ru)</option>
+        <option value="ru-RU">Russian - Russia (ru-RU)</option>
+        <option value="es-MX">Spanish - Mexico (es-MX)</option>
+        <option value="es">Spanish - Spain (es)</option>
+        <option value="es-ES">Spanish - Spain (es-ES)</option>
+        <option value="es-US">Spanish - United States (es-US)</option>
+        <option value="sv">Swedish - Sweden (sv)</option>
+        <option value="sv-SE">Swedish - Sweden (sv-SE)</option>
+        <option value="tt-Cyrl">Tatar - Cyrillic (tt-Cyrl)</option>
+        <option value="th">Thai (th)</option>
+        <option value="th-TH">Thai - Thailand (th-TH)</option>
+        <option value="tr">Turkish (tr)</option>
+        <option value="tr-TR">Turkish - Turkey (tr-TR)</option>
+        <option value="uk">Ukrainian (uk)</option>
+        <option value="uk-UA">Ukrainian - Ukraine (uk-UA)</option>
+        <option value="ug-Arab">Uyghur (ug-Arab)</option>
+        <option value="ca-ES-valencia">Valencian (ca-ES-valencia)</option>
+        <option value="vi">Vietnamese (vi)</option>
+        <option value="vi-VN">Vietnamese - Vietnam (vi-VN)</option>
+    </select>
+    
+    <input type="button" value="Load Map" onclick="LoadMap()"/>
+    <br />
+    <iframe id="mapContainer" src="about:blank" style="width:100%;height:calc(100vh - 200px);" frameborder="0" scrolling="no"></iframe>
+</body>
+</html>
