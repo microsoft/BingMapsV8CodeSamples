@@ -110,6 +110,7 @@
     <Content Include="Experimental\MapImageGenerator\BingLogoDark.png" />
     <Content Include="Experimental\MapImageGenerator\BingLogoLight.png" />
     <Content Include="Experimental\MapImageGenerator\Map Image Generator.html" />
+    <Content Include="GeoJSON\GeoJson Shape Events.html" />
     <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
