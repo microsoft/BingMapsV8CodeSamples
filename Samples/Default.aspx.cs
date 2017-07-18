@@ -40,26 +40,30 @@ namespace Samples
 
                 foreach (var dir in directory.GetDirectories())
                 {
-                    var categoryNode = new TreeNode(dir.Name)
+                    //Only add folders that don't have "- Private" in the name.
+                    if (!dir.Name.Contains("- Private"))
                     {
-                        SelectAction = TreeNodeSelectAction.Expand
-                    };
-
-                    var dirs = dir.GetDirectories();
-
-                    if (dirs.Length > 0)
-                    {
-                        foreach (var d in dirs)
+                        var categoryNode = new TreeNode(dir.Name)
                         {
-                            AddSampleNodes(dir, d, categoryNode, sampleList);
+                            SelectAction = TreeNodeSelectAction.Expand
+                        };
+
+                        var dirs = dir.GetDirectories();
+
+                        if (dirs.Length > 0)
+                        {
+                            foreach (var d in dirs)
+                            {
+                                AddSampleNodes(dir, d, categoryNode, sampleList);
+                            }
                         }
-                    }
 
-                    AddSampleNodes(dir, null, categoryNode, sampleList);
+                        AddSampleNodes(dir, null, categoryNode, sampleList);
 
-                    if (categoryNode.ChildNodes != null && categoryNode.ChildNodes.Count > 0)
-                    {
-                        SampleTreeView.Nodes.Add(categoryNode);
+                        if (categoryNode.ChildNodes != null && categoryNode.ChildNodes.Count > 0)
+                        {
+                            SampleTreeView.Nodes.Add(categoryNode);
+                        }
                     }
                 }
 

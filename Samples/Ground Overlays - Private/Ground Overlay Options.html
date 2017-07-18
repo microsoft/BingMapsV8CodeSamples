@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script>
+        //TODO: remove all visible: true and experimental branch as wrokarounds.
+    var map, overlay, dragPin1, dragPin2;
+
+    var imageUrls = [
+        'https://upload.wikimedia.org/wikipedia/commons/e/e9/Foto_a%C3%A9rea_de_Una%C3%AD_detalhando_o_c%C3%B3rrego_Canabrava_3.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/f/f1/North_Rhine-Westphalia_location_map_06.svg',
+        'http://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Chartres.svg/1600px-Chartres.svg.png'
+    ];
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(-16.366, -46.8945),
+            zoom: 17
+        });
+
+        //Create ground overlay and add to the map.
+        var bounds = Microsoft.Maps.LocationRect.fromEdges(-16.36523189120857, -46.89686679103114, -16.3674247514764, -46.89337059621697);
+
+        overlay = new Microsoft.Maps.GroundOverlay({
+            bounds: bounds,
+            imageUrl: imageUrls[0],
+            visible: true
+        });
+        map.layers.insert(overlay);
+
+        //Add bounding pushpins which can be used to update the bounding box of the ground overlay.
+        dragPin1 = new Microsoft.Maps.Pushpin(bounds.getNorthwest(), { draggable: true });
+        Microsoft.Maps.Events.addHandler(dragPin1, 'drag', updateBounds);
+        map.entities.push(dragPin1);
+
+        dragPin2 = new Microsoft.Maps.Pushpin(bounds.getSoutheast(), { draggable: true });
+        Microsoft.Maps.Events.addHandler(dragPin2, 'drag', updateBounds);
+        map.entities.push(dragPin2);
+    }
+
+    function updateBounds() {
+        //Calculate the bounds of the drag pins.
+        var bounds = Microsoft.Maps.LocationRect.fromShapes([dragPin1, dragPin2]);
+
+        //Update the bounds of the ground overlay.
+        overlay.setOptions({ bounds: bounds, visible: true });
+    }
+
+    function updateImageUrl(imgUrl) {
+        overlay.setOptions({ imageUrl: imgUrl, visible: true });
+
+        //TODO: remove, this is a hack to work around a bug.
+        Microsoft.Maps.Events.invoke(map, 'viewchange', null);
+    }
+
+    function beneathLabelsUpdated(beneathLabels) {
+        //Remove the overlay from the map as we need to create a new overlay to change it's benethLabels option.
+        map.layers.remove(overlay);
+
+        //Create a new ground overlay with the updated beneathLabels option.
+        overlay = new Microsoft.Maps.GroundOverlay({
+            beneathLabels: beneathLabels,
+            backgroundColor: overlay.getBackgroundColor(),
+            bounds: overlay.getBounds(),
+            imageUrl: overlay.getImageUrl(),
+            opacity: overlay.getOpacity(),
+            rotation: overlay.getRotation(),
+            visible: overlay.getVisible()
+        });
+        map.layers.insert(overlay);
+    }
+        
+    function bgColorUpdated(elm) {
+        //Update the background color value of the overlay.
+        overlay.setOptions({ backgroundColor: elm.value, visible: true });
+    }
+
+    function opacityUpdated(elm) {
+        //Update the opacity value of the overlay.
+        overlay.setOptions({ opacity: parseFloat(elm.value), visible: true });
+
+        //Update the displayed opacity value.
+        document.getElementById('opacityInput').innerText = elm.value;
+    }
+
+    function rotationUpdated(elm) {
+        //Update the rotation value of the overlay.
+        overlay.setOptions({ rotation: parseFloat(elm.value), visible: true });
+
+        //Update the displayed rotation value.
+        document.getElementById('rotationInput').innerText = elm.value;
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental"></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:500px;"></div>
+    <br/>    
+    Source Image:
+    <input type="button" onclick="updateImageUrl(imageUrls[0])" value="Image 0"/>
+    <input type="button" onclick="updateImageUrl(imageUrls[1])" value="Image 1" />
+    <input type="button" onclick="updateImageUrl(imageUrls[2]);" value="Image 2" />
+    
+    Visible:
+    <input type="button" onclick="overlay.setOptions({ visible: true });" value="True" />
+    <input type="button" onclick="overlay.setOptions({ visible: false });" value="False" />
+
+    Beneath Labels: 
+    <input type="button" onclick="beneathLabelsUpdated(true);" value="True" />
+    <input type="button" onclick="beneathLabelsUpdated(false);" value="False" />
+    <br/>
+    <br />
+
+    Background Color: <input type="color" value="transparent" onchange="bgColorUpdated(this)" />
+
+    Opacity:
+    <input type="range" min="0" max="1" step="0.1" value="1" style="width:100px;padding:0;" oninput="opacityUpdated(this)" onchange="opacityUpdated(this)" />
+    <span id="opacityInput">1</span>
+
+    Rotation: 
+    <input type="range" min="0" max="360" step="1" value="0" style="width:100px;padding:0;" oninput="rotationUpdated(this)" onchange="rotationUpdated(this)" />
+    <span id="rotationInput">0</span>
+  
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Ground Overlay Options Sample</legend>
+        This sample shows how to set an get all options for ground overlays. 
+        The ground overlay in this sample is sourced from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>.
+    </fieldset>
+</body>
+</html>

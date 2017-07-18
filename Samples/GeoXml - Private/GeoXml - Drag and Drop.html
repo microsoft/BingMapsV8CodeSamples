@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Using external library for code sample to save Zip files to file system. -->
+    <script src="../Common/scripts/FileSaver.js"></script>
+
+    <script type='text/javascript'>
+    var map, infobox, dataBounds, statusPanel, xmlPanel, loadingIcon, fileCount = 0;
+    var proxyService = 'GeoXml - Cross Domain/GeoXmlProxyService.ashx?url=';
+    var zipKmzRx = /(.zip|.kmz)$/;
+
+    function GetMap() {
+        statusPanel = document.getElementById('statusPanel');
+        xmlPanel = document.getElementById('xmlPanel');
+        loadingIcon = document.getElementById('loadingIcon');
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey,
+                zoom: 1
+            });
+
+            //Create a reusable infobox
+            infobox = new Microsoft.Maps.Infobox({ latitude: 0, longitude: 0 }, {
+                visible: false,
+                maxWidth: 300,
+                maxHeight: 350
+            });
+            infobox.setMap(map);
+
+            //Setup the drag & drop listeners on the map.
+            var dropZone = document.getElementById('myMap');
+            dropZone.addEventListener('dragover', handleDragOver, false);
+            dropZone.addEventListener('drop', handleFileSelect, false);
+        });
+    }
+
+    function handleDragOver(evt) {
+        //Stop the browser from performing its default behavior when a file is dragged and dropped.
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        evt.dataTransfer.dropEffect = 'copy';
+    }
+
+    function handleFileSelect(evt) {
+        statusPanel.value = 'Reading from Files\r\n\r\n';
+        dataBounds = null;
+
+        //Stop the browser from performing its default behavior when a file is dragged and dropped.
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        //Remove any existing data from the map.
+        map.entities.clear();
+        map.layers.clear();
+        infobox.setOptions({ visible: false });
+
+        //The list of files that have been dragged and dropped onto the map.
+        var files = evt.dataTransfer.files;
+
+        //Loop through and attempt to read each file.
+        for (var i = 0; i < files.length; i++) {
+            //Read the XML data blob.
+            readXml(files[i], files[i].name);
+        }
+    }
+
+    function readXml(xml, fileName) {
+        loadingIcon.style.display = '';
+        fileCount++;
+
+        if (typeof xml === 'string' && (xml.indexOf('http://') === 0 || xml.indexOf('https://') === 0)) {
+            //If the XML input is a URL, use a proxy service.
+            xml = proxyService + encodeURIComponent(xmlUrl);
+        }
+
+        //Attempt to parse the file as XML and add the shapes to the map.
+        Microsoft.Maps.GeoXml.read(xml, {
+            callback: function (r) {
+                if (r.shapes) {
+                    var l = new Microsoft.Maps.Layer();
+                    l.add(r.shapes);
+                    Microsoft.Maps.Events.addHandler(l, 'click', shapeClicked);
+                    map.layers.insert(l);
+                }
+
+                if (r.layers) {
+                    for (var i = 0, len = r.layers.length; i < len; i++) {
+                        if (r.layers[i] instanceof Microsoft.Maps.Layer) {
+                            Microsoft.Maps.Events.addHandler(r.layers[i], 'click', shapeClicked);
+                        }
+                        map.layers.insert(r.layers[i]);
+                    }
+                }
+
+                if (r.screenOverlays) {
+                    for (var i = 0, len = r.screenOverlays.length; i < len; i++) {
+                        map.layers.insert(r.screenOverlays[i]);
+                    }
+                }
+
+                if (r.summary && r.summary.bounds) {
+                    if (dataBounds) {
+                        dataBounds = Microsoft.Maps.LocationRect.merge(dataBounds, r.summary.bounds);
+                    } else {
+                        dataBounds = r.summary.bounds;
+                    }
+
+                    map.setViewWorkaround({ bounds: dataBounds });
+                }
+
+                writeStats(fileName, r.stats);
+            },
+            error: function (msg) {
+                writeStats(fileName, null, msg);
+                alert(msg);
+            }
+        });
+    }
+
+    function readXmlOutput() {
+        statusPanel.value = 'Reading from XML Panel\r\n\r\n';
+        dataBounds = null;
+
+        //Remove any existing data from the map.
+        map.entities.clear();
+        map.layers.clear();
+        infobox.setOptions({ visible: false });
+
+        readXml(xmlPanel.value);
+    }
+
+    function shapeClicked(e) {
+        var shape = e.primitive;
+        var loc = e.location;
+
+        if (shape instanceof Microsoft.Maps.Pushpin) {
+            loc = shape.getLocation();
+        }
+
+        var title = shape.metadata.title || '';
+        var description = shape.metadata.balloonDescription || shape.metadata.description || '';
+
+        if (title !== '' || description !== '') {
+            infobox.setOptions({
+                location: loc,
+                title: title,
+                description: description,
+                visible: true
+            });
+        }
+    }
+
+    function writeXml() {
+        xmlPanel.value = '';
+
+        var fileTypeDD = document.getElementById('fileType');
+        var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].innerText;
+
+        var xml = Microsoft.Maps.GeoXml.write(map, {
+            xmlFormat: Microsoft.Maps.GeoXmlFormat[fileType],
+            indentChars: '    ', //Use 4 spaces instead of \t for indenting as it looks better in the textarea.
+            validate: false
+        });
+
+        xmlPanel.value = xml;
+    }
+
+    function downloadZip() {
+        xmlPanel.value = '';
+
+        var fileTypeDD = document.getElementById('fileType');
+        var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].innerText;
+
+        var compressedXml = Microsoft.Maps.GeoXml.writeCompressed(map, 'Blob', {
+            xmlFormat: Microsoft.Maps.GeoXmlFormat[fileType],
+            indentChars: '    ', //Use 4 spaces instead of \t for indenting as it looks better in the textarea.
+            validate: false
+        });
+
+        if (fileType === 'Kml') {
+            saveAs(compressedXml, 'MapData.kmz');
+        } else {
+            saveAs(compressedXml, 'MapData.zip');
+        }
+    }
+
+    function writeStats(fileName, stats, error) {
+        var result = [];
+
+        if (fileName) {
+            result.push('File name: ', fileName);
+        }
+
+        if (error) {
+            result.push('\r\nError: ', error);
+        }
+
+        if (stats) {
+            result.push('\r\nFile size: ', Math.ceil(stats.fileSize / 1024), 'kb');
+
+            if (stats.numPushpins) {
+                result.push('\r\n# of Pushpins: ', stats.numPushpins);
+            }
+
+            if (stats.numPolylines) {
+                result.push('\r\n# of Polylines: ', stats.numPolylines);
+            }
+
+            if (stats.numPolygons) {
+                result.push('\r\n# of Polygons: ', stats.numPolygons);
+            }
+
+            if (stats.numGroundOverlays) {
+                result.push('\r\n# of Ground Overlays: ', stats.numGroundOverlays);
+            }
+
+            if (stats.numScreenOverlays) {
+                result.push('\r\n# of Screen Overlays: ', stats.numScreenOverlays);
+            }
+
+            if (stats.numLocations) {
+                result.push('\r\n# of Locations: ', stats.numLocations);
+            }
+
+            if (stats.numNetworkLinks) {
+                result.push('\r\n# of Network Links: ', stats.numNetworkLinks);
+            }
+
+            result.push('\r\nProcessing time (ms): ', stats.processingTime, '\r\n\r\n');
+        }
+
+        statusPanel.value += result.join('');
+
+        fileCount--;
+
+        if (fileCount === 0) {
+            loadingIcon.style.display = 'none';
+        }
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <style>
+        body, html {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap" style="float:left;width:60%;height:100%;"></div>
+
+    <div style="background-color:white;position:absolute;top:10px;left:10px">
+        <fieldset style="margin:5px;width:400px;">
+            <legend>Instructions</legend>
+
+            Drag and Drop KML, GeoRSS, and GPX files onto the map.<br /><br />
+
+            Once data is on the map, press the Generate XML button to write all data on the map as XML. <br /><br />
+
+            <select id="fileType">
+                <option>Gpx</option>
+                <option>GeoRss</option>
+                <option selected="selected">Kml</option>
+            </select>
+
+            <input type="button" value="Generate XML" onclick="writeXml()" />
+
+            <input type="button" value="Download Zip" onclick="downloadZip()" />
+
+            <input type="button" value="Clear Map" onclick="map.entities.clear();map.layers.clear();" /><br /><br />
+
+            Add XML or an URL the points to an XML file into the XML Panel and press the Read XML button to render the XML on the map.
+        </fieldset>
+    </div>
+
+    <div style="float:left;width:calc(40% - 20px);height:250px;margin-top:5px;">
+        <fieldset style="width:calc(100% - 20px);height:240px;">
+            <legend>Status</legend>
+            <textarea id="statusPanel" style="width:100%;height:calc(100% - 20px);"></textarea>
+        </fieldset>
+    </div>
+
+    <div style="float:left;width:calc(40% - 20px);height:calc(100% - 320px);margin-top:35px;">
+        <fieldset style="width:calc(100% - 20px);height:100%;">
+            <legend>XML Panel</legend>
+            <textarea id="xmlPanel" style="width:100%;height:calc(100% - 20px);"></textarea>
+        </fieldset>
+    </div>
+
+    <div style="position:absolute;top:320px;right:10px;width:100px;">
+        <input type="button" value="Read XML" onclick="readXmlOutput()" />
+    </div>
+
+    <img id="loadingIcon" src="../Common/images/loadingIcon.gif" style="position:absolute;top:calc(50% - 30px);left:calc(30% - 30px);display:none;" />
+</body>
+</html>

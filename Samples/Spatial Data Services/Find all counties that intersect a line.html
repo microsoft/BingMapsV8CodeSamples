@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+
+    //The query URL to the US County data source in the Bing Spatial Data Services. Documentation: https://msdn.microsoft.com/en-us/library/mt805047.aspx
+    var sdsDataSourceUrl = "https://spatial.virtualearth.net/REST/v1/data/6c39d83e5812459f914832970618048e/USCensus2010_Counties/Counties";
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 1
+        });
+
+        var sampleLine = new Microsoft.Maps.Polyline([new Microsoft.Maps.Location(45, -110), new Microsoft.Maps.Location(46, -100)]);
+        map.entities.push(sampleLine);
+
+        //Load the SpatialDataServices module.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialDataService'], function () {
+
+            //Create a query to get data that intrsects the polygon.
+            var queryOptions = {
+                queryUrl: sdsDataSourceUrl,
+                top: 250,
+                spatialFilter: {
+                    spatialFilterType: 'intersects',
+                    intersects: sampleLine
+                }
+            };
+
+            //Process the query.
+            Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
+                //Add results to the map.
+                map.entities.push(data);
+
+                //Get thebounding box of the resulting data.
+                var bounds = Microsoft.Maps.LocationRect.fromShapes(data);
+
+                //Set the view of the map over the resulting data.
+                map.setView({bounds: bounds});
+            }, {
+                polygonOptions: {
+                    fillColor: 'rgba(255, 0, 255, 0.5)',
+                    strokeColor: 'purple'
+                }
+            });
+        });
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Find all counties that intersect a line Sample</legend>
+        This sample shows how to find all the US counties that intersect a line. It does this by doing an inteersection query using the US Census county data source in the Bing Spatial Data Services.
+    </fieldset>
+</body>
+</html>

@@ -138,5 +138,6 @@ var sampleRedirects = {
     'CustomOverlay_CanvasLayer': 'Canvas Layer',
     "Map_ContextMenu": "Context Menu",
     "Map_KeyEvents": "Map Key Events",
-    "Map_LazyLoading": "Lazy Loading the Map"
+    "Map_LazyLoading": "Lazy Loading the Map",
+    "GeoJson_LocalFile": "GeoJson Drag and Drop"
 };

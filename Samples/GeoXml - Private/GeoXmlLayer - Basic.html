@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+    var gpx = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Mona Passage</title><georss:point>45.256 -71.92</georss:point></entry></feed>';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            zoom: 1
+        });
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+            //Create an instance of the GeoXmlLayer.
+            layer = new Microsoft.Maps.GeoXmlLayer(gpx);
+
+            //Add the layer ot the map.
+            map.layers.insert(layer);
+        });
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>GeoXmlLayer - Basic Sample</legend>
+        This sample shows how to load a string of geospatial XML data, in this case GeoRSS, into a GmlXmlLayer.
+    </fieldset>
+</body>
+</html>

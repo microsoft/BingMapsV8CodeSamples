@@ -22,9 +22,15 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>GeoJson CORs Sample</legend>
+        This sample shows how to load GeoJSON data that is hosted on another domain and has <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Cross-origin resource sharing (CORS)</a> enabled.
+        The data in this sample is sourced from the <a href="https://earthquake.usgs.gov/">USGS Earthquake Hazards Program</a>.
+    </fieldset>
 </body>
 </html>

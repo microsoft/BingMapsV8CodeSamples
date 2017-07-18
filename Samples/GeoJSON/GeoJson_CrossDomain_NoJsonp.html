@@ -6,7 +6,7 @@
     <script type='text/javascript'>
     var map;
 
-    //URL to USGS Earthquake feed containing all earthquakes from the past day.
+        //URL to USGS Earthquake feed containing all earthquakes from the past day. This service wraps the response with a "eqfeed_callback" callback function.
     var usgsRealtimeEarthquakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp';
 
     function GetMap()
@@ -38,5 +38,11 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>GeoJson Cross Doamin without JSON Sample</legend>
+        This sample shows how to load GeoJSON data that is hosted on another domain, does not support JSONP, but does return a JSON response that is wrapped with a static callback function name.
+        The data in this sample is sourced from the <a href="https://earthquake.usgs.gov/">USGS Earthquake Hazards Program</a>.
+    </fieldset>
 </body>
 </html>

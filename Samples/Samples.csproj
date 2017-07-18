@@ -61,6 +61,8 @@
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
     <Content Include="Common\images\endPin.png" />
     <Content Include="Common\images\startPin.png" />
+    <Content Include="Common\images\loadingIcon.gif" />
+    <Content Include="Common\images\us_counties.png" />
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
     <Content Include="Contour Layer\ContourLayer_FromGeoJSON.html" />
@@ -111,6 +113,20 @@
     <Content Include="Experimental\MapImageGenerator\BingLogoLight.png" />
     <Content Include="Experimental\MapImageGenerator\Map Image Generator.html" />
     <Content Include="GeoJSON\GeoJson Shape Events.html" />
+    <Content Include="GeoXml - Private\data\georss\Countries.xml" />
+    <Content Include="GeoXml - Private\data\georss\SampleGeoRSS.xml" />
+    <Content Include="GeoXml - Private\data\georss\WifiLocations.xml" />
+    <Content Include="GeoXml - Private\data\gpx\BikeRoute.xml" />
+    <Content Include="GeoXml - Private\data\gpx\Route66Attractions.xml" />
+    <Content Include="GeoXml - Private\data\gpx\Tourist_locations_UK-England.xml" />
+    <Content Include="GeoXml - Private\data\kml\esfr-trip-track-20080407.xml" />
+    <Content Include="GeoXml - Private\GeoXml - Cross Domain\GeoXml - Cross Domain.html" />
+    <Content Include="GeoXml - Private\GeoXml - Drag and Drop.html" />
+    <Content Include="GeoXml - Private\GeoXmlLayer - Local Data.html" />
+    <Content Include="GeoXml - Private\GeoXmlLayer - Basic.html" />
+    <Content Include="Ground Overlays - Private\Basic Ground Overlay.html" />
+    <Content Include="Ground Overlays - Private\Ground Overlay Options.html" />
+    <Content Include="Ground Overlays - Private\SVG Ground Overlay.html" />
     <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
@@ -124,7 +140,7 @@
     <Content Include="Map\Localize the Map %28fr-FR%29.html" />
     <Content Include="Map\Map in liteMode.html" />
     <Content Include="Map\Map Pan Buttons.html" />
-    <Content Include="Map\Map View Automatic Transition.html" />
+    <Content Include="Birdseye\Map View Automatic Transition.html" />
     <Content Include="Map\New Map Styles.html" />
     <Content Include="Map\Streetside - Look At Location.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
@@ -139,6 +155,7 @@
     <Content Include="Other\Create Pushpin Add Metadata.html" />
     <Content Include="ExternalSamples.js" />
     <Content Include="Pushpins\Inline SVG Pushpin Template.html" />
+    <Content Include="Spatial Data Services\Find all counties that intersect a line.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
@@ -264,7 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GeoJSON\GeoJson_BasicWithStyle.html" />
-    <Content Include="GeoJSON\GeoJson_LocalFile.html" />
+    <Content Include="GeoJSON\GeoJson Drag and Drop.html" />
     <Content Include="GeoJSON\GeoJson_Jsonp.html" />
     <Content Include="Pushpins\images\cylinder.svg" />
     <Content Include="Polygons\Polygon_Basic.html" />
@@ -284,6 +301,9 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GeoXml - Private\GeoXml - Cross Domain\GeoXmlProxyService.ashx.cs">
+      <DependentUpon>GeoXmlProxyService.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -321,9 +341,16 @@
     <TypeScriptCompile Include="Other\Solar Terminator\SolarTerminatorModule.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GeoJSON\Data\US_Counties.json" />
+    <None Include="GeoJSON\Data\US_County_Boundaries.json" />
     <Content Include="Rest Services\RestServices_Angular1.6.html" />
     <Content Include="packages.config" />
+    <Content Include="GeoXml - Private\GeoXml - Cross Domain\GeoXmlProxyService.ashx" />
+    <Content Include="GeoXml - Private\data\kml\internet_users_2005_choropleth.kml" />
+    <Content Include="GeoXml - Private\data\kml\GroundOverlay.kml" />
+    <Content Include="GeoXml - Private\data\kml\Countries.kml" />
+    <Content Include="GeoXml - Private\data\kmz\FemaRegionsandFieldOffices.kmz" />
+    <Content Include="GeoXml - Private\data\kmz\shuckstack-fire-tower.kmz" />
+    <Content Include="GeoXml - Private\data\kmz\RecreationSitePoint.kmz" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>
@@ -349,6 +376,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup />
