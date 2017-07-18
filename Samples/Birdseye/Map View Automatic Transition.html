@@ -14,13 +14,24 @@
             showZoomButtons: false  //Hide the default zoom buttons and create custom ones.
         });
         
+        var tryingToZoomOut = false;
+
         //If the mouse wheel is used to zoom, switch between aerial and birdseye as needed.
         Microsoft.Maps.Events.addHandler(map, 'mousewheel', function (e) {
             var mapType = map.getMapTypeId();
             var zoom = map.getZoom();
 
-            if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 19 && e.wheelDelta < 0) {
+            //If at zoom level 20 and the user tries to zoom out twice with the mouse wheel, then switch to aerial.
+            if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 20 && e.wheelDelta < 0) {
+                if (tryingToZoomOut) {
+                    map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.aerial, zoom: 19 });
+                    tryingToZoomOut = false;
+                } else {
+                    tryingToZoomOut = true;
+                }
+            }else if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 19 && e.wheelDelta < 0) {
                 map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.aerial });
+                tryingToZoomOut = false;
             } else if (mapType == Microsoft.Maps.MapTypeId.aerial && zoom >= 19 && e.wheelDelta > 0) {
                 switchToBirdseye();
             }
