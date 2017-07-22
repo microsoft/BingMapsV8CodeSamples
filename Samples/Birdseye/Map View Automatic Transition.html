@@ -29,7 +29,7 @@
                 } else {
                     tryingToZoomOut = true;
                 }
-            }else if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 19 && e.wheelDelta < 0) {
+            } else if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 19 && e.wheelDelta < 0) {
                 map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.aerial });
                 tryingToZoomOut = false;
             } else if (mapType == Microsoft.Maps.MapTypeId.aerial && zoom >= 19 && e.wheelDelta > 0) {
