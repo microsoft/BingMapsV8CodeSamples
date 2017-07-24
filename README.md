@@ -29,15 +29,10 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or 
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## License ##
-
-MIT
- 
-See [License](LICENSE.md) for full license text.
-
 ## Related Projects ##
 
 * [Bing Maps V8 TypeScript Definitions](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions)
+* [Bing Maps V6.3 To V8 Shim](https://github.com/rbrundritt/BingMapsV63ToV8Shim)
 
 ## Additional Resources ##
 
@@ -47,3 +42,9 @@ See [License](LICENSE.md) for full license text.
 * [Bing Maps Blog](http://blogs.bing.com/maps)
 * [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
 * [Bing Maps for Enterprise site](https://www.microsoft.com/maps/)
+
+## License ##
+
+MIT
+ 
+See [License](LICENSE.md) for full license text.

@@ -139,5 +139,7 @@ var sampleRedirects = {
     "Map_ContextMenu": "Context Menu",
     "Map_KeyEvents": "Map Key Events",
     "Map_LazyLoading": "Lazy Loading the Map",
-    "GeoJson_LocalFile": "GeoJson Drag and Drop"
+    "GeoJson_LocalFile": "GeoJson Drag and Drop",
+    "Autosuggest_AddressForm": "Fill Address Form with Autosuggest",
+    "Autosuggest_DefaultUI": "Autosugges with Map"
 };
