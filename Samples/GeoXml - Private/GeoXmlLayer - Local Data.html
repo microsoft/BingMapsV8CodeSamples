@@ -66,8 +66,9 @@
         <legend>GeoXmlLayer - Local Data Sample</legend>
         This sample shows how to load geospatial XML data from locally hosted files.<br />
 <b>Note:</b> Not all file and mime types are enabled in all servers. If using .NET, it is recommended to add the following to the web.config file:
-<br />
-        &lt;system.webServer&gt;<br />    &lt;staticContent&gt;<br />      &lt;remove fileExtension=&quot;.json&quot; /&gt;<br />      &lt;mimeMap fileExtension=&quot;.json&quot; mimeType=&quot;application/json&quot; /&gt;<br />      &lt;remove fileExtension=&quot;.geojson&quot; /&gt;<br />      &lt;mimeMap fileExtension=&quot;.geojson&quot; mimeType=&quot;application/json&quot; /&gt;<br />      &lt;remove fileExtension=&quot;.gpx&quot; /&gt;<br />      &lt;mimeMap fileExtension=&quot;.gpx&quot; mimeType=&quot;application/xml&quot; /&gt;<br />      &lt;remove fileExtension=&quot;.georss&quot; /&gt;<br />      &lt;mimeMap fileExtension=&quot;.georss&quot; mimeType=&quot;application/xml&quot; /&gt;<br />      &lt;remove fileExtension=&quot;.kml&quot; /&gt;<br />      &lt;mimeMap fileExtension=&quot;.kml&quot; mimeType=&quot;application/vnd.google-earth.kml+xml&quot; /&gt;<br />      &lt;remove fileExtension=&quot;.kmz&quot; /&gt;<br />      &lt;mimeMap fileExtension=&quot;.kmz&quot; mimeType=&quot;application/vnd.google-earth.kmz&quot; /&gt;<br />    &lt;/staticContent&gt;
+        <br />
+        <br />
+        &lt;system.webServer&gt;<br />&nbsp;&nbsp;&lt;staticContent&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.json&quot; mimeType=&quot;application/json&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.geojson&quot; mimeType=&quot;application/json&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.gpx&quot; mimeType=&quot;application/xml&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.georss&quot; mimeType=&quot;application/xml&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.kml&quot; mimeType=&quot;application/vnd.google-earth.kml+xml&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.kmz&quot; mimeType=&quot;application/vnd.google-earth.kmz&quot; /&gt;<br />&nbsp;&nbsp;&lt;/staticContent&gt;<br/>&lt;system.webServer&gt;
     </fieldset>
 </body>
 </html>

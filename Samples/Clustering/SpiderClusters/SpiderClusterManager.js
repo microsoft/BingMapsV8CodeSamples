@@ -33,7 +33,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var SpiderPushpin = (function (_super) {
     __extends(SpiderPushpin, _super);
     function SpiderPushpin() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return SpiderPushpin;
 }(Microsoft.Maps.Pushpin));

@@ -254,14 +254,15 @@ var HtmlPushpinLayer = (function (_super) {
     * @constructor
     */
     function HtmlPushpinLayer(pushpins) {
-        _super.call(this, { beneathLabels: false });
+        var _this = _super.call(this, { beneathLabels: false }) || this;
         /** Store the pushpins. */
-        this._pushpins = null;
+        _this._pushpins = null;
         /** A variable to store the viewchange event handler id. */
-        this.viewChangeEventHandler = null;
+        _this.viewChangeEventHandler = null;
         /** A variable to store a reference to the container for the HTML pushpins. */
-        this.container = null;
-        this._pushpins = pushpins || [];
+        _this.container = null;
+        _this._pushpins = pushpins || [];
+        return _this;
     }
     /**********************
     * Overridden functions

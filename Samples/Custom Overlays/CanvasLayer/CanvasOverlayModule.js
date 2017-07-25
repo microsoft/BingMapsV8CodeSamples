@@ -37,8 +37,9 @@ var CanvasOverlay = (function (_super) {
      * @param drawCallback A callback function that is triggered when the canvas is ready to be rendered for the current map view.
      */
     function CanvasOverlay(drawCallback) {
-        _super.call(this);
-        this._drawCallback = drawCallback;
+        var _this = _super.call(this) || this;
+        _this._drawCallback = drawCallback;
+        return _this;
     }
     /**********************
     * Overridden functions

@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title></title>
     <script>
-        //TODO: remove all visible: true and experimental branch as wrokarounds.
     var map, overlay, dragPin1, dragPin2;
 
     var imageUrls = [
@@ -25,8 +24,7 @@
 
         overlay = new Microsoft.Maps.GroundOverlay({
             bounds: bounds,
-            imageUrl: imageUrls[0],
-            visible: true
+            imageUrl: imageUrls[0]
         });
         map.layers.insert(overlay);
 
@@ -45,15 +43,15 @@
         var bounds = Microsoft.Maps.LocationRect.fromShapes([dragPin1, dragPin2]);
 
         //Update the bounds of the ground overlay.
-        overlay.setOptions({ bounds: bounds, visible: true });
+        overlay.setOptions({ bounds: bounds });
     }
 
-    function updateImageUrl(imgUrl) {
-        overlay.setOptions({ imageUrl: imgUrl, visible: true });
+    /*function updateImageUrl(imgUrl) {
+        overlay.setOptions({ imageUrl: imgUrl });
 
         //TODO: remove, this is a hack to work around a bug.
         Microsoft.Maps.Events.invoke(map, 'viewchange', null);
-    }
+    }*/
 
     function beneathLabelsUpdated(beneathLabels) {
         //Remove the overlay from the map as we need to create a new overlay to change it's benethLabels option.
@@ -74,12 +72,12 @@
         
     function bgColorUpdated(elm) {
         //Update the background color value of the overlay.
-        overlay.setOptions({ backgroundColor: elm.value, visible: true });
+        overlay.setOptions({ backgroundColor: elm.value });
     }
 
     function opacityUpdated(elm) {
         //Update the opacity value of the overlay.
-        overlay.setOptions({ opacity: parseFloat(elm.value), visible: true });
+        overlay.setOptions({ opacity: parseFloat(elm.value) });
 
         //Update the displayed opacity value.
         document.getElementById('opacityInput').innerText = elm.value;
@@ -87,22 +85,22 @@
 
     function rotationUpdated(elm) {
         //Update the rotation value of the overlay.
-        overlay.setOptions({ rotation: parseFloat(elm.value), visible: true });
+        overlay.setOptions({ rotation: parseFloat(elm.value) });
 
         //Update the displayed rotation value.
         document.getElementById('rotationInput').innerText = elm.value;
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental"></script>
+    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap"></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:500px;"></div>
     <br/>    
-    Source Image:
+    <!--Source Image:
     <input type="button" onclick="updateImageUrl(imageUrls[0])" value="Image 0"/>
     <input type="button" onclick="updateImageUrl(imageUrls[1])" value="Image 1" />
-    <input type="button" onclick="updateImageUrl(imageUrls[2]);" value="Image 2" />
+    <input type="button" onclick="updateImageUrl(imageUrls[2]);" value="Image 2" />-->
     
     Visible:
     <input type="button" onclick="overlay.setOptions({ visible: true });" value="True" />

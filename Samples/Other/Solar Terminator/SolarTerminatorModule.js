@@ -36,13 +36,14 @@ var SolarTerminator = (function (_super) {
      * @contructor
      */
     function SolarTerminator(dateTime, options) {
-        _super.call(this, [], options || {
+        var _this = _super.call(this, [], options || {
             strokeColor: 'rgba(0,0,0,0)',
             fillColor: 'rgba(0,0,0,0.7)'
-        });
-        this.radiansToDegrees = 180 / Math.PI;
-        this.degreesToRadians = Math.PI / 180;
-        this.setLocations(this.computeTerminatorLocations());
+        }) || this;
+        _this.radiansToDegrees = 180 / Math.PI;
+        _this.degreesToRadians = Math.PI / 180;
+        _this.setLocations(_this.computeTerminatorLocations());
+        return _this;
     }
     /**********************
     * Public Functions
