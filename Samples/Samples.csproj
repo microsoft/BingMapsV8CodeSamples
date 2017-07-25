@@ -60,6 +60,7 @@
     <Content Include="Clustering\Clustering_PushpinList.html" />
     <Content Include="Clustering\SpiderClusters\Clustering_SpiderClusters.html" />
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
+    <Content Include="Common\images\backgroundGrid.png" />
     <Content Include="Common\images\endPin.png" />
     <Content Include="Common\images\startPin.png" />
     <Content Include="Common\images\loadingIcon.gif" />
