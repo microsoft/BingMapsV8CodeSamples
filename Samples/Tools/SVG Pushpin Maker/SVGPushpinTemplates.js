@@ -71,19 +71,19 @@
             y: 17
         }
     },
-    {
-        desc: 'Hexagon with thin border',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 34 34" xml:space="preserve"><polygon points="9,0 22,0 32,16 22,32 9,32 0,16 9,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="15" y="25" style="font-size:10px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
-        symContainer: '<image x="5" y="5" width="20" height="20" xlink:href="data:image/svg+xml,{symbol}"/>',
-        setColor: true,
-        width: 34,
-        height: 34,
-        roundClickableArea: true,
-        anchor: {
-            x: 17,
-            y: 17
-        }
-    },
+    //{
+    //    desc: 'Hexagon with thin border',
+    //    svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 34 34" xml:space="preserve"><polygon points="9,0 22,0 32,16 22,32 9,32 0,16 9,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="15" y="25" style="font-size:10px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+    //    symContainer: '<image x="5" y="5" width="20" height="20" xlink:href="data:image/svg+xml,{symbol}"/>',
+    //    setColor: true,
+    //    width: 34,
+    //    height: 34,
+    //    roundClickableArea: true,
+    //    anchor: {
+    //        x: 17,
+    //        y: 17
+    //    }
+    //},
     {
         desc: 'Circle with thick border',
         svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 30 30" xml:space="preserve"><circle cx="15" cy="15" r="13" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="15" y="20" style="font-size:16px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
@@ -120,18 +120,18 @@
             y: 18
         }
     },
-    {
-        desc: 'Hexagon with thick border',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="9,0 22,0 32,16 22,32 9,32 0,16 9,0" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="15" y="25" style="font-size:10px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
-        symContainer: '<image x="5" y="5" width="20" height="20" xlink:href="data:image/svg+xml,{symbol}"/>',
-        width: 36,
-        height: 34,
-        roundClickableArea: true,
-        anchor: {
-            x: 18,
-            y: 17
-        }
-    },
+    //{
+    //    desc: 'Hexagon with thick border',
+    //    svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="9,0 22,0 32,16 22,32 9,32 0,16 9,0" style="stroke:{secondaryColor};stroke-width:2;fill:{color}"/>{symContainer}<text x="15" y="25" style="font-size:10px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+    //    symContainer: '<image x="5" y="5" width="20" height="20" xlink:href="data:image/svg+xml,{symbol}"/>',
+    //    width: 36,
+    //    height: 34,
+    //    roundClickableArea: true,
+    //    anchor: {
+    //        x: 18,
+    //        y: 17
+    //    }
+    //},
     {
         desc: 'Circle with symbol in corner',
         svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><circle cx="16" cy="16" r="14" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="16" y="21" style="font-size:16px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
@@ -168,18 +168,18 @@
             y: 17
         }
     },
-    {
-        desc: 'Hexagon with small symbol in corner',
-        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="9,0 22,0 32,16 22,32 9,32 0,16 9,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="15" y="25" style="font-size:10px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
-        symContainer: '<image x="21" y="0" width="14" height="14" xlink:href="data:image/svg+xml,{symbol}"/>',
-        width: 36,
-        height: 34,
-        roundClickableArea: true,
-        anchor: {
-            x: 18,
-            y: 17
-        }
-    },
+    //{
+    //    desc: 'Hexagon with small symbol in corner',
+    //    svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 36 34" xml:space="preserve"><polygon points="9,0 22,0 32,16 22,32 9,32 0,16 9,0" style="stroke:{secondaryColor};stroke-width:1;fill:{color}"/>{symContainer}<text x="15" y="25" style="font-size:10px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
+    //    symContainer: '<image x="21" y="0" width="14" height="14" xlink:href="data:image/svg+xml,{symbol}"/>',
+    //    width: 36,
+    //    height: 34,
+    //    roundClickableArea: true,
+    //    anchor: {
+    //        x: 18,
+    //        y: 17
+    //    }
+    //},
     {
         desc: 'Map Marker 1',
         svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 365 560" xml:space="preserve"><path fill="{color}" d="M182.9,551.7c0,0.1,0.2,0.3,0.2,0.3S358.3,283,358.3,194.6c0-130.1-88.8-186.7-175.4-186.9 C96.3,7.9,7.5,64.5,7.5,194.6c0,88.4,175.3,357.4,175.3,357.4S182.9,551.7,182.9,551.7z"/>{symContainer}<text x="185" y="280" style="font-size:220px;font-family:arial;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
