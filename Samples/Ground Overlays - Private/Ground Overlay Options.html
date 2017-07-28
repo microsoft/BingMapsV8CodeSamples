@@ -46,12 +46,12 @@
         overlay.setOptions({ bounds: bounds });
     }
 
-    /*function updateImageUrl(imgUrl) {
+    function updateImageUrl(imgUrl) {
         overlay.setOptions({ imageUrl: imgUrl });
 
         //TODO: remove, this is a hack to work around a bug.
         Microsoft.Maps.Events.invoke(map, 'viewchange', null);
-    }*/
+    }
 
     function beneathLabelsUpdated(beneathLabels) {
         //Remove the overlay from the map as we need to create a new overlay to change it's benethLabels option.
@@ -92,15 +92,15 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap"></script>
+    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental"></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:500px;"></div>
     <br/>    
-    <!--Source Image:
+    Source Image:
     <input type="button" onclick="updateImageUrl(imageUrls[0])" value="Image 0"/>
     <input type="button" onclick="updateImageUrl(imageUrls[1])" value="Image 1" />
-    <input type="button" onclick="updateImageUrl(imageUrls[2]);" value="Image 2" />-->
+    <input type="button" onclick="updateImageUrl(imageUrls[2]);" value="Image 2" />
     
     Visible:
     <input type="button" onclick="overlay.setOptions({ visible: true });" value="True" />

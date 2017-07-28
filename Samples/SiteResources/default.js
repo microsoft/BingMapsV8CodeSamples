@@ -133,13 +133,14 @@ $(function () {
 });
 
 var sampleRedirects = {
-    'CustomOverlay_HtmlPushpinLayer': 'Html Pushpin Layer',
-    'QueryAPI_Nearby': 'Find Nearby Search - Query API',
-    'CustomOverlay_CanvasLayer': 'Canvas Layer',
-    "Map_ContextMenu": "Context Menu",
-    "Map_KeyEvents": "Map Key Events",
-    "Map_LazyLoading": "Lazy Loading the Map",
-    "GeoJson_LocalFile": "GeoJson Drag and Drop",
-    "Autosuggest_AddressForm": "Fill Address Form with Autosuggest",
-    "Autosuggest_DefaultUI": "Autosugges with Map"
+    'CustomOverlay_HtmlPushpinLayer': 'Html%20Pushpin%20Layer',
+    'QueryAPI_Nearby': 'Find%20Nearby%20Search%20-%20Query%20API',
+    'CustomOverlay_CanvasLayer': 'Canvas%20Layer',
+    "Map_ContextMenu": "Context%20Menu",
+    "Map_KeyEvents": "Map%20Key%20Events",
+    "Map_LazyLoading": "Lazy%20Loading%20the%20Map",
+    "GeoJson_LocalFile": "GeoJson%20Drag%20and%20Drop",
+    "Autosuggest_AddressForm": "Fill%20Address%20Form%20with%20Autosuggest",
+    "Autosuggest_DefaultUI": "Autosugges%20with%20Map",
+    "GeoXmlLayer%20-%20Local%20Data":"GeoXmlLayer%20-%20Same%20Domain"
 };

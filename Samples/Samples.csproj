@@ -121,9 +121,12 @@
     <Content Include="GeoXml - Private\data\gpx\Route66Attractions.xml" />
     <Content Include="GeoXml - Private\data\gpx\Tourist_locations_UK-England.xml" />
     <Content Include="GeoXml - Private\data\kml\esfr-trip-track-20080407.xml" />
-    <Content Include="GeoXml - Private\GeoXml - Cross Domain\GeoXml - Cross Domain.html" />
+    <Content Include="GeoXml - Private\GeoXml - Read from Url.html" />
+    <Content Include="GeoXml - Private\GeoXml - Read.html" />
+    <Content Include="GeoXml - Private\GeoXml - Write.html" />
+    <Content Include="GeoXml - Private\GeoXmlLayer - Cross Domain\GeoXmlLayer - Cross Domain.html" />
     <Content Include="GeoXml - Private\GeoXml - Drag and Drop.html" />
-    <Content Include="GeoXml - Private\GeoXmlLayer - Local Data.html" />
+    <Content Include="GeoXml - Private\GeoXmlLayer - Same Domain.html" />
     <Content Include="GeoXml - Private\GeoXmlLayer - Basic.html" />
     <Content Include="Ground Overlays - Private\Basic Ground Overlay.html" />
     <Content Include="Ground Overlays - Private\Ground Overlay Options.html" />
@@ -293,7 +296,9 @@
     <Content Include="Search\Geocode.html" />
     <Content Include="Search\Reverse Geocode.html" />
     <Content Include="template.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Default.aspx.cs">
@@ -303,7 +308,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="GeoXml - Private\GeoXml - Cross Domain\GeoXmlProxyService.ashx.cs">
+    <Compile Include="GeoXml - Private\GeoXmlLayer - Cross Domain\GeoXmlProxyService.ashx.cs">
       <DependentUpon>GeoXmlProxyService.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -342,16 +347,18 @@
     <TypeScriptCompile Include="Other\Solar Terminator\SolarTerminatorModule.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GeoJSON\Data\US_County_Boundaries.json" />
+    <Content Include="GeoJSON\Data\US_County_Boundaries.js" />
     <Content Include="Rest Services\RestServices_Angular1.6.html" />
     <Content Include="packages.config" />
-    <Content Include="GeoXml - Private\GeoXml - Cross Domain\GeoXmlProxyService.ashx" />
+    <Content Include="GeoXml - Private\GeoXmlLayer - Cross Domain\GeoXmlProxyService.ashx" />
     <Content Include="GeoXml - Private\data\kml\internet_users_2005_choropleth.kml" />
     <Content Include="GeoXml - Private\data\kml\GroundOverlay.kml" />
     <Content Include="GeoXml - Private\data\kml\Countries.kml" />
     <Content Include="GeoXml - Private\data\kmz\FemaRegionsandFieldOffices.kmz" />
     <Content Include="GeoXml - Private\data\kmz\shuckstack-fire-tower.kmz" />
     <Content Include="GeoXml - Private\data\kmz\RecreationSitePoint.kmz" />
+    <Content Include="GeoXml - Private\data\kml\London stations.kml" />
+    <Content Include="GeoXml - Private\data\kml\London Tube Lines.kml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>

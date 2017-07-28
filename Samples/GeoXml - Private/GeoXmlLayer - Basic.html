@@ -4,8 +4,9 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
+        //TODO: remove experimental and test KMZ
     var map;
-    var gpx = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Mona Passage</title><georss:point>45.256 -71.92</georss:point></entry></feed>';
+    var georss = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Sample Polygon</title><georss:polygon>46.31409 -122.22616 46.31113 -122.22968 46.31083 -122.23320</georss:polygon></entry></feed>';
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -13,9 +14,10 @@
             zoom: 1
         });
 
+        //Load the GeoXml module.
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
             //Create an instance of the GeoXmlLayer.
-            layer = new Microsoft.Maps.GeoXmlLayer(gpx);
+            layer = new Microsoft.Maps.GeoXmlLayer(georss);
 
             //Add the layer ot the map.
             map.layers.insert(layer);

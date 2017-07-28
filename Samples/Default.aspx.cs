@@ -63,6 +63,7 @@ namespace Samples
                         if (categoryNode.ChildNodes != null && categoryNode.ChildNodes.Count > 0)
                         {
                             SampleTreeView.Nodes.Add(categoryNode);
+                            SortTreeNodes(categoryNode.ChildNodes);
                         }
                     }
                 }
@@ -154,6 +155,38 @@ namespace Samples
                     NumberOfSamples++;
                 }
             }
+        }
+
+        private void SortTreeNodes(TreeNodeCollection treeNodes)
+        {
+            var sorted = true;
+
+            foreach (TreeNode treeNode in treeNodes)
+            {
+                SortTreeNodes(treeNode.ChildNodes);
+            }
+
+            do
+            {
+                sorted = true;
+
+                for (var i = 0; i < treeNodes.Count - 1; i++)
+                {
+                    var treeNode1 = treeNodes[i];
+                    var treeNode2 = treeNodes[i + 1];
+
+                    if (treeNode1.Text.CompareTo(treeNode2.Text) > 0)
+                    {
+                        treeNodes.RemoveAt(i + 1);
+                        treeNodes.RemoveAt(i);
+
+                        treeNodes.AddAt(i, treeNode2);
+                        treeNodes.AddAt(i + 1, treeNode1);
+
+                        sorted = false;
+                    }
+                }
+            } while (!sorted);
         }
     }
 }

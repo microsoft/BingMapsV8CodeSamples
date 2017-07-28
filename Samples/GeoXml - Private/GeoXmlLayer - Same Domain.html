@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
     var map, layer;
-    var proxyService = 'GeoXmlProxyService.ashx?url=';
-
+        //TODO: remove experimental and test KMZ
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
             zoom: 1
         });
 
+        //Load the GeoXml module.
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
             //Create an instance of the GeoXmlLayer.
             layer = new Microsoft.Maps.GeoXmlLayer();
@@ -46,6 +46,8 @@
         <br />
         KML:
         <input type="button" value="Countries" onclick="readXml('data/kml/Countries.kml');" />
+        <input type="button" value="London Tube Lines" onclick="readXml('data/kml/London%20Tube%20Lines.kml');" />
+        <input type="button" value="London Tube Stations" onclick="readXml('data/kml/London%20stations.kml');" />
         <input type="button" value="Sample File" onclick="readXml('data/kml/esfr-trip-track-20080407.xml');" />
         <input type="button" value="Ground Overlay" onclick="readXml('data/kml/GroundOverlay.kml');" />
         <input type="button" value="Internet Users 2005 Choropleth" onclick="readXml('data/kml/internet_users_2005_choropleth.kml');" />

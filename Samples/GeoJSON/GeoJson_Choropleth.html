@@ -22,7 +22,7 @@
         //Load the GeoJSON module.
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
             //Read the GeoJSON file that is hosted on the same domain.
-            Microsoft.Maps.GeoJson.readFromUrl('data/US_County_Boundaries.json', function (data) {
+            Microsoft.Maps.GeoJson.readFromUrl('data/US_County_Boundaries.js', function (data) {
                 //Loop through results and set the fill color of the polygons based on the CENSUSAREA property.
                 for (var i = 0; i < data.length; i++) {
                     data[i].setOptions({
@@ -80,7 +80,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&uncrunched=1' async defer></script>
     <style>
         .mapContainer {
             position: relative;

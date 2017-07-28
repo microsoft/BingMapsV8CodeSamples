@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+    var xmlUrl = 'data/georss/SampleGeoRSS.xml';
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Load the GeoXml module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+            //Parse the XML data.
+            Microsoft.Maps.GeoXml.readFromUrl(xmlUrl, null, function (data) {
+                    //Do something with the parsed XML data, in this case render it.
+                    renderGeoXmlDataSet(data);
+            });
+
+        });
+    }
+
+    function renderGeoXmlDataSet(data) {
+        //Remove all existing data from the map.
+        map.entities.clear();
+        map.layers.clear();
+
+        //Add all shapes that are not in layers to the map.
+        if (data.shapes) {
+            map.entities.push(data.shapes);
+        }
+
+        //Add all data layers to the map.
+        if (data.layers) {
+            for (var i = 0, len = data.layers.length; i < len; i++) {
+                map.layers.insert(data.layers[i]);
+            }
+        }
+
+        //Add all screen overlays to the map.
+        if (data.screenOverlays) {
+            for (var i = 0, len = data.screenOverlays.length; i < len; i++) {
+                map.layers.insert(data.screenOverlays[i]);
+            }
+        }
+
+        if (data.summary && data.summary.bounds) {
+            //Set the map view to focus show the data.
+            map.setView({ bounds: data.summary.bounds, padding: 30 });
+        }
+    }
+    </script>
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>GeoXml - Read from URL Sample</legend>
+        This sample shows how to read a geospatial XML file that is hosted on the same domain as the application. If your data is hosted on another domain, you can use a proxy service similar to the GeoXmlLayer Cross Domain sample. 
+    </fieldset>
+</body>
+</html>

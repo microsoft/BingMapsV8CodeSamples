@@ -6,8 +6,9 @@
 
     <!-- Using external library for code sample to save Zip files to file system. -->
     <script src="../Common/scripts/FileSaver.js"></script>
-
+    
     <script type='text/javascript'>
+        //TODO: remove experimental and test KMZ
     var map, infobox, dataBounds, statusPanel, xmlPanel, loadingIcon, fileCount = 0;
     var proxyService = 'GeoXml - Cross Domain/GeoXmlProxyService.ashx?url=';
     var zipKmzRx = /(.zip|.kmz)$/;
@@ -111,7 +112,7 @@
                         dataBounds = r.summary.bounds;
                     }
 
-                    map.setViewWorkaround({ bounds: dataBounds });
+                    map.setView({ bounds: dataBounds });
                 }
 
                 writeStats(fileName, r.stats);
