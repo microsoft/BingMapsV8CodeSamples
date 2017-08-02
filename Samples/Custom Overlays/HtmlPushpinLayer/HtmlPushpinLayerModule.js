@@ -41,7 +41,7 @@ var HtmlPushpin = (function () {
      * @param options The options used to customize how the pushpin is displayed.
      */
     function HtmlPushpin(loc, htmlContent, options) {
-        //TODO: Mouse over, out, click, dblcick.
+        //TODO: Mouse click, dblcick.
         /**********************
         * Internal Properties
         ***********************/
@@ -63,6 +63,8 @@ var HtmlPushpin = (function () {
         var self = this;
         this._element.addEventListener('mousedown', function (e) { self._pinMouseDown(e); });
         this._element.addEventListener('mouseup', function (e) { self._pinMouseUp(e); });
+        this._element.addEventListener('mouseover', function (e) { self._pinMouseOver(e); });
+        this._element.addEventListener('mouseout', function (e) { self._pinMouseOut(e); });
     }
     /**
      * Disposes the pushpin and releases its resources.
@@ -73,6 +75,8 @@ var HtmlPushpin = (function () {
         if (this._element) {
             this._element.removeEventListener('mousedown', function (e) { _this._pinMouseDown(e); });
             this._element.removeEventListener('mouseup', function (e) { _this._pinMouseUp(e); });
+            this._element.removeEventListener('mouseover', function (e) { _this._pinMouseOver(e); });
+            this._element.removeEventListener('mouseout', function (e) { _this._pinMouseOut(e); });
         }
         this._layer = null;
         this._options = null;
@@ -170,6 +174,24 @@ var HtmlPushpin = (function () {
     /**********************
     * Private Functions
     ***********************/
+    /**
+    * Mouse over event handler.
+    * @param e The mouse event.
+    */
+    HtmlPushpin.prototype._pinMouseOver = function (e) {
+        if (this.onMouseOver) {
+            this.onMouseOver(this._getEventInfo('mouseover', e));
+        }
+    };
+    /**
+    * Mouse out event handler.
+    * @param e The mouse event.
+    */
+    HtmlPushpin.prototype._pinMouseOut = function (e) {
+        if (this.onMouseOut) {
+            this.onMouseOut(this._getEventInfo('mouseout', e));
+        }
+    };
     /**
      * Mouse down event handler.
      * @param e The mouse event.

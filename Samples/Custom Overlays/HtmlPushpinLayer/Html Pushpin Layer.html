@@ -4,8 +4,7 @@
     <title></title>
     <meta charset="utf-8" />    
     <script type='text/javascript'>
-    var map;
-    var layer;
+    var map, infobox, layer;
 
     //Create a simple reusable HTML template to keep things easy.
     var htmlTemplate = '<div class="htmlPushpin">{text}</div>';
@@ -15,6 +14,16 @@
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey
         });
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            offset: new Microsoft.Maps.Point(0, 12),
+            showCloseButton: false,
+            visible: false
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
 
         //Register the custom module.
         Microsoft.Maps.registerModule('HtmlPushpinLayerModule', 'HtmlPushpinLayerModule.js');
@@ -29,8 +38,21 @@
                 new HtmlPushpin(locs[0], htmlTemplate.replace('{text}', 'Hello World!'), { anchor: new Microsoft.Maps.Point(50, 12) }),
                 new HtmlPushpin(locs[1], htmlTemplate.replace('{text}', 'My Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12) }),
                 new HtmlPushpin(locs[2], htmlTemplate.replace('{text}', 'HTML Rules!'), { anchor: new Microsoft.Maps.Point(50, 12) }),
+                new HtmlPushpin(locs[2], htmlTemplate.replace('{text}', 'Hoverable'), { anchor: new Microsoft.Maps.Point(50, 12) }),
                 new HtmlPushpin(locs[3], htmlTemplate.replace('{text}', 'Draggable Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12), draggable: true })
             ];
+
+            pins[3].onMouseOver = function (e) {
+                infobox.setOptions({
+                    location: e.target.getLocation(),
+                    title: 'Pin Hovered',
+                    visible: true
+                });
+            };
+
+            pins[3].onMouseOut = function (e) {
+                infobox.setOptions({ visible: false });
+            };
 
             //Create an Html Pushpin Layer and pass in the array of pushpins.
             layer = new HtmlPushpinLayer(pins);

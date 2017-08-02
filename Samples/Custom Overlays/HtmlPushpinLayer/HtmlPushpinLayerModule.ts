@@ -96,7 +96,11 @@ class HtmlPushpin {
 
     public onMouseUp: (event: IHtmlPushpinEvent) => void;
 
-    //TODO: Mouse over, out, click, dblcick.
+    public onMouseOver: (event: IHtmlPushpinEvent) => void;
+
+    public onMouseOut: (event: IHtmlPushpinEvent) => void;
+
+    //TODO: Mouse click, dblcick.
 
     /**********************
     * Internal Properties
@@ -142,7 +146,9 @@ class HtmlPushpin {
         var self = this;
         
         this._element.addEventListener('mousedown', (e) => { self._pinMouseDown(e) });
-        this._element.addEventListener('mouseup', (e) => { self._pinMouseUp(e) });     
+        this._element.addEventListener('mouseup', (e) => { self._pinMouseUp(e) });
+        this._element.addEventListener('mouseover', (e) => { self._pinMouseOver(e) });   
+        this._element.addEventListener('mouseout', (e) => { self._pinMouseOut(e) });   
     }
 
     /**
@@ -153,6 +159,8 @@ class HtmlPushpin {
         if (this._element) {
             this._element.removeEventListener('mousedown', (e) => { this._pinMouseDown(<MouseEvent>e) });
             this._element.removeEventListener('mouseup', (e) => { this._pinMouseUp(<MouseEvent>e) });
+            this._element.removeEventListener('mouseover', (e) => { this._pinMouseOver(<MouseEvent>e) });
+            this._element.removeEventListener('mouseout', (e) => { this._pinMouseOut(<MouseEvent>e) });
         }
 
         this._layer = null;
@@ -268,6 +276,26 @@ class HtmlPushpin {
     /**********************
     * Private Functions
     ***********************/
+
+     /**
+     * Mouse over event handler.
+     * @param e The mouse event.
+     */
+    private _pinMouseOver(e: MouseEvent): void {
+        if (this.onMouseOver) {
+            this.onMouseOver(this._getEventInfo('mouseover', e));
+        }
+    }
+
+     /**
+     * Mouse out event handler.
+     * @param e The mouse event.
+     */
+    private _pinMouseOut(e: MouseEvent): void {
+        if (this.onMouseOut) {
+            this.onMouseOut(this._getEventInfo('mouseout', e));
+        }
+    }
 
     /**
      * Mouse down event handler.
