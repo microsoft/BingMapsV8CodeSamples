@@ -82,6 +82,7 @@
     <Content Include="Data Binning Layers\DataBinning_FeatureTester.html" />
     <Content Include="Data Binning Layers\DataBinning_GradientColorScale.html" />
     <Content Include="Default.aspx" />
+    <Content Include="Directions\Fully Custom Waypoint Pushpins.html" />
     <Content Include="Directions\Get Dragged Route Waypoints.html" />
     <Content Include="Directions\Simple Custom Directions Input Panel.html" />
     <Content Include="Directions\Directions_Basic.html" />
