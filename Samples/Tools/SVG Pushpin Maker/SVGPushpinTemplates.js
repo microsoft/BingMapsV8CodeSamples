@@ -1,4 +1,4 @@
-﻿var svgPushpinTemplates = [
+var svgPushpinTemplates = [
     {
         desc: 'An empty template',
         svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="0 0 30 30" xml:space="preserve">{symContainer}<text x="15" y="20" style="font-size:16px;fill:{textColor};" text-anchor="middle">{text}</text></svg>',
@@ -409,7 +409,6 @@
         }
     },
 ];
-
 var svgSymbols = [
     {
         desc: 'Bike',
@@ -420,7 +419,7 @@ var svgSymbols = [
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48" xml:space="preserve"><path d="M0 0h48v48h-48z" fill="none"/><path d="M8 32c0 1.77.78 3.34 2 4.44v3.56c0 1.1.9 2 2 2h2c1.11 0 2-.9 2-2v-2h16v2c0 1.1.89 2 2 2h2c1.1 0 2-.9 2-2v-3.56c1.22-1.1 2-2.67 2-4.44v-20c0-7-7.16-8-16-8s-16 1-16 8v20zm7 2c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm18 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-12h-24v-10h24v10z" style="fill:{symbolColor}"/></svg>'
     },
     {
-        desc:'Circle',
+        desc: 'Circle',
         svg: '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" xml:space="preserve"><circle cx="15" cy="15" r="15" style="fill:{symbolColor}"/></svg>'
     },
     {
@@ -476,7 +475,6 @@ var svgSymbols = [
         svg: '<svg width="30" height="39" viewBox="0 0 30 29"><g transform="translate(0,-268)"><path d="m 15.341123,267.81946 15.341123,11.14598 -5.859788,18.03457 -18.9626712,0 L -3.416885e-7,278.96544 Z" style="fill:{symbolColor}" transform="matrix(0.97776414,0,0,0.99381264,0,1.8376311)"/></g></svg>'
     }
 ];
-
 /*
 
     {
@@ -504,4 +502,5 @@ var svgSymbols = [
     https://commons.wikimedia.org/wiki/Category:SVG_map_symbols_of_Sweden
     http://map-icons.com/
 
-*/
+*/ 
+//# sourceMappingURL=SVGPushpinTemplates.js.map

@@ -172,7 +172,7 @@ declare module Microsoft.Maps.Search {
         userData?: any;
 
         /** A string containing the address or place to be matched to a location on the map.  */
-         where: string;
+        where: string;
     }
 
     /** The options for a reverse geocode request. */

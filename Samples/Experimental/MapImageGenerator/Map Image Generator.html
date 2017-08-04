@@ -11,6 +11,9 @@
     var map, imageGenerator;
 
     function GetMap() {
+        //HACK: re-enable cors for tiles. This will cause issues for tile layers.
+        Microsoft.Maps['GlobalConfig'].features.disableImageCORS.isEnabled = false;
+
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
             zoom: 5

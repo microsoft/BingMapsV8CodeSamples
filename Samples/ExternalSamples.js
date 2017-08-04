@@ -1,14 +1,13 @@
-﻿/**
+/**
 * List of External Bing Maps V8 Samples.
 * Structure of externalSamples object:
 * - Categroy name: [
 *   { title: "Sample Name", href: "URL to sample project", description: "[Optional] Description for the sample" }
 * ];
-*       
+*
 */
-
 var externalSamples = {
-    'Angular':[
+    'Angular': [
         { title: 'Angular Maps (X-Map)', href: 'https://github.com/infusion-code/angular-maps', description: 'Angular Maps (X-Map) is a set of components and services to provide map functionality in angular 2+ apps. X-Maps architecture is provider independent and can be used with Bing, Google, ESRI or any other service enabled mapping provider. X-Map contains a default implementation for Bing Maps.' }
     ],
     'Bots': [
@@ -24,3 +23,4 @@ var externalSamples = {
         { title: 'Using the Bing Maps V8 Web control in a WinForm application', href: 'https://code.msdn.microsoft.com/Using-the-Bing-Maps-V8-Web-07e21f3a' }
     ]
 };
+//# sourceMappingURL=ExternalSamples.js.map

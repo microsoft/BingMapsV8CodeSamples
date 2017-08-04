@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, infobox, dataLayer, poiSearchManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey
+        });
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            showCloseButton: false,
+            visible: false,
+            maxHeight: 200,
+            maxWidth: 320
+        });
+        infobox.setMap(map);
+
+        //Add a layer for the results and use mouse events for displaying an infobox.
+        dataLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(dataLayer);
+
+        //Show infobox when result hovered.
+        Microsoft.Maps.Events.addHandler(dataLayer, 'mouseover', function (e) {
+            var m = e.target.metadata;
+            var desc = [m.address, '<br/>', m.city, ', ', m.adminDistrict, '<br/>', m.postalCode];
+
+            if (m.phone && m.phone !== '') {
+                desc.push('<br/><br/><div style="min-width:200px;">Phone: ', m.phone, '</div>');
+            }
+
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: m.name,
+                description: desc.join(''),
+                visible: true
+            });
+        });
+
+        //Hide infobox when moused out of result.
+        Microsoft.Maps.Events.addHandler(dataLayer, 'mouseout', function (e) {
+            infobox.setOptions({ visible: false });
+        });
+
+        //Register and load the POI Search module.
+        Microsoft.Maps.registerModule('PoiSearchModule', 'PoiSearchModule.js')
+        Microsoft.Maps.loadModule('PoiSearchModule', function () {
+            poiSearchManager = new Microsoft.Maps.Search.PoiSearchManager(map);
+            poiSearchManager.debug = true;
+        });
+    }
+
+    function whatWhereSearch() {
+        dataLayer.clear();
+
+        var what = document.getElementById('whatTbx').value;
+        var where = document.getElementById('whereTbx').value;
+
+        poiSearchManager.search({
+            what: what,
+            where: where,
+            callback: searchCallback
+        });
+    }
+
+    function search() {
+        dataLayer.clear();
+
+        var query = document.getElementById('searchTbx').value;
+        poiSearchManager.search({
+            query: query,
+            callback: searchCallback
+        });
+    }
+
+    function searchCallback(result) {
+        if (result && result.searchResults && result.searchResults.length > 0) {
+            dataLayer.add(result.searchResults);
+
+            map.setView({ bounds: result.bestView, padding: 30 });
+        } else {
+            alert('No results found');
+        }
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <br />
+    What: <input type="text" id="whatTbx" value="Coffee" />
+    Where: <input type="text" id="whereTbx" value="Seattle" />
+    <input type="button" onclick="whatWhereSearch()" value="Search" />
+    <br /><br />
+    Search: <input type="text" id="searchTbx" value="pizza in New York" />
+    <input type="button" onclick="search()" value="Search" />
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>POI Search Module Sample</legend>
+        This sample shows how to create a module that adds free from query support to a data source in the Bing Spatial Data Services. 
+        In this case the NAVTEQ data sources are used to provide poi/business results for queries.
+    </fieldset>
+</body>
+</html>
