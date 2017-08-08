@@ -21,11 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /// <reference path="../../Common/typings/MicrosoftMaps/Microsoft.Maps.d.ts"/>
 /**
 * An extened pushpin which is used to represent an individual pushpin in the spider cluster.
@@ -155,7 +160,7 @@ var SpiderClusterManager = (function () {
             if (options.pinUnselected) {
                 this._options.pinUnselected = options.pinUnselected;
             }
-            if (typeof options.visible === 'bolean') {
+            if (typeof options.visible === 'boolean') {
                 this._options.visible = options.visible;
             }
             this._clusterLayer.setOptions(options);

@@ -23,7 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,6 +149,7 @@
     <Content Include="Map\New Map Styles.html" />
     <Content Include="Map\Streetside - Look At Location.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
+    <Content Include="Polylines\Prevent Polylines from Crossing the Anti-Merdian.html" />
     <Content Include="Pushpins\Image Sprite Pushpins using a Canvas.html" />
     <Content Include="Pushpins\images\PushpinSprite.png" />
     <Content Include="Pushpins\Pushpin Bar Chart %28inline SVG%29.html" />

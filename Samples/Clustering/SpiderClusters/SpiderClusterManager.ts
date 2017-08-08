@@ -231,7 +231,7 @@ class SpiderClusterManager {
                 this._options.pinUnselected = options.pinUnselected;
             }
 
-            if (typeof options.visible === 'bolean') {
+            if (typeof options.visible === 'boolean') {
                 this._options.visible = options.visible;
             }
 
