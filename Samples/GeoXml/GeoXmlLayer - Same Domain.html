@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
     var map, layer;
-        //TODO: remove experimental and test KMZ
+        //TODO: remove experimental
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
@@ -53,7 +53,6 @@
         <input type="button" value="Internet Users 2005 Choropleth" onclick="readXml('data/kml/internet_users_2005_choropleth.kml');" />
         <br />
         KMZ:
-        <input type="button" value="Fema Regions and Field Offices" onclick="readXml('data/kmz/FemaRegionsandFieldOffices.kmz');" />
         <input type="button" value="Recreation Site Point" onclick="readXml('data/kmz/RecreationSitePoint.kmz');" />
         <input type="button" value="Shuckstack fire tower" onclick="readXml('data/kmz/shuckstack-fire-tower.kmz');" />
         <br />

@@ -6,7 +6,7 @@
     <script type='text/javascript'>
     var map, layer;
     var proxyService = 'GeoXmlProxyService.ashx?url=';
-
+        //TODO: remove experimental
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
@@ -40,13 +40,14 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <div style="margin-top:10px;">
-        External Feeds:         
+        External Feeds:  
         <input type="button" value="Flickr Feed (GeoRSS)" onclick="readXml('https://api.flickr.com/services/feeds/geo/?g=1741680@N21&lang=en-us&format=feed-georss');" />
-        <input type="button" value="USGS Earthquakes Feed (GeoRSS - CORs enabled)" onclick="readXml('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.atom', true);" />
-        <input type="button" value="USGS Earthquakes Feed (KML - CORs enabled)" onclick="readXml('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month_age.kml', true);" />
         <input type="button" value="New York City Metro (KMZ)" onclick="readXml('http://www.brianabbott.net/media/kml/NYC-Transit.kmz');" />
         <input type="button" value="Idaho Big Game Hunting Restricted Areas Feed (KML)" onclick="readXml('http://data.idfggis.opendata.arcgis.com/datasets/73640c4d424740eb8913be9fbd3e715d_13.kml');" />
-        
+        <br/>
+        CORs Enabled:        
+        <input type="button" value="USGS Earthquakes Feed (GeoRSS - CORs enabled)" onclick="readXml('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.atom', true);" />
+        <input type="button" value="USGS Earthquakes Feed (KML - CORs enabled)" onclick="readXml('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month_age.kml', true);" />
         <br />
         <br />
         Layer Options: 

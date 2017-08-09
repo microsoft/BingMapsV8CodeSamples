@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
     var map;
-
+        //TODO: remove experimental
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -23,7 +23,7 @@
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
             //Pass in the map to export all data on it into an XML string.
             var xml = Microsoft.Maps.GeoXml.write(map, {
-                //xmlFormat: Microsoft.Maps.GeoXmlFormat.Kml,
+                xmlFormat: Microsoft.Maps.GeoXmlFormat.kml,
                 roundLocations: true,
                 indentChars: '    ' //Use 4 spaces instead of \t for indenting as it looks better in the textarea.
             });
@@ -35,7 +35,7 @@
     </script>
 
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&uncrunched=1' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:400px;"></div>

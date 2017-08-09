@@ -49,7 +49,7 @@
     function updateImageUrl(imgUrl) {
         overlay.setOptions({ imageUrl: imgUrl });
 
-        //TODO: remove, this is a hack to work around a bug.
+        //TODO: remove, this is a hack to work around a bug where when changing the source image of a ground overlay, the it doesn't render until the map view changes. fix ETA 8/31
         Microsoft.Maps.Events.invoke(map, 'viewchange', null);
     }
 
@@ -92,7 +92,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental"></script>
+    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap"></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:500px;"></div>

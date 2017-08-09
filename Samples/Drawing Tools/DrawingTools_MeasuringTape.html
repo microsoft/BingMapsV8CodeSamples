@@ -46,25 +46,18 @@
             length = Math.round(length * 100) / 100;
 
             outputPanel.innerHTML = 'Shape: Polyline<br/>Length: ' + length + ' miles';
-        } else if (shape instanceof Microsoft.Maps.Polygon) {
-            //TODO: remove bug fix once fixed in release branch.
-            if (shape.geometry.rings[0].y.length > 0) {
-                shape.geometry.rings[0].y[shape.geometry.rings[0].y.length - 1] = shape.geometry.rings[0].y[0];
+        } else if (shape instanceof Microsoft.Maps.Polygon && shape.getLocations().length > 3) {
+            //Calculate the area of the polygon.
+            var area = Microsoft.Maps.SpatialMath.Geometry.area(shape, Microsoft.Maps.SpatialMath.AreaUnits.Acres);
 
-                if (shape.getRings()[0].length > 3) {
-                    //Calculate the area of the polygon.
-                    var area = Microsoft.Maps.SpatialMath.Geometry.area(shape, Microsoft.Maps.SpatialMath.AreaUnits.Acres);
+            //Calculate the perimeter of the polygon.
+            var perimeter = Microsoft.Maps.SpatialMath.Geometry.calculateLength(shape, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
 
-                    //Calculate the perimeter of the polygon.
-                    var perimeter = Microsoft.Maps.SpatialMath.Geometry.calculateLength(shape, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
+            //Round values to 2 decimals. 
+            area = Math.round(area * 100) / 100;
+            perimeter = Math.round(perimeter * 100) / 100;
 
-                    //Round values to 2 decimals. 
-                    area = Math.round(area * 100) / 100;
-                    perimeter = Math.round(perimeter * 100) / 100;
-
-                    outputPanel.innerHTML = 'Shape: Polyline<br/>Area: ' + area + ' Acres</sup><br/>Perimeter: ' + perimeter + ' miles';
-                }
-            }
+            outputPanel.innerHTML = 'Shape: Polyline<br/>Area: ' + area + ' Acres</sup><br/>Perimeter: ' + perimeter + ' miles';
         }
     }
     </script>

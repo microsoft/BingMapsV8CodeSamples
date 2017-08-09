@@ -15,14 +15,11 @@
         });
 
         //Create a random 5 sided polyogn that fills a decent portion of the map.
-        searchArea = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5, 0.5);
+        searchArea = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5, 0.7);
         map.entities.push(searchArea);
 
         //Load the SpatialDataServices module.
         Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialDataService'], function () {
-
-            //TODO: Remove WKT step after next release update as intersects will support IPrimitives directly.
-            var shapeWkt = Microsoft.Maps.WellKnownText.write(searchArea);
 
             //Create a query to get data that intrsects the polygon.
             var queryOptions = {
@@ -30,7 +27,7 @@
                 top: 250,
                 spatialFilter: {
                     spatialFilterType: 'intersects',
-                    intersects: shapeWkt
+                    intersects: searchArea
                 }
             };
 

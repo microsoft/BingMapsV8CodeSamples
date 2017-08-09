@@ -100,7 +100,9 @@ class HtmlPushpin {
 
     public onMouseOut: (event: IHtmlPushpinEvent) => void;
 
-    //TODO: Mouse click, dblcick.
+    public onClick: (event: IHtmlPushpinEvent) => void;
+
+    public onDoubleClick: (event: IHtmlPushpinEvent) => void;
 
     /**********************
     * Internal Properties
@@ -147,8 +149,10 @@ class HtmlPushpin {
         
         this._element.addEventListener('mousedown', (e) => { self._pinMouseDown(e) });
         this._element.addEventListener('mouseup', (e) => { self._pinMouseUp(e) });
-        this._element.addEventListener('mouseover', (e) => { self._pinMouseOver(e) });   
-        this._element.addEventListener('mouseout', (e) => { self._pinMouseOut(e) });   
+        this._element.addEventListener('mouseover', (e) => { self._pinMouseEvent(e, 'mouseover', self.onMouseOver) });   
+        this._element.addEventListener('mouseout', (e) => { self._pinMouseEvent(e, 'mouseout', self.onMouseOut) });   
+        this._element.addEventListener('click', (e) => { self._pinMouseEvent(e, 'click', self.onClick) });
+        this._element.addEventListener('dblclick', (e) => { self._pinMouseEvent(e, 'dblclick', self.onDoubleClick) });   
     }
 
     /**
@@ -157,10 +161,14 @@ class HtmlPushpin {
     public dispose(): void {
         //Remove mouse events.
         if (this._element) {
-            this._element.removeEventListener('mousedown', (e) => { this._pinMouseDown(<MouseEvent>e) });
-            this._element.removeEventListener('mouseup', (e) => { this._pinMouseUp(<MouseEvent>e) });
-            this._element.removeEventListener('mouseover', (e) => { this._pinMouseOver(<MouseEvent>e) });
-            this._element.removeEventListener('mouseout', (e) => { this._pinMouseOut(<MouseEvent>e) });
+            var self = this;
+
+            this._element.removeEventListener('mousedown', (e) => { self._pinMouseDown(<MouseEvent>e) });
+            this._element.removeEventListener('mouseup', (e) => { self._pinMouseUp(<MouseEvent>e) });
+            this._element.removeEventListener('mouseover', (e) => { self._pinMouseEvent(<MouseEvent>e, 'mouseover', self.onMouseOver) });
+            this._element.removeEventListener('mouseout', (e) => { self._pinMouseEvent(<MouseEvent>e, 'mouseout', self.onMouseOut) });
+            this._element.removeEventListener('click', (e) => { self._pinMouseEvent(<MouseEvent>e, 'click', self.onClick) });
+            this._element.removeEventListener('dblclick', (e) => { self._pinMouseEvent(<MouseEvent>e, 'dblclick', self.onDoubleClick) }); 
         }
 
         this._layer = null;
@@ -277,23 +285,15 @@ class HtmlPushpin {
     * Private Functions
     ***********************/
 
-     /**
-     * Mouse over event handler.
-     * @param e The mouse event.
-     */
-    private _pinMouseOver(e: MouseEvent): void {
-        if (this.onMouseOver) {
-            this.onMouseOver(this._getEventInfo('mouseover', e));
-        }
-    }
-
-     /**
-     * Mouse out event handler.
-     * @param e The mouse event.
-     */
-    private _pinMouseOut(e: MouseEvent): void {
-        if (this.onMouseOut) {
-            this.onMouseOut(this._getEventInfo('mouseout', e));
+    /**
+    * Generic mouse event handler.
+    * @param e The mouse event.
+    * @param eventName The name of the event.
+    * @param eventHandler The event handler to process the event.
+    */
+    private _pinMouseEvent(e: MouseEvent, eventName: string, eventHandler: (event: IHtmlPushpinEvent) => void): void {
+        if (eventHandler) {
+            eventHandler(this._getEventInfo(eventName, e));
         }
     }
 

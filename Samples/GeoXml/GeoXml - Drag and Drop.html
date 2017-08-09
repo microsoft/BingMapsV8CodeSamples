@@ -8,11 +8,10 @@
     <script src="../Common/scripts/FileSaver.js"></script>
     
     <script type='text/javascript'>
-        //TODO: remove experimental and test KMZ
     var map, infobox, dataBounds, statusPanel, xmlPanel, loadingIcon, fileCount = 0;
     var proxyService = 'GeoXml - Cross Domain/GeoXmlProxyService.ashx?url=';
     var zipKmzRx = /(.zip|.kmz)$/;
-
+        //TODO: remove experimental
     function GetMap() {
         statusPanel = document.getElementById('statusPanel');
         xmlPanel = document.getElementById('xmlPanel');
@@ -66,64 +65,47 @@
 
         //Loop through and attempt to read each file.
         for (var i = 0; i < files.length; i++) {
-            //Read the XML data blob.
-            readXml(files[i], files[i].name);
+            readFileBlob(files[i]);
         }
     }
 
+    function readFileBlob(file) {
+        //Read the XML data blob as an ArrayBuffer.
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            readXml(e.target.result, file.name);
+        }
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    //Read XML data from ArrayBuffers, string XML, or URL.
     function readXml(xml, fileName) {
         loadingIcon.style.display = '';
         fileCount++;
 
-        if (typeof xml === 'string' && (xml.indexOf('http://') === 0 || xml.indexOf('https://') === 0)) {
-            //If the XML input is a URL, use a proxy service.
-            xml = proxyService + encodeURIComponent(xmlUrl);
-        }
-
-        //Attempt to parse the file as XML and add the shapes to the map.
-        Microsoft.Maps.GeoXml.read(xml, {
-            callback: function (r) {
-                if (r.shapes) {
-                    var l = new Microsoft.Maps.Layer();
-                    l.add(r.shapes);
-                    Microsoft.Maps.Events.addHandler(l, 'click', shapeClicked);
-                    map.layers.insert(l);
-                }
-
-                if (r.layers) {
-                    for (var i = 0, len = r.layers.length; i < len; i++) {
-                        if (r.layers[i] instanceof Microsoft.Maps.Layer) {
-                            Microsoft.Maps.Events.addHandler(r.layers[i], 'click', shapeClicked);
-                        }
-                        map.layers.insert(r.layers[i]);
-                    }
-                }
-
-                if (r.screenOverlays) {
-                    for (var i = 0, len = r.screenOverlays.length; i < len; i++) {
-                        map.layers.insert(r.screenOverlays[i]);
-                    }
-                }
-
-                if (r.summary && r.summary.bounds) {
-                    if (dataBounds) {
-                        dataBounds = Microsoft.Maps.LocationRect.merge(dataBounds, r.summary.bounds);
-                    } else {
-                        dataBounds = r.summary.bounds;
-                    }
-
-                    map.setView({ bounds: dataBounds });
-                }
-
-                writeStats(fileName, r.stats);
-            },
+        var options = {
             error: function (msg) {
                 writeStats(fileName, null, msg);
                 alert(msg);
             }
-        });
+        };
+
+        if (xmlPanel.value.indexOf('http://') === 0 || xmlPanel.value.indexOf('https://') === 0) {
+            //Input is a URL. 
+            Microsoft.Maps.GeoXml.readFromUrl(xmlUrl, options, function (data) {
+                renderData(data, fileName);
+            });
+        } else {
+            //Attempt to parse the file as XML and add the shapes to the map.
+            var data = Microsoft.Maps.GeoXml.read(xml, options);
+
+            renderData(data, fileName);
+        }
     }
 
+    //Read XML data from the output panel. 
     function readXmlOutput() {
         statusPanel.value = 'Reading from XML Panel\r\n\r\n';
         dataBounds = null;
@@ -134,6 +116,44 @@
         infobox.setOptions({ visible: false });
 
         readXml(xmlPanel.value);
+    }
+
+    function renderData(data, fileName) {
+        if (data) {
+            if (data.shapes) {
+                var l = new Microsoft.Maps.Layer();
+                l.add(data.shapes);
+                Microsoft.Maps.Events.addHandler(l, 'click', shapeClicked);
+                map.layers.insert(l);
+            }
+
+            if (data.layers) {
+                for (var i = 0, len = data.layers.length; i < len; i++) {
+                    if (data.layers[i] instanceof Microsoft.Maps.Layer) {
+                        Microsoft.Maps.Events.addHandler(data.layers[i], 'click', shapeClicked);
+                    }
+                    map.layers.insert(data.layers[i]);
+                }
+            }
+
+            if (data.screenOverlays) {
+                for (var i = 0, len = data.screenOverlays.length; i < len; i++) {
+                    map.layers.insert(data.screenOverlays[i]);
+                }
+            }
+
+            if (data.summary && data.summary.bounds) {
+                if (dataBounds) {
+                    dataBounds = Microsoft.Maps.LocationRect.merge(dataBounds, data.summary.bounds);
+                } else {
+                    dataBounds = data.summary.bounds;
+                }
+
+                map.setView({ bounds: dataBounds });
+            }
+        }
+
+        writeStats(fileName, data.stats);
     }
 
     function shapeClicked(e) {
@@ -161,7 +181,7 @@
         xmlPanel.value = '';
 
         var fileTypeDD = document.getElementById('fileType');
-        var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].innerText;
+        var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].value;
 
         var xml = Microsoft.Maps.GeoXml.write(map, {
             xmlFormat: Microsoft.Maps.GeoXmlFormat[fileType],
@@ -176,7 +196,7 @@
         xmlPanel.value = '';
 
         var fileTypeDD = document.getElementById('fileType');
-        var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].innerText;
+        var fileType = fileTypeDD.options[fileTypeDD.selectedIndex].value;
 
         var compressedXml = Microsoft.Maps.GeoXml.writeCompressed(map, 'Blob', {
             xmlFormat: Microsoft.Maps.GeoXmlFormat[fileType],
@@ -261,21 +281,17 @@
     <div style="background-color:white;position:absolute;top:10px;left:10px">
         <fieldset style="margin:5px;width:400px;">
             <legend>Instructions</legend>
-
             Drag and Drop KML, GeoRSS, and GPX files onto the map.<br /><br />
-
             Once data is on the map, press the Generate XML button to write all data on the map as XML. <br /><br />
 
             <select id="fileType">
-                <option>Gpx</option>
-                <option>GeoRss</option>
-                <option selected="selected">Kml</option>
+                <option value="gpx">Gpx</option>
+                <option value="geoRss">GeoRss</option>
+                <option value="kml" selected="selected">Kml</option>
             </select>
 
             <input type="button" value="Generate XML" onclick="writeXml()" />
-
             <input type="button" value="Download Zip" onclick="downloadZip()" />
-
             <input type="button" value="Clear Map" onclick="map.entities.clear();map.layers.clear();" /><br /><br />
 
             Add XML or an URL the points to an XML file into the XML Panel and press the Read XML button to render the XML on the map.

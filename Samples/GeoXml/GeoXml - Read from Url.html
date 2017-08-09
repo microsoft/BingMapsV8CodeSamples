@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
     var map;
-    var georss = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Sample Polygon</title><georss:polygon>46.31409 -122.22616 46.31113 -122.22968 46.31083 -122.23320</georss:polygon></entry></feed>';
-        //TODO: remove empty option from read function.
+    var xmlUrl = 'data/georss/SampleGeoRSS.xml';
+
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -16,10 +16,10 @@
         //Load the GeoXml module.
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
             //Parse the XML data.
-            var data = Microsoft.Maps.GeoXml.read(georss, {});
-
-            //Do something with the parsed XML data, in this case render it.
-            renderGeoXmlDataSet(data);
+            Microsoft.Maps.GeoXml.readFromUrl(xmlUrl, null, function (data) {
+                //Do something with the parsed XML data, in this case render it.
+                renderGeoXmlDataSet(data);
+            });
         });
     }
 
@@ -55,15 +55,17 @@
     </script>
 
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:600px;margin-top:10px;">
-        <legend>GeoXml - Read Sample</legend>
-        This sample shows how to read a string of geospatial XML data, in this case GeoRSS, as a data set and then manually add it to the map. 
-        This provides the option to fully customize the how the data is rendered.
+        <legend>GeoXml - Read from URL Sample</legend>
+        This sample shows how to read a geospatial XML file that is hosted on the same domain as the application. 
+        If your data is hosted on another domain, you can use a proxy service similar to the GeoXmlLayer Cross Domain sample. 
+        The data is then manually added to the map rather than being loaded through a GeoXmlLayer. 
+        This provides the ability to full customize how the data is rendered and also provides the option to simply extract information from the data without having to render it.
     </fieldset>
 </body>
 </html>

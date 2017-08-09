@@ -51,11 +51,9 @@
                     //Attempt to parse the file as GeoJSON and add the shapes to the map.
                     var shapes = Microsoft.Maps.GeoJson.read(geoJsonText);
                     map.entities.push(shapes);
-
-                    //TODO: Set view once LocationRect.fromShapes function available.
-
+                    
                     //Set the map view
-                    //map.setView({ bounds: Microsoft.Maps.LocationRect.fromShapes(shapes) });
+                    map.setView({ bounds: Microsoft.Maps.LocationRect.fromShapes(shapes) });
                 } catch (e) {
                     alert('Unable to read file as GeoJSON.');
                 }
