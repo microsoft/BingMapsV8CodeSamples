@@ -47,6 +47,9 @@
                     repositionOverlay();
                 }
             });
+
+            //Update the position of the overlay when the map is resized.
+            Microsoft.Maps.Events.addHandler(map, 'mapresize', repositionOverlay);
         };
 
         function repositionOverlay() {

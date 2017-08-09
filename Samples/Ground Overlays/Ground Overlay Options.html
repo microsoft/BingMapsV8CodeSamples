@@ -90,13 +90,17 @@
         //Update the displayed rotation value.
         document.getElementById('rotationInput').innerText = elm.value;
     }
+        function clear(){
+            overlay.clear()
+        }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap"></script>
+    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&uncrunched=1"></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:500px;"></div>
     <br/>    
+    <input type="button" onclick="clear()" value="Clear" />
     Source Image:
     <input type="button" onclick="updateImageUrl(imageUrls[0])" value="Image 0"/>
     <input type="button" onclick="updateImageUrl(imageUrls[1])" value="Image 1" />

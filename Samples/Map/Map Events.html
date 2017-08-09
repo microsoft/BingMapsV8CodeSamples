@@ -20,9 +20,7 @@
         Microsoft.Maps.Events.addHandler(map, 'click', function () { highlight('mapClick'); });
         Microsoft.Maps.Events.addHandler(map, 'dblclick', function () { highlight('mapDblClick'); });
         Microsoft.Maps.Events.addHandler(map, 'rightclick', function () { highlight('mapRightClick'); });
-        Microsoft.Maps.Events.addHandler(map, 'mousedown', function (e) {
-            highlight('mapMousedown');
-        });
+        Microsoft.Maps.Events.addHandler(map, 'mousedown', function () { highlight('mapMousedown'); });
         Microsoft.Maps.Events.addHandler(map, 'mouseout', function () { highlight('mapMouseout'); });
         Microsoft.Maps.Events.addHandler(map, 'mouseover', function () { highlight('mapMouseover'); });
         Microsoft.Maps.Events.addHandler(map, 'mouseup', function () { highlight('mapMouseup'); });
@@ -30,6 +28,7 @@
 
         //Add addition map event handlers
         Microsoft.Maps.Events.addHandler(map, 'maptypechanged', function () { highlight('maptypechanged'); });
+        Microsoft.Maps.Events.addHandler(map, 'mapresize', function () { highlight('mapresize'); });
     }
 
     function highlight(id) {
@@ -44,21 +43,24 @@
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100vw;height:100vh;"></div>
 
-    <div id="mapViewChangeStart">viewchangestart</div>
-    <div id="mapViewChange">viewchange</div>
-    <div id="mapViewChangEnd">viewchangeend</div>
+    <div style="position:absolute;top:0;left:0;background-color:white;padding:10px;">
+        <div id="mapViewChangeStart">viewchangestart</div>
+        <div id="mapViewChange">viewchange</div>
+        <div id="mapViewChangEnd">viewchangeend</div>
 
-    <div id="mapClick">click</div>
-    <div id="mapDblClick">dblclick</div>
-    <div id="mapRightClick">rightclick</div>
-    <div id="mapMousedown">mousedown</div>
-    <div id="mapMouseout">mouseout</div>
-    <div id="mapMouseover">mouseover</div>
-    <div id="mapMouseup">mouseup</div>
-    <div id="mapMousewheel">mousewheel</div>
+        <div id="mapClick">click</div>
+        <div id="mapDblClick">dblclick</div>
+        <div id="mapRightClick">rightclick</div>
+        <div id="mapMousedown">mousedown</div>
+        <div id="mapMouseout">mouseout</div>
+        <div id="mapMouseover">mouseover</div>
+        <div id="mapMouseup">mouseup</div>
+        <div id="mapMousewheel">mousewheel</div>
 
-    <div id="maptypechanged">maptypechanged</div>
+        <div id="maptypechanged">maptypechanged</div>
+        <div id="mapresize">mapresize</div>
+    </div>
 </body>
 </html>
