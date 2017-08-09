@@ -28,13 +28,9 @@
                     }
                 });
 
-                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingChanging', function (e) {
-                    measureShape(e);
-                });
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingChanging', measureShape);
 
-                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingStarted', function (e) {
-                    measureShape(e);
-                });
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingStarted', measureShape);
             })
         });
     }

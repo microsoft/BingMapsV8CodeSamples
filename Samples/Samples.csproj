@@ -103,6 +103,7 @@
     <Content Include="Drawing Tools\DrawingTools_GetDrawnShapes.html" />
     <Content Include="Drawing Tools\DrawingTools_MeasuringTape.html" />
     <Content Include="Drawing Tools\Restrict drawing to Polygon area.html" />
+    <Content Include="Drawing Tools\Select Data in Drawn Polygon Area.html" />
     <Content Include="Experimental\Snap drawing to pushpins.html" />
     <Content Include="Events\Events_BasicMapEvents.html" />
     <Content Include="Events\Events_RightClickShapes.html" />
