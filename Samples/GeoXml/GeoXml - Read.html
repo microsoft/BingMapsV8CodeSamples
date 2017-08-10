@@ -24,10 +24,6 @@
     }
 
     function renderGeoXmlDataSet(data) {
-        //Remove all existing data from the map.
-        map.entities.clear();
-        map.layers.clear();
-
         //Add all shapes that are not in layers to the map.
         if (data.shapes) {
             map.entities.push(data.shapes);
