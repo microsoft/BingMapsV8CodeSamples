@@ -24,6 +24,7 @@
 
         //Add mouse events to the layer.
         Microsoft.Maps.Events.addHandler(layer, 'click', function () { highlight('click'); });
+        Microsoft.Maps.Events.addHandler(layer, 'dblclick', function () { highlight('dblclick'); });
         Microsoft.Maps.Events.addHandler(layer, 'rightclick', function () { highlight('rightclick'); });
         Microsoft.Maps.Events.addHandler(layer, 'mousedown', function () { highlight('mousedown'); });
         Microsoft.Maps.Events.addHandler(layer, 'mouseout', function () { highlight('mouseout'); });
@@ -46,6 +47,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <div id="click">click</div>
+    <div id="dblclick">dblclick</div>
     <div id="rightclick">rightclick</div>
     <div id="mousedown">mousedown</div>
     <div id="mouseout">mouseout</div>

@@ -139,6 +139,7 @@
     <Content Include="ExternalSamples.html" />
     <Content Include="Layers\Limit Layer to Zoom Range.html" />
     <Content Include="Map\Full Screen Map.html" />
+    <Content Include="Map\Map Center Offset.html" />
     <Content Include="Map\Map Localization\Map Localization.html" />
     <Content Include="Map\Map Localization\IframableLocalizedMap.html" />
     <Content Include="Map\Localize the Map %28zh-CN%29.html" />
