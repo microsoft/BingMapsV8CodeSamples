@@ -4,7 +4,7 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-    var map, tools, searchArea, pinLayer, selectedPinLayer;
+    var map, tools, searchArea, pinLayer;
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -18,9 +18,11 @@
         var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(30, map.getBounds(), { color: 'purple' });
         pinLayer.add(pushpins);
 
-        //Create a layer for displaying the selected pushpins
-        selectedPinLayer = new Microsoft.Maps.Layer();
-        map.layers.insert(selectedPinLayer); 
+        for (var i = 0; i < 30; i++){
+            pushpins[i].metadata = {
+                id: 'pin_' + i
+            };
+        }
 
         //Load the Drawing Tools and Spatial Math modules.
         Microsoft.Maps.loadModule(['Microsoft.Maps.DrawingTools', 'Microsoft.Maps.SpatialMath'], function () {
@@ -54,16 +56,18 @@
 
     //Find all pushpins on the map that intersect with the drawn search area.
     function findIntersectingData() {
-        //Clear any previously selected data.
-        selectedPinLayer.clear();
-
         //Ensure that the search area is a valid polygon, should have 4 Locations in it's ring as it automatically closes.
         if (searchArea && searchArea.getLocations().length >= 4) {
             //Get all the pushpins from the pinLayer.
             var pins = pinLayer.getPrimitives();
 
+            //Clear any previously selected data.
+            for (var i = 0; i < pins.length; i++) {
+                pins[i].setOptions({ color: 'purple' });
+            }
+
             //Using spatial math find all pushpins that intersect with the drawn search area.
-            //The returned data is a copy of the intersecting data and not references to the original shapes, 
+            //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
             //so making edits to them will not cause any updates on the map.
             var intersectingPins = Microsoft.Maps.SpatialMath.Geometry.intersection(pins, searchArea);
 
@@ -74,19 +78,27 @@
                     intersectingPins = [intersectingPins];
                 }
 
-                //Now do something with the intersecting pushpin information, in this case change their color to red and display on the map.
-                for (var i = 0; i < intersectingPins.length; i++) {
-                    intersectingPins[i].setOptions({ color: 'red' });
-                }
+                var selectedPins = [];
 
-                //Add the selected pushpins to the selected pushpin layer.
-                selectedPinLayer.add(intersectingPins);
+                //Loop through and map the intersecting pushpins back to their original pushpins by comparing their coordinates.
+                for (var i = 0; i < pins.length; i++) {
+                    for (var j = 0; j < intersectingPins.length; j++) {
+                        if (Microsoft.Maps.Location.areEqual(pins[i].getLocation(), intersectingPins[j].getLocation())) {
+                            selectedPins.push(pins[i]);
+                        }
+                    }
+                }
+                
+                //Now do something with the intersecting pushpin information, in this case change their color to red and display on the map.
+                for (var i = 0; i < selectedPins.length; i++) {
+                    selectedPins[i].setOptions({ color: 'red' });
+                }
             }
         }
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&uncrunched=1' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
