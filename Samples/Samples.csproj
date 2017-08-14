@@ -92,6 +92,7 @@
     <Content Include="Directions\Continuous Tracking and Routing.html" />
     <Content Include="Directions\Fully Custom Waypoint Pushpins.html" />
     <Content Include="Directions\Get Dragged Route Waypoints.html" />
+    <Content Include="Directions\Display Multiple Routes.html" />
     <Content Include="Directions\Simple Custom Directions Input Panel.html" />
     <Content Include="Directions\Directions_Basic.html" />
     <Content Include="Directions\Directions_Events.html" />
