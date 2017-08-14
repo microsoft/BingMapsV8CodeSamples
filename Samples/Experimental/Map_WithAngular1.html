@@ -7,20 +7,20 @@
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script src='https://www.bing.com/api/maps/mapcontrol'></script>
     <script>
-        var app = angular.module("myApp", []);
-        app.controller("bingMapsCtrl", function ($scope) {
-            $scope.map = null;
-            $scope.init = function () {
-                $scope.map = new Microsoft.Maps.Map('#myMap', {
-
-                });
-            };
-
-            //Load the Bing Maps control when the document is ready as ng-init fires before the map script has downloaded.
-            angular.element(document).ready(function () {
-                $scope.init();
+    var app = angular.module("myApp", []);
+    app.controller("bingMapsCtrl", function ($scope) {
+        $scope.map = null;
+        $scope.init = function () {
+            $scope.map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey
             });
+        };
+
+        //Load the Bing Maps control when the document is ready as ng-init fires before the map script has downloaded.
+        angular.element(document).ready(function () {
+            $scope.init();
         });
+    });
     </script>
 </head>
 <body>

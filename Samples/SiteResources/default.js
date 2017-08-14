@@ -1,5 +1,6 @@
 var githubProjectUrl = 'https://github.com/Microsoft/BingMapsV8CodeSamples/blob/master/Samples/';
 var currentSampleElm;
+
 function loadSample(name, path, sourcePath) {
     var sampleNode = getSampleNode(name);
     if (sampleNode) {
@@ -21,7 +22,9 @@ function loadSample(name, path, sourcePath) {
     }
     document.getElementById('displayWindow').focus();
 }
+
 var spaceRx = /\s/g;
+
 function getSampleNode(name) {
     name = decodeURIComponent(name);
     var sampleLinks = document.getElementById('SampleTreeView').getElementsByTagName('a');
@@ -32,9 +35,11 @@ function getSampleNode(name) {
     }
     return null;
 }
+
 function getSamplesParent(sampleElm) {
     return sampleElm.parentNode.parentNode.parentNode.parentNode.parentNode.id;
 }
+
 function loadSampleByHash(hash) {
     var redirect = sampleRedirects[hash];
     if (redirect) {
@@ -53,6 +58,7 @@ function loadSampleByHash(hash) {
         }
     }
 }
+
 window.onload = function () {
     if (WarningMessage) {
         alert(WarningMessage);
@@ -63,6 +69,7 @@ window.onload = function () {
         loadSampleByHash(hash);
     }
 };
+
 $(function () {
     $.widget("custom.catcomplete", $.ui.autocomplete, {
         _create: function () {
@@ -84,6 +91,7 @@ $(function () {
             });
         }
     });
+
     SampleList.sort(function (a, b) {
         var nameA = a.label.toLowerCase(), nameB = b.label.toLowerCase();
         if (nameA < nameB)
@@ -92,6 +100,7 @@ $(function () {
             return 1;
         return 0; //default return value (no sorting)
     });
+
     $("#searchTbx").autocomplete({
         delay: 0,
         source: SampleList,
@@ -103,9 +112,11 @@ $(function () {
         }
     }).click(function () {
         $(this).val('');
-    });
+        });
+
     $("#searchTbx").val('Search the samples');
 });
+
 var sampleRedirects = {
     'CustomOverlay_HtmlPushpinLayer': 'Html%20Pushpin%20Layer',
     'QueryAPI_Nearby': 'Find%20Nearby%20Search%20-%20Query%20API',
