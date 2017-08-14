@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" standalone="yes" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2000/xmlns/">
+    <Document>
+        <Region>
+            <LatLonAltBox>
+                <north>46.333348856</north>
+                <south>46.282979999999995</south>
+                <east>-122.11290128000001</east>
+                <west>-122.27267999999998</west>
+            </LatLonAltBox>
+        </Region>
+        <Style id="style0">
+            <LineStyle>
+                <color>ffc86400</color>
+                <width>1</width>
+            </LineStyle>
+            <PolyStyle>
+                <color>6696ff5a</color>
+            </PolyStyle>
+        </Style>
+        <Style id="style1">
+            <IconStyle>
+                <hotSpot x="16" y="32" xunits="pixels" yunits="pixels"/>
+                <Icon>
+                    <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/Icon_hiking_32x32.png</href>
+                </Icon>
+            </IconStyle>
+        </Style>
+        <Style id="style2">
+            <LineStyle>
+                <color>ffc86400</color>
+                <width>1</width>
+            </LineStyle>
+        </Style>
+        <Folder>
+            <Placemark>
+                <name>Coldwater Lake</name>
+                <description>Formed by the 1980 eruption of Mount St. Helens.</description>
+                <styleUrl>#style0</styleUrl>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <coordinates>-122.22616,46.31409 -122.22968,46.31113 -122.2332,46.31083 -122.25877,46.29802 -122.26641,46.29245 -122.26392,46.29286 -122.26744,46.28746 -122.26006,46.28741 -122.25955,46.29049 -122.2562,46.2912 -122.25543,46.28924 -122.23251,46.30271 -122.22315,46.31284 -122.22616,46.31409</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </Placemark>
+            <Placemark>
+                <name>Lakes Trailhead</name>
+                <description>This is where we started our hike, just down the road from the visitor center. You could also start at the visitor center.</description>
+                <styleUrl>#style1</styleUrl>
+                <Point>
+                    <coordinates>-122.2658157,46.2913246</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Snow Lake Camp</name>
+                <description>Our first night. Small, clear lake. Cold and without much sun, but a lovely spot!</description>
+                <styleUrl>#style1</styleUrl>
+                <Point>
+                    <coordinates>-122.15183258,46.3321785</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Shovel Lake Camp</name>
+                <description>A nice spot for lunch and quick dip (brrrr!).</description>
+                <styleUrl>#style1</styleUrl>
+                <Point>
+                    <coordinates>-122.133036,46.3316395</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Panhandle Lake Camp</name>
+                <description>We stayed here night #2. It&amp;apos;s not far from our first night, but allowed us time to explore the Whittier Ridge trail and swim in the lake.</description>
+                <Point>
+                    <coordinates>-122.11964607,46.3323506</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Obscurity Lake</name>
+                <description>My favorite part of the trail was in this area. Great views and the sound of coyotes off in the distance.</description>
+                <Point>
+                    <coordinates>-122.11295128,46.333298856</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Bear Camp</name>
+                <description>Our third night, after a long hike. Incredible views of Spirit Lake and The Dome. From the pass to the east, you can see Mount Rainier, Mount Adams, Mount Hood, and Mount St. Helens: 4 volcanoes in one view!</description>
+                <Point>
+                    <coordinates>-122.1198177,46.3180069</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Ridge Camp</name>
+                <description>We were supposed to stay here our fourth night, but the camp was really rather depressing, hot, and we still had a good part of the day ahead of us, so we hiked on.</description>
+                <Point>
+                    <coordinates>-122.20461845,46.309618</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>South Coldwater Trailhead</name>
+                <description>The end of our hike. We had to get from here back to our car, and it&amp;apos;s amazing how few people (none, in fact) stop to pick up a hiker in a National Park.</description>
+                <Point>
+                    <coordinates>-122.25377798,46.285927348</coordinates>
+                </Point>
+            </Placemark>
+            <Placemark>
+                <name>Walk back to the car.</name>
+                <description>A long walk back to our car.</description>
+                <styleUrl>#style2</styleUrl>
+                <LineString>
+                    <coordinates>-122.25302,46.28548 -122.25492,46.28489 -122.25774,46.28322 -122.25908,46.28298 -122.2604,46.28337 -122.26272,46.28524 -122.26596,46.285882 -122.26736,46.28652 -122.26912,46.28662 -122.27216,46.28847 -122.27268,46.28963 -122.27066,46.28915 -122.26916,46.28975 -122.267146,46.29141</coordinates>
+                </LineString>
+            </Placemark>
+        </Folder>
+    </Document>
+</kml>

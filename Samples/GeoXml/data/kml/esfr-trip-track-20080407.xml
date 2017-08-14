@@ -3,31 +3,27 @@
   <Document>
     <Style id="sn_placemark_circle60">
       <IconStyle>
-        <scale>1.2</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/placemark_circle.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sn_campground00">
       <IconStyle>
-        <scale>1.2</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/shapes/campground.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/campground.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sh_placemark_circle_highlight10">
       <IconStyle>
-        <scale>1.2</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/placemark_circle_highlight.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sh_ylw-pushpin00">
       <IconStyle>
-        <scale>1.2</scale>
       </IconStyle>
       <LineStyle>
         <width>10</width>
@@ -36,17 +32,15 @@
     </Style>
     <Style id="sh_campground00">
       <IconStyle>
-        <scale>1.4</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/shapes/campground.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/campground.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sh_ylw-pushpin">
       <IconStyle>
-        <scale>1.3</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/pushpin/ylw-pushpin.png</href>
         </Icon>
       </IconStyle>
       <LineStyle>
@@ -56,22 +50,19 @@
     </Style>
     <Style id="sh_ranger_station0">
       <IconStyle>
-        <scale>1.4</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/shapes/ranger_station.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sn_ranger_station0">
       <IconStyle>
-        <scale>1.2</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/shapes/ranger_station.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/ranger_station.png</href>
         </Icon>
       </IconStyle>
     </Style>
     <Style id="sn_ylw-pushpin">
-      <IconStyle />
       <LineStyle>
         <width>10</width>
         <color>7F0000FF</color>
@@ -86,9 +77,8 @@
     </Style>
     <Style id="sn_ylw-pushpin0">
       <IconStyle>
-        <scale>1.1</scale>
         <Icon>
-          <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+          <href>https://bingmapsv8samples.azurewebsites.net/Common/images/pushpins/ylw-pushpin.png</href>
         </Icon>
       </IconStyle>
       <LineStyle>
@@ -97,9 +87,6 @@
       </LineStyle>
     </Style>
     <Style id="sh_ylw-pushpin0">
-      <IconStyle>
-        <scale>1.2</scale>
-      </IconStyle>
       <LineStyle>
         <width>10</width>
         <color>33FFFF55</color>

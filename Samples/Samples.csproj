@@ -61,9 +61,16 @@
     <Content Include="Clustering\SpiderClusters\Clustering_SpiderClusters.html" />
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
     <Content Include="Common\images\backgroundGrid.png" />
-    <Content Include="Common\images\endPin.png" />
-    <Content Include="Common\images\startPin.png" />
+    <Content Include="Common\images\pushpins\campground.png" />
+    <Content Include="Common\images\pushpins\endPin.png" />
+    <Content Include="Common\images\pushpins\grn-pushpin_maps.png" />
+    <Content Include="Common\images\pushpins\Icon_hiking_32x32.png" />
+    <Content Include="Common\images\pushpins\placemark_circle.png" />
+    <Content Include="Common\images\pushpins\placemark_circle_highlight.png" />
+    <Content Include="Common\images\pushpins\ranger_station.png" />
+    <Content Include="Common\images\pushpins\startPin.png" />
     <Content Include="Common\images\loadingIcon.gif" />
+    <Content Include="Common\images\pushpins\ylw-pushpin.png" />
     <Content Include="Common\images\us_counties.png" />
     <Content Include="Common\scripts\FileSaver.js" />
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
@@ -132,6 +139,7 @@
     <Content Include="GeoXml\GeoXmlLayer - Basic.html" />
     <Content Include="Ground Overlays\Basic Ground Overlay.html" />
     <Content Include="Ground Overlays\Ground Overlay Options.html" />
+    <Content Include="Ground Overlays\Newark New Jersey 1922 Ground Overlay.html" />
     <Content Include="Ground Overlays\SVG Ground Overlay.html" />
     <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Experimental\Map_WithAngular1.html" />
@@ -364,6 +372,7 @@
     <Content Include="GeoXml\data\kmz\RecreationSitePoint.kmz" />
     <Content Include="GeoXml\data\kml\London stations.kml" />
     <Content Include="GeoXml\data\kml\London Tube Lines.kml" />
+    <Content Include="GeoXml\data\kml\SampleKml.kml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>

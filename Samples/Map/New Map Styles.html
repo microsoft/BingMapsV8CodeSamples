@@ -9,7 +9,18 @@
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey
+            credentials: YourBingMapsKey,
+            supportedMapTypes: [
+                Microsoft.Maps.MapTypeId.road,
+                Microsoft.Maps.MapTypeId.aerial,
+                Microsoft.Maps.MapTypeId.streetside,
+                Microsoft.Maps.MapTypeId.grayscale,
+                Microsoft.Maps.MapTypeId.canvasDark,
+                Microsoft.Maps.MapTypeId.canvasLight,
+                Microsoft.Maps.MapTypeId.birdseye, //Will display a button in the future.
+                Microsoft.Maps.MapTypeId.ordnanceSurvey //Only appears when user is in UK.
+            ],
+            mapTypeId: Microsoft.Maps.MapTypeId.grayscale
         });
     }
     </script>
@@ -19,14 +30,10 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
-    <br/>
-    <input type="button" value="Canvas Dark" onclick="map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.canvasDark })"/>
-    <input type="button" value="Canvas Light" onclick="map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.canvasLight })" />
-    <input type="button" value="Grayscale" onclick="map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.grayscale })" />
 
     <fieldset style="width:600px;margin-top:10px;">
         <legend>New Map Styles Sample</legend>
-        This sample shows how to use the new map styles in Bing Maps V8; Canvas Dark, Canvas Light, and Grayscale
+        This sample shows how to use display the new map styles in the dropdown of Bing Maps V8; Canvas Dark, Canvas Light, and Grayscale.
     </fieldset>
 </body>
 </html>

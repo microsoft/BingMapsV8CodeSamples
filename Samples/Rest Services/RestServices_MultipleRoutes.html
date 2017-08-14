@@ -52,11 +52,11 @@
 
                 //Add start and end pushpins.
                 var startLoc = new Microsoft.Maps.Location(route.routeLegs[0].actualStart.coordinates[0], route.routeLegs[0].actualStart.coordinates[1]);
-                var startPin = new Microsoft.Maps.Pushpin(startLoc, { icon: '/Common/images/startPin.png', anchor: new Microsoft.Maps.Point(2, 42) });
+                var startPin = new Microsoft.Maps.Pushpin(startLoc, { icon: '/Common/images/pushpins/startPin.png', anchor: new Microsoft.Maps.Point(2, 42) });
                 map.entities.push(startPin);
 
                 var endLoc = new Microsoft.Maps.Location(route.routeLegs[0].actualEnd.coordinates[0], route.routeLegs[0].actualEnd.coordinates[1]);
-                var endPin = new Microsoft.Maps.Pushpin(endLoc, { icon: '/Common/images/endPin.png', anchor: new Microsoft.Maps.Point(2, 42) });
+                var endPin = new Microsoft.Maps.Pushpin(endLoc, { icon: '/Common/images/pushpins/endPin.png', anchor: new Microsoft.Maps.Point(2, 42) });
                 map.entities.push(endPin);
             }
         });
