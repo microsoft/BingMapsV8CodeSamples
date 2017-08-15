@@ -11,8 +11,8 @@
     var map, imageGenerator;
 
     function GetMap() {
-        //HACK: re-enable cors for tiles. This will cause issues for tile layers.
-        //Microsoft.Maps['GlobalConfig'].features.disableImageCORS.isEnabled = false;
+        //HACK: re-enable cors for tiles. This will cause issues for tile layers. Official map option to enable this planned.
+        Microsoft.Maps['GlobalConfig'].features.disableImageCORS.isEnabled = false;
 
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
@@ -109,8 +109,8 @@
 
     <fieldset style="width:600px;margin-top:10px;">
         <legend>Map Image Generator Sample</legend>
-        Status: Not Working <br/>
-        Warning: This is an experimental sample that uses the map in an unsupported way. This can break at any time.<br/>
+        Status: Functional <br /><br />
+        Warning: This is an experimental sample that uses the map in an unsupported way. This can break at any time.<br/><br />
         This sample shows how to generate an image of the map. Pushpin images must be hosted locally, or be dataUri's. 
         The following elements are not rendered; navigation controls, scale bars, Infoboxes, AnimatedTileLayers, TileLayers, 
         and most Custom Overlays. Bing Maps terms of use does not allow Ordnance Survey or Birdseye imagery to be "printed". 

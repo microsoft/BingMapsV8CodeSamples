@@ -449,8 +449,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
                 self._updatePositions()
             }
         });
-
-
+        
         //Update the position of the overlay when the map is resized.
         Microsoft.Maps.Events.addHandler(this.getMap(), 'mapresize', this._updatePositions);
 
@@ -485,12 +484,18 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
             if (pushpin instanceof HtmlPushpin) {
                 this._pushpins.push(pushpin);
                 pushpin._layer = this;
-                this.container.appendChild(pushpin._element);
+
+                if (this.container) {
+                    this.container.appendChild(pushpin._element);
+                }
             } else if (pushpin instanceof Array) {
                 //Add the pushpins to the container.
                 for (var i = 0, len = pushpin.length; i < len; i++) {
                     pushpin[i]._layer = this;
-                    this.container.appendChild(pushpin[i]._element);
+
+                    if (this.container) {
+                        this.container.appendChild(pushpin[i]._element);
+                    }
                 }
             }
 

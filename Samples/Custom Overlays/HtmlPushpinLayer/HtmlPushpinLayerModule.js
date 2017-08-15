@@ -352,13 +352,17 @@ var HtmlPushpinLayer = (function (_super) {
             if (pushpin instanceof HtmlPushpin) {
                 this._pushpins.push(pushpin);
                 pushpin._layer = this;
-                this.container.appendChild(pushpin._element);
+                if (this.container) {
+                    this.container.appendChild(pushpin._element);
+                }
             }
             else if (pushpin instanceof Array) {
                 //Add the pushpins to the container.
                 for (var i = 0, len = pushpin.length; i < len; i++) {
                     pushpin[i]._layer = this;
-                    this.container.appendChild(pushpin[i]._element);
+                    if (this.container) {
+                        this.container.appendChild(pushpin[i]._element);
+                    }
                 }
             }
             this._updatePositions();
