@@ -33,6 +33,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 * [Bing Maps V8 TypeScript Definitions](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions)
 * [Bing Maps V6.3 To V8 Shim](https://github.com/rbrundritt/BingMapsV63ToV8Shim)
+* [Bing Maps Android](https://github.com/LeonidVeremchuk/BingMapAndroid)
 
 ## Additional Resources ##
 

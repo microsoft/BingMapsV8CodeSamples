@@ -396,10 +396,13 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     private _pushpins: HtmlPushpin[] = null;
 
     /** A variable to store the viewchange event handler id. */
-    private viewChangeEventHandler: Microsoft.Maps.IHandlerId = null;
+    private _viewChangeEventHandler: Microsoft.Maps.IHandlerId = null;
+
+    /** A variable to store the map resize event handler id. */
+    private _mapResizeEventHandler: Microsoft.Maps.IHandlerId = null;
 
     /** A variable to store a reference to the container for the HTML pushpins. */
-    private container: HTMLElement = null;
+    private _container: HTMLElement = null;
 
     /**********************
     * Constructor
@@ -423,12 +426,12 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     */
     public onAdd(): void {
         //Create a div that will hold the pushpins.
-        this.container = document.createElement('div');
-        this.container.style.position = 'absolute';
-        this.container.style.left = '0px';
-        this.container.style.top = '0px';
+        this._container = document.createElement('div');
+        this._container.style.position = 'absolute';
+        this._container.style.left = '0px';
+        this._container.style.top = '0px';
 
-        this.setHtmlElement(this.container);
+        this.setHtmlElement(this._container);
     }
 
     /**
@@ -440,20 +443,22 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         //Reset pushpins as overlay is now loaded.
         self._renderPushpins();
 
+        var map = this.getMap();
+
         //Update the position of the pushpin when the view changes. Hide the layer if map changed to streetside.
-        this.viewChangeEventHandler = Microsoft.Maps.Events.addHandler(this.getMap(), 'viewchange', function () {
+        this._viewChangeEventHandler = Microsoft.Maps.Events.addHandler(map, 'viewchange', function () {
             if (self.getMap().getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
-                self.container.style.display = 'none';
+                self._container.style.display = 'none';
             } else {
-                self.container.style.display = '';
+                self._container.style.display = '';
                 self._updatePositions()
             }
         });
         
         //Update the position of the overlay when the map is resized.
-        Microsoft.Maps.Events.addHandler(this.getMap(), 'mapresize', this._updatePositions);
+        this._mapResizeEventHandler = Microsoft.Maps.Events.addHandler(map, 'mapresize', (e) => { this._updatePositions(); });
 
-        document.body.addEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
+        map.getRootElement().addEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
         document.body.addEventListener('mouseup', (e) => { if (this._dragTarget) { this._dragTarget._pinMouseUp(<MouseEvent>e); } });
     }
 
@@ -465,9 +470,10 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         this._dragTarget = null;
 
         //Remove the event handler that is attached to the map.
-        Microsoft.Maps.Events.removeHandler(this.viewChangeEventHandler);
+        Microsoft.Maps.Events.removeHandler(this._viewChangeEventHandler);
+        Microsoft.Maps.Events.removeHandler(this._mapResizeEventHandler);
 
-        document.body.removeEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
+        this.getMap().getRootElement().removeEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
         document.body.removeEventListener('mouseup', (e) => { if (this._dragTarget) { this._dragTarget._pinMouseUp(<MouseEvent>e); } });
     }
 
@@ -485,16 +491,16 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
                 this._pushpins.push(pushpin);
                 pushpin._layer = this;
 
-                if (this.container) {
-                    this.container.appendChild(pushpin._element);
+                if (this._container) {
+                    this._container.appendChild(pushpin._element);
                 }
             } else if (pushpin instanceof Array) {
                 //Add the pushpins to the container.
                 for (var i = 0, len = pushpin.length; i < len; i++) {
                     pushpin[i]._layer = this;
 
-                    if (this.container) {
-                        this.container.appendChild(pushpin[i]._element);
+                    if (this._container) {
+                        this._container.appendChild(pushpin[i]._element);
                     }
                 }
             }
@@ -515,8 +521,8 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         }
 
         this._pushpins = [];
-        if (this.container) {
-            this.container.innerHTML = '';
+        if (this._container) {
+            this._container.innerHTML = '';
         }
     }
 
@@ -569,7 +575,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         //Add the pushpins to the container.
         for (var i = 0, len = this._pushpins.length; i < len; i++) {
             this._pushpins[i]._layer = this;
-            this.container.appendChild(this._pushpins[i]._element);
+            this._container.appendChild(this._pushpins[i]._element);
         }
 
         this._updatePositions();
