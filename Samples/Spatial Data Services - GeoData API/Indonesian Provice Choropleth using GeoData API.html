@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Load Indonesia 2010 Census data -->
+    <script type='text/javascript' src='data/Indonesia2010Census.js'></script>
+
+    <script type='text/javascript'>
+    var map;
+        
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            center: new Microsoft.Maps.Location(-2.79, 120),
+            zoom: 4,
+            mapTypeId: Microsoft.Maps.MapTypeId.grayscale
+        });
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+
+            //Loop through the census data and create an array of locations to retireve boundaries for.
+            var locs = [];
+
+            for (var i = 0; i < censusData.length; i++) {
+                locs.push(new Microsoft.Maps.Location(censusData[i].latitude, censusData[i].longitude));
+            }
+            
+            //Create the request options.
+            var geoDataRequestOptions = {
+                entityType: 'AdminDivision1',
+                getAllPolygons: true
+            };
+
+            //Use the GeoData API manager to get the province boundaries using the location information. 
+            //This is faster than passing in names that need to be geocoded.
+            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(
+                locs,
+                geoDataRequestOptions,
+                map,
+                function (data) {
+                    //This callback function will be called once for each province.
+                    //Add the polygons to the map.
+                    if (data.results && data.results.length > 0) {
+                        var info = getCensusDataByLocation(data.location);
+
+                        for (var i = 0; i < data.results[0].Polygons.length; i++) {
+                            data.results[0].Polygons[i].setOptions({
+                                fillColor: getLegendColor(info.pop2010/1000000), //Devide the population by a million and get the legend color.
+                                strokeColor: 'black'
+                            });
+                        }
+
+                        map.entities.push(data.results[0].Polygons);
+                    }
+                });
+        });
+
+        //Create a legend.
+        createLegend();
+    }
+
+    function getCensusDataByLocation(loc) {
+        for (var i = 0; i < censusData.length; i++) {
+            if (censusData[i].latitude === loc.latitude && censusData[i].longitude === loc.longitude) {
+                return censusData[i];
+            }
+        }
+    }
+
+    function createLegend() {
+        //Create HTML for legend
+        var legendHtml = ['In millions<br/>'],
+            max = 40,
+            increment = 10;
+
+        for (var i = max; i >= 0; i -= increment) {
+            legendHtml.push('<svg width="12" height="12"><rect width="12" height="12" style="fill:');
+            legendHtml.push(getLegendColor(i), '"></rect></svg> ');
+            legendHtml.push((i == max) ? i + '+' : i + '-' + (i + increment), '<br/>');
+        }
+
+        document.getElementById('legend').innerHTML = legendHtml.join('');
+    }
+
+    function getLegendColor(val) {
+        if(val >= 40){
+            return 'rgba(189,0,38,0.8)';
+        }else if(val >= 30){
+            return 'rgba(227,26,28,0.8)';
+        }else if(val >= 20){
+            return 'rgba(253,141,60,0.8)';
+        }else if(val >= 10){
+            return 'rgba(254,217,118,0.8)';
+        }else {
+            return 'rgba(255,255,204,0.8)';
+        }
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <style>
+        .mapContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        #map {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+
+        #legend {
+            position: absolute;
+            bottom: 50px;
+            right: 10px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 5px;
+            width: 70px;
+            height: 85px;
+            line-height: 15px;
+            padding: 10px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+            #legend i {
+                width: 18px;
+                height: 18px;
+                float: left;
+                margin-right: 8px;
+                opacity: 0.7;
+            }
+    </style>
+</head>
+<body>
+    <div class="mapContainer">
+        <div id="myMap"></div>
+        <div id="legend"></div>
+    </div>
+</body>
+</html>

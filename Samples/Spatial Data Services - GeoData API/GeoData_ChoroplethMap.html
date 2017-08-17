@@ -31,7 +31,7 @@
                     geoDataRequestOptions,
                     map,
                     function (data) {
-                        //This callback function will be called once for each zip code.
+                        //This callback function will be called once for each state.
                         //Add the polygons to the map.
                         if (data.results && data.results.length > 0) {
                             var info = tsvData[data.location];
@@ -43,7 +43,7 @@
                                 });
                             }
 
-                            map.entities.push(data.results[0].Polygons)
+                            map.entities.push(data.results[0].Polygons);
                         }
                     });
             });
