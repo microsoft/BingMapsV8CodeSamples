@@ -378,6 +378,9 @@ declare module Microsoft.Maps {
         */
         enableClickableLogo?: boolean;
 
+        /** Enables Cors on tile layers. */
+        enableCORS?: boolean;
+
         /**
         * A boolean value indicating whether to use the inertia animation effect during map navigation. Default: true
         * This property can only be set when using the Map constructor.

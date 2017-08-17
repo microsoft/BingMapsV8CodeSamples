@@ -60,7 +60,7 @@
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
 
             //Read the GeoJSON file that is hosted on the same domain.
-            Microsoft.Maps.GeoJson.readFromUrl('wmo.json',
+            Microsoft.Maps.GeoJson.readFromUrl('/Common/data/GeoJSON/NetherlandsCensusData.json',
                 function (shapes) {
 
                     for (var i = 0; i < shapes.length; i++) {

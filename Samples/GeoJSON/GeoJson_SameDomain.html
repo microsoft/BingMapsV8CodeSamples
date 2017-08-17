@@ -14,7 +14,7 @@
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
 
             //Read the GeoJSON file that is hosted on the same domain.
-            Microsoft.Maps.GeoJson.readFromUrl('data/Countries.js',
+            Microsoft.Maps.GeoJson.readFromUrl('/Common/data/geojson/Countries.js',
                 function (shapes) {
                     //Add the shape(s) to the map.
                     map.entities.push(shapes);

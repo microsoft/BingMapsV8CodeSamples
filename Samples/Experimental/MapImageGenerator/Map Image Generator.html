@@ -11,12 +11,14 @@
     var map, imageGenerator;
 
     function GetMap() {
-        //HACK: re-enable cors for tiles. This will cause issues for tile layers. Official map option to enable this planned.
+        //HACK: re-enable cors for tiles. This will cause issues for tile layers. 
+        //Official map option used when loading map should be available in experimental branch any day and in main release branch early September.
         Microsoft.Maps['GlobalConfig'].features.disableImageCORS.isEnabled = false;
 
         map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey,
-            zoom: 5
+            zoom: 5,
+            enableCORS: true //Need to enable CORs so that the map canvas data can be retrieved. 
         });
 
         addMockData();
@@ -94,7 +96,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div style="height:400px;">
