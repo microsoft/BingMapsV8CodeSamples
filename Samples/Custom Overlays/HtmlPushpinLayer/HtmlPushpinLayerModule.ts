@@ -72,7 +72,7 @@ interface IHtmlPushpinEvent {
 /**
  * A simple class that defines a HTML pushpin.
  */
-class HtmlPushpin {
+class HtmlPushpin extends Microsoft.Maps.Pushpin {
 
     /**********************
     * Public Properties
@@ -84,24 +84,49 @@ class HtmlPushpin {
     * Public Events
     ***********************/
 
-    //TODO: consider exposing these in a way that can use addEventListener/removeEventListener
-
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onDragStart: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onDrag: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onDragEnd: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onMouseDown: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onMouseUp: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onMouseOver: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onMouseOut: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onClick: (event: IHtmlPushpinEvent) => void;
 
+    /**
+    * @deprecated Use Microsoft.Maps.Events.addHandler
+    */
     public onDoubleClick: (event: IHtmlPushpinEvent) => void;
 
     /**********************
@@ -130,6 +155,7 @@ class HtmlPushpin {
      * @param options The options used to customize how the pushpin is displayed.
      */
     constructor(loc: Microsoft.Maps.Location, htmlContent: string | HTMLElement, options?: IHtmlPushpinOptions) {       
+        super(loc);
 
         //A property for storing data relative to the pushpin.
         this.metadata = null;
@@ -292,7 +318,9 @@ class HtmlPushpin {
     * @param eventHandler The event handler to process the event.
     */
     private _pinMouseEvent(e: MouseEvent, eventName: string, eventHandler: (event: IHtmlPushpinEvent) => void): void {
-        if (eventHandler) {
+        if (Microsoft.Maps.Events.hasHandler(this, eventName)) {
+            Microsoft.Maps.Events.invoke(this, eventName, this._getEventInfo(eventName, e));
+        } else if (eventHandler) {
             eventHandler(this._getEventInfo(eventName, e));
         }
     }
@@ -307,12 +335,16 @@ class HtmlPushpin {
 
             this._layer._dragTarget = this;
 
-            if (this.onDragStart) {
+            if (Microsoft.Maps.Events.hasHandler(this, 'dragstart')) {
+                Microsoft.Maps.Events.invoke(this, 'dragstart', this._getEventInfo('dragstart', e));
+            } else if (this.onDragStart) {
                 this.onDragStart(this._getEventInfo('dragstart', e));
-            }
+            } 
         }
-
-        if (this.onMouseDown) {
+        
+        if (Microsoft.Maps.Events.hasHandler(this, 'mousedown')) {
+            Microsoft.Maps.Events.invoke(this, 'mousedown', this._getEventInfo('mousedown', e));
+        } else if (this.onMouseDown) {
             this.onMouseDown(this._getEventInfo('mousedown', e));
         }
     }
@@ -326,12 +358,16 @@ class HtmlPushpin {
             this._isDragging = false;
             this._layer._dragTarget = null;
 
-            if (this.onDragEnd) {
+            if (Microsoft.Maps.Events.hasHandler(this, 'dragend')) {
+                Microsoft.Maps.Events.invoke(this, 'dragend', this._getEventInfo('dragend', e));
+            } else if (this.onDragEnd) {
                 this.onDragEnd(this._getEventInfo('dragend', e));
             }
         }
 
-        if (this.onMouseDown) {
+        if (Microsoft.Maps.Events.hasHandler(this, 'mouseup')) {
+            Microsoft.Maps.Events.invoke(this, 'mouseup', this._getEventInfo('mouseup', e));
+        } else if (this.onMouseDown) {
             this.onMouseDown(this._getEventInfo('mouseup', e));
         }
     }

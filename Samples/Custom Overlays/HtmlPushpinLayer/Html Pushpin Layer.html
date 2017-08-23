@@ -40,17 +40,17 @@
                 new HtmlPushpin(locs[3], htmlTemplate.replace('{text}', 'Draggable Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12), draggable: true })
             ];
 
-            pins[3].onMouseOver = function (e) {
+            Microsoft.Maps.Events.addHandler(pins[3], 'mouseover', function (e) {
                 infobox.setOptions({
                     location: e.target.getLocation(),
                     title: 'Pin Hovered',
                     visible: true
                 });
-            };
+            });
 
-            pins[3].onMouseOut = function (e) {
+            Microsoft.Maps.Events.addHandler(pins[3], 'mouseout', function (e) {
                 infobox.setOptions({ visible: false });
-            };
+            });
 
             //Create an Html Pushpin Layer and pass in the array of pushpins.
             layer = new HtmlPushpinLayer(pins);
@@ -80,7 +80,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&uncrunched=1' async defer></script>
     <style>
         .htmlPushpin {
             color:red;

@@ -35,7 +35,8 @@ var __extends = (this && this.__extends) || (function () {
 /**
  * A simple class that defines a HTML pushpin.
  */
-var HtmlPushpin = (function () {
+var HtmlPushpin = (function (_super) {
+    __extends(HtmlPushpin, _super);
     /**********************
     * Constructor
     ***********************/
@@ -46,31 +47,33 @@ var HtmlPushpin = (function () {
      * @param options The options used to customize how the pushpin is displayed.
      */
     function HtmlPushpin(loc, htmlContent, options) {
+        var _this = _super.call(this, loc) || this;
         /**********************
         * Internal Properties
         ***********************/
         /** This is an internal property used by the HtmlPushpinLayer. */
-        this._options = {
+        _this._options = {
             visible: true
         };
         //A property for storing data relative to the pushpin.
-        this.metadata = null;
+        _this.metadata = null;
         //Create the pushpins DOM element.
-        this._element = document.createElement('div');
-        this._element.style.position = 'absolute';
+        _this._element = document.createElement('div');
+        _this._element.style.position = 'absolute';
         //Set the options.
         options = options || {};
         options.location = loc;
         options.htmlContent = htmlContent;
-        this.setOptions(options);
+        _this.setOptions(options);
         //Add event listeners
-        var self = this;
-        this._element.addEventListener('mousedown', function (e) { self._pinMouseDown(e); });
-        this._element.addEventListener('mouseup', function (e) { self._pinMouseUp(e); });
-        this._element.addEventListener('mouseover', function (e) { self._pinMouseEvent(e, 'mouseover', self.onMouseOver); });
-        this._element.addEventListener('mouseout', function (e) { self._pinMouseEvent(e, 'mouseout', self.onMouseOut); });
-        this._element.addEventListener('click', function (e) { self._pinMouseEvent(e, 'click', self.onClick); });
-        this._element.addEventListener('dblclick', function (e) { self._pinMouseEvent(e, 'dblclick', self.onDoubleClick); });
+        var self = _this;
+        _this._element.addEventListener('mousedown', function (e) { self._pinMouseDown(e); });
+        _this._element.addEventListener('mouseup', function (e) { self._pinMouseUp(e); });
+        _this._element.addEventListener('mouseover', function (e) { self._pinMouseEvent(e, 'mouseover', self.onMouseOver); });
+        _this._element.addEventListener('mouseout', function (e) { self._pinMouseEvent(e, 'mouseout', self.onMouseOut); });
+        _this._element.addEventListener('click', function (e) { self._pinMouseEvent(e, 'click', self.onClick); });
+        _this._element.addEventListener('dblclick', function (e) { self._pinMouseEvent(e, 'dblclick', self.onDoubleClick); });
+        return _this;
     }
     /**
      * Disposes the pushpin and releases its resources.
@@ -189,7 +192,10 @@ var HtmlPushpin = (function () {
     * @param eventHandler The event handler to process the event.
     */
     HtmlPushpin.prototype._pinMouseEvent = function (e, eventName, eventHandler) {
-        if (eventHandler) {
+        if (Microsoft.Maps.Events.hasHandler(this, eventName)) {
+            Microsoft.Maps.Events.invoke(this, eventName, this._getEventInfo(eventName, e));
+        }
+        else if (eventHandler) {
             eventHandler(this._getEventInfo(eventName, e));
         }
     };
@@ -201,11 +207,17 @@ var HtmlPushpin = (function () {
         if (this._options.draggable) {
             this._isDragging = true;
             this._layer._dragTarget = this;
-            if (this.onDragStart) {
+            if (Microsoft.Maps.Events.hasHandler(this, 'dragstart')) {
+                Microsoft.Maps.Events.invoke(this, 'dragstart', this._getEventInfo('dragstart', e));
+            }
+            else if (this.onDragStart) {
                 this.onDragStart(this._getEventInfo('dragstart', e));
             }
         }
-        if (this.onMouseDown) {
+        if (Microsoft.Maps.Events.hasHandler(this, 'mousedown')) {
+            Microsoft.Maps.Events.invoke(this, 'mousedown', this._getEventInfo('mousedown', e));
+        }
+        else if (this.onMouseDown) {
             this.onMouseDown(this._getEventInfo('mousedown', e));
         }
     };
@@ -217,11 +229,17 @@ var HtmlPushpin = (function () {
         if (this._isDragging) {
             this._isDragging = false;
             this._layer._dragTarget = null;
-            if (this.onDragEnd) {
+            if (Microsoft.Maps.Events.hasHandler(this, 'dragend')) {
+                Microsoft.Maps.Events.invoke(this, 'dragend', this._getEventInfo('dragend', e));
+            }
+            else if (this.onDragEnd) {
                 this.onDragEnd(this._getEventInfo('dragend', e));
             }
         }
-        if (this.onMouseDown) {
+        if (Microsoft.Maps.Events.hasHandler(this, 'mouseup')) {
+            Microsoft.Maps.Events.invoke(this, 'mouseup', this._getEventInfo('mouseup', e));
+        }
+        else if (this.onMouseDown) {
             this.onMouseDown(this._getEventInfo('mouseup', e));
         }
     };
@@ -264,7 +282,7 @@ var HtmlPushpin = (function () {
         };
     };
     return HtmlPushpin;
-}());
+}(Microsoft.Maps.Pushpin));
 /**
  * A reusable class for overlaying HTML elements as pushpins on the map.
  */

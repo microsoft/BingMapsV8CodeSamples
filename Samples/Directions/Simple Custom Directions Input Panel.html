@@ -26,29 +26,19 @@
     }
 
     function GetDirections() {
-        if (!directionsManager) {
-            //Load the directions module.
-            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
-                //Create an instance of the directions manager.
-                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+        //Clear any previously calculated directions.
+        directionsManager.clearAll();
+        directionsManager.clearDisplay();
 
-                //Calculate the directions.
-                GetDirections();
-            });
-        } else {
-            //Clear any previously calculated directions.
-            directionsManager.clearAll();
+        //Create waypoints to route between.
+        var start = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('fromTbx').value });
+        directionsManager.addWaypoint(start);
 
-            //Create waypoints to route between.
-            var start = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('fromTbx').value });
-            directionsManager.addWaypoint(start);
+        var end = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('toTbx').value });
+        directionsManager.addWaypoint(end);
 
-            var end = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('toTbx').value });
-            directionsManager.addWaypoint(end);
-            
-            //Calculate directions.
-            directionsManager.calculateDirections();
-        }
+        //Calculate directions.
+        directionsManager.calculateDirections();
     }
     </script>
 
