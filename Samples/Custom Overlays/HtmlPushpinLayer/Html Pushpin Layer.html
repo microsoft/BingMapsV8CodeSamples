@@ -29,15 +29,15 @@
         //Load the module.
         Microsoft.Maps.loadModule('HtmlPushpinLayerModule', function () {
             //Create some HTML pushpins in random locations. 
-            var locs = Microsoft.Maps.TestDataGenerator.getLocations(4, map.getBounds());
+            var locs = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
                        
             //Create an array of Html Pushpins.
             var pins = [
                 new HtmlPushpin(locs[0], htmlTemplate.replace('{text}', 'Hello World!'), { anchor: new Microsoft.Maps.Point(50, 12) }),
                 new HtmlPushpin(locs[1], htmlTemplate.replace('{text}', 'My Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12) }),
                 new HtmlPushpin(locs[2], htmlTemplate.replace('{text}', 'HTML Rules!'), { anchor: new Microsoft.Maps.Point(50, 12) }),
-                new HtmlPushpin(locs[2], htmlTemplate.replace('{text}', 'Hoverable'), { anchor: new Microsoft.Maps.Point(50, 12) }),
-                new HtmlPushpin(locs[3], htmlTemplate.replace('{text}', 'Draggable Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12), draggable: true })
+                new HtmlPushpin(locs[3], htmlTemplate.replace('{text}', 'Hoverable'), { anchor: new Microsoft.Maps.Point(50, 12) }),
+                new HtmlPushpin(locs[4], htmlTemplate.replace('{text}', 'Draggable Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12), draggable: true })
             ];
 
             Microsoft.Maps.Events.addHandler(pins[3], 'mouseover', function (e) {

@@ -13,11 +13,11 @@
 
         Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
             var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
-            manager.attachAutosuggest('#searchBox', '#searchBoxContainer', selectedSuggestion);
+            manager.attachAutosuggest('#searchBox', '#searchBoxContainer', suggestionSelected);
         });
     }
 
-    function selectedSuggestion(result) {
+    function suggestionSelected(result) {
         //Remove previously selected suggestions from the map.
         map.entities.clear();
 

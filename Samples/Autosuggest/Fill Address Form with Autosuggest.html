@@ -10,7 +10,7 @@
                 var manager = new Microsoft.Maps.AutosuggestManager({
                     placeSuggestions: false
                 });
-                manager.attachAutosuggest('#searchBox', '#searchBoxContainer', selectedSuggestion);
+                manager.attachAutosuggest('#searchBox', '#searchBoxContainer', suggestionSelected);
             },
             errorCallback: function(msg){
                 alert(msg);
@@ -19,7 +19,7 @@
         });
     }
 
-    function selectedSuggestion(result) {
+    function suggestionSelected(result) {
         //Populate the address textbox values.
         document.getElementById('addressLineTbx').value = result.address.addressLine || '';
         document.getElementById('cityTbx').value = result.address.locality || '';

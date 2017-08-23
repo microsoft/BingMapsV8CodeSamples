@@ -13,13 +13,13 @@
 
         Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
             var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
-            manager.attachAutosuggest('#searchBox', '#searchBoxContainer', selectedSuggestion);
+            manager.attachAutosuggest('#searchBox', '#searchBoxContainer', suggestionSelected);
 
             searchManager = new Microsoft.Maps.Search.SearchManager(map);
         });
     }
 
-    function selectedSuggestion(result) {
+    function suggestionSelected(result) {
         //Remove previously results from the map.
         map.entities.clear();
 
@@ -47,7 +47,7 @@
 
                     //Add a pushpin for each result to the map and create a list to display.
                     for (var i = 0; i < r.results.length; i++) {
-                        //Create a pushpin for each result. 
+                        //Create a pushpin for each result.
                         pin = new Microsoft.Maps.Pushpin(r.results[i].location, {
 
                             text: i + ''
