@@ -434,6 +434,9 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /** A variable to store the viewchange event handler id. */
     private _viewChangeEventHandler: Microsoft.Maps.IHandlerId = null;
 
+    /** A variable to store the viewchangeend event handler id. */
+    private _viewChangeEndEventHandler: Microsoft.Maps.IHandlerId = null;
+
     /** A variable to store the map resize event handler id. */
     private _mapResizeEventHandler: Microsoft.Maps.IHandlerId = null;
 
@@ -474,22 +477,15 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
      * Layer loaded, add map events for updating position of data.
      */
     public onLoad(): void {
-        var self = this;
 
         //Reset pushpins as overlay is now loaded.
-        self._renderPushpins();
+        this._renderPushpins();
 
         var map = this.getMap();
 
         //Update the position of the pushpin when the view changes. Hide the layer if map changed to streetside.
-        this._viewChangeEventHandler = Microsoft.Maps.Events.addHandler(map, 'viewchange', function () {
-            if (self.getMap().getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
-                self._container.style.display = 'none';
-            } else {
-                self._container.style.display = '';
-                self._updatePositions()
-            }
-        });
+        this._viewChangeEventHandler = Microsoft.Maps.Events.addHandler(map, 'viewchange', (e) => { this._viewChanged(); });
+        this._viewChangeEndEventHandler = Microsoft.Maps.Events.addHandler(map, 'viewchangeend', (e) => { this._viewChanged(); });
         
         //Update the position of the overlay when the map is resized.
         this._mapResizeEventHandler = Microsoft.Maps.Events.addHandler(map, 'mapresize', (e) => { this._updatePositions(); });
@@ -507,6 +503,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
 
         //Remove the event handler that is attached to the map.
         Microsoft.Maps.Events.removeHandler(this._viewChangeEventHandler);
+        Microsoft.Maps.Events.removeHandler(this._viewChangeEndEventHandler);
         Microsoft.Maps.Events.removeHandler(this._mapResizeEventHandler);
 
         this.getMap().getRootElement().removeEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
@@ -603,6 +600,15 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     /**********************
     * Private Functions
     ***********************/
+
+    private _viewChanged() {
+        if (this.getMap().getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
+            this._container.style.display = 'none';
+        } else {
+            this._container.style.display = '';
+            this._updatePositions();
+        }
+    }
 
     /**
     * Renders the pushpins on the layer.
