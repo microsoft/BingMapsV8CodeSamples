@@ -340,6 +340,16 @@ var HtmlPushpinLayer = (function (_super) {
                 self._updatePositions();
             }
         });
+        //Update the position of the pushpin when the view change ends. Hide the layer if map changed to streetside.
+        this._viewChangeEventHandler = Microsoft.Maps.Events.addHandler(map, 'viewchangeend', function () {
+            if (self.getMap().getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
+                self._container.style.display = 'none';
+            }
+            else {
+                self._container.style.display = '';
+                self._updatePositions();
+            }
+        });
         //Update the position of the overlay when the map is resized.
         this._mapResizeEventHandler = Microsoft.Maps.Events.addHandler(map, 'mapresize', function (e) { _this._updatePositions(); });
         map.getRootElement().addEventListener('mousemove', function (e) { _this._updateDragPushpin(e); });
