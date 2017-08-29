@@ -129,5 +129,6 @@ var sampleRedirects = {
     "Autosuggest_DefaultUI": "Autosugges%20with%20Map",
     "GeoXmlLayer%20-%20Local%20Data": "GeoXmlLayer%20-%20Same%20Domain",
     "Business%20Search%20Module": "POI%20Search%20Module",
-    "GeoData_ChoroplethMap": "GeoData%20Choropleth%20Map"
+    "GeoData_ChoroplethMap": "GeoData%20Choropleth%20Map",
+    "DrawingTools_CustomToolbar": "Fully%20Custom%Drawing%20Toolbar"
 };

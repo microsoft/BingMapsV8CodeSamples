@@ -8,7 +8,8 @@
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey
+            credentials: YourBingMapsKey,
+            zoom: 1
         });
 
         //Load the GeoJSON module.
@@ -40,6 +41,9 @@
         //The list of files that have been dragged and dropped onto the map.
         var files = evt.dataTransfer.files; 
 
+        //Keep track of the bounding box of all the data from all files dropped into the map.
+        var dataBounds = null;
+
         //Loop through and attempt to read each file. 
         for (var i = 0; i < files.length; i++) {
             var reader = new FileReader();
@@ -52,8 +56,18 @@
                     var shapes = Microsoft.Maps.GeoJson.read(geoJsonText);
                     map.entities.push(shapes);
                     
-                    //Set the map view
-                    map.setView({ bounds: Microsoft.Maps.LocationRect.fromShapes(shapes) });
+                    //Calculate the bounding box of the data in the single file. 
+                    var bounds = Microsoft.Maps.LocationRect.fromShapes(shapes);
+
+                    //If data is already loaded from another GeoJSON file, merge the bounding boxes together.
+                    if (dataBounds) {
+                        dataBounds = Microsoft.Maps.LocationRect.merge(dataBounds, bounds);
+                    } else {
+                        dataBounds = bounds;
+                    }
+
+                    //Update the map view to show the data.
+                    map.setView({ bounds: dataBounds, padding: 50 });
                 } catch (e) {
                     alert('Unable to read file as GeoJSON.');
                 }

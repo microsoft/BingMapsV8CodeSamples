@@ -71,28 +71,24 @@
         var dx = 0, dy = 0;
         switch (dir) {
             case 'up':
-                dy = -30;
-                break;
-            case 'down':
                 dy = 30;
                 break;
+            case 'down':
+                dy = -30;
+                break;
             case 'left':
-                dx = -30;
+                dx = 30;
                 break;
             case 'right':
-                dx = 30;
+                dx = -30;
                 break;
         }
 
-        var cp = map.tryLocationToPixel(map.getCenter());
-        cp.x += dx;
-        cp.y += dy;
-
-        map.setView({ center: map.tryPixelToLocation(cp) });
+        map.setView({ center: map.getCenter(), centerOffset: new Microsoft.Maps.Point(dx, dy)})
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

@@ -101,10 +101,11 @@
     <Content Include="Directions\Directions_Transit.html" />
     <Content Include="Directions\Directions_WithOptions.html" />
     <Content Include="Drawing Tools\Add events to newly drawn shapes.html" />
+    <Content Include="Drawing Tools\Custom Drawing Toolbar - Private.html" />
     <Content Include="Drawing Tools\DrawingTools_Basic.html" />
     <Content Include="Drawing Tools\DrawingTools_Clear.html" />
     <Content Include="Drawing Tools\DrawingTools_CustomExitButton.html" />
-    <Content Include="Drawing Tools\DrawingTools_CustomToolbar.html" />
+    <Content Include="Drawing Tools\Fully Custom Drawing Toolbar.html" />
     <Content Include="Drawing Tools\DrawingTools_EditExistingPolygon.html" />
     <Content Include="Drawing Tools\DrawingTools_ShapeMetadata.html" />
     <Content Include="Drawing Tools\DrawingTools_TogglePolygonEdit.html" />

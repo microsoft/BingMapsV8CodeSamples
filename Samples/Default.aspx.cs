@@ -121,38 +121,41 @@ namespace Samples
 
                 foreach (FileInfo fi in files)
                 {
-                    if (dir2 != null)
+                    if (!fi.Name.Contains("- Private"))
                     {
-                        path = dir.Name + "/" + dir2.Name + "/" + fi.Name.ToString();
-                        sourcePath = dir.Name + "/" + dir2.Name;
+                        if (dir2 != null)
+                        {
+                            path = dir.Name + "/" + dir2.Name + "/" + fi.Name.ToString();
+                            sourcePath = dir.Name + "/" + dir2.Name;
+                        }
+                        else
+                        {
+                            path = dir.Name + "/" + fi.Name.ToString();
+                            sourcePath = path;
+                        }
+
+                        string name = fi.Name.Replace(".html", "").Replace("'", "\\'");
+
+                        var fileNode = new TreeNode(name)
+                        {
+                            SelectAction = TreeNodeSelectAction.SelectExpand,
+                            NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", name, path, sourcePath)
+                        };
+
+                        parentNode.ChildNodes.Add(fileNode);
+
+                        if (PageNames.Contains(name))
+                        {
+                            DuplicatePageNames.Add(name);
+                        }
+                        else
+                        {
+                            PageNames.Add(name);
+                            sampleList.AppendFormat("{{label:'{0}',category:'{1}',action:function(){{{2}}}}},", fileNode.Text, dir.Name, fileNode.NavigateUrl.Replace("javascript:", ""));
+                        }
+
+                        NumberOfSamples++;
                     }
-                    else
-                    {
-                        path = dir.Name + "/" + fi.Name.ToString();
-                        sourcePath = path;
-                    }
-
-                    string name = fi.Name.Replace(".html", "").Replace("'", "\\'");
-
-                    var fileNode = new TreeNode(name)
-                    {
-                        SelectAction = TreeNodeSelectAction.SelectExpand,
-                        NavigateUrl = string.Format("javascript:loadSample('{0}', '{1}', '{2}')", name, path, sourcePath)
-                    };
-
-                    parentNode.ChildNodes.Add(fileNode);
-
-                    if (PageNames.Contains(name))
-                    {
-                        DuplicatePageNames.Add(name);
-                    }
-                    else
-                    {
-                        PageNames.Add(name);
-                        sampleList.AppendFormat("{{label:'{0}',category:'{1}',action:function(){{{2}}}}},", fileNode.Text, dir.Name, fileNode.NavigateUrl.Replace("javascript:", ""));
-                    }
-
-                    NumberOfSamples++;
                 }
             }
         }
