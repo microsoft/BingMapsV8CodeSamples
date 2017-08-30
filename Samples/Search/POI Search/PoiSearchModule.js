@@ -80,6 +80,7 @@ var Microsoft;
                         ['beer', 'pub', 'tavern', 'taproom', 'cocktail', 'wine'],
                         ['italian', 'pizza', 'pizzeria', 'trattoria', 'ristorante'],
                         ['sub', 'sandwich', 'deli'],
+                        ['mexican', 'taco', 'burrito'],
                         ['bakery', 'bakeries'],
                         ['chinese'],
                         ['thai'],
@@ -96,7 +97,9 @@ var Microsoft;
                         ['baskinrobbins'],
                         ['littlecaesars'],
                         ['krispykreme'],
-                        ['wendys']
+                        ['wendys'],
+                        ['chipotle'],
+                        ['tacodelmar']
                     ]
                 },
                 //Nightlife - 5813
@@ -251,7 +254,8 @@ var Microsoft;
                 {
                     id: '9992',
                     syn: [
-                        ['churches', 'mosques', 'temples', 'synagogues', 'shrines', 'chapels', 'parhishes']
+                        ['churches', 'mosques', 'temples', 'synagogues', 'shrines', 'chapels', 'parhishes'],
+                        ['catholic', 'catholicchurch', 'catholicchurches']
                     ]
                 },
                 //Coffee Shop - 9996            
@@ -473,7 +477,7 @@ var Microsoft;
                         request.what = request.what.toLowerCase().replace('-', ' ').replace("'", '');
                     }
                     if (request.where) {
-                        if (request.where === 'me') {
+                        if (request.where === 'me' || request.where === 'my location') {
                             //Request the user's location
                             navigator.geolocation.getCurrentPosition(function (position) {
                                 var loc = new Microsoft.Maps.Location(position.coords.latitude, position.coords.longitude);
@@ -503,6 +507,13 @@ var Microsoft;
                                             }
                                         }, request.userData);
                                     }
+                                },
+                                errorCallback: function (e) {
+                                    request.callback({
+                                        responseSummary: {
+                                            errorMessage: "No geocode results for 'where'."
+                                        }
+                                    }, request.userData);
                                 }
                             });
                         }
@@ -646,7 +657,30 @@ var Microsoft;
                                 result.bestView = new Microsoft.Maps.LocationRect(locs[0], 0.001, 0.001);
                             }
                         }
-                        if (request.callback) {
+                        if (result.searchResults.length === 0 && !request.where && request.what) {
+                            //If no results where found and a where hasn't been provided, but a what has. Try geocoding the what as ti may be a location.
+                            _this._searchManager.geocode({
+                                where: request.what,
+                                callback: function (r) {
+                                    if (r && r.results && r.results.length > 0) {
+                                        result.searchRegion = r.results[0];
+                                        result.bestView = r.results[0].bestView;
+                                        if (r.results.length > 1) {
+                                            result.alternateSearchRegions = r.results.slice(1);
+                                        }
+                                    }
+                                    if (request.callback) {
+                                        request.callback(result, request.userData);
+                                    }
+                                },
+                                errorCallback: function (e) {
+                                    if (request.callback) {
+                                        request.callback(result, request.userData);
+                                    }
+                                }
+                            });
+                        }
+                        else if (request.callback) {
                             request.callback(result, request.userData);
                         }
                     });
@@ -739,6 +773,14 @@ var Microsoft;
                         for (var j = 0; j < syns[i].syn.length; j++) {
                             if (syns[i].syn[j].indexOf(what) > -1) {
                                 synonum.syn.push(syns[i].syn[j]);
+                            }
+                            else {
+                                for (var k = 0; k < syns[i].syn[j].length; k++) {
+                                    if (syns[i].syn[j][k].indexOf(what) > -1 && Math.abs(syns[i].syn[j][k].length - what.length) < 2) {
+                                        synonum.syn.push(syns[i].syn[j]);
+                                        break;
+                                    }
+                                }
                             }
                         }
                         if (synonum.syn.length > 0) {

@@ -65,6 +65,13 @@ module Microsoft.Maps.Search {
 
         /** The minium desired match confidence of the results. */
         matchConfidence?: string | MatchConfidence;
+
+        /**
+        * If no results are found, try geocoding the query incase it might be a location.
+        * This result will still have no results, but will have search region info.
+        * This allows a single textbox to power both POI and locaiton based searches. Default: true
+        */
+        geocodeFallback: boolean;
     }
 
     /**
@@ -201,6 +208,7 @@ module Microsoft.Maps.Search {
                 ['beer', 'pub', 'tavern', 'taproom', 'cocktail', 'wine'],
                 ['italian', 'pizza', 'pizzeria', 'trattoria', 'ristorante'],
                 ['sub', 'sandwich', 'deli'],
+                ['mexican', 'taco', 'burrito'],
                 ['bakery', 'bakeries'],
                 ['chinese'],
                 ['thai'],
@@ -217,7 +225,9 @@ module Microsoft.Maps.Search {
                 ['baskinrobbins'],
                 ['littlecaesars'],
                 ['krispykreme'],
-                ['wendys']
+                ['wendys'],
+                ['chipotle'],
+                ['tacodelmar']
             ]
         },
 
@@ -386,7 +396,8 @@ module Microsoft.Maps.Search {
         {
             id: '9992',
             syn: [
-                ['churches', 'mosques', 'temples', 'synagogues', 'shrines', 'chapels', 'parhishes']
+                ['churches', 'mosques', 'temples', 'synagogues', 'shrines', 'chapels', 'parhishes'],
+                ['catholic', 'catholicchurch', 'catholicchurches']
             ]
         },
 
@@ -702,7 +713,7 @@ module Microsoft.Maps.Search {
             }
 
             if (request.where) {
-                if (request.where === 'me') {
+                if (request.where === 'me' || request.where === 'my location') {
                     //Request the user's location
                     navigator.geolocation.getCurrentPosition((position) => {
                         var loc = new Microsoft.Maps.Location(
@@ -733,6 +744,13 @@ module Microsoft.Maps.Search {
                                     }
                                 }, request.userData);
                             }
+                        },
+                        errorCallback: (e) => {
+                            request.callback(<IPoiSearchResponse>{
+                                responseSummary: {
+                                    errorMessage: "No geocode results for 'where'."
+                                }
+                            }, request.userData);
                         }
                     });
                 }
@@ -897,7 +915,33 @@ module Microsoft.Maps.Search {
                     }
                 }
 
-                if (request.callback) {
+                if (result.searchResults.length === 0 && !request.where && request.what) {
+                    //If no results where found and a where hasn't been provided, but a what has. Try geocoding the what as ti may be a location.
+
+                    this._searchManager.geocode({
+                        where: request.what,
+                        callback: (r) => {
+                            if (r && r.results && r.results.length > 0) {
+                                result.searchRegion = r.results[0];
+                                result.bestView = r.results[0].bestView;
+
+                                if (r.results.length > 1) {
+                                    result.alternateSearchRegions = r.results.slice(1);
+                                }
+                            }
+
+                            if (request.callback) {
+                                request.callback(result, request.userData);
+                            }
+                        },
+                        errorCallback: (e) => {
+                            if (request.callback) {
+                                request.callback(result, request.userData);
+                            }
+                        }
+                    });
+                }
+                else if (request.callback) {
                     request.callback(result, request.userData);
                 }
             });
@@ -1006,6 +1050,13 @@ module Microsoft.Maps.Search {
                 for (var j = 0; j < syns[i].syn.length; j++) {
                     if (syns[i].syn[j].indexOf(what) > -1) {
                         synonum.syn.push(syns[i].syn[j]);
+                    } else {
+                        for (var k = 0; k < syns[i].syn[j].length; k++) {
+                            if (syns[i].syn[j][k].indexOf(what) > -1 && Math.abs(syns[i].syn[j][k].length - what.length) < 2) {
+                                synonum.syn.push(syns[i].syn[j]);
+                                break;
+                            }
+                        }
                     }
                 }
 

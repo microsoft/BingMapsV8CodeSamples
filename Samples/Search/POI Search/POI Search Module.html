@@ -78,13 +78,21 @@
     }
 
     function searchCallback(result) {
-        if (result && result.searchResults && result.searchResults.length > 0) {
-            dataLayer.add(result.searchResults);
+        if (result) {
+            if (result.searchResults && result.searchResults.length > 0) {
+                dataLayer.add(result.searchResults);
 
-            map.setView({ bounds: result.bestView, padding: 30 });
-        } else {
-            alert('No results found');
+                map.setView({ bounds: result.bestView, padding: 30 });
+                return;
+            } else if (result.searchRegion && result.searchRegion.entityType !== 'map') {
+                alert('Found a where, but not a what');
+
+                map.setView({ bounds: result.bestView, padding: 30 });
+                return;
+            }
         }
+
+        alert('No results found');
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
