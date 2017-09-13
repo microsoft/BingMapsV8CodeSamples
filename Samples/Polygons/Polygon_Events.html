@@ -19,6 +19,7 @@
 
         //Add mouse events to the polygon.
         Microsoft.Maps.Events.addHandler(polygon, 'click', function () { highlight('polygonClick'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'dblclick', function () { highlight('polygonDoubleClick'); });
         Microsoft.Maps.Events.addHandler(polygon, 'mousedown', function () { highlight('polygonMousedown'); });
         Microsoft.Maps.Events.addHandler(polygon, 'mouseout', function () { highlight('polygonMouseout'); });
         Microsoft.Maps.Events.addHandler(polygon, 'mouseover', function () { highlight('polygonMouseover'); });
@@ -40,6 +41,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <div id="polygonClick">click</div>
+    <div id="polygonDoubleClick">dblclick</div>
     <div id="polygonMousedown">mousedown</div>
     <div id="polygonMouseout">mouseout</div>
     <div id="polygonMouseover">mouseover</div>

@@ -230,7 +230,7 @@
     <Content Include="Spatial Math\Cardinal Splines - Basic.html" />
     <Content Include="Spatial Math\Create Circles using Spatial Math.html" />
     <Content Include="Spatial Math\Calculate Distance From Route.html" />
-    <Content Include="Spatial Math\Sptial Math Binary Operations.html" />
+    <Content Include="Spatial Math\Binary Operations.html" />
     <Content Include="Spatial Math\Quadkey Locator.html" />
     <Content Include="Spatial Math\Tile Math Examples.html" />
     <Content Include="Test Data Generator\Generate Pushpins within a Polygon.html" />

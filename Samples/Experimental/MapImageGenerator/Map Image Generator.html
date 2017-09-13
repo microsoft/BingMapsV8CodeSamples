@@ -92,7 +92,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>
     <div style="height:400px;">
@@ -108,7 +108,7 @@
     <fieldset style="width:600px;margin-top:10px;">
         <legend>Map Image Generator Sample</legend>
         Status: Functional <br /><br />
-        Warning: This is an experimental sample that uses the map in an unsupported way. This can break at any time.<br/><br />
+        Warning: This is an experimental sample that uses the map in an unsupported way (directly accesses the maps DOM). This can break at any time.<br/><br />
         This sample shows how to generate an image of the map. Pushpin images must be hosted locally, or be dataUri's. 
         The following elements are not rendered; navigation controls, scale bars, Infoboxes, AnimatedTileLayers, TileLayers, 
         and most Custom Overlays. Bing Maps terms of use does not allow Ordnance Survey or Birdseye imagery to be "printed". 

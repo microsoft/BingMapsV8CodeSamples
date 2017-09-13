@@ -4,8 +4,10 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
+    var map; 
+
     function GetMap() {
-        var map = new Microsoft.Maps.Map('#myMap', {
+        map = new Microsoft.Maps.Map('#myMap', {
             credentials: YourBingMapsKey
         });
 
@@ -42,7 +44,6 @@
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br />
-    <div id="outputPanel"></div>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 </body>
 </html>

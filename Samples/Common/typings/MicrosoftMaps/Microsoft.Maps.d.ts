@@ -66,7 +66,8 @@ declare module Microsoft.Maps {
         road,
 
         /** Provides streetside panoramas from the street level. */
-        streetside
+        streetside,
+        birdseye
     }
 
     /** The NavigationBarMode can be used to customize the layout and style of the navigation bar. */

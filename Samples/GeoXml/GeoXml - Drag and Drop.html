@@ -11,7 +11,7 @@
     var map, infobox, dataBounds, statusPanel, xmlPanel, loadingIcon, fileCount = 0;
     var proxyService = 'GeoXml - Cross Domain/GeoXmlProxyService.ashx?url=';
     var zipKmzRx = /(.zip|.kmz)$/;
-        //TODO: remove experimental
+
     function GetMap() {
         statusPanel = document.getElementById('statusPanel');
         xmlPanel = document.getElementById('xmlPanel');
@@ -266,7 +266,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
     <style>
         body, html {
             padding: 0;

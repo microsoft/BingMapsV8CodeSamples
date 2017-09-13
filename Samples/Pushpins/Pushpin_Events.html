@@ -17,6 +17,7 @@
 
         //Add mouse events to the pushpin.
         Microsoft.Maps.Events.addHandler(pushpin, 'click', function () { highlight('pushpinClick'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'dblclick', function () { highlight('pushpinDoubleClick'); });
         Microsoft.Maps.Events.addHandler(pushpin, 'mousedown', function () { highlight('pushpinMousedown'); });
         Microsoft.Maps.Events.addHandler(pushpin, 'mouseout', function () { highlight('pushpinMouseout'); });
         Microsoft.Maps.Events.addHandler(pushpin, 'mouseover', function () { highlight('pushpinMouseover'); });
@@ -38,6 +39,7 @@
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <div id="pushpinClick">click</div>
+    <div id="pushpinDoubleClick">dblclick</div>
     <div id="pushpinMousedown">mousedown</div>
     <div id="pushpinMouseout">mouseout</div>
     <div id="pushpinMouseover">mouseover</div>

@@ -6,7 +6,7 @@
     <script type='text/javascript'>
     var map;
     var georss = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Sample Polygon</title><georss:polygon>46.31409 -122.22616 46.31113 -122.22968 46.31083 -122.23320</georss:polygon></entry></feed>';
-        //TODO: remove experimental
+      
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -51,7 +51,7 @@
     </script>
 
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

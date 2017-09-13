@@ -105,7 +105,7 @@ var MapImageGenerator = (function () {
                     break;
                 case Microsoft.Maps.MapTypeId.streetside:
                     throw 'Streetside is not supported.';
-                case Microsoft.Maps.MapTypeId['birdseye']:
+                case Microsoft.Maps.MapTypeId.birdseye:
                 case Microsoft.Maps.MapTypeId.ordnanceSurvey:
                     throw 'The Bing Maps terms of use does not allow printing this type of imagery.';
                 default:
