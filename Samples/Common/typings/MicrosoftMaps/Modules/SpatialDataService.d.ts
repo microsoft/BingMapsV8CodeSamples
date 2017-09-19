@@ -204,7 +204,7 @@ declare module Microsoft.Maps.SpatialDataService {
          * to be loaded with a bing maps key that has access to the data source.
          * @param callback A callback function to return the results to. If an array of locations are specified the callback function will be triggered for each location in the array.
          */
-        export function getBoundary(locations: string | Location | (string | Location)[], request: IGetBoundaryRequestOptions, credentials: string | Map, callback: (results: IGeoDataResultSet) => void): void;
+        export function getBoundary(locations: string | Location | (string | Location)[], request: IGetBoundaryRequestOptions, credentials: string | Map, callback: (results: IGeoDataResultSet) => void, styles?: IPolygonOptions): void;
     }
 
     //////////////////////////////////////////////
@@ -363,7 +363,7 @@ declare module Microsoft.Maps.SpatialDataService {
         end?: string | Location;
 
         /** Intersection object. Can be a well known text string or a LocationRect object (only for intersects filter). */
-        intersects?: string | LocationRect;
+        intersects?: string | LocationRect | IPrimitive;
     }
     
     /** Options for find near route query API. */
@@ -414,7 +414,7 @@ declare module Microsoft.Maps.SpatialDataService {
         queryUrl: string;
 
         /** Specifies a conditional expression for a list of properties and values. */
-        filter?: IFilter;
+        filter?: string | IFilter;
 
         /** Specifies whether or not to return a count of the results in the response. Default: false */
         inlineCount?: boolean;
@@ -457,6 +457,8 @@ declare module Microsoft.Maps.SpatialDataService {
          * @param credentials - Credentials for the query
          * @param callback - The function to call once the results are retrieved
          * @param styles - (Optional) Styles of the data that needs to be rendered on map
+         * @param withoutLocationInfo -
+         * @param errorCallback - 
          */
         export function search(queryOptions: IQueryAPIOptions,
             credentials: string | Map,

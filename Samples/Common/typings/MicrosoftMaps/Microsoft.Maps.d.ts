@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright(c) 2016 Microsoft Corporation. All rights reserved. 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
  * 
  * This code is licensed under the MIT License (MIT). 
  * 
@@ -21,6 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE. 
 */
+
+/// <reference path="CustomMapStyles.d.ts"/>
 
 /**
  *  The Bing Maps V8 developer API.
@@ -46,6 +48,9 @@ declare module Microsoft.Maps {
     export enum MapTypeId {
         /** The aerial map type which uses top-down satellite & airplane imagery. */
         aerial,
+		
+		/** High resolution aerial imagery taken at 45 degrees to the ground, from 4 different directions. */
+		birdseye,
 
         /** A darker version of the road maps. */
         canvasDark,
@@ -66,8 +71,7 @@ declare module Microsoft.Maps {
         road,
 
         /** Provides streetside panoramas from the street level. */
-        streetside,
-        birdseye
+        streetside
     }
 
     /** The NavigationBarMode can be used to customize the layout and style of the navigation bar. */
@@ -194,8 +198,10 @@ declare module Microsoft.Maps {
     /** Represents the options that can be used when initializing a custom overlay. **/
     export interface ICustomOverlayOptions {
         /**
-        * Specifies if the custom overlay should eb rendered above or below the label layer of the map. When above,
+        * Specifies if the custom overlay should be rendered above or below the label layer of the map. When above,
         * elements in the overlay can be clickable. Default: True
+        *
+        * This can only be set when creating the overlay.
         */
         beneathLabels?: boolean;
     }
@@ -205,6 +211,11 @@ declare module Microsoft.Maps {
         /** Clears all data in the layer. */
         clear(): void;	
     }
+		
+    /** A standard dictionary object (associative array). */
+    export interface IDictionary<T> {
+        [K: string]: T;
+    }
 
     /** Event args included in entity collection events. */
     export interface IEntityCollectionChangedEventArgs {
@@ -213,6 +224,29 @@ declare module Microsoft.Maps {
 
         /** The IPrimitive object that the event occurred for. */
         data: IPrimitive;
+    }
+
+    /**
+     * The options that specify how to render a ground overlay on the map.
+     */
+    export interface IGroundOverlayOptions extends ICustomOverlayOptions {
+        /** A background color that fills the bounding box area beneath the ground overlay. */
+        backgroundColor?: string | Color;
+
+        /** The bounding box to anchor the ground overlay to. This is required when creating a ground overlay. */
+        bounds?: LocationRect;
+
+        /** The URL to the image to anchor to the map as a ground overlay. This is required when creating a ground overlay. */
+        imageUrl?: string;
+
+        /** The opacity of the ground overlay image. */
+        opacity?: number;
+
+        /** An angle in degrees to rotate the overlay in a counter-clockwise direction where 0 = north, 90 = west, 180 = south, 270 = east */
+        rotation?: number;
+
+        /** A boolean value indicating if the ground overlay is visible or not. */
+        visible?: boolean;
     }
 
     /** An object the identifies an event that has been attached to an object. */
@@ -320,6 +354,9 @@ declare module Microsoft.Maps {
 
         /** The type of the object that fired the event.This will always be 'infobox'. **/
         targetType: string;
+		
+		/** Original mouse event from the browser. */
+		originalEvent?: MouseEvent;
     }
 
     /** Map or View options */
@@ -340,11 +377,20 @@ declare module Microsoft.Maps {
         */
         allowHidingLabelsOfRoad?: boolean;
 
+        /** A boolean indicating if the infobox is allowed to overflow outside the bounds of the map. Default: false. */
+        allowInfoboxOverflow?: boolean;
+
         /** The color to use for the map control background. The default color is #EAE8E1. This property can only be set when using the Map constructor. */
         backgroundColor?: string | Color;   
 
-        /** A boolean value indicating whether to disable the user’s ability to change the map type through the keyboard. Default: false */
-        disableMapTypeKeyboardInput?: boolean;
+        /** Custom map styles used to modify the look and feel of the base map. */
+        customMapStyle?: ICustomMapStyle;
+		
+		/** A boolean value indicating whether to disable the user’s ability to control the using the keyboard. Default: false */
+		disableKeyboardInput?: boolean;
+
+        /** A boolean value indicating if mousing over the map type selector should open it or not. Default: true */
+        disableMapTypeSelectorMouseOver?: boolean;
 
         /** A boolean value indicating whether to disable the user's ability to pan the map. Default: false */
         disablePanning?: boolean;
@@ -378,9 +424,6 @@ declare module Microsoft.Maps {
         * This property can only be set when using the Map constructor.
         */
         enableClickableLogo?: boolean;
-
-        /** Enables Cors on tile layers. */
-        enableCORS?: boolean;
 
         /**
         * A boolean value indicating whether to use the inertia animation effect during map navigation. Default: true
@@ -466,6 +509,9 @@ declare module Microsoft.Maps {
 
         /** A set of properties for the streetside mode of the map. */
         streetsideOptions?: IStreetsideOptions;
+
+        /** Additional support map types that should be added to the navigaiton bar such as canvasDark, canvasLight, and grayscale.*/
+        supportedMapTypes?: MapTypeId[];
     }
 
     /** A MapTypeChangeEventArgs object is returned by the map when using the mapTypeChanged event. */
@@ -499,7 +545,13 @@ declare module Microsoft.Maps {
     export interface IMouseEventArgs extends ILayerMouseEventArgs {
         /** The event that occurred. */
         eventName: string;
-		
+
+		/** A boolean indicating if the primary button, such as the left mouse button or a tap on a touch screen, was used during a mouse down or up event. */
+		isPrimary: boolean;
+
+		/** A boolean indicating if the secondary mouse button, such as the right mouse button, was used during a mouse down or up event. */
+		isSecondary: boolean;
+
 		/** If the target is a shape, this will be the layer that the shape is in. */
 		layer: Layer;
 
@@ -521,6 +573,9 @@ declare module Microsoft.Maps {
         /** The type of the object that the event is attached to. Valid values include the following: ‘map’, 'layer', ‘polygon’, ‘polyline’, or ‘pushpin’ */
         targetType: string;
 
+        /**	The number of units that the mouse wheel has changed. */
+        wheelDelta: number;
+
         /**
         * Returns the x-value of the pixel coordinate, relative to the map, of the mouse.
         * @returns The x-value of the pixel coordinate, relative to the map, of the mouse.
@@ -533,7 +588,15 @@ declare module Microsoft.Maps {
         */
         getY(): number;
     }
-    
+
+    /**
+     * An object tthat contains information about a streetside scene.
+     */
+    export interface IPanoramaInfo {
+        /** The capture date of the streetside scene. */
+        cd?: string;
+    }
+
     /**
     * All shapes; Pushpins, Polylines and Polygons, derive from the IPrimitive interface. This means that they can be
     * passed into any function that takes in an IPrimitive object. Also, any function that returns an IPrimitive is capable
@@ -620,8 +683,7 @@ declare module Microsoft.Maps {
 
         /**
         * Defines the the icon to use for the pushpin.This can be a URL to an Image or SVG file, an image data URI, or an inline SVG string.
-        * Tip: When using inline SVG, you can pass in a placeholder {color} in your SVG string for fill or stroke colors.This will be replaced by the
-        * pushpins color property value when rendered.
+        * Tip: When using inline SVG, you can pass in placeholders `{color}` and `{text}` in your SVG string. This placeholder will be replaced by the pushpins color or text property value when rendered.
         */
         icon?: string;
 
@@ -676,6 +738,11 @@ declare module Microsoft.Maps {
         */
         overviewMapMode?: OverviewMapMode;
 
+        /**
+        * Information for a streetside panorama scene to load.
+        */
+        panoramaInfo?: IPanoramaInfo;
+
         /** The radius to search in for available streetside panoramas. */
         panoramaLookupRadius?: number;
 
@@ -720,10 +787,10 @@ declare module Microsoft.Maps {
         * The number of milliseconds allowed for the tile layer image download. If the timeout occurs before the image is fully
         * downloaded, the map control considers the download a failure. The default value is 10000.
         */
-        downloadTimeOut?: number;
+        downloadTimeout?: number;
 
         /** The tile source for the tile layer. */
-        mercator: TileSource;
+        mercator?: TileSource;
 
         /** The opacity of the tile layer, defined by a number between 0 (not visible) and 1. */
         opacity?: number;
@@ -1073,11 +1140,11 @@ declare module Microsoft.Maps {
          * Attaches the handler for the event that is thrown by the target. Use the return object to remove the handler using the removeHandler method.
          * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
          * @param eventName The type of event to attach. Supported events:
-         * click, dblclick, maptypechanged, mousedown, mousemove, mouseout, mouseover, mouseup, mousewheel, rightclick, viewchange, viewchangeend, viewchangestart
+         * click, dblclick, mapresize, maptypechanged, mousedown, mousemove, mouseout, mouseover, mouseup, mousewheel, rightclick, viewchange, viewchangeend, viewchangestart
          * @param handler The callback function to handle the event when triggered. 
          * @returns The handler id.
          */
-        export function  addHandler(target: Map, eventName: string, handler: (eventArg?: IMouseEventArgs | IMapTypeChangeEventArgs) => void): IHandlerId;
+        export function addHandler(target: Map, eventName: string, handler: (eventArg?: IMouseEventArgs | IMapTypeChangeEventArgs) => void): IHandlerId;
 
         /**
          * Attaches the handler for the event that is thrown by the target. Use the return object to remove the handler using the removeHandler method.
@@ -1147,7 +1214,7 @@ declare module Microsoft.Maps {
          * Attaches the handler for the event that is thrown by the target, but only triggers the handler the first once after being attached.
          * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
          * @param eventName The type of event to attach. Supported events:
-         * click, dblclick, maptypechanged, mousedown, mousemove, mouseout, mouseover, mouseup, mousewheel, rightclick, viewchange, viewchangeend, viewchangestart
+         * click, dblclick, mapresize, maptypechanged, mousedown, mousemove, mouseout, mouseover, mouseup, mousewheel, rightclick, viewchange, viewchangeend, viewchangestart
          * @param handler The callback function to handle the event when triggered.
          */
         export function  addOne(target: Map, eventName: string, handler: (eventArg?: IMouseEventArgs | IMapTypeChangeEventArgs) => void): void;
@@ -1214,7 +1281,7 @@ declare module Microsoft.Maps {
          * Attaches the handler for the event that is thrown by the target, where the minimum interval between events (in milliseconds) is specified as a parameter.
          * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
          * @param eventName The type of event to attach. Supported events:
-         * click, dblclick, maptypechanged, mousedown, mousemove, mouseout, mouseover, mouseup, mousewheel, rightclick, viewchange, viewchangeend, viewchangestart
+         * click, dblclick, mapresize, maptypechanged, mousedown, mousemove, mouseout, mouseover, mouseup, mousewheel, rightclick, viewchange, viewchangeend, viewchangestart
          * @param handler The callback function to handle the event when triggered.
          * @param throttleInterval throttle interval (in ms)
          * @returns The handler id.
@@ -1311,6 +1378,92 @@ declare module Microsoft.Maps {
          * @param handlerId The handler id of the event to remove.
          */
         export function  removeHandler(handlerId: IHandlerId): void;
+    }
+
+    /**
+     * A map overlay that binds an image to a bounding box area on the map.
+     */
+    class GroundOverlay extends CustomOverlay {
+
+        /** Optional property to store any additional metadata for this layer. */
+        metadata: any;
+
+        /**
+         * @constructor
+         * @param options The options used to render the ground overlay.
+         */
+        constructor(options: IGroundOverlayOptions);
+
+        /**
+         * Gets the background color of the ground overlay.
+         * @returns The background color of the ground overlay.
+         */
+        public getBackgroundColor(): string | Color;
+
+        /**
+         * Gets the bounding box that the ground overlay is bounded to.
+         * @returns The bounding box that the ground overlay is bounded to.
+         */
+        public getBounds(): LocationRect;
+
+        /**
+         * Gets the url to the ground overlay image.
+         * @returns The url to the ground overlay image.
+         */
+        public getImageUrl(): string;
+
+        /**
+         * Gets the opacity of the ground overlay.
+         * @returns The opacity of the ground overlay.
+         */
+        public getOpacity(): number;
+
+        /**
+         * Gets the map that this overlay is attached to.
+         * @returns The map that this overlay is attached to.
+         */
+        public getMap(): Map;
+
+        /**
+         * Gets the rotation of the ground overlay.
+         * @returns The rotation of the ground overlay.
+         */
+        public getRotation(): number;
+
+        /**
+         * Gets a boolean indicating if the ground overlay is visible or not.
+         * @returns A boolean indicating if the ground overlay is visible or not.
+         */
+        public getVisible(): boolean;
+
+        /**
+         * Sets the options used to render the ground overlay.
+         * @param options The options used to render the ground overlay.
+         */
+        public setOptions(options: IGroundOverlayOptions): void;
+
+        /**
+         * Sets the visibility of the Ground Overlay.
+         * @param value A value indicating if the Ground Overlay should be displayed or not.
+         */
+        public setVisible(visible: boolean): void;
+    }
+
+    /**
+     * Standard compass headings; north, south, east, west.
+     */
+    export class Heading {
+        /** A heading pointing north, 0 degrees. */
+        static North: number;
+
+        /** A heading pointing south, 180 degrees. */
+        static South: number;
+
+        /** A heading pointing east, 90 degrees. */
+        static East: number;
+
+        /** A heading pointing west, 270 degrees. */
+        static West: number;
     }
 
     /**
@@ -1454,9 +1607,9 @@ declare module Microsoft.Maps {
     * while also providing providing a performance benefit over manually looping through each shape and performing these tasks.
     */
     export class Layer implements IDataLayer {
-
-        /** A unique string to be used to identify the layer. */
-        public id: string;
+		
+		/** Optional property to store any additional metadata for this layer. */
+		public metadata: any;
 
         /**
          * @constructor
@@ -1542,7 +1695,7 @@ declare module Microsoft.Maps {
     * The layers property of the map is a LayerCollection object and contains all the layers that have been added to the map.
     * Note: This class is only exposed in the map.layers property. No other instance of this class can be created.
     */
-    export class LayerCollection {
+    export class LayerCollection extends Array {
         /** The number of layers in the collection. */
         public length: number;
 
@@ -1697,11 +1850,32 @@ declare module Microsoft.Maps {
         static fromLocations(locations: Location[]): LocationRect;
 
         /**
+         * Calculates the LocationRect for an indivudal shape or an array of shapes.
+         * @param shapes An indivudal shape or an array of shapes to calculate the LocationRect for.
+         * @returns A LocationRect for the shapes.
+         */
+        static fromShapes(shapes: IPrimitive | (IPrimitive | IPrimitive[])[]): LocationRect;
+
+        /**
         * Creates a LocationRect from a string with the following format: "north,west,south,east". North, west, south and east specify the coordinate number values.
         * @param str A string that repsents a LocationRect with the format "north,west,south,east".
         * @returns A LocationRect defined by the specified northern and southern latitudes and western and eastern longitudes for the rectangle boundaries that have been parsed by the string.
         */
         static fromString(str: string): LocationRect;
+
+        /**
+         * A static function that merges two LocationRect to form a new LocationRect which represents the combined area of the two LocationRect objects.
+         * @param rect1 The first LocationRect to merge with the second LocationRect.
+         * @param rect2 The second LocationRect to merge with the first LocationRect.
+         * @returns A new LocationRect which represents the combined area of the two LocationRect objects.
+         */
+        static merge(rect1: LocationRect, rect2: LocationRect): LocationRect;
+
+        /**
+         * Scales the size of a LocationRect by multiplying the width and height properties by a percentage.
+         * @param percentage A percentage value to increase the size of the LocationRect by.
+         */
+        public buffer(percentage: number): void;
 
         /**
         * Gets a copy of the LocationRect object.
@@ -1765,12 +1939,6 @@ declare module Microsoft.Maps {
         public intersects(rect: LocationRect): boolean;
 
         /**
-         * Scales the size of a LocationRect by multiplying the width and height properties by a percentage.
-         * @param percentage A percentage value to increase the size of the LocationRect by.
-         */
-        public inflate(percentage: number): void;
-
-        /**
          * If a LocationRect crosses the international date line, this method splits it into two LocationRect objects and returns them as an array.
          * @returns An array of LocationRects, that are split by the international date line (-180/180 degrees longitude)
          */
@@ -1798,6 +1966,16 @@ declare module Microsoft.Maps {
          */
         constructor(parentElement: string | HTMLElement, options: IMapLoadOptions);
 
+		/**
+		* Gets the streetside panorama information closest to the specified bounding box and returns using a success callback function. 
+		* This information can then be used to set the map view to that streetside panorama.
+		*/
+		public static getClosestPanorama(bounds: LocationRect, success: (panoramaInfo: IPanoramaInfo) => void, missingCoverage: () => void)	: void;
+
+		/** Returns the branch name; release, experimental, frozen. */
+		public static getVersion() : string;
+
+		
         /** Deletes the Map object and releases any associated resources. */
         public dispose(): void;
 
@@ -1838,8 +2016,8 @@ declare module Microsoft.Maps {
         public getHeight(): number;
 
         /**
-         * Returns the heading of the current map view
-         * @returns Returns the heading of the current map view
+         * Returns the heading of the current map view.
+         * @returns Returns the heading of the current map view.
          */
         public getHeading(): number;
 
@@ -1878,6 +2056,12 @@ declare module Microsoft.Maps {
          * @returns The y coordinate of the top left corner of the map control, relative to the page.
          */
         public getPageY(): number;
+
+        /**
+         * Returns the pitch of the current streetside map view.
+         * @returns Returns the pitch of the current streetside map view.
+         */
+        public getPitch(): number;
 
         /**
          * Gets the map root node.
@@ -2424,6 +2608,9 @@ declare module Microsoft.Maps {
 
     /** Represents a tile layer that can be overlaid on top of the map. */
     export class TileLayer implements ILayer {
+         /** Optional property to store any additional metadata for this layer. */
+        public metadata: any;
+
         /**
         * @constructor
         * @param options The options to use to define the tile layer.

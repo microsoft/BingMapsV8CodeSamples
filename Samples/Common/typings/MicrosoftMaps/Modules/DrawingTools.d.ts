@@ -34,6 +34,15 @@ declare module Microsoft.Maps {
         /** The new drawing mode. **/
         mode: DrawingTools.DrawingMode;
     }
+	
+	/** An object that contains options to change the settings of the drawing manager.  */
+	export interface IDrawingManagerOptions {
+		/** The fill color used for pushpins and polygons. */
+		fill: string | Color;
+		
+		/** The stroke color used for polylines and polygons. */
+		stroke:	string | Color;
+	}
 
     /**
      * The DrawingManager class manages the ability to draw and edit multiple shapes on the map. Shapes managed by this class are rendered on a separate drawing layer.
@@ -97,6 +106,12 @@ declare module Microsoft.Maps {
         * @param mode The drawing mode to set the DrawingManager to.
         */
         setDrawingMode(mode: DrawingTools.DrawingMode): void;
+		
+		/**
+		* Sets the drawing tool options.
+		* @param options The options to use with the drawing manager. 
+		*/
+		setOptions(options: IDrawingManagerOptions): void;
 
         /**
         * Replaces all shapes in the layer with the new array of shapes that have been provided.

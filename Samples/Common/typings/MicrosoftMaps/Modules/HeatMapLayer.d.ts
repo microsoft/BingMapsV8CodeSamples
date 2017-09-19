@@ -25,11 +25,6 @@
 /// <reference path="../Microsoft.Maps.d.ts"/>
 
 declare module Microsoft.Maps {
-    /** A standard dictionary object (associative array). */
-    export interface IDictionary<T> {
-        [K: string]: T;
-    }
-
     /** Options for customizing how the heat map is rendered. */
     export interface IHeatMapLayerOptions {
         /**

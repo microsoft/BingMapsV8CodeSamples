@@ -344,6 +344,9 @@
     <TypeScriptCompile Include="Custom Overlays\HtmlPushpinLayer\HtmlPushpinLayerModule.ts" />
     <TypeScriptCompile Include="Experimental\MapImageGenerator\MapImageGeneratorModule.ts" />
     <TypeScriptCompile Include="Modules\DraggableShapes\DraggableShapesModule.ts" />
+    <Content Include="Common\data\US_State_Literacy.tsv" />
+    <TypeScriptCompile Include="Other\Solar Terminator\SolarTerminatorModule.ts" />
+    <TypeScriptCompile Include="Common\typings\MicrosoftMaps\CustomMapStyles.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Microsoft.Maps.All.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Microsoft.Maps.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\Autosuggest.d.ts" />
@@ -353,14 +356,13 @@
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\Directions.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\DrawingTools.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\GeoJson.d.ts" />
+    <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\GeoXml.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\HeatMapLayer.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\Search.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\SpatialDataService.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\SpatialMath.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\Traffic.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\WellKnownText.d.ts" />
-    <Content Include="Common\data\US_State_Literacy.tsv" />
-    <TypeScriptCompile Include="Other\Solar Terminator\SolarTerminatorModule.ts" />
     <TypeScriptCompile Include="Search\POI Search\PoiSearchModule.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +378,7 @@
     <Content Include="Common\data\kml\London stations.kml" />
     <Content Include="Common\data\kml\London Tube Lines.kml" />
     <Content Include="Common\data\kml\SampleKml.kml" />
+    <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>

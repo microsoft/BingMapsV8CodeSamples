@@ -29,26 +29,6 @@
  * @requires The Microsoft.Maps.Search module.
  */
 declare module Microsoft.Maps.Search {
-    /** 
-     * Defines the match precision of a geocdoed result.
-     * @requires The Microsoft.Maps.Search module.
-     */
-    export enum LocationPrecision {
-        /** The geocode result was matched to a point on a road using interpolation. */
-        interpolated,
-
-        /**
-        * The geocode result was matched to a point on a road using interpolation with an additional offset to shift the
-        * Location to the side of the street.
-        */
-        InterpolatedOffset,
-
-        /** The geocode result was matched to the center of a parcel (property boundary). */
-        parcel,
-
-        /** The geocode result was matched to the rooftop of a building. */
-        rooftop
-    }
 
     /** 
      * Defines the geocoding level of the location match found by the geocoder.
@@ -89,16 +69,22 @@ declare module Microsoft.Maps.Search {
         unknown
     }
 
-    /** A object that represents a geocoded location. */
+    /** An object that represents a geocoded location. */
     export interface IGeocodeLocation {
-        /** The map location of this geocode location match. */
-        location: Location;
+        /** The latitude of the location. */
+        latitude: number;
+		
+		/** The longitude of the location. */
+		longitude: number;
 
         /** The name of this geocode location match. */
         name: string;
 
-        /** The precision of this geocode location match. */
-        precision: string | LocationPrecision;
+        /** 
+		 * The precision of this geocode location match. 
+		 * Possible Values: Interpolated, InterpolatedOffset, Rooftop, Parcel
+		 */
+        precision: string ;
     }
 
     /** An object that represents an place result. */
@@ -172,7 +158,7 @@ declare module Microsoft.Maps.Search {
         userData?: any;
 
         /** A string containing the address or place to be matched to a location on the map.  */
-        where: string;
+         where: string;
     }
 
     /** The options for a reverse geocode request. */
