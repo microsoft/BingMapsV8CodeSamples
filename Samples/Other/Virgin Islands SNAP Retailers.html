@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family:Arial;
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            background-color: darkcyan;
+            float: left;
+        }
+
+            .header span {
+                color: #fff;
+                margin-left: 15px;
+                line-height:40px;
+                font-size: 22px;
+            }
+
+        #searchBox {
+            width: 180px;
+        }
+
+        #searchBoxContainer {
+            left: 20px;
+            z-index: 1;
+            top: 50px;
+            position: absolute;
+            height: 50px;
+        }
+
+        #myMap {
+            position: relative;
+            width: 100vw;
+            height: calc(100% - 80px);
+            float: left;
+        }
+
+        .Infobox{
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>US Virgin Islands - SNAP Retailers</span>
+
+        <div id="searchBoxContainer">
+            <input id="searchBox" type="text" />
+            <input id="searchBtn" type="button" value="Search" onclick="geocode()" />
+        </div>
+    </div>
+
+    <div id="myMap"></div>
+
+    <script type='text/javascript'>
+        var map, infobox, searchManager;
+
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: YourBingMapsKey,
+                supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial],
+                allowInfoboxOverflow: true
+            });
+
+            // Create a layer to load pushpins to. 
+            dataLayer = new Microsoft.Maps.Layer();
+            map.layers.insert(dataLayer);
+
+            // Add a click event to the data layer to display an infobox. 
+            Microsoft.Maps.Events.addHandler(dataLayer, 'click', function (e) {
+                displayInfobox(e.primitive);
+            });
+
+            // Create a global infobox control. 
+            infobox = new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(0, 0), {
+                visible: false,
+                maxWidth: 350,
+                maxHeight: 200
+            });
+            infobox.setMap(map);
+
+            Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search','Microsoft.Maps.GeoJson'], function () {
+                Microsoft.Maps.GeoJson.readFromUrl('/Common/data/geojson/SnapRetailersUSVI.json',
+                    function (shapes) {
+                        //Add the shape(s) to the map.
+                        dataLayer.add(shapes);
+
+                        map.setView({ bounds: Microsoft.Maps.LocationRect.fromShapes(shapes), padding: 100 });
+                    });
+
+                var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
+                manager.attachAutosuggest('#searchBox', '#searchBoxContainer', suggestionSelected);
+
+                searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                
+                document.getElementById('searchBox').onkeypress = function (e) {
+                    if (e.which == 13) {
+                        geocode();
+                    }
+                };
+            });
+        }
+
+        function displayInfobox(pin) {
+            var metadata = pin.metadata;
+            var loc = pin.getLocation();
+
+            var desc = [metadata.Address];
+
+            if (metadata.AddressLine2) {
+                desc.push('<br/>', metadata.AddressLine2);
+            }
+
+            desc.push('<br/>', metadata.City, ', ', metadata.State);
+            desc.push('<br/><br/><a target="_blank" href="http://bing.com/maps/default.aspx?rtp=~pos.', loc.latitude, '_', loc.longitude, '_', encodeURIComponent(metadata.Store_Name), '">Directions</a>');
+
+            infobox.setOptions({ visible: true, location: loc, title: metadata.Store_Name, description: desc.join('') });
+        }
+
+        function suggestionSelected(result) {
+            map.setView({ center: result.location, zoom: 14 });
+        }
+
+        function geocode() {
+            //Get the users query and geocode it.
+            var query = document.getElementById('searchBox').value;
+
+            var searchRequest = {
+                where: query,
+                callback: function (r) {
+                    if (r && r.results && r.results.length > 0) {
+                        map.setView({ center: result.location, zoom: 14 });
+                    }
+                }
+            };
+
+            //Make the geocode request.
+            searchManager.geocode(searchRequest);
+        }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</body>
+</html>
