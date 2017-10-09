@@ -91,7 +91,7 @@
             infobox.setMap(map);
 
             Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search','Microsoft.Maps.GeoJson'], function () {
-                Microsoft.Maps.GeoJson.readFromUrl('/Common/data/geojson/SnapRetailersUSVI.json',
+                Microsoft.Maps.GeoJson.readFromUrl('/Common/data/geojson/SnapRetailersUSVI.js',
                     function (shapes) {
                         //Add the shape(s) to the map.
                         dataLayer.add(shapes);

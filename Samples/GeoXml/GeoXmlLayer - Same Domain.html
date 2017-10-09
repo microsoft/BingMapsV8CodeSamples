@@ -28,7 +28,7 @@
     }
     </script>
     <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
@@ -45,6 +45,7 @@
         <input type="button" value="UK Tourist Locations" onclick="readXml('/Common/data/gpx/Tourist_locations_UK-England.xml');" />
         <br />
         KML:
+        <input type="button" value="2007 San Diego Fires" onclick="readXml('/Common/data/kml/2007SanDiegoCountyFires.kml');" />
         <input type="button" value="Countries" onclick="readXml('/Common/data/kml/Countries.kml');" />
         <input type="button" value="London Tube Lines" onclick="readXml('/Common/data/kml/London%20Tube%20Lines.kml');" />
         <input type="button" value="London Tube Stations" onclick="readXml('/Common/data/kml/London%20stations.kml');" />        

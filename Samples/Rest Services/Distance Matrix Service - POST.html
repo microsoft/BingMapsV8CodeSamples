@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+
+    <script type='text/javascript'>
+        function GetMatrix() {
+
+            var requestUrl = 'https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?key=' + YourBingMapsKey;
+
+            var requestBody = {
+                "origins": [{
+                    "latitude": 47.6044,
+                    "longitude": -122.3345
+                },
+                {
+                    "latitude": 47.6731,
+                    "longitude": -122.1185
+                },
+                {
+                    "latitude": 47.6149,
+                    "longitude": -122.1936
+                }],
+                "destinations": [{
+                    "latitude": 45.5347,
+                    "longitude": -122.6231
+                },
+                {
+                    "latitude": 47.4747,
+                    "longitude": -122.2057
+                }],
+                "travelMode": "driving"
+            };
+
+            var http = new XMLHttpRequest();
+            http.open("POST", requestUrl, true);
+
+            //Send the content type in the header information along with the request.
+            http.setRequestHeader("Content-type", "application/json");
+
+            http.onreadystatechange = function () {
+                if (http.readyState == 4 && http.status == 200) {
+                    //Request was successful, do something with it.
+                    var result = JSON.parse(http.responseText);
+
+                    //Output a formatted version of the JSON response.
+                    document.getElementById('output').value = JSON.stringify(result, null, 4);
+                }
+            }
+
+            //Convert the JSON request body into a string and pass it into the request.
+            http.send(JSON.stringify(requestBody));
+        }
+    </script>
+</head>
+<body>
+    <input type="button" onClick="GetMatrix()" value="Get Matrix" /><br /><br />
+    <textarea id="output" style="width:1000px;height:500px;"></textarea>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Distance Matrix Service - POST Sample</legend>
+        This sample shows how to make a POST request to the <a href="https://msdn.microsoft.com/en-US/library/mt827298.aspx">Distance Matrix REST service</a> from a web app.
+    </fieldset>
+</body>
+</html>

@@ -352,10 +352,13 @@ var HtmlPushpinLayer = (function (_super) {
         Microsoft.Maps.Events.removeHandler(this._viewChangeEventHandler);
         Microsoft.Maps.Events.removeHandler(this._viewChangeEndEventHandler);
         Microsoft.Maps.Events.removeHandler(this._mapResizeEventHandler);
-        this.getMap().getRootElement().removeEventListener('mousemove', function (e) { _this._updateDragPushpin(e); });
-        document.body.removeEventListener('mouseup', function (e) { if (_this._dragTarget) {
-            _this._dragTarget._pinMouseUp(e);
-        } });
+        var map = this.getMap();
+        if (map) {
+            map.getRootElement().removeEventListener('mousemove', function (e) { _this._updateDragPushpin(e); });
+            document.body.removeEventListener('mouseup', function (e) { if (_this._dragTarget) {
+                _this._dragTarget._pinMouseUp(e);
+            } });
+        }
     };
     /**********************
     * Public Functions

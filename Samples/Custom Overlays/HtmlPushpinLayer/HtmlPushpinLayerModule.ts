@@ -506,8 +506,12 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         Microsoft.Maps.Events.removeHandler(this._viewChangeEndEventHandler);
         Microsoft.Maps.Events.removeHandler(this._mapResizeEventHandler);
 
-        this.getMap().getRootElement().removeEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
-        document.body.removeEventListener('mouseup', (e) => { if (this._dragTarget) { this._dragTarget._pinMouseUp(<MouseEvent>e); } });
+        var map = this.getMap();
+
+        if (map) {
+            map.getRootElement().removeEventListener('mousemove', (e) => { this._updateDragPushpin(<MouseEvent>e); });
+            document.body.removeEventListener('mouseup', (e) => { if (this._dragTarget) { this._dragTarget._pinMouseUp(<MouseEvent>e); } });
+        }
     }
 
     /**********************

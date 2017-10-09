@@ -61,11 +61,14 @@
     <Content Include="Clustering\Clustering_PushpinList.html" />
     <Content Include="Clustering\SpiderClusters\Clustering_SpiderClusters.html" />
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
-    <None Include="Common\data\geojson\SnapRetailersUSVI.json" />
+    <Content Include="Common\data\geojson\SnapRetailersUSVI.js" />
     <Content Include="Common\images\backgroundGrid.png" />
+    <Content Include="Common\images\pushpins\campfire.png" />
     <Content Include="Common\images\pushpins\campground.png" />
     <Content Include="Common\images\pushpins\endPin.png" />
     <Content Include="Common\images\pushpins\grn-pushpin_maps.png" />
+    <Content Include="Common\images\pushpins\homegardenbusiness.png" />
+    <Content Include="Common\images\pushpins\hospitals.png" />
     <Content Include="Common\images\pushpins\Icon_hiking_32x32.png" />
     <Content Include="Common\images\pushpins\placemark_circle.png" />
     <Content Include="Common\images\pushpins\placemark_circle_highlight.png" />
@@ -179,8 +182,10 @@
     <Content Include="Pushpins\Inline SVG Pushpin Template.html" />
     <Content Include="Common\data\Indonesia2010Census.js" />
     <Content Include="Other\Indonesian Province Census Map.html" />
+    <Content Include="Rest Services\Distance Matrix Service - POST.html" />
     <Content Include="Spatial Data Services - Query API\Find all counties that intersect a line.html" />
     <Content Include="Search\POI Search\POI Search Module.html" />
+    <Content Include="Tile Layers\CustomTileOverlay - Private\CustomTileOverlay.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
@@ -366,6 +371,7 @@
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\Traffic.d.ts" />
     <TypeScriptCompile Include="Common\typings\MicrosoftMaps\Modules\WellKnownText.d.ts" />
     <TypeScriptCompile Include="Search\POI Search\PoiSearchModule.ts" />
+    <TypeScriptCompile Include="Tile Layers\CustomTileOverlay - Private\CustomTileOverlayModule.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\data\geojson\US_County_Boundaries.js" />
@@ -381,6 +387,7 @@
     <Content Include="Common\data\kml\London Tube Lines.kml" />
     <Content Include="Common\data\kml\SampleKml.kml" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
+    <Content Include="Common\data\kml\2007SanDiegoCountyFires.kml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>

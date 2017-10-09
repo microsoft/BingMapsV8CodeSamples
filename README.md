@@ -39,7 +39,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 * [Bing Maps V8 MSDN Documentation](https://msdn.microsoft.com/en-us/library/mt712542.aspx)
 * [Bing Maps V8 Interactive SDK](http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk)
-* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
+* [Bing Maps MSDN Documentation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
 * [Bing Maps Blog](http://blogs.bing.com/maps)
 * [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
 * [Bing Maps for Enterprise site](https://www.microsoft.com/maps/)
