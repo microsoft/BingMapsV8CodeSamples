@@ -119,6 +119,7 @@
     <Content Include="Drawing Tools\DrawingTools_MeasuringTape.html" />
     <Content Include="Drawing Tools\Restrict drawing to Polygon area.html" />
     <Content Include="Drawing Tools\Select Data in Drawn Polygon Area.html" />
+    <Content Include="Experimental\BasicTileLayer\Basic Tile Layer.html" />
     <Content Include="Experimental\Snap drawing to pushpins.html" />
     <Content Include="Events\Events_BasicMapEvents.html" />
     <Content Include="Events\Events_RightClickShapes.html" />
@@ -348,6 +349,7 @@
     <TypeScriptCompile Include="Clustering\SpiderClusters\SpiderClusterManager.ts" />
     <TypeScriptCompile Include="Custom Overlays\CanvasLayer\CanvasOverlayModule.ts" />
     <TypeScriptCompile Include="Custom Overlays\HtmlPushpinLayer\HtmlPushpinLayerModule.ts" />
+    <TypeScriptCompile Include="Experimental\BasicTileLayer\BasicTileLayerModule.ts" />
     <TypeScriptCompile Include="Experimental\MapImageGenerator\MapImageGeneratorModule.ts" />
     <TypeScriptCompile Include="Modules\DraggableShapes\DraggableShapesModule.ts" />
     <Content Include="Common\data\US_State_Literacy.tsv" />

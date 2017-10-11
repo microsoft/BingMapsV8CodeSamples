@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, layer;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: YourBingMapsKey,
+            //liteMode: true
+        });
+
+        //Register the custom module.
+        Microsoft.Maps.registerModule('BasicTileLayerModule', 'BasicTileLayerModule.js');
+
+        //Load the module.
+        Microsoft.Maps.loadModule('BasicTileLayerModule', function () {
+
+            var usgsTopoTileLayer = new BasicTileLayer({
+                mercator: new Microsoft.Maps.TileSource({
+                    uriConstructor: 'http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{zoom}/{y}/{x}',
+                    minZoom: 1,
+                    maxZoom: 15
+                })
+            });
+
+            //Add tile layer to the map.
+            map.layers.insert(usgsTopoTileLayer);
+
+            //Create a tile layer from the tile source
+            var katrinaTileLayer = new BasicTileLayer({
+                mercator: new Microsoft.Maps.TileSource({
+                    uriConstructor: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
+                    minZoom: 1,
+                    maxZoom: 10,
+                    bounds: Microsoft.Maps.LocationRect.fromEdges(35.176, -101.065, 14.01, -80.538)
+                })
+            });
+
+            //Add tile layer to the map.
+            map.layers.insert(katrinaTileLayer);
+
+            var weatherTileLayer = new BasicTileLayer({
+                mercator: new Microsoft.Maps.TileSource({
+                    uriConstructor: 'http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
+                })
+            });
+            map.layers.insert(weatherTileLayer);
+        });
+    }
+    </script>
+    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&uncrunched=1' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:100vw;height:100vh;"></div>
+
+    <fieldset style="position:absolute;top:10px;left:10px;width:600px;margin-top:10px; background-color:#fff;border-radius:10px;">
+        <legend>Basic Tile Layer Sample</legend>
+        This sample shows how to create a basic tile layer which renders tiles using img tags rather than a HTML5 canvas. This should load a bit faster than the built in tile layer, but will not be as smooth.
+    </fieldset>
+</body>
+</html>
