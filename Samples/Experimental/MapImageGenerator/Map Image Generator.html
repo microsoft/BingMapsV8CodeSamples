@@ -108,11 +108,19 @@
     <fieldset style="width:600px;margin-top:10px;">
         <legend>Map Image Generator Sample</legend>
         Status: Functional <br /><br />
-        Warning: This is an experimental sample that uses the map in an unsupported way (directly accesses the maps DOM). This can break at any time.<br/><br />
+        
         This sample shows how to generate an image of the map. Pushpin images must be hosted locally, or be dataUri's. 
         The following elements are not rendered; navigation controls, scale bars, Infoboxes, AnimatedTileLayers, TileLayers, 
         and most Custom Overlays. Bing Maps terms of use does not allow Ordnance Survey or Birdseye imagery to be "printed". 
-        Streetside imagery is not supported.
+        Streetside imagery is not supported. <br/><br />
+
+        Known Limitations:<br />
+        <ul>
+            <li>IE and Edge will not cache tiles when CORS is enabled.</li>
+            <li>
+                Chrome throws errors when this property is set enabled and custom tile layers don’t have CORS enabled on the server.
+            </li>
+        </ul>
     </fieldset>
 </body>
 </html>
