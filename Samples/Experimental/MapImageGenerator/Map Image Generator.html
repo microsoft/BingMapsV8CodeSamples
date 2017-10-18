@@ -110,16 +110,17 @@
         Status: Functional <br /><br />
         
         This sample shows how to generate an image of the map. Pushpin images must be hosted locally, or be dataUri's. 
-        The following elements are not rendered; navigation controls, scale bars, Infoboxes, AnimatedTileLayers, TileLayers, 
-        and most Custom Overlays. Bing Maps terms of use does not allow Ordnance Survey or Birdseye imagery to be "printed". 
+        Bing Maps terms of use does not allow Ordnance Survey or Birdseye imagery to be "printed". 
         Streetside imagery is not supported. <br/><br />
 
         Known Limitations:<br />
         <ul>
+            <li>TileLayer's and Pushpin images must either be hosted on the same domain as the website or have CORs enabled on their hosting server.</li>
+            <li>SVG pushpins currently not supported in IE11.</li>
+            <li>The following elements are not rendered; navigation controls, scale bars, Infoboxes, AnimatedTileLayers,
+        and most Custom Overlays.</li>
             <li>IE and Edge will not cache tiles when CORS is enabled.</li>
-            <li>
-                Chrome throws errors when this property is set enabled and custom tile layers don’t have CORS enabled on the server.
-            </li>
+            <li>Chrome throws errors when this property is set enabled and custom tile layers don’t have CORS enabled on the server.</li>
         </ul>
     </fieldset>
 </body>
