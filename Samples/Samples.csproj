@@ -129,8 +129,8 @@
     <Content Include="Events\Events_CustomFreeHandDrawing.html" />
     <Content Include="Events\Events_MapViewEvents.html" />
     <Content Include="Events\Single vs Double Click.html" />
-    <Content Include="Experimental\MapImageGenerator\BingLogoDark.png" />
-    <Content Include="Experimental\MapImageGenerator\BingLogoLight.png" />
+    <Content Include="Common\images\BingLogoDark.png" />
+    <Content Include="Common\images\BingLogoLight.png" />
     <Content Include="Experimental\MapImageGenerator\Map Image Generator.html" />
     <Content Include="GeoJSON\GeoJson Shape Events.html" />
     <Content Include="Common\data\georss\Countries.xml" />

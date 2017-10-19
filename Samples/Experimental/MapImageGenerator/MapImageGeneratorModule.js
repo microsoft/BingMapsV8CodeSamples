@@ -13,8 +13,8 @@ var MapImageGenerator = (function () {
      */
     function MapImageGenerator(map, options) {
         this._options = {
-            darkBingLogoUrl: '/Experimental/MapImageGenerator/BingLogoDark.png',
-            lightBingLogoUrl: '/Experimental/MapImageGenerator/BingLogoLight.png'
+            darkBingLogoUrl: '/Common/images/BingLogoDark.png',
+            lightBingLogoUrl: '/Common/images/BingLogoLight.png'
         };
         this._map = map;
     }
