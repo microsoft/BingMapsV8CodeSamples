@@ -93,7 +93,7 @@ var GPXParser = function () {
 
     //Method for parsing a GPX file
     function parseGPX(xmlDoc, options) {
-        var GPX_Collection = new Microsoft.Maps.EntityCollection();
+        var GPX_Collection = new Microsoft.Maps.Layer();
 
         var nodes = xmlDoc.getElementsByTagName("metadata"), i, j, geom, nodeCount, wp;
 
@@ -122,7 +122,7 @@ var GPXParser = function () {
             geom = parseTrack(nodes[i], options);
 
             for (j = 0; j < geom.length; j++) {
-                GPX_Collection.push(geom[j]);
+                GPX_Collection.add(geom[j]);
             }
         }
 
@@ -133,7 +133,7 @@ var GPXParser = function () {
             geom = parseRoute(nodes[i], options);
 
             if (geom != null) {
-                GPX_Collection.push(geom);
+                GPX_Collection.add(geom);
             }
         }
 
@@ -151,7 +151,7 @@ var GPXParser = function () {
                 //    geom.setOptions({ icon: wp.sym });
                 //}
 
-                GPX_Collection.push(geom);
+                GPX_Collection.add(geom);
             }
         }
 

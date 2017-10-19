@@ -16,7 +16,7 @@
         var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds());
         map.entities.push(polygon);
 
-        Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
+        Microsoft.Maps.registerModule('DraggableShapesModule', '/Modules/DraggableShapes/DraggableShapesModule.js');
         Microsoft.Maps.loadModule('DraggableShapesModule', function () {
             dragManager = new DraggableShapesManager(map);
             dragManager.makeDraggable(polygon);

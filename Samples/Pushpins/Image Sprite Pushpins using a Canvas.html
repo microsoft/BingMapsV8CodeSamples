@@ -15,11 +15,11 @@
         var locs = Microsoft.Maps.TestDataGenerator.getLocations(2, map.getBounds());
 
         //Create a pushpin from a sprite and add it to the map.
-        createPushpinFromSprite(locs[0], 'images/PushpinSprite.png', 325, 57, 42, 52, function (pin) {
+        createPushpinFromSprite(locs[0], '/Common/images/pushpins/PushpinSprite.png', 325, 57, 42, 52, function (pin) {
             map.entities.push(pin);
         });
 
-        createPushpinFromSprite(locs[1], 'images/PushpinSprite.png', 80, 0, 42, 52, function (pin) {
+        createPushpinFromSprite(locs[1], '/Common/images/pushpins/PushpinSprite.png', 80, 0, 42, 52, function (pin) {
             map.entities.push(pin);
         });
     }

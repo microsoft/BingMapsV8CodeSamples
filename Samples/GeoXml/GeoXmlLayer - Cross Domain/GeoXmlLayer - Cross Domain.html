@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
     var map, layer;
-    var proxyService = 'GeoXmlProxyService.ashx?url=';
+    //Get the absolute path to the proxy service
+    var proxyService = window.location.href.substring(0, window.location.href.indexOf("/", 8)) + '/GeoXml/GeoXmlLayer%20-%20Cross%20Domain/GeoXmlProxyService.ashx?url=';
        
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {

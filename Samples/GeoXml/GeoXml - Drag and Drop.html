@@ -9,7 +9,10 @@
     
     <script type='text/javascript'>
     var map, infobox, dataBounds, statusPanel, xmlPanel, loadingIcon, fileCount = 0;
-    var proxyService = 'GeoXml - Cross Domain/GeoXmlProxyService.ashx?url=';
+
+    //Get the absolute path to the proxy service
+    var proxyService = window.location.href.substring(0, window.location.href.indexOf("/", 8)) + '/GeoXml/GeoXmlLayer%20-%20Cross%20Domain/GeoXmlProxyService.ashx?url=';
+
     var zipKmzRx = /(.zip|.kmz)$/;
 
     function GetMap() {
@@ -92,9 +95,9 @@
             }
         };
 
-        if (xmlPanel.value.indexOf('http://') === 0 || xmlPanel.value.indexOf('https://') === 0) {
+        if (xml.indexOf('http://') === 0 || xml.indexOf('https://') === 0) {
             //Input is a URL. 
-            Microsoft.Maps.GeoXml.readFromUrl(xmlUrl, options, function (data) {
+            Microsoft.Maps.GeoXml.readFromUrl(proxyService + xml, options, function (data) {
                 renderData(data, fileName);
             });
         } else {

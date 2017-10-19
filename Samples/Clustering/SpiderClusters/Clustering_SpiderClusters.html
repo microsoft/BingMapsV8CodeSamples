@@ -23,7 +23,7 @@
 	    Microsoft.Maps.Events.addHandler(map, 'viewchangestart', hideInfobox);
 
         //Register the spaider cluster manager module.
-	    Microsoft.Maps.registerModule('SpiderClusterManager', 'SpiderClusterManager.js');
+	    Microsoft.Maps.registerModule('SpiderClusterManager', '/Clustering/SpiderClusters/SpiderClusterManager.js');
 
         //Load the clustering and spider clustering manager module.
         Microsoft.Maps.loadModule(['SpiderClusterManager'], function () {

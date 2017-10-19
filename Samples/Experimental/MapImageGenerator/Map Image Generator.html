@@ -20,7 +20,7 @@
         addMockData();
 
         //Register and load the module.
-        Microsoft.Maps.registerModule('MapImageGeneratorModule', 'MapImageGeneratorModule.js');
+        Microsoft.Maps.registerModule('MapImageGeneratorModule', '/Experimental/MapImageGenerator/MapImageGeneratorModule.js');
         Microsoft.Maps.loadModule('MapImageGeneratorModule', function () {
             imageGenerator = new MapImageGenerator(map);
         });        

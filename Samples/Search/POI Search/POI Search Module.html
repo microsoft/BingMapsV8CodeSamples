@@ -47,7 +47,7 @@
         });
 
         //Register and load the POI Search module.
-        Microsoft.Maps.registerModule('PoiSearchModule', 'PoiSearchModule.js')
+        Microsoft.Maps.registerModule('PoiSearchModule', '/Search/POI%20Search/PoiSearchModule.js')
         Microsoft.Maps.loadModule('PoiSearchModule', function () {
             poiSearchManager = new Microsoft.Maps.Search.PoiSearchManager(map);
             poiSearchManager.debug = true;

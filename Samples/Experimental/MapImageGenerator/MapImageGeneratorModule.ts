@@ -39,8 +39,8 @@ class MapImageGenerator {
     private _map: Microsoft.Maps.Map;
 
     private _options: MapImageGeneratorOptions = {
-        darkBingLogoUrl: 'BingLogoDark.png',
-        lightBingLogoUrl: 'BingLogoLight.png'
+        darkBingLogoUrl: '/Experimental/MapImageGenerator/BingLogoDark.png',
+        lightBingLogoUrl: '/Experimental/MapImageGenerator/BingLogoLight.png'
     };
 
    /**********************

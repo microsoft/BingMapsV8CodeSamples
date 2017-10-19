@@ -12,7 +12,7 @@
         });
 
         //Register and load the GPX Parser Module
-        Microsoft.Maps.registerModule("GPXParserModule", "GPXParserModule.js");
+        Microsoft.Maps.registerModule("GPXParserModule", "/Modules/GpxModule/GPXParserModule.js");
         Microsoft.Maps.loadModule("GPXParserModule");
     }
 
@@ -24,26 +24,20 @@
         new GPXParser().Parse(url, GPXCallback);
     }
 
-    function GPXCallback(items) {
-        //Add items to the map
-        map.entities.push(items);
+    function GPXCallback(layer) {
+        //Add the layer to the map
+        map.layers.insert(layer);
 
-        //Add click event to all shapes.
-        var len = items.getLength();
-
-        for (var i = 0; i < len; i++) {
-            Microsoft.Maps.Events.addHandler(items.get(i), 'click', function (e) {
-                viewMetadata("LocationInfo", e.target.Metadata);
-            });
-        }
+        //Add click event to the layer.
+        Microsoft.Maps.Events.addHandler(layer, 'click', function (e) {
+            viewMetadata("LocationInfo", e.target.metadata);
+        });
 
         //Load layer metadata
-        viewMetadata("LayerInfo", items.metadata);
+        viewMetadata("LayerInfo", layer.metadata);
 
         //Set the map view
-        if (items.metadata != null && items.metadata.LocationRect != null) {
-            map.setView({ bounds: items.metadata.LocationRect });
-        }
+        map.setView({ bounds: Microsoft.Maps.LocationRect.fromShapes(layer.getPrimitives()), padding: 50 });
     }
 
     function viewMetadata(div, metadata) {
@@ -54,9 +48,9 @@
 </head>
 <body>
     <div style="float:left;width:600px;">
-        <div id='map' style="position:relative;width:600px;height:500px;"></div>
-        <input type="button" value="Local file (GPX file of Monuments)" onclick="LoadGPX('data/gps_points.xml')" />
-        <input type="button" value="Local file (UK tourist locations)" onclick="LoadGPX('data/Tourist_locations_UK-England.xml')" />
+        <div id='myMap' style="position:relative;width:600px;height:500px;"></div>
+        <input type="button" value="Local file (GPX file of Monuments)" onclick="LoadGPX('/Common/data/gpx/gps_points.xml')" />
+        <input type="button" value="Local file (UK tourist locations)" onclick="LoadGPX('/Common/data/gpx/Tourist_locations_UK-England.xml')" />
     </div>
     <div style="float:left;width:300px;margin:0 0 0 10px;">
         <b>Layer Info</b><br />
