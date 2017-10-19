@@ -55,7 +55,6 @@
     <Content Include="Autosuggest\Custom Autosuggest Input with JQuery UI.html" />
     <Content Include="Autosuggest\Fill Address Form with Autosuggest.html" />
     <Content Include="Autosuggest\Autosuggest with Map.html" />
-    <Content Include="BingMapsCredentials.js" />
     <Content Include="Birdseye\Basic Birdseye.html" />
     <Content Include="Clustering\Clustering_Basic.html" />
     <Content Include="Clustering\Clustering_Customization.html" />
@@ -399,6 +398,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />

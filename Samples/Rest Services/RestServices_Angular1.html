@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
 
     <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.js"></script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
 
     <script type='text/javascript'>
     var app = angular.module('myApp', []);
@@ -14,7 +13,7 @@
         $scope.results = [];
 
         $scope.geocode = function () {
-            var geocodeRequest = "https://dev.virtualearth.net/REST/v1/Locations?query=" + encodeURIComponent($scope.query) + "&jsonp=JSON_CALLBACK&key=" + YourBingMapsKey;
+            var geocodeRequest = "https://dev.virtualearth.net/REST/v1/Locations?query=" + encodeURIComponent($scope.query) + "&jsonp=JSON_CALLBACK&key=" + '[YOUR_BING_MAPS_KEY]';
 
             $http.jsonp(geocodeRequest)
                 .success(function (data, status) {

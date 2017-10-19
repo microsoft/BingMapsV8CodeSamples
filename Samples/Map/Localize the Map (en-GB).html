@@ -9,15 +9,13 @@
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey,
+            credentials: '[YOUR_BING_MAPS_KEY]',
             mapTypeId: Microsoft.Maps.MapTypeId.ordnanceSurvey,
             center: new Microsoft.Maps.Location(51.552, -0.1586),
             zoom: 15
         });
     }
     </script>
-
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=en&setMkt=en-GB' async defer></script>
 </head>
 <body>

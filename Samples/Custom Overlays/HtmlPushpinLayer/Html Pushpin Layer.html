@@ -12,7 +12,7 @@
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey
+            credentials: '[YOUR_BING_MAPS_KEY]'
         });
 
         //Create an infobox at the center of the map but don't show it.
@@ -79,7 +79,6 @@
         }
     }
     </script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental' async defer></script>
     <style>
         .htmlPushpin {

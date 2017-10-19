@@ -27,8 +27,7 @@ If you would like to submit a code sample, we ask that your sample follows the f
 * **Add Useful Samples**: The sample should show something new. Be sure that an existing sample that does the same thing doesn't already exist. 
 If it does, feel free to submit improvements to the existing sample.
 * **Unique file names**: Ensure that your sample has a unique file name. These are used to create links in the URL to each sample. If more than one sample has the same file name, an warning will be displayed when running the Default.aspx page.
-* **Bing Maps Credentials**: Instead of adding a Bing Maps key directly into your code sample, reference in the **BingMapsCredentials.js** file and use the **YourBingMapsKey** variable. 
-This will help to ensure that someone's Bing Maps key doesn't accidentally get checked in. It also makes these samples easier to use as users only have to add their key in one place.
+* **Bing Maps Credentials**: Add your Bing Maps key in the web.config file. Be sure to remove your Bing Maps key code before checking in.
 * **Keep Consistency**: Create a **map** variable for the map and give your map div an id of **myMap**. This will help keep the samples consistent. This may not make sense for all samples.
 * **Folder Structure**: Add your sample to one of the existing folders if one makes sense. If your sample consists of multiple files, create a subfolder to group these files together. 
 If you feel a new folder should be created, create one and we will review it.

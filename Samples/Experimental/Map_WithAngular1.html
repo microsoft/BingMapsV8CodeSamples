@@ -4,7 +4,6 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.js"></script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script src='https://www.bing.com/api/maps/mapcontrol'></script>
     <script>
     var app = angular.module("myApp", []);
@@ -12,7 +11,7 @@
         $scope.map = null;
         $scope.init = function () {
             $scope.map = new Microsoft.Maps.Map('#myMap', {
-                credentials: YourBingMapsKey
+                credentials: '[YOUR_BING_MAPS_KEY]'
             });
         };
 

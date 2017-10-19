@@ -4,12 +4,11 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-        var YourBingMapsKey = YourBingMapsKey;
         var mainMap, alaskaMap, hawaiiMap;
 
         function GetMap() {
             mainMap = new Microsoft.Maps.Map('#mainMap', {
-                credentials: YourBingMapsKey,
+                credentials: '[YOUR_BING_MAPS_KEY]',
                 maxBounds: Microsoft.Maps.LocationRect.fromEdges(50, -128, 23, -66),
                 center: new Microsoft.Maps.Location(37, -90),
                 zoom: 3,
@@ -17,7 +16,7 @@
             });
 
             alaskaMap = new Microsoft.Maps.Map('#alaskaMap', {
-                credentials: YourBingMapsKey,
+                credentials: '[YOUR_BING_MAPS_KEY]',
                 showDashboard: false,
                 showMapTypeSelector: false,
                 showLocateMeButton: false,
@@ -31,7 +30,7 @@
             });
 
             hawaiiMap = new Microsoft.Maps.Map('#hawaiiMap', {
-                credentials: YourBingMapsKey,
+                credentials: '[YOUR_BING_MAPS_KEY]',
                 showDashboard: false,
                 showMapTypeSelector: false,
                 showLocateMeButton: false,

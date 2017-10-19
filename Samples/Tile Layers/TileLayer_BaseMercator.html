@@ -8,7 +8,7 @@
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey,
+            credentials: '[YOUR_BING_MAPS_KEY]',
             mapTypeId: Microsoft.Maps.MapTypeId.mercator, //Hide the base map tile layer.
             maxZoom: 15, //Tiles are only available for the first 15 zoom levels.
             center: new Microsoft.Maps.Location(40, -99),
@@ -32,7 +32,6 @@
         map.layers.insert(usgsTopoTileLayer);
     }
     </script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>

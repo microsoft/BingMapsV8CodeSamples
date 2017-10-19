@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Text;
+using System.Web.Configuration;
 using System.Web.UI.WebControls;
 
 namespace Samples
@@ -16,6 +18,8 @@ namespace Samples
         {
             if (!IsPostBack)
             {
+                BingMapsKey = WebConfigurationManager.AppSettings["BingMapsKey"];
+
                 NumberOfSamples = 0;
                 PageNames = new List<string>();
                 DuplicatePageNames = new List<string>();
@@ -101,6 +105,8 @@ namespace Samples
         public int NumberOfSamples { get; set; }
 
         public string SampleList { get; set; }
+
+        public string BingMapsKey { get; set; }
 
         private void AddSampleNodes(DirectoryInfo dir, DirectoryInfo dir2, TreeNode parentNode, StringBuilder sampleList)
         {

@@ -3,13 +3,10 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
-
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-
     <script type='text/javascript'>
         function GetMatrix() {
 
-            var requestUrl = 'https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?key=' + YourBingMapsKey;
+            var requestUrl = 'https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?key=' + '[YOUR_BING_MAPS_KEY]';
 
             var requestBody = {
                 "origins": [{

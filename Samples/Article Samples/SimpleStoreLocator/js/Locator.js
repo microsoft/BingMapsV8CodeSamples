@@ -6,7 +6,7 @@ var distanceUnits = 'km';
 function GetMap() {
     // Load the map. 
     map = new Microsoft.Maps.Map('#myMap', {
-        credentials: YourBingMapsKey,
+        credentials: '[YOUR_BING_MAPS_KEY]',
         zoom: 3
     });
     // Create a layer to load pushpins to. 

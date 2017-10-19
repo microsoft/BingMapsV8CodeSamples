@@ -10,7 +10,7 @@
         var bounds = Microsoft.Maps.LocationRect.fromCorners(new Microsoft.Maps.Location(40.5, -123.5), new Microsoft.Maps.Location(40, -123));
 
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey,
+            credentials: '[YOUR_BING_MAPS_KEY]',
             bounds: bounds
         });
 
@@ -91,7 +91,6 @@
         loadLayer();
     };
     </script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>

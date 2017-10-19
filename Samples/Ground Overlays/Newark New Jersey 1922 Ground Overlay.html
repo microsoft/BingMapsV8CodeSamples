@@ -8,7 +8,7 @@
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey,
+            credentials: '[YOUR_BING_MAPS_KEY]',
             center: new Microsoft.Maps.Location(40.740, -74.18),
             zoom: 12
         });
@@ -22,7 +22,6 @@
         map.layers.insert(overlay);
     }
     </script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap"></script>
 </head>
 <body>

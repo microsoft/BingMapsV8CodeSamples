@@ -8,8 +8,6 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol' async defer></script>
 
     <script>
@@ -70,7 +68,7 @@
             if (!map) {
                 //Create a map instance.
                 map = new Microsoft.Maps.Map('#myMap', {
-                    credentials: YourBingMapsKey
+                    credentials: '[YOUR_BING_MAPS_KEY]'
                 });
 
                 //Create a layer for each tab/view.

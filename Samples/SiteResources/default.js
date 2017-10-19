@@ -11,16 +11,49 @@ function loadSample(name, path, sourcePath) {
         currentSampleElm.classList.add('selectedNode');
     }
     window.location.hash = encodeURIComponent(name);
-    document.getElementById('displayWindow').src = path;
-    if (sourcePath && sourcePath != '') {
-        document.getElementById('sourceCodeLinkPanel').style.display = '';
-        document.getElementById('newWindowLink').href = path;
-        document.getElementById('sourceCodeLink').href = githubProjectUrl + sourcePath;
+
+    //Download HTML for sample.
+    var xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open("GET", path, false);
+
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4) {
+            var sampleHtml = xmlHttp.responseText;
+
+            sampleHtml = sampleHtml.replace(/\[YOUR_BING_MAPS_KEY\]/gi, BingMapsKey);
+
+            var iframe = document.getElementById('displayWindow');
+
+            var doc = iframe.document;
+
+            if (iframe.contentDocument) {
+                doc = iframe.contentDocument; // For NS6
+            } else if (iframe.contentWindow) {
+                doc = iframe.contentWindow.document; // For IE5.5 and IE6
+            }
+
+            doc.open();
+            doc.writeln(sampleHtml);
+            doc.close();
+
+            if (sourcePath && sourcePath != '') {
+                document.getElementById('sourceCodeLinkPanel').style.display = '';
+                document.getElementById('newWindowLink').onclick = function () {
+                    var win = window.open();
+                    win.document.write(sampleHtml);
+                };
+                document.getElementById('sourceCodeLink').href = githubProjectUrl + sourcePath;
+            }
+            else {
+                document.getElementById('sourceCodeLinkPanel').style.display = 'none';
+            }
+
+            iframe.focus();            
+        }
     }
-    else {
-        document.getElementById('sourceCodeLinkPanel').style.display = 'none';
-    }
-    document.getElementById('displayWindow').focus();
+
+    xmlHttp.send();  
 }
 
 var spaceRx = /\s/g;

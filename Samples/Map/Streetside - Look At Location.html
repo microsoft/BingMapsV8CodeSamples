@@ -10,14 +10,13 @@
         loc = new Microsoft.Maps.Location(39.47618, -121.53738);
 
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey,
+            credentials: '[YOUR_BING_MAPS_KEY]',
             center: loc,
             mapTypeId: Microsoft.Maps.MapTypeId.streetside,
             streetsideOptions: { locationToLookAt: loc }
         });
     }
     </script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>

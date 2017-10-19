@@ -4,13 +4,11 @@
     <title></title>
     <meta charset="utf-8" />
 
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
-
     <script type='text/javascript'>
     function geocode() {
         var query = document.getElementById('input').value;
 
-        var geocodeRequest = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(query) + '&key=' + YourBingMapsKey;
+        var geocodeRequest = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(query) + '&key=' + '[YOUR_BING_MAPS_KEY]';
 
         CallRestService(geocodeRequest, GeocodeCallback);
     }

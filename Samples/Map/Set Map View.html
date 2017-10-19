@@ -6,7 +6,7 @@
     <script type='text/javascript'>
     function GetMap() {
         var map = new Microsoft.Maps.Map('#myMap', {
-            credentials: YourBingMapsKey
+            credentials: '[YOUR_BING_MAPS_KEY]'
         });
 
         map.setView({
@@ -16,7 +16,6 @@
         });
     }
     </script>
-    <script type='text/javascript' src='/BingMapsCredentials.js'></script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </head>
 <body>
