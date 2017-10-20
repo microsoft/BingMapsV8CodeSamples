@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, map2;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: '[YOUR_BING_MAPS_KEY]'
+        });
+
+        map2 = new Microsoft.Maps.Map('#myMap2', {
+            credentials: '[YOUR_BING_MAPS_KEY]',
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial
+        });
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:400px;"></div>
+
+    <div id="myMap2" style="position:relative;width:800px;height:400px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Multiple Maps Sample</legend>
+        This sample shows two maps rendered on the same page. 
+    </fieldset>
+</body>
+</html>

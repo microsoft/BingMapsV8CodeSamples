@@ -22,7 +22,7 @@
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]',
+            credentials: getParameterByName('key'),
             zoom: 1
         });
     }
