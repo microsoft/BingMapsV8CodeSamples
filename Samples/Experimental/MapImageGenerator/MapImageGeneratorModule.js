@@ -95,7 +95,25 @@ var MapImageGenerator = (function () {
             var ctx = mapCanvas.getContext('2d');
             for (var i = 0; i < canvases.length; i++) {
                 var c = canvases[i];
-                ctx.drawImage(c, c.offsetLeft, c.offsetTop);
+                var offsetLeft = 0;
+                var offsetTop = 0;
+                var width = mapCanvas.width;
+                var height = mapCanvas.height;
+                if (c.width != mapCanvas.width && c.height != mapCanvas.height) {
+                    offsetLeft = c.offsetLeft * -1;
+                    offsetTop = c.offsetTop * -1;
+                    width = mapCanvas.width;
+                    height = mapCanvas.height;
+                    var sw = parseInt(c.style.width);
+                    if (sw !== c.width) {
+                        var scale = c.width / sw;
+                        offsetLeft *= scale;
+                        offsetTop *= scale;
+                        width *= scale;
+                        height *= scale;
+                    }
+                }
+                ctx.drawImage(c, offsetLeft, offsetTop, width, height, 0, 0, mapCanvas.width, mapCanvas.height);
             }
             var logoUrl;
             switch (this._map.getMapTypeId()) {
