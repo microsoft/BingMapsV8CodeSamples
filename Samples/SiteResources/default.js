@@ -163,5 +163,15 @@ var sampleRedirects = {
     "GeoXmlLayer%20-%20Local%20Data": "GeoXmlLayer%20-%20Same%20Domain",
     "Business%20Search%20Module": "POI%20Search%20Module",
     "GeoData_ChoroplethMap": "GeoData%20Choropleth%20Map",
-    "DrawingTools_CustomToolbar": "Fully%20Custom%Drawing%20Toolbar"
+    "DrawingTools_CustomToolbar": "Fully%20Custom%Drawing%20Toolbar",
+    "QueryAPI%20-%20Load%20all%20results%20(parallel)": "Load%20all%20results%20(parallel)",
+    "QueryAPI%20-%20Load%20all%20results%20(recursive)": "Load%20all%20results%20(recursive)",
+    "QueryAPI_AlongRoute": "Search%20Along%20a%20Route",
+    "QueryAPI_BasicIntersection": "Basic%20Intersection%20Search%20Query",
+    "QueryAPI_ChoroplethMap": "Search%20Result%20Choropleth%20Map",
+    "QueryAPI_DrawSearchArea": "Draw%20Search%20Area",
+    "QueryAPI_FindByProperty": "Find%20By%20Property%20Query",
+    "QueryAPI_Intersection": "Intersection%20Query",
+    "QueryAPI_Paging": "Paging%20Search%20Results",
+    "QueryAPI_SortByDrivingDistance": "Sort%20Query%20Results%20By%20Driving%20Distance"
 };
