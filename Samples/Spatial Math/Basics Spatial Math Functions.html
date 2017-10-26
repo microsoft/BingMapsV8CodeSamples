@@ -4,8 +4,10 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
+    var map;
+
     function GetMap() {
-        var map = new Microsoft.Maps.Map('#myMap', {
+        map = new Microsoft.Maps.Map('#myMap', {
             credentials: '[YOUR_BING_MAPS_KEY]',
             zoom: 4
         });
@@ -17,7 +19,7 @@
             var northWest = bounds.getNorthwest();
             var southEast = bounds.getSoutheast();
 
-            //Calculate a geodesic path between the two points (line the follows curvature of the earth).
+            //Calculate a geodesic path between the two points (line that follows curvature of the earth).
             var path = Microsoft.Maps.SpatialMath.getGeodesicPath([northWest, southEast]);
             var poly = new Microsoft.Maps.Polyline(path);
             map.entities.push(poly);

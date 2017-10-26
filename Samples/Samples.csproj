@@ -188,6 +188,7 @@
     <Content Include="Rest Services\Distance Matrix Service - POST.html" />
     <Content Include="Spatial Data Services - Query API\Find all counties that intersect a line.html" />
     <Content Include="Search\POI Search\POI Search Module.html" />
+    <Content Include="Spatial Math\Geodesic Path with Arrow.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
