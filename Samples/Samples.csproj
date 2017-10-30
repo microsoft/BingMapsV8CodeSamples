@@ -170,6 +170,10 @@
     <Content Include="Map\Multiple Maps.html" />
     <Content Include="Map\New Map Styles.html" />
     <Content Include="Map\Streetside - Look At Location.html" />
+    <Content Include="Other\Angular16\app.js" />
+    <Content Include="Other\Angular16\directives.js" />
+    <Content Include="Other\Angular16\main.js" />
+    <Content Include="Other\Angular16\services.js" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
     <Content Include="Other\Virgin Islands SNAP Retailers.html" />
     <Content Include="Polylines\Prevent Polylines from Crossing the Anti-Merdian.html" />
@@ -391,6 +395,7 @@
     <Content Include="Common\data\kml\SampleKml.kml" />
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\kml\2007SanDiegoCountyFires.kml" />
+    <Content Include="Other\Angular16\Bing Maps V8 with Angular 1.6.html" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>
