@@ -283,6 +283,14 @@ class HtmlPushpin extends Microsoft.Maps.Pushpin {
 
         if (typeof options.visible === 'boolean') {
             this._options.visible = options.visible;
+
+            if (options.visible) {
+                this._element.style.display = '';
+            } else {
+                this._element.style.display = 'none';
+            }
+
+            reposition = true;
         }
 
         if (options.htmlContent) {
@@ -631,20 +639,22 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
     * Updates the position of a HTML pushpin element on the map.
     */
     public _updatePushpinPosition(pin: HtmlPushpin): void {
-        var map = this.getMap();
+        if (pin.getVisible()) {
+            var map = this.getMap();
 
-        if (map) {
-            //Calculate the pixel location of the pushpin.
-            var topLeft = <Microsoft.Maps.Point>map.tryLocationToPixel(pin.getLocation(), Microsoft.Maps.PixelReference.control);
+            if (map) {
+                //Calculate the pixel location of the pushpin.
+                var topLeft = <Microsoft.Maps.Point>map.tryLocationToPixel(pin.getLocation(), Microsoft.Maps.PixelReference.control);
 
-            //Offset position to account for anchor.
-            var anchor = pin.getAnchor();
-            topLeft.x -= anchor.x;
-            topLeft.y -= anchor.y;
+                //Offset position to account for anchor.
+                var anchor = pin.getAnchor();
+                topLeft.x -= anchor.x;
+                topLeft.y -= anchor.y;
 
-            //Update the position of the pushpin element.
-            pin._element.style.left = topLeft.x + 'px';
-            pin._element.style.top = topLeft.y + 'px';
+                //Update the position of the pushpin element.
+                pin._element.style.left = topLeft.x + 'px';
+                pin._element.style.top = topLeft.y + 'px';
+            }
         }
     }
 

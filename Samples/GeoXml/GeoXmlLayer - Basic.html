@@ -16,14 +16,14 @@
         //Load the GeoXml module.
         Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
             //Create an instance of the GeoXmlLayer.
-            layer = new Microsoft.Maps.GeoXmlLayer(georss);
+            layer = new Microsoft.Maps.GeoXmlLayer(georss, null, { autoUpdateMapView: false });
 
             //Add the layer to the map.
             map.layers.insert(layer);
         });
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&uncrunched=1' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
