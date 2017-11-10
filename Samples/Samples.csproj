@@ -174,6 +174,7 @@
     <Content Include="Other\Angular16\directives.js" />
     <Content Include="Other\Angular16\main.js" />
     <Content Include="Other\Angular16\services.js" />
+    <Content Include="Other\Distance to nearest coast.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
     <Content Include="Other\Virgin Islands SNAP Retailers.html" />
     <Content Include="Polylines\Prevent Polylines from Crossing the Anti-Merdian.html" />
