@@ -120,6 +120,8 @@
     <Content Include="Drawing Tools\DrawingTools_MeasuringTape.html" />
     <Content Include="Drawing Tools\Restrict drawing to Polygon area.html" />
     <Content Include="Drawing Tools\Select Data in Drawn Polygon Area.html" />
+    <Content Include="Drawing Tools\Select Data in Drawn Rectangle.html" />
+    <Content Include="Drawing Tools\Snap Drawing to Shape.html" />
     <Content Include="Experimental\Access Old Aerial Imagery - Private.html" />
     <Content Include="Experimental\BasicTileLayer\Basic Tile Layer.html" />
     <Content Include="Experimental\Snap drawing to pushpins.html" />
@@ -397,6 +399,7 @@
     <Content Include="Common\data\geojson\USGS_M7EarthquakeContours.json" />
     <Content Include="Common\data\kml\2007SanDiegoCountyFires.kml" />
     <Content Include="Other\Angular16\Bing Maps V8 with Angular 1.6.html" />
+    <Content Include="Common\stonetown.json" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BingMapsV8Samples - Web Deploy.pubxml" />
   </ItemGroup>
