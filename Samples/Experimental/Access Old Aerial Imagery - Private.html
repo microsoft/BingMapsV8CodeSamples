@@ -3,12 +3,13 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <script type='text/javascript' src="/bingCredentials.js"></script>
     <script type='text/javascript'>
     var map, aerialOverride;
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]',
+            credentials: bingMapsKey,
             mapTypeId: Microsoft.Maps.MapTypeId.aerial,
             //liteMode: true
         });
@@ -30,17 +31,18 @@
 
     function AerialImageryOverride(map) {
         var enabled = true;
-        var aerialLayer;
+        var aerialLayer, roadLineLayer;
         var generationId = '5772';
 
         map.getCredentials(function (c) {
             var opt = map.getOptions();
 
             var aerialTileUrl = 'https://t{subdomain}.ssl.ak.tiles.virtualearth.net/tiles/a{quadkey}.jpg?g=' + generationId + '&key=';
+            var roadLineTileUrl = 'https://t0.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF&key=';
 
             if (opt.liteMode) {
                 //Use a different URL which has map labels.
-                aerialTileUrl = 'https://t{subdomain}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?g=' + generationId + '&it=Z,GF,L&key=';
+                roadLineTileUrl = 'https://t0.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF,L&key=';
             }
 
             aerialLayer = new Microsoft.Maps.TileLayer({
@@ -55,6 +57,18 @@
                 
             map.layers.insert(aerialLayer);
 
+            roadLineLayer = new Microsoft.Maps.TileLayer({
+                mercator: new Microsoft.Maps.TileSource({
+                    uriConstructor: roadLineTileUrl + c,
+                    minZoom: 13,
+                    maxZoom: 20
+                }),
+                visible: false,
+                zIndex: 1000
+            });
+
+            map.layers.insert(roadLineLayer);
+
             Microsoft.Maps.Events.addHandler(map, 'maptypechanged', updateView);
 
             updateView();
@@ -66,14 +80,17 @@
 
                 if (mapType === Microsoft.Maps.MapTypeId.aerial) {
                     aerialLayer.setOptions({ visible: true });
+                    roadLineLayer.setOptions({ visible: true });
 
                     //Switch into mercator mode so that we don't load the old imagery.
                     map.setOptions({ mapTypeId: Microsoft.Maps.MapTypeId.mercator });
                 } else if (mapType !== Microsoft.Maps.MapTypeId.mercator) {
                     aerialLayer.setOptions({ visible: false });
+                    roadLineLayer.setOptions({ visible: false });
                 }
             } else {
                 aerialLayer.setOptions({ visible: false });
+                roadLineLayer.setOptions({ visible: false });
             }
         }
 
