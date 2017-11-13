@@ -101,6 +101,8 @@ window.onload = function () {
         hash = hash.replace('#', '');
         loadSampleByHash(hash);
     }
+
+    return false;
 };
 
 $(function () {
