@@ -9,7 +9,6 @@
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]',
             center: new Microsoft.Maps.Location(46.854048, -121.768712),
             zoom: 11
         });
@@ -55,7 +54,7 @@
         return color;
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
     <style>
         .contourLegend {
             margin-left: 10px;

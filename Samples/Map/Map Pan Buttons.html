@@ -8,9 +8,7 @@
 
     function GetMap()
     {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
     }
 
     function panMap(dir) {
@@ -34,7 +32,7 @@
         map.setView({ center: map.getCenter(), centerOffset: new Microsoft.Maps.Point(dx, dy) });
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 
     <style>
         .mapContainer, #myMap{

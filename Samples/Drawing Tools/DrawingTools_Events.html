@@ -7,9 +7,7 @@
     var map;
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
 
         //Load the DrawingTools module
         Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
@@ -38,7 +36,7 @@
         setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

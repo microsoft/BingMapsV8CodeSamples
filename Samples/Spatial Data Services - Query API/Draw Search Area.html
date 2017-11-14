@@ -10,9 +10,7 @@
     var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/20181f26d9e94c81acdf9496133d4f23/FourthCoffeeSample/FourthCoffeeShops';
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
 
         //Load the DrawingTools, SpatialDataServices modules.
         Microsoft.Maps.loadModule(['Microsoft.Maps.DrawingTools', 'Microsoft.Maps.SpatialDataService'], function () {
@@ -82,7 +80,7 @@
         }
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

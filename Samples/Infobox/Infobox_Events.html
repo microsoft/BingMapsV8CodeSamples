@@ -9,9 +9,7 @@
     var cnt = 0;
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
 
         //Create an infobox and add it to the map.
         infobox = new Microsoft.Maps.Infobox(map.getCenter(), { title : 'Hello World!' , description: '<input type="button" value="test" onclick="alert(\'here\')"/>'});
@@ -32,7 +30,7 @@
         setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

@@ -7,9 +7,7 @@
     var map, searchManager;
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
     }
 
     function Search() {
@@ -76,7 +74,7 @@
         searchManager.geocode(searchRequest);
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <input id='searchTbx' type='text'/>

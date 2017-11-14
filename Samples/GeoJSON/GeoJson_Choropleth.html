@@ -11,7 +11,6 @@
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]',
             center: new Microsoft.Maps.Location(53.32, -110.29),
             zoom: 3
         });
@@ -79,7 +78,7 @@
             heatGradientData.data[idx + 2] + ',' + '0.5)';
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&uncrunched=1' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
     <style>
         .mapContainer {
             position: relative;

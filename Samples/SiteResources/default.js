@@ -175,5 +175,6 @@ var sampleRedirects = {
     "QueryAPI_FindByProperty": "Find%20By%20Property%20Query",
     "QueryAPI_Intersection": "Intersection%20Query",
     "QueryAPI_Paging": "Paging%20Search%20Results",
-    "QueryAPI_SortByDrivingDistance": "Sort%20Query%20Results%20By%20Driving%20Distance"
+    "QueryAPI_SortByDrivingDistance": "Sort%20Query%20Results%20By%20Driving%20Distance",
+    "Map_WithAngular1": "Basic%20Angular%201.6%20Map"
 };

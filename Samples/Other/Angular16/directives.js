@@ -2,11 +2,10 @@
 ngBMap.directive('map', [function ($compile) {
     return {
         restrict: 'E',
-        controller: ['$scope', 'bingCredentials', function ($scope, bingCredentials) {
+        controller: ['$scope', function ($scope) {
             this.buffer_pushpins = [];
             this.mapHtmlEl = null
             this.map = null;
-            var credentials = bingCredentials;
 
             this.exeFunc = function (func, context, args) {
                 $scope.$parent[func].apply(context, args);
@@ -44,7 +43,6 @@ ngBMap.directive('map', [function ($compile) {
                 var def_coords = eval(attrs.center);
 
                 _thisCtrl.map = new Microsoft.Maps.Map(map_canvas, {
-                    credentials: credentials,
                     center: new Microsoft.Maps.Location(def_coords[0], def_coords[1]),
                     mapTypeId: 'a',
                     zoom: 18

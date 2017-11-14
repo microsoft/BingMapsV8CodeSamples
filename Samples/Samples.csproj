@@ -155,7 +155,7 @@
     <Content Include="Ground Overlays\Newark New Jersey 1922 Ground Overlay.html" />
     <Content Include="Ground Overlays\SVG Ground Overlay.html" />
     <Content Include="Layers\View Shape Metadata.html" />
-    <Content Include="Experimental\Map_WithAngular1.html" />
+    <Content Include="Other\Basic Angular 1.6 Map.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
     <Content Include="ExternalSamples.html" />
     <Content Include="Layers\Limit Layer to Zoom Range.html" />

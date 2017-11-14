@@ -7,16 +7,14 @@
     var map;
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
 
         // getPolylines(num?: number, bounds?: LocationRect, size?: number, scaleFactor?: number, options?: IPolylineOptions)
         var polylines = Microsoft.Maps.TestDataGenerator.getPolylines(5, map.getBounds());
         map.entities.push(polylines);
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

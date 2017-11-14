@@ -4,11 +4,6 @@
 	<title></title>
     <meta charset="utf-8" />    
 
-    <script>
-        //Temporary solution for dynamically setting credentials within code sample project. Set your Bing Maps key in the app.js file.
-        var YOUR_BING_MAPS_KEY = '[YOUR_BING_MAPS_KEY]';
-    </script>
-
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.js"></script>	
 
@@ -17,7 +12,7 @@
 	<script src="/Other/Angular16/services.js"></script>
 	<script src="/Other/Angular16/main.js"></script>
 
-    <script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?callback=mapScriptLoadCallback" async defer></script>
+    <script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?callback=mapScriptLoadCallback&key=[YOUR_BING_MAPS_KEY]" async defer></script>
 </head>
 <body>
 	<div class="mainCont" ng-controller="MainCtrl">

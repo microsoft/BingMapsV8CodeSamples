@@ -9,7 +9,7 @@
 
     function LoadMap() {
         if (!map) {
-            var mapScriptUrl = 'https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=' + getParameterByName('setLang') + '&setMkt=' + getParameterByName('setMkt');
+            var mapScriptUrl = 'https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=' + getParameterByName('setLang') + '&setMkt=' + getParameterByName('setMkt') + '&key=' + getParameterByName('key');
             var script = document.createElement("script");
             script.setAttribute('defer', '');
             script.setAttribute('async', '');
@@ -22,7 +22,6 @@
     function GetMap()
     {
         map = new Microsoft.Maps.Map('#myMap', {
-            credentials: getParameterByName('key'),
             zoom: 1
         });
     }

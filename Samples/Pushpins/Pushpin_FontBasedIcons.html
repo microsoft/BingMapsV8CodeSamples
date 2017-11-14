@@ -9,9 +9,7 @@
     var map;
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
 
         //Create a font pushpin of a truck. "&#xf0d1;" => "\uf0d1". List of icon hex values: http://fontawesome.io/3.2.1/cheatsheet/
         var pin = createFontPushpin(map.getCenter(), '\uF0D1', 'FontAwesome', 30, 'red');
@@ -46,7 +44,7 @@
         });
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div style="font-family:FontAwesome;position:absolute;color:transparent;">Preload font, otherwise we may end up trying to use it before it is available.</div>

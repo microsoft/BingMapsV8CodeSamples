@@ -362,7 +362,7 @@ declare module Microsoft.Maps {
     /** Map or View options */
     export interface IMapLoadOptions extends IMapOptions, IViewOptions {
         /** The Bing Maps Key used to authenticate the application. This property can only be set when using the Map constructor. */
-        credentials: string;
+        credentials?: string;
     }
 
     /**

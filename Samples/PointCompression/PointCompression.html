@@ -5,9 +5,7 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
     function GetMap() {
-        var map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        var map = new Microsoft.Maps.Map('#myMap', {});
 
         var encodedString = 'x90uhio4sQmhuGwxrGz8sGp-zP5ooKpx9Eiz7Ip2vFko8E56xEl-zEyhkG';
 
@@ -35,7 +33,7 @@
         }
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

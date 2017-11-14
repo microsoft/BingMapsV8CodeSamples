@@ -8,9 +8,7 @@
 
     function GetMap()
     {
-        map = new Microsoft.Maps.Map('#myMap', {
-            credentials: '[YOUR_BING_MAPS_KEY]'
-        });
+        map = new Microsoft.Maps.Map('#myMap', {});
 
         //Generate 10,000 random pushpins within the current map view. 
         var pins = Microsoft.Maps.TestDataGenerator.getPushpins(10000, map.getBounds());
@@ -62,7 +60,7 @@
         return bin.metrics.count / max.count;
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

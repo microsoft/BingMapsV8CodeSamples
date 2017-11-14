@@ -12,7 +12,6 @@
             var northCarolinaBounds = Microsoft.Maps.LocationRect.fromEdges(36.696506, -84.362822, 33.794559, -75.117827);
             
             map = new Microsoft.Maps.Map('#myMap', {
-                credentials: '[YOUR_BING_MAPS_KEY]',
                 maxBounds: northCarolinaBounds,
                 bounds: northCarolinaBounds,
 
@@ -67,7 +66,7 @@
             maskPolygon.setOptions({ fillColor: fillColor });
         }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
     <style>
         body, html{
             padding:0;
