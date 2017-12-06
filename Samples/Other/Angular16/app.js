@@ -1,5 +1,5 @@
-﻿var testBingMap = angular.module('testBingMap', ['ngBMap']);
-testBingMap.controller('MainCtrl', function ($scope) {
+﻿var ngBingMaps = angular.module('ngBingMaps', []);
+ngBingMaps.controller('MainCtrl', function ($scope) {
 
     $scope.title = "Bing Maps V8 with Angular 1.6 Sample";
     $scope.center = [43.000, 13.0000];

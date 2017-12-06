@@ -1,5 +1,5 @@
 ﻿'use strict';
-ngBMap.directive('map', [function ($compile) {
+ngBingMaps.directive('map', [function ($compile) {
     return {
         restrict: 'E',
         controller: ['$scope', function ($scope) {
@@ -88,7 +88,7 @@ ngBMap.directive('map', [function ($compile) {
     }
 }]);
 
-ngBMap.directive('pushpin', [function ($compile) {
+ngBingMaps.directive('pushpin', [function ($compile) {
     return {
         restrict: 'E',
         require: '^map',

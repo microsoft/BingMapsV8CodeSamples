@@ -1,3 +1,3 @@
 ﻿'use strict';
-angular.module('ngBMap.services', []).
+angular.module('ngBingMaps.services', []).
     value('version', '0.1');
