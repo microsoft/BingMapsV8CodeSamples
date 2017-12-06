@@ -16,14 +16,6 @@ The experimental folder of this project contains code samples that are proof of 
 These samples are primarily for trying things outs and likely contain unsupported code which can break at any time. 
 It is not recommended to use any of these code samples in production applications.
 
-**Note:**
-
-This project is just TypeScript definitions fand not actual API code. You will need to add a script reference to the Bing Maps V8 Web Control in your application to load the functional API. For example:
-
-```
-<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[Your_Bing_Maps_Key]' async defer></script>
-```
-
 ## Contributing ##
 
 We welcome contributions. Feel free to submit code samples, file issues and pull requests on the repo and we'll address them as we can. 
