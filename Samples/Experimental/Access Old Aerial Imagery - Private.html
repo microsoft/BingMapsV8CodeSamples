@@ -37,12 +37,12 @@
         map.getCredentials(function (c) {
             var opt = map.getOptions();
 
-            var aerialTileUrl = 'https://t{subdomain}.ssl.ak.tiles.virtualearth.net/tiles/a{quadkey}.jpg?g=' + generationId + '&key=';
-            var roadLineTileUrl = 'https://t0.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF&key=';
+            var aerialTileUrl = 'https://t{subdomain}.ssl.ak.tiles.virtualearth.net/tiles/a{quadkey}.jpg?g=' + generationId + '&pr=ucg&key=';
+            var roadLineTileUrl = 'https://t{subdomain}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF&key=';
 
             if (opt.liteMode) {
                 //Use a different URL which has map labels.
-                roadLineTileUrl = 'https://t0.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF,L&key=';
+                roadLineTileUrl = 'https://t{subdomain}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF,L&key=';
             }
 
             aerialLayer = new Microsoft.Maps.TileLayer({
