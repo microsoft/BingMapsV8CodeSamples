@@ -18,7 +18,7 @@ It is not recommended to use any of these code samples in production application
 
 **Note:**
 
-This project is just TypeScript definitions for the Bing Maps V8 web contorl and not the actual API code. You will need to add a script reference to the BIng Maps V8 Web Control in your application to load the functional API. For example:
+This project is just TypeScript definitions fand not actual API code. You will need to add a script reference to the Bing Maps V8 Web Control in your application to load the functional API. For example:
 
 ```
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[Your_Bing_Maps_Key]' async defer></script>
