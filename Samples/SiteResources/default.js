@@ -176,5 +176,6 @@ var sampleRedirects = {
     "QueryAPI_Intersection": "Intersection%20Query",
     "QueryAPI_Paging": "Paging%20Search%20Results",
     "QueryAPI_SortByDrivingDistance": "Sort%20Query%20Results%20By%20Driving%20Distance",
-    "Map_WithAngular1": "Basic%20Angular%201.6%20Map"
+    "Map_WithAngular1": "Basic%20Angular%201.6%20Map",
+    "Pushpin%20Bar%20Chart%20(inline%20SVG)": "Bar%20Chart%20Pushpins%20(inline%20SVG)"
 };

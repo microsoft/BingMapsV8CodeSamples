@@ -26,7 +26,6 @@
     ];
 
     var chartOptions = {
-        maxValue: 100,  //The max value for a bar in the chart. 
         maxHeight: 40,  //Max height in pixels of chart when value = maxValue.
         barWidth: 6,    //Width of a bar in pixels.
         colors: ['red', 'blue', 'orange'], //The colors of each category in the bar chart. Should have a length >= to largest values array in data set.
@@ -49,9 +48,22 @@
         //Create a layer for the data.
         var layer = new Microsoft.Maps.Layer();
 
+        var i, maxValue = 0;
+
+        //Loop through the mock data and calculate the max total value so that each bar of each bar chart is scaled relatively.
+        for (i = 0; i < mockData.length; i++) {
+            var val = mockData[i].values.reduce(function (a, b) {
+                return Math.max(a, b);
+            });
+
+            if (val > maxValue) {
+                maxValue = val;
+            }
+        }
+
         //Loop through the mock data and create pushpins. 
         for (var i = 0; i < mockData.length; i++) {
-            layer.add(createChartPushpin(mockData[i]));
+            layer.add(createChartPushpin(mockData[i], maxValue));
         }
 
         //Add a click handler to the layer.
@@ -60,16 +72,16 @@
         map.layers.insert(layer);
     }
 
-    function createChartPushpin(data) {
+    function createChartPushpin(data, maxValue) {
         var width = data.values.length * chartOptions.barWidth;
 
-        var svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="', width, '" height="', chartOptions.maxHeight, '">'];
+        var svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="', width, 'px" height="', chartOptions.maxHeight, 'px">'];
 
         var x, y, h;
 
         for (var i = 0; i < data.values.length; i++) {
             //Calculate the height of the bar in pixels.
-            h = Math.min(data.values[i] / chartOptions.maxValue * chartOptions.maxHeight, chartOptions.maxHeight);
+            h = Math.min(data.values[i] / maxValue * chartOptions.maxHeight, chartOptions.maxHeight);
 
             //Calculate the x offset of the bar.
             x = i * chartOptions.barWidth;
@@ -77,7 +89,7 @@
             //Calculate the y offset of the bar such that the bottom aligns correctly.
             y = chartOptions.maxHeight - h;
 
-            svg.push('<rect x="', x, '" y="', y, '" width="', chartOptions.barWidth, '" height="', h, '" fill="', chartOptions.colors[i], '"/>');
+            svg.push('<rect x="', x, 'px" y="', y, 'px" width="', chartOptions.barWidth, 'px" height="', h, 'px" fill="', chartOptions.colors[i], '"/>');
         }
 
         svg.push('</svg>');
@@ -88,7 +100,7 @@
             anchor: new Microsoft.Maps.Point(width/2, chartOptions.maxHeight)
         });
 
-        //Store a reference to the data in the metadata of the pushpin for each access later.
+        //Store a reference to the data in the metadata of the pushpin for access later.
         pin.metadata = data;
 
         return pin;
@@ -100,7 +112,7 @@
         var description = ['<table><tr><td><b>Fruit</b></td><td><b>Value</b></td></tr>'];
 
         for (var i = 0; i < data.values.length; i++) {
-            description.push('<tr><td>', chartOptions.legend[i], '</td><td>', data.values[i], '</td></tr>');
+            description.push('<tr><td><span style="color:', chartOptions.colors[i], '">', chartOptions.legend[i], '</span></td><td>', data.values[i], '</td></tr>');
         }
 
         description.push('</table>');
