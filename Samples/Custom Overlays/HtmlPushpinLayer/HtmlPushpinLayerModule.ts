@@ -477,7 +477,7 @@ class HtmlPushpinLayer extends Microsoft.Maps.CustomOverlay {
         this._container.style.position = 'absolute';
         this._container.style.left = '0px';
         this._container.style.top = '0px';
-
+        
         this.setHtmlElement(this._container);
     }
 

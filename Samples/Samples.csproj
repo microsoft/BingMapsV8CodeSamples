@@ -197,6 +197,8 @@
     <Content Include="Other\Indonesian Province Census Map.html" />
     <Content Include="Pushpins\Scaled Pie Chart Pushpins.html" />
     <Content Include="Rest Services\Distance Matrix Service - POST.html" />
+    <Content Include="Rest Services\RestServices_CORS.html" />
+    <Content Include="Rest Services\RestServices_jQuery_CORS.html" />
     <Content Include="Spatial Data Services - Query API\Find all counties that intersect a line.html" />
     <Content Include="Search\POI Search\POI Search Module.html" />
     <Content Include="Spatial Math\Geodesic Path with Arrow.html" />
@@ -242,7 +244,7 @@
     <Content Include="SiteResources\default.css" />
     <Content Include="Rest Services\RestServices_Angular1.html" />
     <Content Include="Rest Services\RestServices_ElevationProfiles.html" />
-    <Content Include="Rest Services\RestServices_jQuery.html" />
+    <Content Include="Rest Services\RestServices_jQuery_JSONP.html" />
     <Content Include="Rest Services\RestServices_JSONP.html" />
     <Content Include="Spatial Math\Select line segment of Polyline.html" />
     <Content Include="Tile Layers\Image Overlay Tile Layer.html" />

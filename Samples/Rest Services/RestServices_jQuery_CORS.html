@@ -26,7 +26,7 @@
             var results = response.resourceSets[0].resources;
 
             var html = ['<table><tr><td>Name</td><td>Latitude</td><td>Longitude</td></tr>'];
-            
+
             for (var i = 0; i < results.length; i++) {
                 html.push('<tr><td>', results[i].name, '</td><td>', results[i].point.coordinates[0], '</td><td>', results[i].point.coordinates[1], '</td></tr>');
             }
@@ -39,24 +39,35 @@
         }
     }
 
-    function CallRestService(request, callback) {
-        $.ajax({
-            url: request,
-            dataType: "jsonp",
-            jsonp: "jsonp",
+    function CallRestService(requestUrl, callback) {
+        $.get(requestUrl).done(function (data) {
+            callback(data);
+        });
+
+
+       /* $.ajax({
+            url: requestUrl,
             success: function (r) {
                 callback(r);
             },
             error: function (e) {
                 alert(e.statusText);
             }
-        });
+        });*/
     }
     </script>
 </head>
 <body>
-    <input type="text" id="input" value="New York"/>
-    <input type="button" onClick="geocode()" value="Search" /><br/>
-    <div id="output"></div>
+    <input type="text" id="input" value="New York" />
+    <input type="button" onClick="geocode()" value="Search" /><br />
+    <div id="output" style="height:150px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>REST Services jQuery CORS Sample</legend>
+        This sample shows how to call the Bing Maps REST services using jQuery and a CORS request.<br /><br />
+        The Bing Maps REST services were initially released many years ago before browsers supported cross domain requests using <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>.
+        To get around this <a href="https://en.wikipedia.org/wiki/JSONP">JSONP</a> requests where made which would tell the server to wrap the response with a JavaScript function.
+        JSONP requests would then be loaded like a JavaScript file rather than queries like a API. The Bing Maps REST services now support CORS as well.
+    </fieldset>
 </body>
 </html>

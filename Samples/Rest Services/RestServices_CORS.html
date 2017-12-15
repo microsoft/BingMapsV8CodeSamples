@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        function geocode() {
+            var query = document.getElementById('input').value;
+
+            var geocodeRequest = 'https://dev.virtualearth.net/REST/v1/Locations?query=' + encodeURIComponent(query) + '&key=' + '[YOUR_BING_MAPS_KEY]';
+
+            CallRestServiceCORS(geocodeRequest, GeocodeCallback);
+        }
+
+        function GeocodeCallback(response) {
+            var output = document.getElementById('output');
+
+            if (response &&
+                response.resourceSets &&
+                response.resourceSets.length > 0 &&
+                response.resourceSets[0].resources) {
+
+                var results = response.resourceSets[0].resources;
+
+                var html = ['<table><tr><td>Name</td><td>Latitude</td><td>Longitude</td></tr>'];
+
+                for (var i = 0; i < results.length; i++) {
+                    html.push('<tr><td>', results[i].name, '</td><td>', results[i].point.coordinates[0], '</td><td>', results[i].point.coordinates[1], '</td></tr>');
+                }
+
+                html.push('</table>');
+
+                output.innerHTML = html.join('');
+            } else {
+                output.innerHTML = "No results found.";
+            }
+        }
+
+        function CallRestServiceCORS(requestUrl, callback) {
+            if (callback) {
+                var http = new XMLHttpRequest();
+                http.open("GET", requestUrl, true);
+               
+                http.onreadystatechange = function () {
+                    if (http.readyState == 4 && http.status == 200) {
+                        //Request was successful, do something with it.
+                        var result = JSON.parse(http.responseText);
+
+                        callback(result);
+                    }
+                }
+                
+                http.send();
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="input" value="New York" />
+    <input type="button" onClick="geocode()" value="Search" /><br />
+    <div id="output" style="height:150px;"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>REST Services CORS Sample</legend>
+        This sample shows how to call the Bing Maps REST services using a CORS request.<br /><br />
+        The Bing Maps REST services were initially released many years ago before browsers supported cross domain requests using <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>.
+        To get around this <a href="https://en.wikipedia.org/wiki/JSONP">JSONP</a> requests where made which would tell the server to wrap the response with a JavaScript function.
+        JSONP requests would then be loaded like a JavaScript file rather than queries like a API. The Bing Maps REST services now support CORS as well.
+    </fieldset>
+</body>
+</html>
