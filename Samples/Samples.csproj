@@ -271,7 +271,7 @@
     <Content Include="Heatmap Layers\Heatmap_GeoJSON.html" />
     <Content Include="Heatmap Layers\Heatmap_Gradients.html" />
     <Content Include="Infobox\Infobox_Basic.html" />
-    <Content Include="Infobox\Infobox_Custom.html" />
+    <Content Include="Infobox\Custom Infobox HTML Content.html" />
     <Content Include="Infobox\Infobox_ExpandingTooltip.html" />
     <Content Include="Infobox\Infobox_MultiplePushpins.html" />
     <Content Include="Infobox\Infobox_Options.html" />

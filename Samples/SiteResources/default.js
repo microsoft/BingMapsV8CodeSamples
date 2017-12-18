@@ -178,5 +178,6 @@ var sampleRedirects = {
     "QueryAPI_SortByDrivingDistance": "Sort%20Query%20Results%20By%20Driving%20Distance",
     "Map_WithAngular1": "Basic%20Angular%201.6%20Map",
     "Pushpin%20Bar%20Chart%20(inline%20SVG)": "Bar%20Chart%20Pushpins%20(inline%20SVG)",
-    "RestServices_jQuery": "RestServices_jQuery_JSONP"
+    "RestServices_jQuery": "RestServices_jQuery_JSONP",
+    "Infobox_Custom": "Custom%20Infobox%20HTML%20Content"
 };
