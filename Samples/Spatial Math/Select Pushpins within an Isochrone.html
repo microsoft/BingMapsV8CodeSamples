@@ -25,6 +25,9 @@
     }
 
     function isochroneSearch() {
+        //Show the loading icon.
+        document.getElementById('loadingIcon').style.display = '';
+
         //Remove previous search area and set pushpin states back to normal.
         if (searchArea) {
             map.entities.remove(searchArea);
@@ -52,9 +55,14 @@
         url += '&key=' + Microsoft.Maps.Credentials;
 
         callRestServiceCORS(url, function (data) {
+            //Hide loading icon.
+            document.getElementById('loadingIcon').style.display = 'none';
+
+            //Parse the REST response into polygon objects.
             searchArea = getIsochronePolygons(data);
 
             if (searchArea) {
+                //Find all intersection pushpins in the search area polygon.
                 var selectedPins = findIntersectingData(searchArea);
 
                 //Do something with the selected pushpins.
@@ -65,7 +73,10 @@
                 alert('Unable to generate isochrone.');
             }
         }, function (error) {
-            alert('An error occured when requesting the isochrone.')
+            alert('An error occured when requesting the isochrone.');
+
+            //Hide loading icon.
+            document.getElementById('loadingIcon').style.display = 'none';
         });
     }
 
@@ -114,7 +125,7 @@
         if (searchArea) {
             //Get all the pushpins from the pinLayer.
             var pins = pinLayer.getPrimitives();
-
+            
             //Using spatial math find all pushpins that intersect with the drawn search area.
             //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
             //so making edits to them will not cause any updates on the map.
@@ -174,6 +185,8 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <img id="loadingIcon" src="/Common/images/loadingIcon.gif" style="position:absolute;top:250px;left:350px;display:none;"/>
 
     <br/>
     Drive Time: 
