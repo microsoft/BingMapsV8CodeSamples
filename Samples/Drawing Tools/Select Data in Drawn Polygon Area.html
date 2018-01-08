@@ -42,7 +42,7 @@
         //Complete any current drawing and complete a search for it.
         if (searchArea) {
             tools.finish(searchArea);
-            findIntersectingData();
+            findIntersectingData(searchArea);
             searchArea = null;
         }
 
@@ -53,7 +53,7 @@
     }
 
     //Find all pushpins on the map that intersect with the drawn search area.
-    function findIntersectingData() {
+    function findIntersectingData(searchArea) {
         //Ensure that the search area is a valid polygon, should have 4 Locations in it's ring as it automatically closes.
         if (searchArea && searchArea.getLocations().length >= 4) {
             //Get all the pushpins from the pinLayer.
@@ -71,7 +71,7 @@
 
             //The data returned by the intersection function can be null, a single shape, or an array of shapes. 
             if (intersectingPins) {
-                //For ease of use wrap indivudal shapes in an array.
+                //For ease of usem wrap individudal shapes in an array.
                 if (intersectingPins && !(intersectingPins instanceof Array)) {
                     intersectingPins = [intersectingPins];
                 }
@@ -79,20 +79,24 @@
                 var selectedPins = [];
 
                 //Loop through and map the intersecting pushpins back to their original pushpins by comparing their coordinates.
-                for (var i = 0; i < pins.length; i++) {
-                    for (var j = 0; j < intersectingPins.length; j++) {
+                for (var j = 0; j < intersectingPins.length; j++) {
+                    for (var i = 0; i < pins.length; i++) {
                         if (Microsoft.Maps.Location.areEqual(pins[i].getLocation(), intersectingPins[j].getLocation())) {
+                            //Set the selected pin color to red.
+                            pins[i].setOptions({ color: 'red' });
+
                             selectedPins.push(pins[i]);
+                            break;
                         }
                     }
                 }
-                
-                //Now do something with the intersecting pushpin information, in this case change their color to red and display on the map.
-                for (var i = 0; i < selectedPins.length; i++) {
-                    selectedPins[i].setOptions({ color: 'red' });
-                }
+
+                //Return the pushpins that were selected.
+                return selectedPins;
             }
         }
+
+        return null;
     }
     </script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>

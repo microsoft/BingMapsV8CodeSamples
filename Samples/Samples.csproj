@@ -206,7 +206,7 @@
     <Content Include="Search\POI Search\POI Search Module.html" />
     <Content Include="Spatial Math\Concave and Convex Hulls.html" />
     <Content Include="Spatial Math\Geodesic Path with Arrow.html" />
-    <Content Include="Spatial Math\Select pushpins in Isochrone.html" />
+    <Content Include="Spatial Math\Select Pushpins within an Isochrone.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
