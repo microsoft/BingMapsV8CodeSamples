@@ -94,7 +94,7 @@
             }
         };
 
-        if (xml.indexOf('http://') === 0 || xml.indexOf('https://') === 0) {
+        if (typeof xml === 'string' && (xml.indexOf('http://') === 0 || xml.indexOf('https://') === 0)) {
             //Input is a URL. 
             Microsoft.Maps.GeoXml.readFromUrl(proxyService + xml, options, function (data) {
                 renderData(data, fileName);

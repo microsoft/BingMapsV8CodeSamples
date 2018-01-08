@@ -80,6 +80,9 @@
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
     <Content Include="Common\images\us_counties.png" />
     <Content Include="Common\scripts\FileSaver.js" />
+    <Content Include="Experimental\Configuration Map Layer Menu.html" />
+    <Content Include="Configuration Driven Maps\IFramable Configuration Map.html" />
+    <Content Include="Configuration Driven Maps\Load a Configurable Map with Code.html" />
     <Content Include="Contour Layer\ContourLayer_Basic.html" />
     <Content Include="Contour Layer\ContourLayer_FromGeoJSON.html" />
     <Content Include="Contour Layer\ContourLayer_Circles.html" />
@@ -203,6 +206,7 @@
     <Content Include="Search\POI Search\POI Search Module.html" />
     <Content Include="Spatial Math\Concave and Convex Hulls.html" />
     <Content Include="Spatial Math\Geodesic Path with Arrow.html" />
+    <Content Include="Spatial Math\Select pushpins in Isochrone.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
