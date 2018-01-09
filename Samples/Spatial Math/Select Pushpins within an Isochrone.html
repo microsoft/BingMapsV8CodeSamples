@@ -125,7 +125,7 @@
         if (searchArea) {
             //Get all the pushpins from the pinLayer.
             var pins = pinLayer.getPrimitives();
-            
+
             //Using spatial math find all pushpins that intersect with the drawn search area.
             //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
             //so making edits to them will not cause any updates on the map.
@@ -181,7 +181,7 @@
         }
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]&uncrunched=1' async defer></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
@@ -204,7 +204,7 @@
         <legend>Select Pushpins within an Isochrone Sample</legend>
         This sample shows how to retrieve an isochrone (drive time polygon) from the Bing Maps REST services, and then filter the pushpins on the map that are within the isochrone. 
         This is useful when trying performs queries like "Which locations are within 15 minutes of here.".
-        For simplicity, this sample uses the center of the map the isochrone starting waypoint.
+        For simplicity, this sample uses the center of the map as the isochrone starting waypoint.
     </fieldset>
 </body>
 </html>
