@@ -4,52 +4,50 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-        var map;
-        var directionsManager;
-        var dragPin;
+    var map, directionsManager, dragPin;
 
-        function GetMap()
-        {
-            map = new Microsoft.Maps.Map('#myMap', {
-                center: new Microsoft.Maps.Location(47.634003, -122.229652)
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(47.634003, -122.229652)
+        });
+
+        //Load the directions and Spatial Math modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.Directions', 'Microsoft.Maps.SpatialMath'], function () {
+            //Create a draggable pushpin to calculate the distance from the route path.
+            dragPin = new Microsoft.Maps.Pushpin(map.getCenter(), { draggable: true });
+            Microsoft.Maps.Events.addHandler(dragPin, 'drag', CalculateDistance);
+            map.entities.push(dragPin);
+
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+            directionsManager.setRequestOptions({
+                maxRoutes: 1
             });
 
-            //Load the directions and Spatial Math modules.
-            Microsoft.Maps.loadModule(['Microsoft.Maps.Directions', 'Microsoft.Maps.SpatialMath'], function () {
-                //Create a draggable pushpin to calculate the distance from the route path.
-                dragPin = new Microsoft.Maps.Pushpin(map.getCenter(), { draggable: true });
-                Microsoft.Maps.Events.addHandler(dragPin, 'drag', CalculateDistance);
-                map.entities.push(dragPin);
+            //Create waypoints to route between.
+            directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' }));
+            directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' }));
 
-                //Create an instance of the directions manager.
-                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+            //Add an event for when the directions are updated to calculate the distance.
+            Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', CalculateDistance);
 
-                directionsManager.setRequestOptions({
-                    maxRoutes: 1
-                });
+            //Calculate directions.
+            directionsManager.calculateDirections();
+        });
+    }
 
-                //Create waypoints to route between.
-                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' }));
-                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' }));
+    function CalculateDistance() {
+        if (directionsManager) {
+            var route = directionsManager.getCurrentRoute();
 
-                //Add an event for when the directions are updated to calculate the distance.
-                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', CalculateDistance);
-
-                //Calculate directions.
-                directionsManager.calculateDirections();
-            });
-        }
-
-        function CalculateDistance() {
-            if (directionsManager) {
-                var route = directionsManager.getCurrentRoute();
-
-                if (route) {
-                    var d = Microsoft.Maps.SpatialMath.Geometry.distance(dragPin.getLocation(), route.routePath, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
-                    document.getElementById('outputPanel').innerHTML = 'Distance: ' + d + ' miles';
-                }
+            if (route) {
+                var d = Microsoft.Maps.SpatialMath.Geometry.distance(dragPin.getLocation(), route.routePath, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
+                document.getElementById('outputPanel').innerHTML = 'Distance: ' + d + ' miles';
             }
         }
+    }
     </script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>

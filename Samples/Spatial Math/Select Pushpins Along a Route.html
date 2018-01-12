@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        var map, pinLayer, directionsManager;
+
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {
+                center: new Microsoft.Maps.Location(47.634003, -122.229652),
+                zoom: 12
+            });
+
+            //Add some random pushpins to a layer on the map.
+            pinLayer = new Microsoft.Maps.Layer();
+            map.layers.insert(pinLayer);
+
+            var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(100, map.getBounds(), { color: 'purple' });
+            pinLayer.add(pushpins);
+
+            //Load the directions and Spatial Math modules.
+            Microsoft.Maps.loadModule(['Microsoft.Maps.Directions', 'Microsoft.Maps.SpatialMath'], function () {
+
+                //Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+                directionsManager.setRequestOptions({
+                    maxRoutes: 1
+                });
+
+                //Create waypoints to route between.
+                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' }));
+                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' }));
+
+                //Add an event for when the directions are updated to calculate the distance.
+                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', directionsUpdated);
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+            });
+        }
+
+        function directionsUpdated() {
+            if (directionsManager) {
+                var route = directionsManager.getCurrentRoute();
+
+                if (route) {
+                    var routePath = new Microsoft.Maps.Polyline(route.routePath);
+                    var searchArea = Microsoft.Maps.SpatialMath.Geometry.buffer(routePath, 1, Microsoft.Maps.Directions.DistanceUnit.miles);
+
+                    findIntersectingData(searchArea);
+                }
+            }
+        }
+
+        //Find all pushpins on the map that intersect with the search area.
+        function findIntersectingData(searchArea) {
+            if (searchArea) {
+                //Get all the pushpins from the pinLayer.
+                var pins = pinLayer.getPrimitives();
+
+                //Clear any previously selected data.
+                for (var i = 0; i < pins.length; i++) {
+                    pins[i].setOptions({ color: 'purple' });
+                }
+
+                //Get all the pushpins from the pinLayer.
+                var pins = pinLayer.getPrimitives();
+
+                //Using spatial math find all pushpins that intersect with the drawn search area.
+                //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
+                //so making edits to them will not cause any updates on the map.
+                var intersectingPins = Microsoft.Maps.SpatialMath.Geometry.intersection(pins, searchArea);
+
+                //The data returned by the intersection function can be null, a single shape, or an array of shapes. 
+                if (intersectingPins) {
+                    //For ease of usem wrap individudal shapes in an array.
+                    if (intersectingPins && !(intersectingPins instanceof Array)) {
+                        intersectingPins = [intersectingPins];
+                    }
+
+                    var selectedPins = [];
+
+                    //Loop through and map the intersecting pushpins back to their original pushpins by comparing their coordinates.
+                    for (var j = 0; j < intersectingPins.length; j++) {
+                        for (var i = 0; i < pins.length; i++) {
+                            if (Microsoft.Maps.Location.areEqual(pins[i].getLocation(), intersectingPins[j].getLocation())) {
+                                //Set the selected pin color to red.
+                                pins[i].setOptions({ color: 'red' });
+
+                                selectedPins.push(pins[i]);
+                                break;
+                            }
+                        }
+                    }
+
+                    //Return the pushpins that were selected.
+                    return selectedPins;
+                }
+            }
+
+            return null;
+        }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br />
+    <div id="outputPanel"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Select Pushpins Along a Route Sample</legend>
+        This sample shows how to use the Spatial Math and Directions module to calculate which pushpins are within 1 mile of a route.
+    </fieldset>
+</body>
+</html>
