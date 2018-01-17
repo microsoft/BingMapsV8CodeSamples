@@ -36,7 +36,7 @@
         map.getCredentials(function (c) {
             var opt = map.getOptions();
 
-            var aerialTileUrl = 'https://t{subdomain}.ssl.ak.tiles.virtualearth.net/tiles/a{quadkey}.jpg?g=0&pr=ucg&key=';
+            var aerialTileUrl = 'https://t{subdomain}.ssl.ak.tiles.virtualearth.net/tiles/a{quadkey}.jpg?g=6423&pr=ucg&key=';
             var roadLineTileUrl = 'https://t{subdomain}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?it=Z,GF&key=';
 
             if (opt.liteMode) {
@@ -53,7 +53,7 @@
                 visible: false,
                 zIndex: 1000
             });
-                
+
             map.layers.insert(aerialLayer);
 
             roadLineLayer = new Microsoft.Maps.TileLayer({
