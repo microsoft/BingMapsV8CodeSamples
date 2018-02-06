@@ -64,10 +64,7 @@
                 for (var i = 0; i < pins.length; i++) {
                     pins[i].setOptions({ color: 'purple' });
                 }
-
-                //Get all the pushpins from the pinLayer.
-                var pins = pinLayer.getPrimitives();
-
+                
                 //Using spatial math find all pushpins that intersect with the drawn search area.
                 //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
                 //so making edits to them will not cause any updates on the map.

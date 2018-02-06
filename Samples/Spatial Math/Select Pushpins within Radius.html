@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        var map, pinLayer, searchPolygon;
+
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {
+                center: new Microsoft.Maps.Location(47.634003, -122.229652),
+                zoom: 12
+            });
+
+            //Add some random pushpins to a layer on the map.
+            pinLayer = new Microsoft.Maps.Layer();
+            map.layers.insert(pinLayer);
+
+            var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(100, map.getBounds(), { color: 'purple' });
+            pinLayer.add(pushpins);
+
+            //Load the Spatial Math modules.
+            Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath');
+        }
+
+        function Search() {
+            //Use the center of the map as the center of the search area.
+            var origin = map.getCenter();
+            var radiusOption = document.getElementById("radiusOption");
+            var radius = parseFloat(radiusOption.options[radiusOption.selectedIndex].text);
+            
+            //Get all the pushpins from the pinLayer.
+            var pins = pinLayer.getPrimitives();
+
+            //Loop through each pushpin and calculate its distance from the origin and change the color depending on if it is within the search area or not.
+            for (var i = 0; i < pins.length; i++) {
+                var distance = Microsoft.Maps.SpatialMath.getDistanceTo(origin, pins[i].getLocation(), Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
+
+                if (distance <= radius) {
+                    pins[i].setOptions({ color: 'red' });
+                } else {
+                    pins[i].setOptions({ color: 'purple' });
+                }
+            }
+
+            //Create a circle polygon to show the search area. 
+            var circleLocs = Microsoft.Maps.SpatialMath.getRegularPolygon(origin, radius, 36, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
+
+            if (searchPolygon) {
+                searchPolygon.setLocations(circleLocs);
+            } else {
+                searchPolygon = new Microsoft.Maps.Polygon(circleLocs, {
+                    strokeColor: 'red',
+                    fillColor: 'transparent'
+                });
+
+                map.entities.push(searchPolygon);
+            }
+        }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br />
+    Radius (KM): 
+
+    <select id="radiusOption">
+        <option>1</option>
+        <option selected="selected">5</option>
+        <option>10</option>
+        <option>15</option>        
+    </select>
+
+    <input type="button" onclick="Search()" value="Search"/>
+    <br/>
+    <div id="outputPanel"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>Select Pushpins within Radius Sample</legend>
+        This sample shows how to use the Spatial Math module to filter locations that are within a specified distance (radius) of a location.
+    </fieldset>
+</body>
+</html>

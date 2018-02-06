@@ -208,6 +208,7 @@
     <Content Include="Spatial Math\Geodesic Path with Arrow.html" />
     <Content Include="Spatial Math\Select Pushpins Along a Route.html" />
     <Content Include="Spatial Math\Select Pushpins within an Isochrone.html" />
+    <Content Include="Spatial Math\Select Pushpins within Radius.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.css" />
     <Content Include="Tools\SVG Pushpin Maker\SVG Pushpin Maker.html" />
     <Content Include="Tools\SVG Pushpin Maker\SVGPushpinTemplates.js" />
