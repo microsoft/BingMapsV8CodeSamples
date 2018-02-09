@@ -179,5 +179,6 @@ var sampleRedirects = {
     "Map_WithAngular1": "Basic%20Angular%201.6%20Map",
     "Pushpin%20Bar%20Chart%20(inline%20SVG)": "Bar%20Chart%20Pushpins%20(inline%20SVG)",
     "RestServices_jQuery": "RestServices_jQuery_JSONP",
-    "Infobox_Custom": "Custom%20Infobox%20HTML%20Content"
+    "Infobox_Custom": "Custom%20Infobox%20HTML%20Content",
+    "Pushpin_DragEvents": "Draggable%20Pushpin"
 };

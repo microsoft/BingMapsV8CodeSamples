@@ -241,7 +241,7 @@
     <Content Include="Common\images\pushpins\ssMap.png" />
     <Content Include="Pushpins\Pushpin_HoverStyle.html" />
     <Content Include="Pushpins\Pushpin_ChangedEvent.html" />
-    <Content Include="Pushpins\Pushpin_DragEvents.html" />
+    <Content Include="Pushpins\Draggable Pushpin.html" />
     <Content Include="Pushpins\Pushpin_FontBasedIcons.html" />
     <Content Include="Pushpins\Pushpin_RotatedImage.html" />
     <Content Include="Pushpins\Pushpin_RoundImage.html" />
