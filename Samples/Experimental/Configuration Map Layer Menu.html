@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <script type='text/javascript'>
         var map;
+        var layerItemTemplate = '<br /><label class="switch"><input type="checkbox" checked onchange="toggleLayer(this,{idx})"><span class="slider round"></span></label> <a href="javascript:void(0);" onclick="viewLayer({idx})">{layerName}</a>';
 
         function GetMap() {
             Microsoft.Maps.ConfigurableMap.createFromConfig('#myMap',
@@ -22,11 +23,8 @@
                         for (var i = 0; i < map.layers.length; i++) {
                             if (map.layers[i] instanceof Microsoft.Maps.GeoXmlLayer) {
                                 var layerName = map.layers[i]._shapeLayer.getId();
-
-                                html.push('<br/><label class="switch"><input type="checkbox" checked onchange="toggleLayer(this,',
-                                    i,
-                                    ')"><span class="slider round"></span></label> ',
-                                    layerName);
+                                
+                                html.push(layerItemTemplate.replace(/{idx}/gi, i).replace('{layerName}', layerName));
                             }
                         }
 
@@ -43,6 +41,16 @@
                 map.layers[layerIdx].setOptions({ visible: true });
             } else {
                 map.layers[layerIdx].setOptions({ visible: false });
+            }
+        }
+
+        function viewLayer(layerIdx) {
+            if (map.layers[layerIdx] instanceof Microsoft.Maps.GeoXmlLayer) {
+                //Get the dats et from the GeoXmlLayer.
+                var dataSet = map.layers[layerIdx].getDataSet();
+
+                //Set the map view based on the data sets known boundary which is specifed in the dataSets summary.
+                map.setView({ bounds: dataSet.summary.bounds, padding: 50 });
             }
         }
     </script>
@@ -134,10 +142,9 @@
     </div>
 
     <fieldset style="width:600px;margin-top:10px;">
-        <legend>Load a Configurable Map with Code Sample</legend>
-        This sample shows how to load a map using a configuration file.
-        This is a good way to jump start development as it saves you the time of writing the code to load each data set individually.
-        It also makes it easier to reuse a map implementation with different data sets simply by loading different configuration files.
+        <legend>Configuration Map Layer Menu with Code Sample</legend>
+        This sample shows how to create a templatable map page that is powered by a configuration file. 
+        In this sample a layer menu is automatically generated from the data sets specified in the configuration file.
     </fieldset>
 </body>
 </html>
