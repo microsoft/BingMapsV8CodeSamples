@@ -104,14 +104,12 @@
 
     function listItemClicked(entityId) {
         //When an item in the list is clicked, look up its pushpin by entitiyId.
-        var shape, len = map.entities.getLength();
+        var shapes = dataLayer.getPrimitives();
 
-        for (var i = 0; i < len; i++) {
-            shape = map.entities.get(i);
-        
-            if (shape.metadata.EntityID == entityId) {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].metadata.EntityID == entityId) {
                 //Center the map over the pushpin and zoom in.
-                map.setView({ center: shape.getLocation(), zoom: 15 });
+                map.setView({ center: shapes[i].getLocation(), zoom: 15 });
                 break;
             }
         }
