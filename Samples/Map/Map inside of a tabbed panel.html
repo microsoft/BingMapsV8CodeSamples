@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        if (document.getElementById('MapContainer').style.display !== 'none') {
+            map = new Microsoft.Maps.Map('#myMap', {});
+        }
+    }
+
+    function OpenTab(tabName) {
+        //Get all tab contents.
+        var x = document.getElementsByClassName('tabContents');
+
+        //Hide all tab contents.
+        for (var i = 0; i < x.length; i++) {
+            if (x[i].id === tabName) {
+                x[i].style.display = 'block';
+
+                //Load the map if it isn't already loaded.
+                if (!map) {
+                    GetMap();
+                }    
+            } else {
+                x[i].style.display = 'none';
+            }            
+        } 
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+
+    <style>
+        .tabBar {
+            width: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .tabButton {
+            border: none;
+            color: #000 !important;
+            display: inline-block;
+            padding: 8px 16px;
+            vertical-align: middle;
+            overflow: hidden;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            float: left;
+            padding: 8px 16px;
+            margin-right:5px;
+        }
+
+            .tabButton:hover {
+                color: #000 !important;
+                background-color: #ccc !important
+            }
+    </style>
+</head>
+<body>
+    <div class="tabBar">
+        <button class="tabButton" onclick="OpenTab('Sample_Info')">Sample Info</button>
+        <button class="tabButton" onclick="OpenTab('MapContainer')">Map</button>
+    </div>
+
+    <div id="Sample_Info" class="tabContents">
+        <h2>Map inside of a tabbed panel Sample</h2>
+        <p>
+            When the map is initially loaded, it does some calculations to determine its dimensions. 
+            If the map is in a hidden tab, it will have width and height of 0 which will result in the map not loading. 
+            It is also a best practice to delay the loading of the map until it's tab is displayed. 
+            This will result in Bing Maps transactions only being generated once the map is actually being viewed by the user, which can help reduce costs. 
+            It also reduces the resources used by the page until the map is needed.
+            <br/><br/>
+            If you want to further optimize this code you can also delay the loading of the Bing Maps API by <a href="https://bingmapsv8samples.azurewebsites.net/#Lazy%20Loading%20the%20Map">lazy loading the map</a>.
+        </p>
+    </div>
+
+    <div id="MapContainer" class="tabContents" style="display:none">
+        <h2>Map</h2>
+        <p><div id="myMap" style="position:relative;width:100%;height:600px;"></div></p>
+    </div>
+</body>
+</html>

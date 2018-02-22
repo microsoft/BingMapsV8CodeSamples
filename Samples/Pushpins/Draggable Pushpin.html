@@ -19,18 +19,20 @@
         var greenPin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude - 0.1), { color: '#0f0', draggable: true });
         map.entities.push(greenPin);
 
-        Microsoft.Maps.Events.addHandler(greenPin, 'drag', function () { highlight('pushpinDrag'); });
-        Microsoft.Maps.Events.addHandler(greenPin, 'dragend', function () { highlight('pushpinDragEnd'); });
-        Microsoft.Maps.Events.addHandler(greenPin, 'dragstart', function () { highlight('pushpinDragStart'); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'drag', function (e) { highlight('pushpinDrag', e); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'dragend', function (e) { highlight('pushpinDragEnd', e); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'dragstart', function (e) { highlight('pushpinDragStart', e); });
 
         //Add a blue pushpin that has dragging enabled but no events attached to it.
         var bluePin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude + 0.1), { color: '#00f', draggable: true });
         map.entities.push(bluePin);
     }
 
-    function highlight(id) {
+    function highlight(id, event) {
         //Highlight the mouse event div to indicate that the event has fired.
         document.getElementById(id).style.background = 'LightGreen';
+
+        document.getElementById('pushpinLocation').innerText = event.target.getLocation().toString();
 
         //Remove the highlighting after a second.
         setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
@@ -43,6 +45,7 @@
     <div id="pushpinDrag">drag</div>
     <div id="pushpinDragEnd">dragend</div>
     <div id="pushpinDragStart">dragstart</div>
+    <div>Pin Location: <span id="pushpinLocation"></span></div>
 
     <fieldset style="width:600px;margin-top:10px;">
         <legend>Draggable Pushpin Sample</legend>
