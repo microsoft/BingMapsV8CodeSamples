@@ -53,6 +53,7 @@
     <Content Include="Article Samples\SimpleStoreLocator\js\Locator.js" />
     <Content Include="Article Samples\SimpleStoreLocator\Simple Store Locator.html" />
     <Content Include="Autosuggest\Autosuggest with Search button.html" />
+    <Content Include="Autosuggest\Business Suggestions.html" />
     <Content Include="Autosuggest\Custom Autosuggest Input with JQuery UI.html" />
     <Content Include="Autosuggest\Fill Address Form with Autosuggest.html" />
     <Content Include="Autosuggest\Autosuggest with Map.html" />
@@ -185,6 +186,7 @@
     <Content Include="Other\RequireJS\RequireJS and Bing Maps.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
     <Content Include="Other\Virgin Islands SNAP Retailers.html" />
+    <Content Include="Polygons\Polygon with Label.html" />
     <Content Include="Polylines\Prevent Polylines from Crossing the Anti-Merdian.html" />
     <Content Include="Pushpins\Image Sprite Pushpins using a Canvas.html" />
     <Content Include="Common\images\pushpins\PushpinSprite.png" />
