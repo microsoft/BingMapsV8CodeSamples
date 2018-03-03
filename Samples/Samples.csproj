@@ -23,7 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -161,6 +161,7 @@
     <Content Include="Ground Overlays\SVG Ground Overlay.html" />
     <Content Include="Layers\View Shape Metadata.html" />
     <Content Include="Map\Map inside of a tabbed panel.html" />
+    <Content Include="Map\Overview Map with custom style.html" />
     <Content Include="Other\Basic Angular 1.6 Map.html" />
     <Content Include="Experimental\AnimatedTileLayer_Opacity.html" />
     <Content Include="ExternalSamples.html" />
