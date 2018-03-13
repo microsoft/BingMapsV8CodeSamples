@@ -180,5 +180,7 @@ var sampleRedirects = {
     "Pushpin%20Bar%20Chart%20(inline%20SVG)": "Bar%20Chart%20Pushpins%20(inline%20SVG)",
     "RestServices_jQuery": "RestServices_jQuery_JSONP",
     "Infobox_Custom": "Custom%20Infobox%20HTML%20Content",
-    "Pushpin_DragEvents": "Draggable%20Pushpin"
+    "Pushpin_DragEvents": "Draggable%20Pushpin",
+    "Clustering_Basic": "Basic%20Clustering",
+    "Clustering_Customization": "Cluster%20Layer%20Customizations"
 };

@@ -1,0 +1,424 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, boundaryLayer, pointLayer, selectedLayer, isochrone, selectedSchool;
+
+    //NSW School Catchment boundaries, sourced from: https://data.cese.nsw.gov.au/data/dataset/school-intake-zones-catchment-areas-for-nsw-government-school
+    var nswSchoolZoneQueryUrl = 'https://spatial.virtualearth.net/REST/v1/data/a888205e05bd4a389d27390158c86825/NSW-School-Catchment/Entity';
+        
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(-32.559162, 146.6651140),
+            zoom: 6
+        });
+
+        boundaryLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(boundaryLayer);
+
+        Microsoft.Maps.Events.addHandler(boundaryLayer, 'click', function (e) {
+            restPushpins();
+
+            if (selectedSchool != null) {
+                setShapeOptions(selectedSchool, {
+                    fillColor: 'rgba(0,0,0,0.5)'
+                });
+            }
+
+            if (e.target instanceof Microsoft.Maps.Pushpin) {
+                selectedSchool = e.target.metadata.parent;
+            } else {
+                selectedSchool = e.target;
+            }
+            
+            setShapeOptions(selectedSchool, {
+                fillColor: 'transparent'
+            });
+            
+            selectedLayer.clear();
+            isochrone = null;
+
+            findResults();
+        });
+
+        pointLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(pointLayer);
+
+        selectedLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(selectedLayer);
+
+        //Load the AutoSuggest, Spatial Data Services and Spatial Math modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.SpatialDataService', 'Microsoft.Maps.SpatialMath'], function () {
+            //Setup the autosuggest manager.
+            var manager = new Microsoft.Maps.AutosuggestManager({
+                map: map,
+                countryCode: 'AU',
+                addressSuggestions: false,
+                placeSuggestions: true
+            });
+            manager.attachAutosuggest('#searchBox', '#searchBoxContainer', function (e) {
+                loadBoundaries(e);
+            });
+        });
+    }
+
+    //Some of the school types have more than 250 boundaries, which is more than the limit of the SDS service, need to make multiple requests in parrallel to load all school boundaries.
+    function loadBoundaries(location) {
+        if (location) {
+            map.setView({ center: location.bestView.center, zoom: 13 });
+        }
+
+        //Add some random pushpins to the view.
+        pointLayer.clear();
+        pointLayer.add(Microsoft.Maps.TestDataGenerator.getPushpins(500, map.getBounds(), { color: 'purple' }));
+
+        boundaryLayer.clear();        
+        selectedLayer.clear();
+        selectedSchool = null;
+        isochrone = null;
+
+        //Show the loading icon.
+        document.getElementById('loadingIcon').style.display = '';
+        
+        //Get the selected school type.
+        var e = document.getElementById("schoolTypeDD");
+        var selectedSchoolType = e.options[e.selectedIndex].value.split(',');
+
+        //Cretae a filter for the school type.
+        var filter = new Microsoft.Maps.SpatialDataService.Filter('CATCH_TYPE',
+            Microsoft.Maps.SpatialDataService.FilterCompareOperator.isIn,
+            selectedSchoolType);
+
+        //Create a query to get school catchment areas in view.
+        var query = {
+            queryUrl: nswSchoolZoneQueryUrl,
+            skip: 0,
+            top: 250,
+            spatialFilter: {
+                spatialFilterType: 'intersects',
+                intersects: map.getBounds()
+            },
+            filter: filter
+        };
+
+        //Preform search.
+        Microsoft.Maps.SpatialDataService.QueryAPIManager.search(query, map, function (schools, inlineCount) {
+            var pins = [];
+
+            for (var j = 0; j < schools.length; j++) {
+                var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(schools[j].metadata.Latitude, schools[j].metadata.Longitude), {
+                    title: schools[j].metadata.USE_DESC,
+                    color: 'red'
+                });
+
+                pin.metadata = {
+                    parent: schools[j]
+                };
+
+                schools[j].metadata.child = pin;
+
+                pins.push(pin);
+            }
+
+            //Add all the schools to the map.
+            boundaryLayer.add(schools);
+            boundaryLayer.add(pins);
+
+            //Hide loading icon.
+            document.getElementById('loadingIcon').style.display = 'none';
+        }, {
+            polygonOptions: {
+                fillColor: 'rgba(0,0,0,0.5)',
+                strokeColor: 'black',
+                strokeThickness: 2
+            }
+        });
+    }
+
+    function isochroneSearch() {
+        if (!selectedSchool){
+            return;
+        }
+
+        restPushpins();        
+        selectedLayer.clear();
+        isochrone = null;
+
+        //Show the loading icon.
+        document.getElementById('loadingIcon').style.display = '';
+
+        //Create the REST isochrone query URL.
+        var url = 'https://dev.virtualearth.net/REST/v1/Routes/Isochrones?&optimize=time&travelMode=';
+
+        var e = document.getElementById("travelModeDD");
+        url += e.options[e.selectedIndex].value;
+
+        //Use school location as the waypoint for the isochrone.
+        url += '&waypoint=' + selectedSchool.metadata.Latitude + ',' + selectedSchool.metadata.Longitude;
+
+        //Set the max time parameter for the isochrone query in minutes.
+        e = document.getElementById("travelTimeDD");
+        url += '&timeUnit=minute&maxTime=' + e.options[e.selectedIndex].value;
+
+        //Add key to query for authenication.
+        url += '&key=' + Microsoft.Maps.Credentials;
+
+        callRestServiceCORS(url, function (data) {
+            //Parse the REST response into polygon objects.
+            isochrone = getIsochronePolygons(data);
+
+            if (isochrone) {
+                findResults();
+            } else {
+                alert('Unable to generate isochrone.');
+            }
+
+            //Hide loading icon.
+            document.getElementById('loadingIcon').style.display = 'none';
+        }, function (error) {
+            alert('An error occured when requesting the isochrone.');
+
+            //Hide loading icon.
+            document.getElementById('loadingIcon').style.display = 'none';
+        });
+    }
+
+    function getIsochronePolygons(data) {
+        if (data &&
+            data.resourceSets &&
+            data.resourceSets.length > 0 &&
+            data.resourceSets[0].resources &&
+            data.resourceSets[0].resources.length > 0 &&
+            data.resourceSets[0].resources[0].polygons) {
+
+            var polyData = data.resourceSets[0].resources[0].polygons;
+            var polygons = [];
+
+            for (var i = 0; i < polyData.length; i++) {
+                var rings = [];
+
+                for (var j = 0; j < polyData[i].coordinates.length; j++) {
+                    var ring = [];
+
+                    for (var k = 0; k < polyData[i].coordinates[j].length; k++) {
+                        ring.push(new Microsoft.Maps.Location(polyData[i].coordinates[j][k][0], polyData[i].coordinates[j][k][1]));
+                    }
+
+                    //Need atleast 3 locations in a ring to create a polygon.
+                    if (ring.length >= 3) {
+                        rings.push(ring);
+                    }
+                }
+
+                if (rings.length > 0) {
+                    polygons.push(new Microsoft.Maps.Polygon(rings, {
+                        fillColor: 'transparent',
+                        strokeColor: 'blue',
+                        strokeThickness: 3
+                    }));
+                }
+            }
+
+            if (polygons.length > 0) {
+                return polygons;
+            }
+        }
+
+        return null;
+    }
+
+    function callRestServiceCORS(requestUrl, callback, errorCallback) {
+        if (callback) {
+            var http = new XMLHttpRequest();
+            http.open("GET", requestUrl, true);
+
+            http.onreadystatechange = function () {
+                if (http.readyState == 4 && http.status == 200) {
+                    //Request was successful, do something with it.
+                    var result = JSON.parse(http.responseText);
+
+                    callback(result);
+                }
+            }
+
+            http.onerror = errorCallback;
+
+            http.send();
+        }
+    }
+
+    function findResults() {
+        if (selectedSchool != null) {
+            if (isochrone != null) {
+                //Show the loading icon.
+                document.getElementById('loadingIcon').style.display = '';
+
+                var school = selectedSchool;
+
+                if (selectedSchool instanceof Microsoft.Maps.Pushpin) {
+                    school = selectedSchool.metadata.parent;
+                }
+
+                school = new Microsoft.Maps.Polygon(school.getRings(), {
+                    fillColor: 'transparent'
+                });
+
+                selectedLayer.add(isochrone);
+
+                var searchArea = Microsoft.Maps.SpatialMath.Geometry.intersection(school, isochrone);
+
+                setShapeOptions(searchArea, {
+                    fillColor: 'transparent',
+                    strokeColor: 'lime',
+                    strokeThickness: 5
+                });
+                selectedLayer.add(searchArea);
+
+                findIntersectingData(searchArea);
+
+                //Hide loading icon.
+                document.getElementById('loadingIcon').style.display = 'none';
+            } else {
+                isochroneSearch();
+            }
+        }
+    }
+
+    //Find all pushpins on the map that intersect with the search area.
+    function findIntersectingData(searchArea) {
+        if (searchArea) {
+            //Get all the pushpins from the pinLayer.
+            var pins = pointLayer.getPrimitives();
+
+            //Using spatial math find all pushpins that intersect with the drawn search area.
+            //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
+            //so making edits to them will not cause any updates on the map.
+            var intersectingPins = Microsoft.Maps.SpatialMath.Geometry.intersection(pins, searchArea);
+
+            //The data returned by the intersection function can be null, a single shape, or an array of shapes. 
+            if (intersectingPins) {
+                //For ease of usem wrap individudal shapes in an array.
+                if (intersectingPins && !(intersectingPins instanceof Array)) {
+                    intersectingPins = [intersectingPins];
+                }
+
+                var selectedPins = [];
+
+                //Loop through and map the intersecting pushpins back to their original pushpins by comparing their coordinates.
+                for (var j = 0; j < intersectingPins.length; j++) {
+                    for (var i = 0; i < pins.length; i++) {
+                        if (Microsoft.Maps.Location.areEqual(pins[i].getLocation(), intersectingPins[j].getLocation())) {
+                            //Set the selected pin color to orange.
+                            pins[i].setOptions({ color: 'orange' });
+
+                            selectedPins.push(pins[i]);
+                            break;
+                        }
+                    }
+                }
+
+                //Return the pushpins that were selected.
+                return selectedPins;
+            }
+        }
+
+        return null;
+    }
+
+    function setShapeOptions(shape, options) {
+        if (shape instanceof Microsoft.Maps.Pushpin || shape instanceof Microsoft.Maps.Polygon) {
+            shape.setOptions(options);
+        } else if (shape instanceof Array) {
+            for (var i = 0; i < shape.length; i++) {
+                setShapeOptions(shape[i], options);
+            }
+        }
+    }
+
+    function restPushpins() {
+        //Get all the pushpins from the pointLayer.
+        var pins = pointLayer.getPrimitives();
+
+        //Clear any previously selected data.
+        for (var i = 0; i < pins.length; i++) {
+            pins[i].setOptions({ color: 'purple' });
+        }
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;float:left;"></div>
+    
+    <img id="loadingIcon" src="/Common/images/loadingIcon.gif" style="position:absolute;top:250px;left:350px;display:none;" />
+
+    <div style="float:left;width:350px;margin-left:10px;">
+        Steps:
+
+        <ol>
+            <li>
+                Search Location: 
+                <div id='searchBoxContainer'>
+                    <input type='text' id='searchBox' value="Sydney"/>
+                </div>
+            </li>
+            <li>
+                School Type
+                <select id="schoolTypeDD" onchange="loadBoundaries()">
+                    <option value="PRIMARY,CENTRAL_PRIMARY" selected="selected">Primary</option>
+                    <option value="HIGH_COED,CENTRAL_HIGH">High School</option>
+                    <option value="HIGH_BOYS">High School - Boys Only</option>
+                    <option value="HIGH_GIRLS">High School - Girls Only</option>
+                </select>
+            </li>
+            <li>
+                Select travel time:
+                <select id="travelTimeDD" onchange="isochroneSearch()">
+                    <option value="5">5</option>
+                    <option value="10" selected="selected">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                </select> minutes
+            </li>
+            <li>
+                Select travel mode:
+                <select id="travelModeDD" onchange="isochroneSearch()">
+                    <option value="Driving">Driving</option>
+                    <option value="Walking" selected="selected">Walking</option>
+                    <option value="Transit">Public Transit</option>
+                </select>
+            </li>
+            <li>
+                Click on a school catchment area or <span style="color:red">pushpin</span> on the map to select it. This will trigger the search.
+            </li>
+        </ol>
+        <br />
+        Legend:
+        <ul>
+            <li>School Catchments</li>
+            <li><span style="color:red">School Building</span></li>
+            <li><span style="color:purple">Unfiltered Results</span></li>
+            <li><span style="color:blue">Isochrone Area</span></li>
+            <li><span style="color:lime">Intersecting Area (isochrone interstion with school catchment)</span></li>
+            <li><span style="color:orange">Filtered Results</span></li>
+        </ul>
+    </div>
+
+    <div style="clear:both"></div>
+
+    <fieldset style="width:600px;margin-top:10px;">
+        <legend>NSW School Zone Search Map Sample</legend>
+        This sample shows how to combine a custom data set (New South Whales School catchment boundaries) with the isochrone service to find locations that are in the intersecting area.
+        <br /><br />
+        The point based data that will be filtered in this sample is the fourth coffee cup data set, but this could be any ppoint based data set, such as homes for sale, points of interest, etc.
+        <br /><br />
+        The New South Whales school catchment data was sourced from <a href="https://data.cese.nsw.gov.au/data/dataset/school-intake-zones-catchment-areas-for-nsw-government-schools">here</a> 
+        and uploaded to the Bing Spatial Data Services which automatically reprojected the data for us and exposed it as an easy to consume web service. 
+    </fieldset>
+</body>
+</html>

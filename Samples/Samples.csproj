@@ -23,7 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -59,8 +59,9 @@
     <Content Include="Autosuggest\Autosuggest with Map.html" />
     <Content Include="BingCredentials.js" />
     <Content Include="Birdseye\Basic Birdseye.html" />
-    <Content Include="Clustering\Clustering_Basic.html" />
-    <Content Include="Clustering\Clustering_Customization.html" />
+    <Content Include="Clustering\Cluster Areas.html" />
+    <Content Include="Clustering\Basic Clustering.html" />
+    <Content Include="Clustering\Cluster Layer Customizations.html" />
     <Content Include="Clustering\Clustering_PushpinList.html" />
     <Content Include="Clustering\SpiderClusters\Clustering_SpiderClusters.html" />
     <Content Include="Clustering\Clustering_ZoomIntoCluster.html" />
@@ -183,6 +184,7 @@
     <Content Include="Other\Angular16\directives.js" />
     <Content Include="Other\Angular16\services.js" />
     <Content Include="Other\Distance to nearest coast.html" />
+    <Content Include="Other\NSW School Zone Search Map.html" />
     <Content Include="Other\RequireJS\index.js" />
     <Content Include="Other\RequireJS\RequireJS and Bing Maps.html" />
     <Content Include="Other\Solar Terminator\Solar Terminator.html" />
