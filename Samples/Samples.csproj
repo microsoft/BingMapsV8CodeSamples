@@ -191,6 +191,7 @@
     <Content Include="Other\Virgin Islands SNAP Retailers.html" />
     <Content Include="Polygons\Polygon with Label.html" />
     <Content Include="Polylines\Prevent Polylines from Crossing the Anti-Merdian.html" />
+    <Content Include="Pushpins\Custom Map Labels.html" />
     <Content Include="Pushpins\Image Sprite Pushpins using a Canvas.html" />
     <Content Include="Common\images\pushpins\PushpinSprite.png" />
     <Content Include="Pushpins\Bar Chart Pushpins %28inline SVG%29.html" />
@@ -248,7 +249,7 @@
     <Content Include="Pushpins\Pushpin_HoverStyle.html" />
     <Content Include="Pushpins\Pushpin_ChangedEvent.html" />
     <Content Include="Pushpins\Draggable Pushpin.html" />
-    <Content Include="Pushpins\Pushpin_FontBasedIcons.html" />
+    <Content Include="Pushpins\Font Based Pushpin Icons.html" />
     <Content Include="Pushpins\Pushpin_RotatedImage.html" />
     <Content Include="Pushpins\Pushpin_RoundImage.html" />
     <Content Include="SiteResources\bingMapsLogo.png" />

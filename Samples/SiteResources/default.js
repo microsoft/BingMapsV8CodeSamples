@@ -182,5 +182,6 @@ var sampleRedirects = {
     "Infobox_Custom": "Custom%20Infobox%20HTML%20Content",
     "Pushpin_DragEvents": "Draggable%20Pushpin",
     "Clustering_Basic": "Basic%20Clustering",
-    "Clustering_Customization": "Cluster%20Layer%20Customizations"
+    "Clustering_Customization": "Cluster%20Layer%20Customizations",
+    "Pushpin_FontBasedIcons":"Font%20Based%20Pushpin%20Icons"
 };

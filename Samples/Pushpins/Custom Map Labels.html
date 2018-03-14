@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, dynamicLabelLayer;
+    var transparentIcon = '<svg xmlns="http://www.w3.org/2000/svg"></svg>';
+    var labelPushpinTemplate = '<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}"><text x="{x}" y="{y}" style="font-size:{fontSize}px;fill:{textColor};font-family:{fontFamily}" text-anchor="middle">{text}</text></svg>';
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 10
+        });
+
+        //Generate some random locations within the current map view for our labels.
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(4, map.getBounds());
+
+        //Title pushpin label.
+        var titlePushpin = new Microsoft.Maps.Pushpin(locs[0], {
+            icon: transparentIcon,
+            title: 'Title label'
+        });
+        map.entities.add(titlePushpin);
+
+        //Text pushpin label. Made red so it is easier to see.
+        var textPushpin = createLabelPushpin(locs[1], 'Text label', 'red');
+        map.entities.add(textPushpin);
+
+        //Zoom based pushpin labels. 
+        //For efficiency we will use a layer for these labels and add a zoom level range as metadata to each pushpin. 
+        //This will result in only one map event firing as the map moves rather than a map event for each label being fired as the map moves.
+
+        //Create a layer to store dynamic labels.
+        dynamicLabelLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(dynamicLabelLayer);
+
+        //Create a label pushpins that are limited to certain zoom levels and change color based on map view.        
+        var dynamicLabelPushpin = createLabelPushpin(locs[2], 'Dynamic Label 1');
+        dynamicLabelPushpin.metadata.zoomRange = {
+            min: 10,
+            max: 15
+        };
+        dynamicLabelLayer.add(dynamicLabelPushpin);
+
+        var dynamicLabelPushpin2 = createLabelPushpin(locs[3], 'Dynamic Label 2');
+        dynamicLabelPushpin2.metadata.zoomRange = {
+            min: 1,
+            max: 10
+        };
+        dynamicLabelLayer.add(dynamicLabelPushpin2);
+        
+        //Have the label logic run once initially.
+        updateDynamicLabels();
+
+        //Add viewchangeend and maptypechanged events to the map which filters the map labels based on zoom level and changes their style based on the map style.
+        Microsoft.Maps.Events.addHandler(map, 'viewchangeend', updateDynamicLabels);
+        Microsoft.Maps.Events.addHandler(map, 'maptypechanged', updateDynamicLabels);
+    }
+
+    var lastZoomLevel, lastMapTypeId;
+
+    function updateDynamicLabels() {
+        //Get all the label pushpins in the layer.
+        var labels = dynamicLabelLayer.getPrimitives();
+
+        var zoomLevel = map.getZoom();
+        var mapTypeId = map.getMapTypeId();
+
+        //Only update the labels if the zoom level or map type has changed.
+        if (zoomLevel !== lastZoomLevel || lastMapTypeId !== mapTypeId) {
+            var color = 'black';
+
+            switch (mapTypeId) {
+                case Microsoft.Maps.MapTypeId.aerial:
+                case Microsoft.Maps.MapTypeId.birdseye:
+                case Microsoft.Maps.MapTypeId.canvasDark:
+                case Microsoft.Maps.MapTypeId.grayscale:
+                    color = 'white'
+                    break;
+            }
+
+            //Loop through then, check their zoom level range and hide/show accoridngly. 
+            for (var i = 0; i < labels.length; i++) {
+                if (labels[i].metadata && labels[i].metadata.zoomRange) {
+                    if (zoomLevel <= labels[i].metadata.zoomRange.max && zoomLevel >= labels[i].metadata.zoomRange.min) {
+                        labels[i].setOptions({
+                            icon: createLabelIcon(labels[i].getText(), color, labels[i].metadata.fontSize, labels[i].metadata.fontFamily),
+                            visible: true
+                        });
+                    } else {
+                        labels[i].setOptions({ visible: false });
+                    }
+                }
+            }
+        }
+
+        lastZoomLevel = zoomLevel;
+        lastMapTypeId = mapTypeId;
+    }
+        
+    function createLabelPushpin(location, text, textColor, fontSize, fontFamily) {
+        //Add some default values.
+        textColor = textColor || 'black';
+        fontSize = fontSize || 16;
+        fontFamily = fontFamily || 'arial';
+
+        var width = measureTextWidth(text, fontSize, fontFamily);
+
+        var pin = new Microsoft.Maps.Pushpin(location, {
+            icon: createLabelIcon(text, textColor, fontSize, fontFamily),
+            text: text,
+            anchor: new Microsoft.Maps.Point(width / 2, fontSize/2)
+        });
+
+        //Store font info in metadata so we can update icon if needed.
+        pin.metadata = {
+            textColor: textColor,
+            fontSize: fontSize,
+            fontFamily: fontFamily
+        };
+
+        return pin;
+    }
+
+    function createLabelIcon(text, textColor, fontSize, fontFamily) {
+        //Add some default values.
+        textColor = textColor || 'black';
+        fontSize = fontSize || 16;
+        fontFamily = fontFamily || 'arial';
+
+        var width = measureTextWidth(text, fontSize, fontFamily);
+
+        return labelPushpinTemplate.replace('{width}', width)
+            .replace('{height}', fontSize * 1.2)
+            .replace('{x}', width / 2)
+            .replace('{y}', fontSize)
+            .replace('{textColor}', textColor)
+            .replace('{fontSize}', fontSize)
+            .replace('{fontFamily}', fontFamily);
+    }
+
+    var offScreenCanvas;
+
+    function measureTextWidth(text, fontSize, fontFamily) {
+        //Calculate text string length in pixels by using an off screen canvas.
+        if (!offScreenCanvas) {
+            offScreenCanvas = document.createElement('canvas').getContext("2d");
+        }
+
+        offScreenCanvas.font = fontSize + 'px ' + fontFamily;
+        return offScreenCanvas.measureText(text).width;
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Custom Map Labels Sample</legend>
+        This sample shows how to create custom labels on the map by using pushpins. There are two common ways to do this:
+        <ul>
+            <li>SVG templated pushpin icon with the text (indepth) - Pushpins have a text property which can easily be passed into an SVG icon. This is rendered right on top of the icon and is always visible. This option provides a lot of flexibility for customization.</li>
+            <li>Pushpin title and transparent icon (easy) - Pushpins have a title property that is usually rendered below a pushpin but makes use of label collision detection which means it will move to other locations around the pushpin or be hidden if other pushpins on the map overlap the label. Using this approach provides no options for customizing the label font or color.</li>
+        </ul>
+        If you zoom the map out such that the pushpins are close together, you should see the title labels move or hide.
+        <br /><br/>
+        Another options is you can hide/show labels based on zoom level with the use of a few map events. You can also use this to change the color of labels based on the map style as you would likely want lighter color labels when the map is dark and darker labels on a light map. 
+        If you have multiple labels that are within the same zoom level ranges, then take a look at using a layer as it will be more efficient.
+        <br/><br />
+        Also take a look at the <a href="#Font%20Based%20Pushpin%20Icons">Font Based Pushpin Icons</a> sample.
+    </fieldset>
+</body>
+</html>
