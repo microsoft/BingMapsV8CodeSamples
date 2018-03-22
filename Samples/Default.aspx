@@ -42,10 +42,10 @@
         <span class="pageLinks">
             <iframe src="https://ghbtns.com/github-btn.html?user=Microsoft&repo=BingMapsV8CodeSamples&type=star&count=true" frameborder="0" scrolling="0" style="width:100px;height:20px"></iframe>
 
-            <a href="http://blogs.bing.com/maps" target="_blank">Blog</a>
+            <a href="https://blogs.bing.com/maps" target="_blank">Blog</a>
             <a href="https://social.msdn.microsoft.com/Forums/en-US/home?category=bingmaps" target="_blank">Forums</a>
             <a href="https://msdn.microsoft.com/en-us/library/mt712542.aspx" target="_blank">Documentation</a>
-            <a href="http://www.bing.com/api/maps/sdkrelease/mapcontrol/isdk" target="_blank">Interactive SDK</a>
+            <a href="https://www.bing.com/api/maps/mapcontrol/isdk" target="_blank">Interactive SDK</a>
             <a href="https://github.com/Microsoft/BingMapsV8CodeSamples" target="_blank">GitHub Project</a>
         </span>
     </div>
