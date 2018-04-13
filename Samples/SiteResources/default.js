@@ -183,5 +183,6 @@ var sampleRedirects = {
     "Pushpin_DragEvents": "Draggable%20Pushpin",
     "Clustering_Basic": "Basic%20Clustering",
     "Clustering_Customization": "Cluster%20Layer%20Customizations",
-    "Pushpin_FontBasedIcons":"Font%20Based%20Pushpin%20Icons"
+    "Pushpin_FontBasedIcons": "Font%20Based%20Pushpin%20Icons",
+    "Pushpin_DynamicCircles": "Scaled%20Circle%20(Bubbles)%20Pushpins"
 };

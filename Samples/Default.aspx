@@ -77,7 +77,7 @@
     <div class="footer">
         <span><a href="http://go.microsoft.com/fwlink/?LinkId=521839&CLCID=0409">Privacy</a></span>
         <span><a href="http://go.microsoft.com/fwlink/?LinkID=246338&CLCID=0409">Legal</a></span>
-        <span class="copyrights">&copy; Microsoft 2017</span>
+        <span class="copyrights">&copy; Microsoft <%= DateTime.Now.Year.ToString() %></span>
     </div>
 
     <asp:Label ID="ErrorLabel" runat="server"></asp:Label>

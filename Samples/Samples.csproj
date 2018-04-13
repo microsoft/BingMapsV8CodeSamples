@@ -310,7 +310,7 @@
     <Content Include="Pushpins\Pushpin_Base64Icon.html" />
     <Content Include="Pushpins\Pushpin_Base64IconFromCanvas.html" />
     <Content Include="Pushpins\Pushpin_Basic.html" />
-    <Content Include="Pushpins\Pushpin_DynamicCircles.html" />
+    <Content Include="Pushpins\Scaled Circle %28Bubbles%29 Pushpins.html" />
     <Content Include="Pushpins\Pushpin_Events.html" />
     <Content Include="Pushpins\Pushpin_ImageUrlIcon.html" />
     <Content Include="Pushpins\Pushpin_InlineSvgIcon.html" />

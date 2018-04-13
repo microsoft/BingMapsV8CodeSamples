@@ -15,7 +15,7 @@
         //Weather radar tiles from Iowa Environmental Mesonet of Iowa State University
         var weatherTileLayer = new Microsoft.Maps.TileLayer({
             mercator: new Microsoft.Maps.TileSource({
-                uriConstructor: 'http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
+                uriConstructor: 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
             })
         });
         map.layers.insert(weatherTileLayer);

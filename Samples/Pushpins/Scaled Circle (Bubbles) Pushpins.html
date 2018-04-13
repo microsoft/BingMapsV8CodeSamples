@@ -7,18 +7,23 @@
     var map;
 
     function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {});
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 2
+        });
 
-        //Generate 2 random locations within the current map view.
-        var locs = Microsoft.Maps.TestDataGenerator.getLocations(2, map.getBounds());
+        //Generate 1000 random circle pushpins on the map. 
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(1000);
 
-        //Create a blue circle that has a 25 pixel radius as a pushpin and add to map.
-        var pin1 = createCirclePushpin(locs[0], 25, 'rgba(0, 0, 255, 0.5');
-        map.entities.push(pin1);
+        var pins = [], radius, color;
 
-        //Create a white circle that has a 35 pixel radius and a black outline as a pushpin and add to map.
-        var pin2 = createCirclePushpin(locs[1], 35, 'rgba(255, 255, 255, 0.8)', 'black', 1);
-        map.entities.push(pin2);
+        for (var i = 0; i < locs.length; i++) {
+            radius = Math.round(Math.random() * 30)
+            color = Microsoft.Maps.TestDataGenerator.getColor(true);
+            
+            pins.push(createCirclePushpin(locs[i], radius, color, 'black', 1));
+        }
+
+        map.entities.push(pins);
     }
 
     function createCirclePushpin(location, radius, fillColor, strokeColor, strokeWidth) {
@@ -40,5 +45,10 @@
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Scaled Circle (Bubbles) Pushpins Sample</legend>
+        This sample shows how to create custom pushpins that are scaled circles (bubbles). In your app you can easily use metadata from your pushpins to calculate a pixel radius for your circle.
+    </fieldset>
 </body>
 </html>
