@@ -23,7 +23,7 @@
 */
 
 /********************************************
-* Spider Draggable Shapes Manager
+* Draggable Shapes Manager
 * Author: Ricky Brundritt
 * License: MIT
 *********************************************/
