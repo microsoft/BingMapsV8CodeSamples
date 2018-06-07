@@ -82,6 +82,7 @@
     <Content Include="Common\images\pushpins\ylw-pushpin.png" />
     <Content Include="Common\images\us_counties.png" />
     <Content Include="Common\scripts\FileSaver.js" />
+    <Content Include="Drawing Tools\DrawingTools_OverlappingPolygonsWithEvents.html" />
     <Content Include="Experimental\Configuration Map Layer Menu.html" />
     <Content Include="Configuration Driven Maps\IFramable Configuration Map.html" />
     <Content Include="Configuration Driven Maps\Load a Configurable Map with Code.html" />
