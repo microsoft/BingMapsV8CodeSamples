@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+        var map, drawingManager, firstPolygon, polygonLayer, drawEventHandlerId;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create a random polygon in which to limit the drawing to.
+        firstPolygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5, 0.5);
+
+        polygonLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(polygonLayer);
+        polygonLayer.add(firstPolygon);
+
+        drawEventHandlerId = Microsoft.Maps.Events.addHandler(polygonLayer, "click", function () {
+            console.log(arguments);
+        });
+
+        //Load the Drawing Tools and Spatial Math modules.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            tools.showDrawingManager(function (manager) {
+                //Store a reference to the drawing manager.
+                drawingManager = manager;
+
+                //Add drawingstarted and drawingEnded events to the drawing manager and use these to limit the shape to the drawing area.
+                Microsoft.Maps.Events.addHandler(manager, 'drawingStarted', function () {
+                    Microsoft.Maps.Events.removeHandler(drawEventHandlerId);
+                    drawEventHandlerId.dispose();
+                });
+
+                Microsoft.Maps.Events.addHandler(manager, 'drawingEnded', function () {
+                    moveShapesBetweenLayers(drawingManager, polygonLayer);
+                    drawEventHandlerId.dispose();
+                    drawEventHandlerId = Microsoft.Maps.Events.addHandler(polygonLayer, "click", function () {
+                        alert("polygon clicked")
+                    });
+                });
+            })
+        });
+
+        function moveShapesBetweenLayers(fromLayer, toLayer) {
+            var shapes = fromLayer.getPrimitives();
+
+            if (shapes) {
+                fromLayer.clear();
+                toLayer.add(shapes);
+            }
+        }
+    }
+
+    
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Overlapping Polygon with events sample</legend>
+        This sample shows how to attach and detach events so it is possible to draw overlapping or polygons completely overlapping other polgyon.
+    </fieldset>
+</body>
+</html>
