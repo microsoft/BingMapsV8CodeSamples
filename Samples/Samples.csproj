@@ -336,6 +336,7 @@
     <Content Include="Traffic\Traffic_Basic.html" />
     <Content Include="Welcome.html" />
     <Content Include="Well Known Text\WKT_Read.html" />
+    <Content Include="Well Known Text\WKT_Read_Write_Paste.html" />
     <Content Include="Well Known Text\WKT_ReadSDS.html" />
     <Content Include="Well Known Text\WKT_Write.html" />
   </ItemGroup>

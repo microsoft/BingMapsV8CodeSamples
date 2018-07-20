@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the Well Known Text module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
+            var textAreaElem = document.querySelector("#wktArea");
+            writeCenterCoordinateToTextArea(textAreaElem);
+            
+            // add eventListerner to button
+            document.querySelector("#btnRead").addEventListener('click', function () {
+                //clear map from geometries
+                map.entities.clear();
+                //Parse well known text string.
+                var pin = Microsoft.Maps.WellKnownText.read(textAreaElem.value);
+                //Add parsed shape to the map.
+                map.entities.push(pin);
+            });
+        });
+
+        var writeCenterCoordinateToTextArea = function (textArea) {
+            //create pushpin
+            var pushpin = new Microsoft.Maps.Pushpin(map.getCenter());
+            //create wkt
+            var wkt = Microsoft.Maps.WellKnownText.write(pushpin);
+            //print wkt in textarea 
+            textArea.value = wkt;
+        }
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div style="display: flex; margin-top: 1em;">
+        <textarea id="wktArea" style="width: 700px; height: 4em;"></textarea>
+        <button id="btnRead" style="margin-left: 1em; padding: 0.5em;">Read WKT</button>
+    </div>
+    <fieldset style="width:750px; margin-top: 10px">
+        <legend>WKT Read-Write-Paste</legend>
+        This example shows how to read and write WKT. You can also paste your own WKT in the text area as long as the coordinates are in Latitude / Longitude (EPSG:4326)
+    </fieldset>
+</body>
+</html>
