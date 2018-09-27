@@ -96,8 +96,8 @@
 
         var wp = directionsManager.getAllWaypoints();
         if (wp && wp.length > 0) {
-            for (var i = 0; i < wp.length; i++) {
-                directionsManager.removeWaypoint(wp[i]);
+            for (var i = wp.length - 1; i >= 0; i--) {
+                this.directionsManager.removeWaypoint(wp[i]);
             }
         }
 

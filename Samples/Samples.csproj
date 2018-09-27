@@ -57,7 +57,6 @@
     <Content Include="Autosuggest\Custom Autosuggest Input with JQuery UI.html" />
     <Content Include="Autosuggest\Fill Address Form with Autosuggest.html" />
     <Content Include="Autosuggest\Autosuggest with Map.html" />
-    <Content Include="BingCredentials.js" />
     <Content Include="Birdseye\Basic Birdseye.html" />
     <Content Include="Clustering\Cluster Areas.html" />
     <Content Include="Clustering\Basic Clustering.html" />
@@ -462,7 +461,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5479</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
