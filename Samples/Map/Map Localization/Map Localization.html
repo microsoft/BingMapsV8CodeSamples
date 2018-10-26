@@ -4,19 +4,42 @@
     <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript'>
-        function LoadMap() {            
+        function LoadMap() {    
+            var urOptions = document.getElementById("urOptions");
+            var userRegion = urOptions.options[urOptions.selectedIndex].value;
+
             var mktOptions = document.getElementById("mktOptions");
             var mkt = mktOptions.options[mktOptions.selectedIndex].value;
 
             var langOptions = document.getElementById("langOptions");
             var lang = langOptions.options[langOptions.selectedIndex].value;
             
-            document.getElementById('mapContainer').src = '/Map/Map%20Localization/IframableLocalizedMap%20-%20Private.html?setLang=' + lang + '&setMkt=' + mkt + '&key=' + '[YOUR_BING_MAPS_KEY]'; 
+            document.getElementById('mapContainer').src = '/Map/Map%20Localization/IframableLocalizedMap%20-%20Private.html?setLang=' + lang + '&setMkt=' + mkt + '&UR=' + userRegion + '&key=' + '[YOUR_BING_MAPS_KEY]'; 
         }
     </script>
 </head>
 <body>
-    Market/Language: 
+    User Region:
+    <select id="urOptions">
+        <option value="AR">Argentina (AR)</option>
+        <option value="BH">Bahrain (BH)</option>
+        <option value="CN">China (CN)</option>
+        <option value="EG">Egypt (EG)</option>
+        <option value="IN">India (IN)</option>
+        <option value="IL">Israel (IL)</option>
+        <option value="JO">Jordon (JO)</option>
+        <option value="KR">Korea (KR)</option>
+        <option value="KW">Kuwait (KW)</option>
+        <option value="MA">Morocco (MA)</option>
+        <option value="OM">Oman (OM)</option>
+        <option value="PK">Pakistan (PK)</option>
+        <option value="QA">Qatar (QA)</option>
+        <option value="SA">Saudi Arabia (SA)</option>
+        <option value="AE">UAE (AE)</option>
+        <option value="US" selected="selected">US</option>
+    </select>
+
+    Market/Language:
     <select id="mktOptions">
         <option value="ar-SA">Arabic - Saudi Arabia (ar-SA)</option>
         <option value="eu">Basque (eu)</option>
@@ -40,7 +63,7 @@
         <option value="en-CA">English - Canada (en-CA)</option>
         <option value="en-IN">English - India (en-IN)</option>
         <option value="en-GB">English - United Kingdom (en-GB)</option>
-        <option value="en-US">English - United States (en-US)</option>
+        <option value="en-US" selected="selected">English - United States (en-US)</option>
         <option value="fi">Finnish (fi)</option>
         <option value="fi-FI">Finnish - Finland (fi-FI)</option>
         <option value="fr-BE">French - Belgium (fr-BE)</option>
@@ -100,7 +123,7 @@
 
     </select>
 
-    Language: 
+    Language:
     <select id="langOptions">
         <option value="ar-SA">Arabic - Saudi Arabia (ar-SA)</option>
         <option value="eu">Basque (eu)</option>
@@ -124,7 +147,7 @@
         <option value="en-CA">English - Canada (en-CA)</option>
         <option value="en-IN">English - India (en-IN)</option>
         <option value="en-GB">English - United Kingdom (en-GB)</option>
-        <option value="en-US">English - United States (en-US)</option>
+        <option value="en-US" selected="selected">English - United States (en-US)</option>
         <option value="fi">Finnish (fi)</option>
         <option value="fi-FI">Finnish - Finland (fi-FI)</option>
         <option value="fr-BE">French - Belgium (fr-BE)</option>
@@ -182,8 +205,8 @@
         <option value="vi">Vietnamese (vi)</option>
         <option value="vi-VN">Vietnamese - Vietnam (vi-VN)</option>
     </select>
-    
-    <input type="button" value="Load Map" onclick="LoadMap()"/>
+
+    <input type="button" value="Load Map" onclick="LoadMap()" />
     <br />
     <iframe id="mapContainer" src="about:blank" style="width:100%;height:calc(100vh - 200px);" frameborder="0" scrolling="no"></iframe>
 </body>
