@@ -49,8 +49,16 @@
     function downloadMapImage() {
         imageGenerator.getBlob(function (mapImgBlob) {
             saveAs(mapImgBlob, "mapImage.png");
-        }, function (e) {
-            alert(e.message);
+        }, function (e)
+        {
+                if (e.message)
+                {
+                    alert(e.message);
+                }
+                else
+                {
+                    alert(e);
+                }
         });
     }
 

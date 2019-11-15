@@ -2,7 +2,7 @@
 /**
  * A simple class for generating an image from a map.
  */
-var MapImageGenerator = (function () {
+var MapImageGenerator = /** @class */ (function () {
     /**********************
     * Constructor
     ***********************/
@@ -99,6 +99,10 @@ var MapImageGenerator = (function () {
                 var offsetTop = 0;
                 var width = mapCanvas.width;
                 var height = mapCanvas.height;
+                // skip canvases with zero height or width
+                if (c.width === 0 || c.height === 0) {
+                    continue;
+                }
                 if (c.width != mapCanvas.width && c.height != mapCanvas.height) {
                     offsetLeft = c.offsetLeft * -1;
                     offsetTop = c.offsetTop * -1;
