@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, trafficManager;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load traffic module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+            //Create an instance of the traffic manager and bind to map.
+            trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
+
+            //Display the traffic flow and incident data.
+            trafficManager.setOptions({ flowVisible: true, incidentsVisible: true, legendVisible: false });
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+    <style>
+        .mapContainer, #myMap{
+            position:relative;
+            width:600px;
+            height:400px
+        }
+
+        .trafficLegend {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: white;
+            padding: 5px;
+            font-family: arial;
+            font-size: 10px;
+        }
+
+
+        .trafficLegend span{
+            width: 20px;
+        }
+
+        .trafficLegend table{
+            border-collapse:collapse;
+        }
+
+            .trafficLegend td {
+                min-width:20px;
+            }
+    </style>
+</head>
+<body>
+    <div class="mapContainer">
+        <div id="myMap"></div>
+        <div class="trafficLegend">
+            <table>
+                <tr>
+                    <td><div style="background-color:green;">&nbsp;</div></td>
+                    <td>Fast</td>
+                </tr>
+                <tr>
+                    <td><div style="background-color:yellow;">&nbsp</div></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><div style="background-color:orange;">&nbsp</div></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><div style="background-color:red;">&nbsp</div></td>
+                    <td>Slow</td>
+                </tr>
+                <tr>
+                    <td><div style="background:repeating-linear-gradient(90deg, red, red 20%, white 20%, white 40%);">&nbsp</div></td>
+                    <td>Closed</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

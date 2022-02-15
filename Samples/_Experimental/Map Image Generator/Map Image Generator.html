@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Loading Open Source FileSaver library to add support for downloading image -->
+    <script type='text/javascript' src='/scripts/FileSaver.js'></script>
+
+    <script>
+    var map, imageGenerator;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 5,
+            enableCORS: true //Need to enable CORs so that the map canvas data can be retrieved. 
+        });
+
+        addMockData();
+
+        //Register and load the module.
+        Microsoft.Maps.registerModule('MapImageGeneratorModule', 'MapImageGeneratorModule.js');
+        Microsoft.Maps.loadModule('MapImageGeneratorModule', function () {
+            imageGenerator = new MapImageGenerator(map);
+        });        
+    }
+
+    function loadInDiv() {
+        imageGenerator.getImage(function (mapImg) {
+            var output = document.getElementById('output');
+
+            output.innerHTML = '';
+
+            output.appendChild(mapImg);
+        }, function (e) {
+            alert(e.message);
+        });
+    }
+
+    function openInNewWindow() {
+        imageGenerator.getDataUri(function (dataUri) {
+            var win = window.open();
+            win.document.write('<img src="' + dataUri + '"/>');
+        }, function (e) {
+            alert(e.message);
+        });
+    }
+
+    function downloadMapImage() {
+        imageGenerator.getBlob(function (mapImgBlob) {
+            saveAs(mapImgBlob, "mapImage.png");
+        }, function (e)
+        {
+                if (e.message)
+                {
+                    alert(e.message);
+                }
+                else
+                {
+                    alert(e);
+                }
+        });
+    }
+
+    function addMockData() {
+        //Create 3 random polygons.
+        var polygons = Microsoft.Maps.TestDataGenerator.getPolygons(3, map.getBounds(), 5);
+        map.entities.push(polygons);
+
+        //Create 5 random pushpins.
+        var polygons = Microsoft.Maps.TestDataGenerator.getPushpins(3, map.getBounds());
+        map.entities.push(polygons);
+
+        var base64Image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAcCAYAAACUJBTQAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wQbECUudScMXAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAACGUlEQVRIx+3Wy2sTURTH8e/NTDIzaZMxadMWhyBUSheiiyo+QPpHuHIhdOfSP8GlbkXEhTv/gNau3LgRurEIUqlWU2ubh7evPEg6NjOZJHNdlIgLo11YRcj5A84Hfpx7zxFKKcUJlw7gOM6JAVLKIwTg4avbfxy4c/UJABH+Qg2QAfKfI98f48vc/CCuATJA/iEilFKq3/q98XTk2I0W5qp916/41SHhOM6xoIW5KlLK/t/K6oNbwlAdknELYSZpxTMkxrO4XoCUUv0O6gHlYkjHWxF+yyWTsKit57CGbbTMGSJWepTh05PIRof3mxLNjNP0Pdp+i9ziIyGl7BtFD1hdOqRdei5ijW2shkSvS8LAJTM2gh4JiWzvFNksFdAsA3s0Ram4TrtZJxnXCLwKWSF+CvWAt89czmffiEQ0gGYZzSuTX3tNx60Q1Pcxwyb67JUL7Jb38VsdojETz2ux8W6JqG6iJaOoGLTr98WP0fWAsZgQ849v8mnZYeriLNinwAup722RsW12cysYiRT62voGwymbbsQgMZREcMD1yzN4nkctrNEV4HbrTKeFKNeOJlFKiXtwV2ganJvKkF8rsvxiEd8P0FSTiXQa2wxJxEz2yl/QA2Mc2Qihq7NdqdE5rJAc2ufsZBbTiIIGXWXTVeCIa0glMQwh8vl7hMDHD5+Zmb7E16ZPtVrFilnsFLY42CngTDhEohbfALpF/s+4JwbyAAAAAElFTkSuQmCC';
+
+        //Create custom Pushpin using a base64 image string.
+        var pin = new Microsoft.Maps.Pushpin(map.getCenter(), {
+            icon: base64Image,
+            anchor: new Microsoft.Maps.Point(12, 28)
+        });
+        map.entities.push(pin);
+
+        //Create custom Pushpin using a local image.
+        var pin2 = new Microsoft.Maps.Pushpin(Microsoft.Maps.TestDataGenerator.getLocations(1, map.getBounds()), {
+            icon: '/images/pushpins/endPin.png',
+            anchor: new Microsoft.Maps.Point(12, 39)
+        });
+        map.entities.push(pin2);
+
+        //Load a GeoJson file and render the data as a heatmap.
+        var usgsEarthquakeUrl = 'http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson';
+        Microsoft.Maps.loadModule(['Microsoft.Maps.GeoJson', 'Microsoft.Maps.HeatMap'], function () {
+            Microsoft.Maps.GeoJson.readFromUrl(usgsEarthquakeUrl,
+                function (shapes) {
+                    var heatmap = new Microsoft.Maps.HeatMapLayer(shapes, { radius: 5 });
+                    map.layers.insert(heatmap);
+                }, 'callback');
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div style="height:400px;">
+        <div id="myMap" style="position:relative;width:600px;height:400px;float:left;"></div>
+        <div id="output" style="float:left;margin-left:10px;"></div>
+    </div>
+    <br/>
+    Create Map Image and: 
+    <input type="button" value="Load in div" onclick="loadInDiv()" />
+    <input type="button" value="Open in new window" onclick="openInNewWindow()"/> 
+    <input type="button" value="Download" onclick="downloadMapImage()" />
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Map Image Generator Sample</legend>
+        Status: Functional <br /><br />
+        
+        This sample shows how to generate an image of the map. Pushpin images must be hosted locally, or be dataUri's. 
+        Bing Maps terms of use does not allow Ordnance Survey or Birdseye imagery to be "printed". 
+        Streetside imagery is not supported. <br/><br />
+
+        Known Limitations:<br />
+        <ul>
+            <li>TileLayer's and Pushpin images must either be hosted on the same domain as the website or have CORs enabled on their hosting server.</li>
+            <li>SVG pushpins currently not supported in IE11.</li>
+            <li>The following elements are not rendered; navigation controls, scale bars, Infoboxes, AnimatedTileLayers,
+        and most Custom Overlays.</li>
+            <li>IE and Edge will not cache tiles when CORS is enabled.</li>
+            <li>Chrome throws errors when this property is set enabled and custom tile layers don’t have CORS enabled on the server.</li>
+        </ul>
+    </fieldset>
+</body>
+</html>

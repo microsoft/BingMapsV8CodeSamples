@@ -1,0 +1,4 @@
+{
+  "Title": "Autosuggest",
+  "Description": "The Autosuggest module takes in a string of text and provides a list of suggested addresses or places that are similar to the provided string of text. This module can be used with a map, or independently on its own."
+}

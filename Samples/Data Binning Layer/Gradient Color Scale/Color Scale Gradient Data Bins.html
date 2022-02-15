@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Color Scale Gradient Data Bins - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This example shows how to use a linear gradient to assign colors to data bins based on the relative number of pushpins in each bin." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-gradienthexbins.png" />
+    
+    <script>
+    var map, layer, pins, heatGradientData;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        pins = Microsoft.Maps.TestDataGenerator.getPushpins(10000, map.getBounds());
+
+        for (var i = 0, len = pins.length; i < len; i++) {
+            pins[i].metadata = {
+                myValue: Math.random() * 100
+            };
+        }
+
+        createHeatGradient();
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.DataBinning', function () {
+            layer = new Microsoft.Maps.DataBinningLayer(pins, {
+                aggregationProperty: 'myValue',
+                colorCallback: function (bin, min, max) {
+                    return getLegendColor(bin.metrics.count, max.count);
+                }
+            });
+            map.layers.insert(layer);
+        });
+    }
+
+    function createHeatGradient() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+
+        //Create a linear gradient for the legend. 
+        var colorGradient = {
+            '0': 'Black',
+            '0.4': 'Purple',
+            '0.6': 'Red',
+            '0.8': 'Yellow',
+            '1': 'White'
+        };
+
+        var grd = ctx.createLinearGradient(0, 0, 256, 0);
+        for (var c in colorGradient) {
+            grd.addColorStop(c, colorGradient[c]);
+        }
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        //Store the pixel information from the legend.
+        heatGradientData = ctx.getImageData(0, 0, canvas.width, 1);
+    }
+
+    function getLegendColor(value, maxValue) {
+        value = (value > maxValue) ? maxValue : value;
+
+        //Calculate the pixel data index from the ratio of value/maxValue.
+        var idx = Math.round((value / maxValue) * 256) * 4 - 4;
+
+        if (idx < 0) {
+            idx = 0;
+        }
+
+        //Create an RGBA color from the pixel data at the calculated index.
+        return 'rgba(' + heatGradientData.data[idx] + ',' +
+            heatGradientData.data[idx + 1] + ',' +
+            heatGradientData.data[idx + 2] + ',' + '0.5)';
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

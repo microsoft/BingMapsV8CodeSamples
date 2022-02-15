@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Read Geospatial XML Files from Same Domain - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to load geospatial XML data from locally hosted files." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, layer;
+       
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 1
+        });
+
+        //Load the GeoXml module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+            //Create an instance of the GeoXmlLayer.
+            layer = new Microsoft.Maps.GeoXmlLayer();
+
+            //Add the layer to the map.
+            map.layers.insert(layer);
+        });
+    }
+
+    function readXml(xmlUrl) {
+        //Set the URL of the geo XML file as the data source of the layer.
+        layer.setDataSource(xmlUrl, true);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div style="margin-top:10px;">
+        GeoRSS: 
+        <input type="button" value="Countries" onclick="readXml('/data/georss/Countries.xml');" />
+        <input type="button" value="Sample File" onclick="readXml('/data/georss/SampleGeoRSS.xml');" />
+        <input type="button" value="Wifi Locations" onclick="readXml('/data/georss/WifiLocations.xml');" />
+        <br />
+        GPX:
+        <input type="button" value="Bike Route" onclick="readXml('/data/gpx/BikeRoute.xml');" />
+        <input type="button" value="Route 66 Attractions" onclick="readXml('/data/gpx/Route66Attractions.xml');" />
+        <input type="button" value="UK Tourist Locations" onclick="readXml('/data/gpx/Tourist_locations_UK-England.xml');" />
+        <br />
+        KML:
+        <input type="button" value="2007 San Diego Fires" onclick="readXml('/data/kml/2007SanDiegoCountyFires.kml');" />
+        <input type="button" value="Countries" onclick="readXml('/data/kml/Countries.kml');" />
+        <input type="button" value="London Tube Lines" onclick="readXml('/data/kml/London%20Tube%20Lines.kml');" />
+        <input type="button" value="London Tube Stations" onclick="readXml('/data/kml/London%20stations.kml');" />        
+        <input type="button" value="Sample File" onclick="readXml('/data/kml/SampleKml.kml');" />
+        <input type="button" value="Sample File 2" onclick="readXml('/data/kml/esfr-trip-track-20080407.xml');" />
+        <input type="button" value="Ground Overlay" onclick="readXml('/data/kml/GroundOverlay.kml');" />
+        <input type="button" value="Internet Users 2005 Choropleth" onclick="readXml('/data/kml/internet_users_2005_choropleth.kml');" />
+        <br />
+        KMZ:
+        <input type="button" value="Recreation Site Point" onclick="readXml('/data/kmz/RecreationSitePoint.kmz');" />
+        <input type="button" value="Shuckstack fire tower" onclick="readXml('/data/kmz/shuckstack-fire-tower.kmz');" />
+        <br />
+        <br />
+        Layer Options: <br />
+        <input type="button" onclick="layer.clear();" value="Clear" />
+        <input type="button" onclick="layer.setVisible(false);" value="Hide" />
+        <input type="button" onclick="layer.setVisible(true);" value="Show" />
+    </div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoXmlLayer - Local Data Sample</legend>
+        This sample shows how to load geospatial XML data from locally hosted files.<br />
+<b>Note:</b> Not all file and mime types are enabled in all servers. If using .NET, it is recommended to add the following to the web.config file:
+        <br />
+        <br />
+        &lt;system.webServer&gt;<br />&nbsp;&nbsp;&lt;staticContent&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.json&quot; mimeType=&quot;application/json&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.geojson&quot; mimeType=&quot;application/json&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.gpx&quot; mimeType=&quot;application/xml&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.georss&quot; mimeType=&quot;application/xml&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.kml&quot; mimeType=&quot;application/vnd.google-earth.kml+xml&quot; /&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;mimeMap fileExtension=&quot;.kmz&quot; mimeType=&quot;application/vnd.google-earth.kmz&quot; /&gt;<br />&nbsp;&nbsp;&lt;/staticContent&gt;<br/>&lt;system.webServer&gt;
+    </fieldset>
+</body>
+</html>

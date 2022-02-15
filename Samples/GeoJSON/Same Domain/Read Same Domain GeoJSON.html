@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Read Same Domain GeoJSON - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how load a GeoJSON file that is hosted on the same domain." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-readsamedomaingeojsonexample-map.png" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 1
+        });
+
+        //Load GeoJSON module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+
+            //Read the GeoJSON file that is hosted on the same domain.
+            Microsoft.Maps.GeoJson.readFromUrl('/data/geojson/Countries.js',
+                function (shapes) {
+                    //Add the shape(s) to the map.
+                    map.entities.push(shapes);
+                });
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:1000px;height:800px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoJson Same Domain Sample</legend>
+        This sample shows how load a GeoJSON file that is hosted on the same domain.
+    </fieldset>
+</body>
+</html>

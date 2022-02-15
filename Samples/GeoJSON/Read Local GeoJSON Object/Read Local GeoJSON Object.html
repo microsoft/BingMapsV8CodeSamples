@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Read Local GeoJSON Object - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to read GeoJSON data that is in a local variable and apply a set of style options when it is being read." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-readlocalgeojsonobjectexample-map.png" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            center: new Microsoft.Maps.Location(47.642, -122.128),
+            zoom: 18
+        });
+
+        var myGeoJson = {
+            "type": "Polygon",
+            "coordinates": [[
+                    [-122.12901, 47.64178],
+                    [-122.12901, 47.64226],
+                    [-122.12771, 47.64226],
+                    [-122.12771, 47.64178],
+                    [-122.12901, 47.64178]
+            ]]
+        };
+
+        //Load the GeoJson Module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+
+            //Parse the GeoJson object into a Bing Maps shape.
+            var shape = Microsoft.Maps.GeoJson.read(myGeoJson, {
+                polygonOptions: {
+                    fillColor: 'rgba(255,0,0,0.5)',
+                    strokeColor: 'white',
+                    strokeThickness: 5
+                }
+            });
+
+            //Add the shape to the map.
+            map.entities.push(shape);
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoJson Basic with default Style Sample</legend>
+        This sample shows how to read GeoJSON data that is in a local variable and apply a set of style options when it is being read.
+    </fieldset>
+</body>
+</html>

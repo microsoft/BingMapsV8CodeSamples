@@ -1,0 +1,4 @@
+{
+  "Title": "GeoXml",
+  "Description": "The GeoXml module makes it easy to read and write common geospatial XML file formats such as KML (Keyhole Markup Language), KMZ (compressed KML), GeoRSS, GML (Geography Markup Language, exposed via GeoRSS), and GPX (GPS Exchange Format)."
+}

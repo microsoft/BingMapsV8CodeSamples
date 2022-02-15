@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, directionsManager, dragPin;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(47.634003, -122.229652)
+        });
+
+        //Load the directions and Spatial Math modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.Directions', 'Microsoft.Maps.SpatialMath'], function () {
+            //Create a draggable pushpin to calculate the distance from the route path.
+            dragPin = new Microsoft.Maps.Pushpin(map.getCenter(), { draggable: true });
+            Microsoft.Maps.Events.addHandler(dragPin, 'drag', CalculateDistance);
+            map.entities.push(dragPin);
+
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+            directionsManager.setRequestOptions({
+                maxRoutes: 1
+            });
+
+            //Create waypoints to route between.
+            directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' }));
+            directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' }));
+
+            //Add an event for when the directions are updated to calculate the distance.
+            Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', CalculateDistance);
+
+            //Calculate directions.
+            directionsManager.calculateDirections();
+        });
+    }
+
+    function CalculateDistance() {
+        if (directionsManager) {
+            var route = directionsManager.getCurrentRoute();
+
+            if (route) {
+                var d = Microsoft.Maps.SpatialMath.Geometry.distance(dragPin.getLocation(), route.routePath, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
+                document.getElementById('outputPanel').innerHTML = 'Distance: ' + d + ' miles';
+            }
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <div id="outputPanel"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Calculate Distance from Route Sample</legend>
+        This sample shows how to use the Spatial Math and Directions module to calculate the distance a point is from a route line. Drag the pushpin to see the updated distance from the route.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Load Map with Custom Style - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to load the map with a custom map style." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+    var midnightCommander = {
+        "version": "1.0",
+        "settings": {
+            "landColor": "#0B334D"
+        },
+        "elements": {
+            "mapElement": {
+                "labelColor": "#FFFFFF",
+                "labelOutlineColor": "#000000"
+            },
+            "political": {
+                "borderStrokeColor": "#144B53",
+                "borderOutlineColor": "#00000000"
+            },
+            "point": {
+                "iconColor": "#0C4152",
+                "fillColor": "#000000",
+                "strokeColor": "#0C4152"
+            },
+            "transportation": {
+                "strokeColor": "#000000",
+                "fillColor": "#000000"
+            },
+            "highway": {
+                "strokeColor": "#158399",
+                "fillColor": "#000000"
+            },
+            "controlledAccessHighway": {
+                "strokeColor": "#158399",
+                "fillColor": "#000000"
+            },
+            "arterialRoad": {
+                "strokeColor": "#157399",
+                "fillColor": "#000000"
+            },
+            "majorRoad": {
+                "strokeColor": "#157399",
+                "fillColor": "#000000"
+            },
+            "railway": {
+                "strokeColor": "#146474",
+                "fillColor": "#000000"
+            },
+            "structure": {
+                "fillColor": "#115166"
+            },
+            "water": {
+                "fillColor": "#021019"
+            },
+            "area": {
+                "fillColor": "#115166"
+            }
+        }
+    };
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            customMapStyle: midnightCommander
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Load Map with Custom Style Sample</legend>
+        This sample shows how to load the map with a custom map style.
+    </fieldset>
+</body>
+</html>

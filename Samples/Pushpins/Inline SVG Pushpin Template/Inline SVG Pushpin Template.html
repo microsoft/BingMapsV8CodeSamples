@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, pin;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create custom Pushpin using an SVG string.
+        pin = new Microsoft.Maps.Pushpin(map.getCenter(), {
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><circle cx="15" cy="15" r="13" stroke="black" stroke-width="2" fill="{color}"/><text x="15" y="20" text-anchor="middle">{text}</text></svg>',
+            color: 'yellow',
+            text: '1',
+            anchor: new Microsoft.Maps.Point(20, 20)
+        });
+
+        //Add the pushpin to the map.
+        map.entities.push(pin);
+    }
+
+    function ChangeColor() {
+        //Get a random color and update the pushpin.
+        var c = Microsoft.Maps.TestDataGenerator.getColor();
+        pin.setOptions({ color: c });
+    }
+
+    function ChangeText() {
+        //Generate a random number and update the pushpin.
+        var num = Math.round(Math.random() * 99);
+        pin.setOptions({text: num.toString() });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <input type="button" value="Change Color" onclick="ChangeColor()"/>
+    <input type="button" value="Change Text" onclick="ChangeText()" />
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Inline SVG Pushpin Template Sample</legend>
+        This sample shows how to use an inline SVG as a template for a pushpin. Pushpins have a color and text property. 
+        You can add placeholders for these properties in your inline SVG by using {color} and {text}.
+    </fieldset>
+</body>
+</html>

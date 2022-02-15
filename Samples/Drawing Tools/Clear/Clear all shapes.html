@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Clear all shapes - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Resets the drawing manager and clears all shapes in the drawing layer" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, drawingManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            var tools = new Microsoft.Maps.DrawingTools(map);
+            tools.showDrawingManager(function (manager) {
+                drawingManager = manager;
+            })
+        });
+    }
+
+    function ClearDrawingManager() {
+        drawingManager.clear();
+    }            
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <input type="button" value="Clear" onclick="ClearDrawingManager()"/>
+</body>
+</html>

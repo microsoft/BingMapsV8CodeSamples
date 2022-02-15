@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(40.75, -99.47),
+            zoom: 4
+        });
+
+        //Weather radar tiles from Iowa Environmental Mesonet of Iowa State University
+        var weatherTileLayer = new Microsoft.Maps.TileLayer({
+            mercator: new Microsoft.Maps.TileSource({
+                uriConstructor: 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
+            })
+        });
+        map.layers.insert(weatherTileLayer);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>TileLayer - X/Y/Zoom Sample</legend>
+        This sample shows how to create a simple tile layer which points to a set of tiles which use the x, y, zoom tiling system. 
+        The source of this tile layer is a weather radar overlay from the <a href="http://mesonet.agron.iastate.edu/ogc/">Iowa Environmental Mesonet of Iowa State University</a>.
+    </fieldset>
+</body>
+</html>

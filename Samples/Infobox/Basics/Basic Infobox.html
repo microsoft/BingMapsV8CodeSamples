@@ -1,0 +1,39 @@
+﻿<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basic Infobox - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="The following code shows how to add an infobox with a title and description to the center of the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-basicinfoboxexample2.png" />
+    
+    <script>
+    var map, infobox;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(47.60357, -122.32945)
+        });
+
+        var center = map.getCenter();
+
+        //Create an infobox that will render in the center of the map.
+        infobox = new Microsoft.Maps.Infobox(center, {
+            title: 'Map Center',
+            description: 'Seattle'
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

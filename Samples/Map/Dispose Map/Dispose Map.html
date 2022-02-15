@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dispose Map - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Deletes the Map object and releases any associated resources." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function loadMap()
+    {
+        if (!map) {
+            map = new Microsoft.Maps.Map('#myMap', {});
+        }
+    }
+
+    function disposeMap() {
+        if (map) {
+            map.dispose();
+            map = null;
+        }
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <input type="button" value="Load Map" onclick="loadMap()" />
+    <input type="button" value="Dispose Map" onclick="disposeMap()"/>
+</body>
+</html>

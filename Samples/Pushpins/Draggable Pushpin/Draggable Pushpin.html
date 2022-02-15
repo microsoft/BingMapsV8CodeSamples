@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        var center = map.getCenter();
+
+        //Add a standard red pushpin that doesn't have dragging enabled.
+        var redPin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude), { color: '#f00' });
+        map.entities.push(redPin);
+
+        //Add a green pushpin that has dragging enabled and events attached to it.
+        var greenPin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude - 0.1), { color: '#0f0', draggable: true });
+        map.entities.push(greenPin);
+
+        Microsoft.Maps.Events.addHandler(greenPin, 'drag', function (e) { highlight('pushpinDrag', e); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'dragend', function (e) { highlight('pushpinDragEnd', e); });
+        Microsoft.Maps.Events.addHandler(greenPin, 'dragstart', function (e) { highlight('pushpinDragStart', e); });
+
+        //Add a blue pushpin that has dragging enabled but no events attached to it.
+        var bluePin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(center.latitude, center.longitude + 0.1), { color: '#00f', draggable: true });
+        map.entities.push(bluePin);
+    }
+
+    function highlight(id, event) {
+        //Highlight the mouse event div to indicate that the event has fired.
+        document.getElementById(id).style.background = 'LightGreen';
+
+        document.getElementById('pushpinLocation').innerText = event.target.getLocation().toString();
+
+        //Remove the highlighting after a second.
+        setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="pushpinDrag">drag</div>
+    <div id="pushpinDragEnd">dragend</div>
+    <div id="pushpinDragStart">dragstart</div>
+    <div>Pin Location: <span id="pushpinLocation"></span></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Draggable Pushpin Sample</legend>
+        This sample shows three pushpins. The green pushpin is draggable and has events attached to it. For comparison, 
+        the blue pushpin is draggable but no events attached, and the red pushpin is not draggable.
+    </fieldset>
+</body>
+</html>

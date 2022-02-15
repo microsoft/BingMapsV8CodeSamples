@@ -1,0 +1,4 @@
+{
+  "Title": "Rest Services",
+  "Description": "The Bing Maps REST Services API provides a Representational State Transfer (REST) interface to perform tasks such as creating a static map with pushpins, geocoding an address, retrieving imagery metadata, or creating a route."
+}

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Infobox when Shape Clicked - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This example shows how to handle the click events from any IPrimitive shapes and display an infobox on top of them." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-infoboxshapeclicked2.png" />
+    
+    <script>
+    var map, infobox;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox( map.getCenter(), {
+            visible: false
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
+
+        //Create a polygon as our IPrimitive.
+        var shape = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds());
+
+        //Add some metadata to the IPrimitive.
+        shape.metadata = {
+            title: 'IPrimitive clicked',
+            description: 'I am a polygon'
+        };
+
+        //Add an click event handler to the IPrimitive.
+        Microsoft.Maps.Events.addHandler(shape, 'click', iPrimitiveClicked);
+
+        //Add the IPrimitive to the map.
+        map.entities.push(shape);
+    }
+
+    function iPrimitiveClicked(e) {
+        //Make sure the infobox has metadata to display.
+        if (e.target.metadata) {
+            //Set the infobox options with the metadata of the pushpin.
+            infobox.setOptions({
+                //Use the location of where the mouse was clicked to position the infobox.
+                location: e.location,
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

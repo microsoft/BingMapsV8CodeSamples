@@ -1,0 +1,4 @@
+{
+  "Title": "User Location",
+  "Description": "Obtaining a user's location can easily be done using the W3C Geolocation API. This API is exposed through the navigator.geolocation property in the browser."
+}

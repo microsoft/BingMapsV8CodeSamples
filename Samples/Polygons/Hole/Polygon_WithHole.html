@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+
+        var center = map.getCenter();
+
+        //Create array of locations to form a ring.
+        var exteriorRing = [
+            center,
+            new Microsoft.Maps.Location(center.latitude - 0.5, center.longitude - 1),
+            new Microsoft.Maps.Location(center.latitude - 0.5, center.longitude + 1),
+            center
+        ];
+
+        //Create an array of locations that form a ring inside the exterior ring.
+        var interiorRing = [
+            new Microsoft.Maps.Location(center.latitude - 0.2, center.longitude),
+            new Microsoft.Maps.Location(center.latitude - 0.4, center.longitude + 0.5),
+            new Microsoft.Maps.Location(center.latitude - 0.4, center.longitude - 0.5),
+            new Microsoft.Maps.Location(center.latitude - 0.2, center.longitude)
+        ];
+
+        //Create an array of rings.
+        var rings = [exteriorRing, interiorRing];
+
+        //Create a polygon
+        var polygon = new Microsoft.Maps.Polygon(rings, {
+            fillColor: 'rgba(0, 255, 0, 0.5)',
+            strokeColor: 'red',
+            strokeThickness: 2
+        });
+
+        //Add the polygon to map
+        map.entities.push(polygon);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

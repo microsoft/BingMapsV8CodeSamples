@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Draggable Shapes - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Drag a shape by pixels or geo" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, dragManager;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom:3
+        });
+
+        var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds());
+        map.entities.push(polygon);
+
+        Microsoft.Maps.registerModule('DraggableShapesModule', 'DraggableShapesModule.js');
+        Microsoft.Maps.loadModule('DraggableShapesModule', function () {
+            dragManager = new DraggableShapesManager(map);
+            dragManager.makeDraggable(polygon);
+        });
+    }
+
+    function setDragMethod(elm) {
+        if (elm.value === 'Pixel') {
+            dragManager.setDragMethod(DragMethod.pixel);
+        } else {
+            dragManager.setDragMethod(DragMethod.geo);
+        }        
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <br/>
+    Drag Method: 
+    <input type="radio" name="DragMethodRadio" value="Pixel" checked="checked" onchange="setDragMethod(this)"/> Pixel
+    <input type="radio" name="DragMethodRadio" value="Geo" onchange="setDragMethod(this)" /> Geo
+</body>
+</html>

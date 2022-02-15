@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/755aa60032b24cb1bfb54e8a6d59c229/USCensus2010_States/States';
+
+    var map,
+        maxPopulation = 10000000,
+        heatGradientData;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(53.32, -110.29),
+            zoom: 3
+        });
+
+        //Create a legend. 
+        createLegend(maxPopulation);
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+
+            var worldBounds = Microsoft.Maps.LocationRect.fromEdges(90, -180, -90, 180);
+
+            //Get all states by doing an intersection test against a bounding box of the world and have up to 52 results returned.
+            var queryOptions = {
+                queryUrl: sdsDataSourceUrl,
+                spatialFilter: {
+                    spatialFilterType: 'intersects',
+                    intersects: worldBounds
+                },
+                top: 52
+            };
+
+            Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
+                //Loop through results and set the fill color of the polygons based on the population property.
+                for (var i = 0; i < data.length; i++) {
+                    data[i].setOptions({
+                        fillColor: getLegendColor(data[i].metadata.Population, maxPopulation)
+                    });
+
+                    //Add a click event to each polygon and display metadata.
+                    Microsoft.Maps.Events.addHandler(data[i], 'click', function (e) {
+                        alert(e.target.metadata.Name + '\r\nPopulation: ' + e.target.metadata.Population);
+                    });
+                }
+
+                //Add results to the map.
+                map.entities.push(data);
+            });
+        });
+    }
+
+    function createLegend(maxValue) {
+        var canvas = document.getElementById('legendCanvas');
+        var ctx = canvas.getContext('2d');
+
+        //Create a linear gradient for the legend. 
+        var colorGradient = {
+            "0.00": 'rgba(0,255,0,255)',    // Green
+            "0.50": 'rgba(255,255,0,255)',  // Yellow
+            "1.00": 'rgba(255,0,0,255)'     // Red
+        };
+
+        var grd = ctx.createLinearGradient(0, 0, 256, 0);
+        for (var c in colorGradient) {
+            grd.addColorStop(c, colorGradient[c]);
+        }
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        //Store the pixel information from the legend.
+        heatGradientData = ctx.getImageData(0, 0, canvas.width, 1);
+    }
+
+    function getLegendColor(value, maxValue) {
+        value = (value > maxValue) ? maxValue : value;
+
+        //Calculate the pixel data index from the ratio of value/maxValue.
+        var idx = Math.round((value / maxValue) * 256) * 4 - 4;
+
+        if (idx < 0) {
+            idx = 0;
+        }
+
+        //Create an RGBA color from the pixel data at the calculated index.
+        return 'rgba('+ heatGradientData.data[idx]+ ',' +
+            heatGradientData.data[idx + 1] + ',' +
+            heatGradientData.data[idx + 2] + ',' + '0.5)';
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+    <style>
+        .mapContainer {
+            position:relative;
+            width:800px;
+            height:600px;
+        }
+
+        #map {
+            position:relative;
+            width:800px;
+            height:600px;
+        }
+
+        .legend {
+            position:absolute;
+            top:5px;
+            left:5px;
+            width:256px;
+            height:35px;
+            font-family:Arial;
+            font-size:12px;
+            background-color:rgba(255, 255, 255, 0.8);
+            border-radius:5px;
+            padding:5px;
+        }
+
+        #legendCanvas {
+            width:256px;
+            height:15px;
+        }
+
+        .legend-max {
+            float:right;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapContainer">
+        <div id="myMap"></div>
+
+        <div class="legend">
+            <canvas id="legendCanvas"></canvas>
+            <span class="legend-min">0</span>
+            <span class="legend-max">10,000,000</span>
+        </div>
+    </div>
+</body>
+</html>

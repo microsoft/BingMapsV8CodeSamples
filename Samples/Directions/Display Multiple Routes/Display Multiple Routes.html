@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display Multiple Routes - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Calculate and display multiple routes using the getRoute function." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, directionsManagers = [];
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(47.7, -122.14),
+            zoom: 10
+        });
+
+        //Load the directions module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+            //Generate some routes.
+            getRoute('Seattle, WA', 'Bellevue, WA', 'red');
+            getRoute('Kirkland, WA', 'Bothell , WA', 'blue');
+            getRoute('Woodinville, WA', 'Duval, WA', 'green');
+            getRoute('Redmond, WA', 'Sammamish, WA', 'orange');
+        });
+    }
+
+    function getRoute(start, end, color) {
+        var dm = new Microsoft.Maps.Directions.DirectionsManager(map);
+        directionsManagers.push(dm);
+
+        dm.setRequestOptions({
+            routeMode: Microsoft.Maps.Directions.RouteMode.driving
+        });
+
+        dm.setRenderOptions({
+            autoUpdateMapView: false,
+            drivingPolylineOptions: {
+                strokeColor: color,
+                strokeThickness: 3
+            }
+        });
+
+        dm.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: start }));
+        dm.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: end }));
+
+        dm.calculateDirections();
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

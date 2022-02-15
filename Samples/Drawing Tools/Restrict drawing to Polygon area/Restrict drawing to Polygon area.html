@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Restrict drawing to Polygon area - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to restirct the drawing of shapes to such that they must fit inside a specified polygon area." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script type='text/javascript'>
+        var map, drawingManager, drawingArea;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create a random polygon in which to limit the drawing to.
+        drawingArea = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5, 0.5);
+        map.entities.push(drawingArea);
+
+        //Load the Drawing Tools and Spatial Math modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.DrawingTools', 'Microsoft.Maps.SpatialMath'], function () {
+            var tools = new Microsoft.Maps.DrawingTools(map);
+            tools.showDrawingManager(function (manager) {
+                //Store a reference to the drawing manager.
+                drawingManager = manager;
+
+                //Add drawingChanged and drawingEnded events to the drawing manager and use these to limit the shape to the drawing area.
+                Microsoft.Maps.Events.addHandler(manager, 'drawingChanged', limitShapeToDrawingArea);
+                Microsoft.Maps.Events.addHandler(manager, 'drawingEnded', limitShapeToDrawingArea);
+            })
+        });
+    }
+
+    function limitShapeToDrawingArea(shape) {
+        if (shape instanceof Microsoft.Maps.Pushpin) {
+            //Check to see if the pushpin intersects the drawing area.
+            if (!Microsoft.Maps.SpatialMath.Geometry.intersects(drawingArea, shape)) {
+                //If it doesn't, remove it from the map.
+                drawingManager.remove(shape);
+            }
+        } else {
+            //Get the locations of the polyline/polygon.
+            var locs = shape.getLocations();
+
+            //Loop through and remove any coordinates in it which may not be in the drawing area.
+            for (i = locs.length - 1; i >= 0; i--) {
+                if (!Microsoft.Maps.SpatialMath.Geometry.intersects(drawingArea, locs[i])) {
+                    locs.splice(i + 1, 1);
+                }
+            }
+
+            //Update the coordinates of the shape.
+            shape.setLocations(locs);
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Restrict drawing to Polygon area Sample</legend>
+        This sample shows how to restirct the drawing of shapes to such that they must fit inside a specified polygon area. While drawing poly shapes, a preview line will still appear when the mouse is outside of the polygon area, however these will be removed as you draw and complete the shape.
+    </fieldset>
+</body>
+</html>

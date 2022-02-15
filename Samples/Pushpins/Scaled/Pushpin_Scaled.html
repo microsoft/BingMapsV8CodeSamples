@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+
+        createScaledPushpin(map.getCenter(), '/images/pushpins/blueSquare.png', 2, function (pin) {
+            map.entities.push(pin);
+        });
+    }
+
+    function createScaledPushpin(location, imgUrl, scale, callback) {
+        var img = new Image();
+        img.onload = function () {
+            var c = document.createElement('canvas');
+            c.width = img.width * scale;
+            c.height = img.height * scale;
+
+            var context = c.getContext('2d');
+
+            //Draw scaled image
+            context.drawImage(img, 0, 0, c.width, c.height);
+
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                //Generate a base64 image URL from the canvas.
+                icon: c.toDataURL(),
+
+                //Anchor based on the bottom middle of the image.
+                anchor: new Microsoft.Maps.Point(c.width/2, c.height)
+            });
+
+            if (callback) {
+                callback(pin);
+            }
+        };
+
+        img.src = imgUrl;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Scaled Pushpin Sample</legend>
+        This sample shows how to use a canvas to create a scaled pushpin. 
+        Requires the pushpin to be in the same domain, or its hosting server to have CORs enabled.
+    </fieldset>
+</body>
+</html>

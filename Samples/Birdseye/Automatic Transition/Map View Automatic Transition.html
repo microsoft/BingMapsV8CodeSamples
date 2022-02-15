@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Map View Automatic Transition - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to automatically transition the map from aerial to birdseye and vice-versa when zooming." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            showZoomButtons: false  //Hide the default zoom buttons and create custom ones.
+        });
+        
+        var tryingToZoomOut = false;
+
+        //If the mouse wheel is used to zoom, switch between aerial and birdseye as needed.
+        Microsoft.Maps.Events.addHandler(map, 'mousewheel', function (e) {
+            var mapType = map.getMapTypeId();
+            var zoom = map.getZoom();
+
+            //If at zoom level 20 and the user tries to zoom out twice with the mouse wheel, then switch to aerial.
+            if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 20 && e.wheelDelta < 0) {
+                if (tryingToZoomOut) {
+                    map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.aerial, zoom: 19 });
+                    tryingToZoomOut = false;
+                } else {
+                    tryingToZoomOut = true;
+                }
+            } else if (mapType == Microsoft.Maps.MapTypeId.birdseye && zoom == 19 && e.wheelDelta < 0) {
+                map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.aerial });
+                tryingToZoomOut = false;
+            } else if (mapType == Microsoft.Maps.MapTypeId.aerial && zoom >= 19 && e.wheelDelta > 0) {
+                switchToBirdseye();
+            }
+        });
+
+        //When the map moves, if in aerial and at zoom level 19, check for birdseye imagery.
+        Microsoft.Maps.Events.addHandler(map, 'viewchangeend', function (e) {
+            if (map.getMapTypeId() === Microsoft.Maps.MapTypeId.aerial && map.getZoom() >= 19) {
+                switchToBirdseye();
+            }
+        });
+
+        //Add logic for custom zoom buttons.
+        document.getElementById('zoomIn').onclick = function () {
+            var z = map.getZoom() + 1;
+            map.setView({ zoom: z });
+
+            if (z === 19 && map.getMapTypeId() === Microsoft.Maps.MapTypeId.aerial) {
+                map.setView({ zoom: z });
+                switchToBirdseye();
+            } else {
+                map.setView({ zoom: z });
+            }
+        }
+
+        document.getElementById('zoomOut').onclick = function () {
+            var z = map.getZoom() - 1;
+
+            if (z === 18 && map.getMapTypeId() === Microsoft.Maps.MapTypeId.birdseye) {
+                map.setView({ zoom: z, mapTypeId: Microsoft.Maps.MapTypeId.aerial });
+            } else {
+                map.setView({ zoom: z });
+            }
+        }
+
+        Microsoft.Maps.Events.addHandler(map, 'maptypechanged', updateZoomButtons);
+        updateZoomButtons();
+    }
+
+    function switchToBirdseye() {
+        //Verify that birdseye imagery is available before trying to switch into it.
+        Microsoft.Maps.getIsBirdseyeAvailable(map.getCenter(), map.getHeading(), function (isAvailable) {
+            if (isAvailable) {
+                map.setView({ mapTypeId: Microsoft.Maps.MapTypeId.birdseye });
+            }
+        });
+    }
+
+    function updateZoomButtons() {
+        switch (map.getMapTypeId()) {
+            case Microsoft.Maps.MapTypeId.birdseye:
+            case Microsoft.Maps.MapTypeId.aerial:
+            case Microsoft.Maps.MapTypeId.canvasDark:
+                document.getElementById('zoomOut').className = 'darkZoom';
+                document.getElementById('zoomIn').className = 'darkZoom';
+                break;
+            default:
+                document.getElementById('zoomOut').className = 'lightZoom';
+                document.getElementById('zoomIn').className = 'lightZoom';
+                break;
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+
+    <style>
+        .mapContainer, #myMap{
+            position:relative;
+            width:800px;
+            height:600px;
+        }
+
+        #zoomOut, #zoomIn {
+            text-align: center;
+            font-size: 25px;
+            position: absolute;
+            right: 33px;
+            font-weight: bold;
+            width: 30px;
+            height: 30px;
+            border-radius: 16px;
+            -moz-user-select: -moz-none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            z-index:1001;
+        }
+
+        #zoomOut {
+            line-height: 24px;
+            top: 180px;
+        }
+
+        #zoomIn {
+            top:130px;
+            line-height:30px;
+        }
+
+        .darkZoom{
+            background-color: #333333;
+            border: 1px solid #fff;
+            color:white;
+        }
+
+        .darkZoom:hover{
+            background-color: #808080;
+        }
+
+        .lightZoom{
+            background-color: white;
+            border: 1px solid #000;
+            color: black;
+        }
+
+         .lightZoom:hover{
+            background-color: #CCCCCC;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapContainer">
+        <div id="myMap"></div>
+        <span id="zoomOut">‒</span>
+        <span id="zoomIn">+</span>
+    </div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Map View Automatic Transition Sample</legend>
+        This sample shows how to automatically transition the map from aerial to birdseye and vice-versa when zooming.
+    </fieldset>
+</body>
+</html>

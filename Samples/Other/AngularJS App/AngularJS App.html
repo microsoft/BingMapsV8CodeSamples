@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bing Maps with AngularJS App - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Bing Maps with AngularJS web application framework sample." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>	
+
+	<script src="app.js"></script>
+	<script src="directives.js"></script>
+	<script src="services.js"></script>
+
+    <script src="https://www.bing.com/api/maps/mapcontrol?callback=mapScriptLoadCallback&key=[YOUR_BING_MAPS_KEY]"></script>
+</head>
+<body>
+	<div class="mainCont" ng-controller="MainCtrl">
+		<h1>{{title}}</h1>
+
+		<map center="{{center}}" width="800px" height="600px">
+			<pushpin ng-repeat="pushpin in pushpins" lat="{{pushpin.latitude}}" lng="{{pushpin.longitude}}" text="{{pushpin.text}}" 
+					 color="{{pushpin.color}}" click="onPushpinClick({{pushpin}})"></pushpin>
+		</map>
+	</div>
+</body>
+</html>

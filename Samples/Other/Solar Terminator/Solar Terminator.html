@@ -1,9 +1,17 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title></title>
+    <title>Solar Terminator - Bing Maps Samples</title>
+
     <meta charset="utf-8" />
-    <script type='text/javascript'>
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample is of a module that calculates the Solar terminator (shadow of where the sun don't shine) as well as the suns approximate overhead location on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
     var map, terminator, sunPin;
     var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -14,7 +22,7 @@
         });
 
         //Register the custom module.
-        Microsoft.Maps.registerModule('SolarTerminatorModule', '/Other/Solar%20Terminator/SolarTerminatorModule.js');
+        Microsoft.Maps.registerModule('SolarTerminatorModule', 'SolarTerminatorModule.js');
 
         //Load the module.
         Microsoft.Maps.loadModule('SolarTerminatorModule', function () {
@@ -66,7 +74,7 @@
         sunPin.setLocation(terminator.getSunLocation());
     }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
 
     <style>
         input[type=range]{

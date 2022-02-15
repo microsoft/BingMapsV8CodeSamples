@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Generate some random locations to add the pushpins to the map.
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(2, map.getBounds());
+
+        //Create a pushpin from a sprite and add it to the map.
+        createPushpinFromSprite(locs[0], '/images/pushpins/PushpinSprite.png', 325, 57, 42, 52, function (pin) {
+            map.entities.push(pin);
+        });
+
+        createPushpinFromSprite(locs[1], '/images/pushpins/PushpinSprite.png', 80, 0, 42, 52, function (pin) {
+            map.entities.push(pin);
+        });
+    }
+
+    function createPushpinFromSprite(location, spriteUrl, x, y, width, height, callback) {
+        //Preload the pushpin sprite.
+        var img = new Image();
+        img.onload = function () {
+            var c = document.createElement('canvas');
+            c.width = width;
+            c.height = height;
+
+            var context = c.getContext('2d');
+
+            //Draw the pushpin icon
+            context.drawImage(img, x, y, width, height, 0, 0, width, height);
+
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                //Generate a base64 image URL from the canvas.
+                icon: c.toDataURL(),
+
+                //Anchor the pushpins to the center bottom of the image.
+                anchor: new Microsoft.Maps.Point(width/2, height)
+            });
+
+            if (callback) {
+                callback(pin);
+            }
+        };
+
+        img.src = spriteUrl;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Image Sprite Pushpins using a Canvas Sample</legend>
+        This sample shows how to use and image sprite to create pushpins via an HTML canvas.
+    </fieldset>
+</body>
+</html>

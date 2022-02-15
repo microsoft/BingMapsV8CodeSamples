@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Single vs Double Click - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to distiguish if the single click event is truely a single click or not." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        var clickTimout;
+
+        Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
+            clickTimout = setTimeout(function () {
+                //Single click has occured.
+                alert('Map single clicked.')
+            }, 300);
+        });
+
+        Microsoft.Maps.Events.addHandler(map, 'dblclick', function (e) {
+            //Double click event occured. Clear the single click timeout before it has a chance to fire.
+            clearTimeout(clickTimout);
+
+            alert('Map double clicked.')
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Single vs Double Click Sample</legend>
+        By default the click event will fire when the map recieves a single or double click. 
+        This sample shows how to distiguish if the single click event is truely a single click or not.
+    </fieldset>
+</body>
+</html>

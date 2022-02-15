@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Animated Weather Radar Map - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="For this example the weather radar tile service are from the Iowa Environmental Mesonet of Iowa State University and animates." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps, animation, tile" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-animatedweatherradar.png" />
+    
+    <script>
+    var map, animatedLayer;
+
+    //Weather tile url from Iowa Environmental Mesonet (IEM): http://mesonet.agron.iastate.edu/ogc/
+    var urlTemplate = 'http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-{timestamp}/{zoom}/{x}/{y}.png';
+
+    //The time stamps values for the IEM service for the last 50 minutes broken up into 5 minute increments.
+    var timestamps = ['900913-m50m', '900913-m45m', '900913-m40m', '900913-m35m', '900913-m30m', '900913-m25m', '900913-m20m', '900913-m15m', '900913-m10m', '900913-m05m', '900913'];
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(39, -92),
+            zoom: 5
+        });
+        
+        var tileSources = [];
+
+        //Create a tile source for each time stamp.
+        for (var i = 0; i < timestamps.length; i++) {
+            var tileSource = new Microsoft.Maps.TileSource({
+                uriConstructor: urlTemplate.replace('{timestamp}', timestamps[i])
+            });
+            tileSources.push(tileSource);
+        }
+
+        //Create the animated tile layer and add it to the map.
+        animatedLayer = new Microsoft.Maps.AnimatedTileLayer({
+            mercator: tileSources,
+            frameRate: 500
+        });
+        map.layers.insert(animatedLayer);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

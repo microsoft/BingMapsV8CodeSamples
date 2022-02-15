@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Render GeoJSON as Heat Map - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This code sample loads in earthquake data for the last 30 days and displays them as a heatmap layer." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-ringoffireexample-map.png" />
+    
+    <script>
+    var usgsEarthquakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson';
+
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(34, -118),
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            zoom: 7
+        });
+
+        //Load the GeoJSON and HeatMap modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.GeoJson', 'Microsoft.Maps.HeatMap'], function () {
+            Microsoft.Maps.GeoJson.readFromUrl(usgsEarthquakeUrl, function (shapes) {
+                var heatmap = new Microsoft.Maps.HeatMapLayer(shapes, {
+                    radius: 10000,
+                    unit: 'meters',
+                    opacity: 0.8
+                });
+                map.layers.insert(heatmap);
+            });
+        });
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

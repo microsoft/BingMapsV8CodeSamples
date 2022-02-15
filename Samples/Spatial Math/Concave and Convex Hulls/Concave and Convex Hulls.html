@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, pins;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create some random pushpins wihtin the map view.
+        pins = Microsoft.Maps.TestDataGenerator.getPushpins(30, map.getBounds());
+        map.entities.push(pins);
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath");
+    }
+
+    function GetConvexHull() {
+        map.entities.clear();
+
+        //Calculate the convex hull.
+        var hullPolygon = Microsoft.Maps.SpatialMath.Geometry.convexHull(pins);
+
+        //Add the data to the map.
+        map.entities.push(hullPolygon);
+        map.entities.push(pins);
+    }
+
+    function GetConcaveHull() {
+        map.entities.clear();
+
+        //Calculate the concave hull.
+        var hullPolygon = Microsoft.Maps.SpatialMath.Geometry.concaveHull(pins);
+
+        //Add the data to the map.
+        map.entities.push(hullPolygon);
+        map.entities.push(pins);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+
+    Create:     
+    <input type="button" value="Convex Hull" onclick="GetConvexHull()" />
+    <input type="button" value="Concave Hull" onclick="GetConcaveHull()" />
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Concave and Convex Hulls Sample</legend>
+        This sample shows how to calculate convex and concave hulls for a set of pushpins.
+    </fieldset>
+</body>
+</html>

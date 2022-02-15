@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Birdseye Basics - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to load the map into Birdseye mode and display data on top of it." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(37.239027, -121.966237),
+            mapTypeId: Microsoft.Maps.MapTypeId.birdseye
+        });
+
+        var layer = new Microsoft.Maps.Layer();
+
+        var pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(37.239027, -121.966237), { title: 'sample text' });
+        layer.add(pushpin);
+
+        var polyline = new Microsoft.Maps.Polyline([new Microsoft.Maps.Location(37.239279, -121.966286),
+        new Microsoft.Maps.Location(37.239481, -121.966162),
+        new Microsoft.Maps.Location(37.239622, -121.966179),
+        new Microsoft.Maps.Location(37.239881, -121.966654),
+        new Microsoft.Maps.Location(37.238978, -121.967443),
+        new Microsoft.Maps.Location(37.238807, -121.967427),
+        new Microsoft.Maps.Location(37.237538, -121.964750),
+        new Microsoft.Maps.Location(37.236868, -121.965635),
+        new Microsoft.Maps.Location(37.236001, -121.965812),
+        new Microsoft.Maps.Location(37.235905, -121.965091),
+        new Microsoft.Maps.Location(37.235577, -121.964664)], { strokeColor: 'lightblue', strokeThickness: 5 });
+        layer.add(polyline);
+        
+        map.layers.insert(layer);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Basic Birdseye Sample</legend>
+        This sample shows how to load the map into Birdseye mode and display data on top of it.
+    </fieldset>
+</body>
+</html>

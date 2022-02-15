@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basic Heat Map - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="The following example loads 1,000 random locations into a heat map that are within the initial view of a loaded map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Generate a 1,000 random locations that are within the bounds of the map view.
+        var locs = Microsoft.Maps.TestDataGenerator.getLocations(1000, map.getBounds());
+
+        //Load the HeatMap module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.HeatMap', function () {
+            var heatmap = new Microsoft.Maps.HeatMapLayer(locs);
+            map.layers.insert(heatmap);
+        });
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

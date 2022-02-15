@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create a pushpin.
+        var pushpin = new Microsoft.Maps.Pushpin(map.getCenter());
+        map.entities.push(pushpin);
+
+        //Add mouse events to the pushpin.
+        Microsoft.Maps.Events.addHandler(pushpin, 'click', function () { highlight('pushpinClick'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'dblclick', function () { highlight('pushpinDoubleClick'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'mousedown', function () { highlight('pushpinMousedown'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'mouseout', function () { highlight('pushpinMouseout'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'mouseover', function () { highlight('pushpinMouseover'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'mouseup', function () { highlight('pushpinMouseup'); });
+    }
+
+    function highlight(id) {
+        //Highlight the mouse event div to indicate that the event has fired.
+        document.getElementById(id).style.background = 'LightGreen';
+
+        //Remove the highlighting after a second.
+        setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div id="pushpinClick">click</div>
+    <div id="pushpinDoubleClick">dblclick</div>
+    <div id="pushpinMousedown">mousedown</div>
+    <div id="pushpinMouseout">mouseout</div>
+    <div id="pushpinMouseover">mouseover</div>
+    <div id="pushpinMouseup">mouseup</div>
+</body>
+</html>

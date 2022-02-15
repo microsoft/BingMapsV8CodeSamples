@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Point Compression - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="The PointCompression class provides a compression algorithm to encodes/decodes a collection of Location objects into a string and back." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+
+        var encodedString = 'x90uhio4sQmhuGwxrGz8sGp-zP5ooKpx9Eiz7Ip2vFko8E56xEl-zEyhkG';
+
+        //Decode the encoded string.
+        var locs = Microsoft.Maps.PointCompression.decode(encodedString);
+
+        //Display the locations as a polyline on the map so we can see what it looks like.
+        var p = new Microsoft.Maps.Polyline(locs, {
+            strokeColor: 'red',
+            strokeThickness: 5
+        });
+        map.entities.push(p);
+
+        //Set the view of the map over the polyline.
+        map.setView({ bounds: Microsoft.Maps.LocationRect.fromLocations(locs) });
+
+        //Encode the locations.
+        var newEncodedString = Microsoft.Maps.PointCompression.encode(locs);
+
+        //Verify that the encoded string and new encoded string match.
+        if (encodedString === newEncodedString) {
+            alert('Correctly encoded locations.');
+        } else {
+            alert('Incorrectly encoded locations.');
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

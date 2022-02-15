@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Get Shapes from DrawingManager - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This example shows how to get all the shapes that are in the drawing manager at any time." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, drawingManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            tools.showDrawingManager(function (manager) {
+                drawingManager = manager;
+            });
+        });
+    }
+
+    function getShapes() {
+        var shapes = drawingManager.getPrimitives();
+
+        if (shapes && shapes.length > 0) {
+            alert('Retrieved ' + shapes.length + ' from the drawing manager.');
+        } else {
+            alert('No shapes in the drawing manager.');
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <input type="button" value="Get Shapes" onclick="getShapes()"/>
+</body>
+</html>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Custom HTML Infobox - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This example shows how to create an infobox using custom HTML." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-custominfoboxexample2.png" />
+    
+    <script>
+    var map, infobox;
+
+    //Define an HTML template for a custom infobox.
+    var infoboxTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        var center = map.getCenter();
+
+        //Define a title and description for the infobox.
+        var title = 'This is the title';
+        var description = '<img src="https://www.bingmapsportal.com/Content/images/poi_custom.png" align="left" style="margin-right:5px;"/>This is a description with custom html. <a href="http://bing.com/maps" target="_blank">Link</a>';
+
+        //Some HTML to add a close button to the infobox.
+        var closeButton = '<a href="javascript:closeInfobox()" class="customInfoboxCloseButton">X</a>';
+
+        //Pass the title and description into the template and pass it into the infobox as an option.
+        infobox = new Microsoft.Maps.Infobox(center, {
+            htmlContent: infoboxTemplate.replace('{title}', title).replace('{description}', description) + closeButton
+        });
+
+        //Assign the infobox to a map instance.
+        infobox.setMap(map);
+    }
+
+    function closeInfobox() {
+        infobox.setOptions({ visible: false });
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+    <style>
+        /* CSS styles used by custom infobox template */
+        .customInfobox {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            max-width: 200px;
+            border-radius: 10px;
+            padding: 10px;
+            font-size:12px;
+            pointer-events:auto !important;
+        }
+
+            .customInfobox .title {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+        a.customInfoboxCloseButton:link, a.customInfoboxCloseButton:visited {
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            top: 0px;
+            right:10px;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight:bold;
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Custom Infobox HTML Content Sample</legend>
+        This sample shows how to completely override the HTML of an infobox to create a custom infobox.
+    </fieldset>
+</body>
+</html>

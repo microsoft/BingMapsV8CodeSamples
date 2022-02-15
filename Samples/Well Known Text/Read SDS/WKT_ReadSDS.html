@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/755aa60032b24cb1bfb54e8a6d59c229/USCensus2010_States/States';
+    var sessionKey;
+    var map;
+
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(47.6, -122.34)
+        });
+
+        //Load the Well Known Text module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
+            //Get a session key from the map to make the request none billable.
+            map.getCredentials(function (c) {
+                sessionKey = c;
+
+                var request = sdsDataSourceUrl + '?spatialFilter=bbox(-90,-180,90,180)&$top=250&$format=json&jsonp=sdsCallback&key=' + sessionKey;
+                callRestService(request);
+            });
+        });
+    }
+
+    function callRestService(request) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = request;
+        document.body.appendChild(script);
+    }
+
+    function sdsCallback(r) {
+        r = r.d.results;
+
+        var shapes = [];
+
+        for (var i = 0; i < r.length; i++) {
+            //Parse well known text string.
+            var s = Microsoft.Maps.WellKnownText.read(r[i].Boundary);
+
+            if (s.length) {
+                shapes = shapes.concat(s);
+            } else {
+                shapes.push(s);
+            }
+        }    
+
+        map.entities.push(shapes);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

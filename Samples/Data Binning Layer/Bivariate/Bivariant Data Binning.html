@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bivariant Data Binning - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Since the size and the color can both be customized based on an aggregate value it is possible to have a single data bin represent two data metrics (bivariant)." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-bivariatehexbins.png" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Generate 10,000 random pushpins within the current map view. 
+        var pins = Microsoft.Maps.TestDataGenerator.getPushpins(10000, map.getBounds());
+
+        //Add a custom metadata value to each pushpin to simulate real data. 
+        for (var i = 0, len = pins.length; i < len; i++) {
+            pins[i].metadata = {
+                sales: Math.random() * 100
+            };
+        }
+
+        //Load the Data Binning module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DataBinning', function () {
+            //Create the data binning layer. Specify a callback for both the color and scale. 
+            var layer = new Microsoft.Maps.DataBinningLayer(pins, {
+                dataBinType: Microsoft.Maps.DataBinType.hexagon,
+                aggregationProperty: 'sales', //Specify the name of the custom property to aggregate over.
+                colorCallback: CustomBinColorLogic,
+                scaleCallback: CustomBinScalingLogic
+            });
+            map.layers.insert(layer);
+        });
+    }
+
+    function CustomBinColorLogic(bin, min, max) {
+        //Specify custom logic to colorize a data bin based on the information it contains.
+
+        //In this case, calculate twhat percentage the sum of this bin is compared to the max bin sum. 
+        //If the value is geater than 75% make the bin green, >50% yellow, below 50% red.
+        var percentageSum = bin.metrics.sum / max.sum * 100;
+
+        if (percentageSum >= 75) {
+            //Green
+            return 'rgba(0,255,0,0.5)';
+        } else if (percentageSum > 50) {
+            //Yellow
+            return 'rgba(255,255,0,0.5)';
+        } else {
+            //Red
+            return 'rgba(255,0,0,0.5)';
+        }
+    }
+
+    function CustomBinScalingLogic(bin, min, max) {
+        //Specify custom logic to scale a data bin based on the information it contains.
+
+        //In this case, scale the size of the bin based on the number of pushpins in the bin 
+        //relative to the maximum pushpins in a single bin in the layer.
+        return bin.metrics.count / max.count;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Bivariate Data Binning Sample</legend>
+        In this example, each pushpin in the data set has a custom 'sales' metadata value which is assigned a random number.
+        The color of each data bin is based on the total realtive sum of sales in all pushpins the data bin contains.
+        The scale of each data bin is based on the total number of pushpins in each bin.
+        This is an example of a bivariate data binning layer which uses two types of visualizations to represent two variables; color and scale.
+        If we assume that each pushpin represented a customer. A data bin that is red would indicate that the total sales in that area is
+        low, however, if the bin was also small, this would indicate that there isn't a lot of pushpins in that data bin which could explain
+        why the total sales in that bin is low.
+    </fieldset>
+</body>
+</html>

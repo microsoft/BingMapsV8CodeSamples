@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create a random polygon.
+        var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds());
+
+        //Add the polygon to map
+        map.entities.push(polygon);
+
+        //Add mouse events to the polygon.
+        Microsoft.Maps.Events.addHandler(polygon, 'click', function () { highlight('polygonClick'); });
+        Microsoft.Maps.Events.addHandler(pushpin, 'dblclick', function () { highlight('polygonDoubleClick'); });
+        Microsoft.Maps.Events.addHandler(polygon, 'mousedown', function () { highlight('polygonMousedown'); });
+        Microsoft.Maps.Events.addHandler(polygon, 'mouseout', function () { highlight('polygonMouseout'); });
+        Microsoft.Maps.Events.addHandler(polygon, 'mouseover', function () { highlight('polygonMouseover'); });
+        Microsoft.Maps.Events.addHandler(polygon, 'mouseup', function () { highlight('polygonMouseup'); });
+    }
+
+    function highlight(id) {
+        //Highlight the mouse event div to indicate that the event has fired.
+        document.getElementById(id).style.background = 'LightGreen';
+
+        //Remove the highlighting after a second.
+        setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div id="polygonClick">click</div>
+    <div id="polygonDoubleClick">dblclick</div>
+    <div id="polygonMousedown">mousedown</div>
+    <div id="polygonMouseout">mouseout</div>
+    <div id="polygonMouseover">mouseover</div>
+    <div id="polygonMouseup">mouseup</div>
+</body>
+</html>

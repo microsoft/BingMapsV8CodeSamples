@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Circles - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Calculate the locations for a regular polygon that has 36 locations which will rssult in an approximate circle." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map; 
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialMath', 'Microsoft.Maps.Contour'], function () {
+            var center = map.getCenter();
+
+            var circle1 = createCircle(center, 1, 'rgba(0,0,150,0.5)');
+            var circle2 = createCircle(center, 2, 'rgba(0,0,200,0.5)');
+            var circle3 = createCircle(center, 3, 'rgba(0,50,200,0.5)');
+            var circle4 = createCircle(center, 4, 'rgba(0,100,200,0.5)');
+            var circle5 = createCircle(center, 5, 'rgba(0,150,200,0.5)');
+
+            var layer = new Microsoft.Maps.ContourLayer([circle1, circle2, circle3, circle4, circle5], {
+                colorCallback: function (val) {
+                    return val;
+                },
+                polygonOptions: {
+                    strokeThickness: 0
+                }
+            });
+            map.layers.insert(layer);
+        });
+    }
+
+    function createCircle(center, radius, color) {
+        //Calculate the locations for a regular polygon that has 36 locations which will rssult in an approximate circle.
+        var locs = Microsoft.Maps.SpatialMath.getRegularPolygon(center, radius, 36, Microsoft.Maps.SpatialMath.DistanceUnits.Miles);
+
+        return new Microsoft.Maps.ContourLine(locs, color);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

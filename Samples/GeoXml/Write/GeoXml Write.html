@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GeoXml Write - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to export shapes from the map as geospatial XML." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+       
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Add a some random data to the map.
+        var polygons = Microsoft.Maps.TestDataGenerator.getPolygons(3, map.getBounds(), 5, null, null, true);
+        map.entities.push(polygons);
+
+        var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(3, map.getBounds());
+        map.entities.push(pushpins);
+
+        //Load the GeoXml module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+            //Pass in the map to export all data on it into an XML string.
+            var xml = Microsoft.Maps.GeoXml.write(map, {
+                xmlFormat: Microsoft.Maps.GeoXmlFormat.kml,
+                roundLocations: true,
+                indentChars: '    ' //Use 4 spaces instead of \t for indenting as it looks better in the textarea.
+            });
+
+            //Display the XML in the text area.
+            document.getElementById('xmlPanel').value = xml;
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:400px;"></div>
+    
+    <textarea id="xmlPanel" style="width:800px;height:300px;"></textarea>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoXml - Write Sample</legend>
+        This sample shows how to export shapes from the map as geospatial XML.
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gpx with Metadata - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This plugin allows you to import GPX files with Metadata into Bing Maps." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script type="text/javascript">
+    var map, dataLayer;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Register and load the GPX Parser Module
+        Microsoft.Maps.registerModule("GPXParserModule", "GPXParserModule.js");
+        Microsoft.Maps.loadModule("GPXParserModule");
+    }
+
+    function LoadGPX(url) {
+        //Clear data on map
+        map.entities.clear();
+
+        //Parse GPX file
+        new GPXParser().Parse(url, GPXCallback);
+    }
+
+    function GPXCallback(layer) {
+        //Add the layer to the map
+        map.layers.insert(layer);
+
+        //Add click event to the layer.
+        Microsoft.Maps.Events.addHandler(layer, 'click', function (e) {
+            viewMetadata("LocationInfo", e.target.metadata);
+        });
+
+        //Load layer metadata
+        viewMetadata("LayerInfo", layer.metadata);
+
+        //Set the map view
+        map.setView({ bounds: Microsoft.Maps.LocationRect.fromShapes(layer.getPrimitives()), padding: 50 });
+    }
+
+    function viewMetadata(div, metadata) {
+        document.getElementById(div).innerHTML = "Name: " + metadata.name + "<br/>Description:<br/>" + metadata.desc;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div style="float:left;width:600px;">
+        <div id='myMap' style="position:relative;width:600px;height:500px;"></div>
+        <input type="button" value="Local file (GPX file of Monuments)" onclick="LoadGPX('/data/gpx/gps_points.xml')" />
+        <input type="button" value="Local file (UK tourist locations)" onclick="LoadGPX('/data/gpx/Tourist_locations_UK-England.xml')" />
+    </div>
+    <div style="float:left;width:300px;margin:0 0 0 10px;">
+        <b>Layer Info</b><br />
+        <div id='LayerInfo'></div><br />
+        <b>Location Info</b><br />
+        <div id="LocationInfo"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        createRotatedImagePushpin(map.getCenter(), '/images/pushpins/ssMap.png', 45, function (pin) {
+            map.entities.push(pin);
+        });
+    }
+
+    function createRotatedImagePushpin(location, url, rotationAngle, callback) {
+        var img = new Image();
+        img.onload = function () {
+            var c = document.createElement('canvas');
+
+            var rotationAngleRads = rotationAngle * Math.PI / 180;
+
+           //Calculate rotated image size.
+            c.width = Math.abs(Math.ceil(img.width * Math.cos(rotationAngleRads) + img.height * Math.sin(rotationAngleRads)));
+            c.height = Math.abs(Math.ceil(img.width * Math.sin(rotationAngleRads) + img.height * Math.cos(rotationAngleRads)));
+
+            var context = c.getContext('2d');
+
+            //Move to the center of the canvas.
+            context.translate(c.width / 2, c.height / 2);
+
+            //Rotate the canvas to the specified angle in degrees.
+            context.rotate(rotationAngleRads);
+
+            //Draw the image, since the context is rotated, the image will be rotated also.
+            context.drawImage(img, -img.width / 2, -img.height / 2);
+
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                //Generate a base64 image URL from the canvas.
+                icon: c.toDataURL(),
+                anchor: new Microsoft.Maps.Point(c.width / 2, c.height / 2) //Anchor to center of image.
+            });
+
+            if (callback) {
+                callback(pin);
+            }
+        };
+
+        //Allow cross domain image editting.
+        img.crossOrigin = 'anonymous';
+        img.src = url;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

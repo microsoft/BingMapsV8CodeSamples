@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basic GeoXmlLayer - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to load a string of geospatial XML data, in this case GeoRSS, into a GmlXmlLayer." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+    var georss = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Sample Polygon</title><georss:polygon>46.31409 -122.22616 46.31113 -122.22968 46.31083 -122.23320</georss:polygon></entry></feed>';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 1
+        });
+
+        //Load the GeoXml module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+            //Create an instance of the GeoXmlLayer.
+            layer = new Microsoft.Maps.GeoXmlLayer(georss, null, { autoUpdateMapView: false });
+
+            //Add the layer to the map.
+            map.layers.insert(layer);
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoXmlLayer - Basic Sample</legend>
+        This sample shows how to load a string of geospatial XML data, in this case GeoRSS, into a GmlXmlLayer.
+    </fieldset>
+</body>
+</html>

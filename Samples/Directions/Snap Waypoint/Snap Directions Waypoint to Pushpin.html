@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Snap Directions Waypoint to Pushpin - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to snap a directions route to pushpins on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+        var map;
+        var directionsManager;
+        
+        //An array that lists all the pushpins that can be snapped to.
+        var pinsToSnap = [];
+
+        //A flag that indicates that the snapping logic should be skipped.
+        var skipSnappingLogic;
+
+        //A distance in pixels (for the displayed zoom level) in which a dragged route mush be to snapped to a pushpin. 
+        //The radius of the pushpin works well. 
+        var snapTreshold = 15; 
+
+        function GetMap()
+        {
+            map = new Microsoft.Maps.Map('#myMap', {});
+
+            //Add some pins that we can snap the route to.
+            createSnapPin(new Microsoft.Maps.Location(47.557946, -122.122345), 'X');
+            createSnapPin(new Microsoft.Maps.Location(47.709344, -122.215729), 'Y');
+            createSnapPin(new Microsoft.Maps.Location(47.668669, -122.368988), 'Z');
+
+            Microsoft.Maps.loadModule(['Microsoft.Maps.Directions', 'Microsoft.Maps.SpatialMath'], function () {
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+                //Create the initial route.
+                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' }));
+                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' }));
+                directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: 'Tacoma, WA' }));
+
+                //Add event handlers to directions manager.
+                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', directionsUpdated);
+
+                //Don't need to worry about snapping when calculating the initial route.
+                skipSnappingLogic = true;
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+            });
+        }
+
+        //Creates a pushpin that we can snap to.
+        function createSnapPin(loc, id) {
+            var pin = new Microsoft.Maps.Pushpin(loc, { text: id });
+            pinsToSnap.push(pin);
+            map.entities.push(pin);
+        }
+
+        function directionsUpdated(e) {           
+            if (!skipSnappingLogic) {
+                var route = e.route[0];
+
+                //Get all the waypoints in the route.
+                var waypoints = directionsManager.getAllWaypoints();
+
+                //Loop through the route and inspect the route legs that have more than one subLeg. 
+                //This will indicate that there is a via waypoint in that leg which has been dragged 
+                //since we haven't programmatically added any via waypoints..
+                for (var i = 0, len = route.routeLegs.length; i < len; i++) {
+                    if (route.routeLegs[i].subLegs.length > 1) {
+
+                        //Find which snapping pin is closest to the end of the first subleg and is within the desired pixel threshold distance.
+                        var endLoc = route.routeLegs[i].subLegs[0].actualEnd;
+                        var pinToSnapIdx;
+                        var minDistance = Number.MAX_VALUE;
+                        var zoom = map.getZoom();
+
+                        for (var j = 0, cnt = pinsToSnap.length; j < cnt; j++) {
+                            var d = getPixelDistance(endLoc, pinsToSnap[j].getLocation(), zoom);
+
+                            if (d < minDistance && d <= snapTreshold) {
+                                pinToSnapIdx = j;
+                                minDistance = d;
+                            }
+                        }
+                        
+                        //If a snapping pin has been found. Add it to the list of waypoints in the route and disable snapping to that pin.
+                        if (typeof pinToSnapIdx !== 'undefined') {
+                            //Create a waypoint for the hovered pushpin, and then insert it into the waypoint array.
+                            waypoints.splice(i + 1, 0, new Microsoft.Maps.Directions.Waypoint({ location: pinsToSnap[pinToSnapIdx].getLocation() }));
+
+                            //Remove the pushpin from the snapping array as it is no longer an option to snap to. (can also remove from map if desired)
+                            pinsToSnap.splice(pinToSnapIdx, 1);
+
+                            //Since we want to calculate a route with our new waypints, we don't need it to do this snapping logic the next time the 
+                            //directions updated event is called.
+                            skipSnappingLogic = true;
+                            directionsManager.calculateDirections();
+                            break;
+                        }
+                    }
+                }
+            } else {
+                skipSnappingLogic = false;
+            }
+        }
+
+        //Calculates the pixel distance between two locations at the specified zoom level.
+        function getPixelDistance(loc1, loc2, zoom){
+            var p1 = Microsoft.Maps.SpatialMath.Tiles.locationToGlobalPixel(loc1, zoom);
+            var p2 = Microsoft.Maps.SpatialMath.Tiles.locationToGlobalPixel(loc2, zoom);
+            var dx = p1.x - p2.x;
+            var dy = p1.y - p2.y;
+            return Math.sqrt(dx*dx + dy*dy);
+        }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Snap Directions Waypoint to Pushpin Sample</legend>
+        This sample shows how to snap a directions route to pushpins on the map. 
+        The usefulness of this sample is that normally dragging the route on the map will snap to where ever you stopped draggin the route, 
+        but if you are zoomed out and have pushpins displayed on the map, dragging the route to a pushpin normally might actually snap to a 
+        point that is several blocks away from the pushpin. 
+        This sample detects when a route has been dragged to a pushpin and snaps its waypoint to the locaiton of that pushpin.
+    </fieldset>
+</body>
+</html>

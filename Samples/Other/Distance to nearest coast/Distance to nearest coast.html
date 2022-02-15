@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Distance to nearest coast - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to the approximate distance to the nearest coastline can be calculated from a point on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, directionsManager, landPolygons, waterPolygon;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 4
+        });
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.SpatialMath', 'Microsoft.Maps.GeoJson', 'Microsoft.Maps.Directions'], function () {
+            //Get the boundaries of all countries from a GeoJson file. 
+            Microsoft.Maps.GeoJson.readFromUrl('/data/geojson/Countries.js',
+                function (shapes) {
+                    landPolygons = shapes;
+
+                    //Calculate the area that is not land. This is needed for finding the nearest coast for a point that is on land.
+                    var fullGlobePolygon = new Microsoft.Maps.Polygon([
+                        new Microsoft.Maps.Location(90, -180),
+                        new Microsoft.Maps.Location(90, 0),
+                        new Microsoft.Maps.Location(90, 180),
+                        new Microsoft.Maps.Location(-90, 180),
+                        new Microsoft.Maps.Location(-90, 0),
+                        new Microsoft.Maps.Location(-90, -180),
+                        new Microsoft.Maps.Location(90, -180)
+                    ]);
+
+                    waterPolygon = Microsoft.Maps.SpatialMath.Geometry.difference(fullGlobePolygon, landPolygons);
+                });
+
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+            Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function (e) {
+                //Get the current route index.
+                var routeIdx = directionsManager.getRequestOptions().routeIndex;
+
+                //Get the distance of the route, rounded to 1 decimal place.
+                var distance = Math.round(e.routeSummary[routeIdx].distance * 10) / 10;
+
+                document.getElementById('output').innerHTML += 'Driving Distance: ' + distance + ' km';              
+            });
+        });
+
+        //When the map is clicked, calculate the closest coast from it. 
+        Microsoft.Maps.Events.addHandler(map, 'click', function (e) {
+            map.entities.clear();
+            directionsManager.clearAll();
+            document.getElementById('output').innerHTML = 'Calculating...';
+
+            //Add a pin to show where the user clicked. 
+            var pin = new Microsoft.Maps.Pushpin(e.location, { color: 'green' });
+            map.entities.push(pin);
+
+            //Check to see if the clicked location was on land. 
+            var intersects = Microsoft.Maps.SpatialMath.Geometry.intersects(e.location, landPolygons);
+
+            var testBoundary = landPolygons;
+
+            if (intersects) {
+                testBoundary = waterPolygon;
+            }
+            
+            //Calculate the closest point on the test boundary. 
+            var snappedLocs = Microsoft.Maps.SpatialMath.Geometry.snapLocationsToShape(e.location, testBoundary);
+
+            if (snappedLocs) {
+                if (snappedLocs instanceof Array) {
+                    snappedLocs = snappedLocs[0];
+                }
+
+                //Add a pushpin fro the point near the coast.
+                var coastPin = new Microsoft.Maps.Pushpin(snappedLocs, { color: 'red' });
+                map.entities.push(coastPin); 
+
+                //Straight line distance rounded to 1 decimal place.
+                var straightLineDistance = Math.round(Microsoft.Maps.SpatialMath.getDistanceTo(e.location, snappedLocs, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers) * 10) / 10;
+
+                document.getElementById('output').innerHTML =  'Straight Distance: ' + straightLineDistance + ' km<br/>';
+
+                //If the clicked point is on land, calculate driving route between the locations. 
+                if (intersects) {
+                    directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ location: e.location }));
+                    directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ location: snappedLocs }));
+                    directionsManager.calculateDirections();
+                }
+            }
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br />
+    <div id="output"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Distance to nearest coast Sample</legend>
+        This sample shows how to the approximate distance to the nearest coastline can be calculated from a point on the map. 
+        Click on the map and it attempt to calculate the nearest point on the coast. It does this by finding the nearest point on a 
+        set of country boundaries. Note that the accuracy of this relies heavily on the resolution of the country boundaries used. 
+        This sample is using lower resolution boundaries. The calculation is fairly intensive. If using higher resolution boundaries, 
+        it is recommended to do this calculation within a spatial database. 
+    </fieldset>
+</body>
+</html>

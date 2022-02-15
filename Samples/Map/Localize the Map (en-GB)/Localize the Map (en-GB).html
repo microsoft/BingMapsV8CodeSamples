@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Localize the Map (en-GB) - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to localize the map to the en-GB market and language (British English). " />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            mapTypeId: Microsoft.Maps.MapTypeId.ordnanceSurvey,
+            center: new Microsoft.Maps.Location(51.552, -0.1586),
+            zoom: 15
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&setLang=en&setMkt=en-GB&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Localize the Map (en-GB) Sample</legend>
+        This sample shows how to localize the map to the en-GB market and language (British English). 
+        In this market the Ordnance Survey map style is available at certain levels. 
+        This is a custom map type only available in the UK.
+    </fieldset>
+</body>
+</html>

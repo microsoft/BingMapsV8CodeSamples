@@ -1,0 +1,4 @@
+{
+  "Title": "Animated Tile Layer",
+  "Description": "Provides a layer which can smoothly animate through an array of tile layer sources."
+}

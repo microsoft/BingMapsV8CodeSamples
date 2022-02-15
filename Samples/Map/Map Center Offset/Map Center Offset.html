@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Map Center Offset - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to offset the center of the map by 100 pixels horizontally, and 50 pixels vertically." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+    }
+
+    function offsetMapCenter() {
+        map.setView({ center: map.getCenter(), centerOffset: new Microsoft.Maps.Point(100, 50) });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <input type="button" value="Offset Map Center" onclick="offsetMapCenter()"/>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Map Center Offset Sample</legend>
+        This sample shows how to offset the center of the map by 100 pixels horizontally, and 50 pixels vertically. 
+    </fieldset>
+</body>
+</html>

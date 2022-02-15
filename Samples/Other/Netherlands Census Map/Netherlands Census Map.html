@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Netherlands Census Map - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Map of the Netherlands showing the population deatils per province." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+        var map, infobox;
+        var columnNames = {
+            water: "Water yes/no ",
+            aant_inw: "Inhabitants",
+            aant_man: "Number of men ",
+            aant_vrouw: "Number of women",
+            p_00_14_jr: "People 0 to 15 years [%]",
+            p_15_24_jr: "People 15 to 25 years [%]",
+            p_25_44_jr: "People 25 to 45 years [%]",
+            p_45_64_jr: "People 45 to 65 years [%]",
+            p_65_eo_jr: "People 65 years and older [%]",
+            p_ongehuwd: "Unmarried [%]",
+            p_gehuwd: "Married [%]",
+            p_gescheid: "Divorced [%]",
+            p_verweduw: "Widowed [%]",
+            bev_dichth: "population density [number of inhabitants per km2]",
+            aantal_hh: "total [absolutely]",
+            p_eenp_hh: "Single Households ",
+            p_hh_z_k: "Households without children [%]",
+            p_hh_m_k: "Households with children [%]",
+            gem_hh_gr: "Average household size [absolutely]",
+            p_west_al: "Western total [%]",
+            p_n_w_al: "non-Western  total [%]",
+            p_marokko: "Morocco total [%]",
+            p_ant_aru: "Netherlands Antilles and Aruba [%]",
+            p_surinam: "Suriname ",
+            p_turkije: "Turkey [%]",
+            p_over_nw: "Other non-Western [%]",
+            auto_tot: "passenger cars total [absolutely]",
+            auto_hh: "passenger cars per household [per household]",
+            auto_land: "passenger cars to surface [per km2]",
+            bedr_auto: "Business motor vehicle total [absolutely]",
+            motor_2w: "Motor tweewielers total [absolutely]",
+            a_lftj6j: "passenger cars; under 6 years of age [number of]",
+            a_lfto6j: "passenger cars; 6 years and older [number of]",
+            a_bst_b: "passenger cars; fuel petrol [number of]",
+            a_bst_nb: "passenger cars; other fuel [number of]",
+            opp_tot: "area [ha]",
+            opp_land: "country surface [ha]",
+            opp_water: "surface water [ha]"
+        };
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(52.271494, 5.417003),
+            zoom: 8
+        });
+
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: false });
+        infobox.setMap(map);
+
+        //Load GeoJSON module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+
+            //Read the GeoJSON file that is hosted on the same domain.
+            Microsoft.Maps.GeoJson.readFromUrl('/data/GeoJSON/NetherlandsCensusData.json',
+                function (shapes) {
+
+                    for (var i = 0; i < shapes.length; i++) {
+                        if (shapes[i].metadata.aant_inw > 500000) {
+                            shapes[i].setOptions({ fillColor: 'rgba(255,0,0,0.5)' });
+
+                        } else if (shapes[i].metadata.aant_inw > 250000) {
+                            shapes[i].setOptions({ fillColor: 'rgba(255,255,0,0.5)' });
+                        } else {
+                            shapes[i].setOptions({ fillColor: 'rgba(0,255,0,0.5)' });
+                        }
+
+                        Microsoft.Maps.Events.addHandler(shapes[i], 'click', showInfobox);
+                    }
+
+                    //Add the shape(s) to the map.
+                    map.entities.push(shapes);
+                });
+        });
+    }
+
+    function showInfobox(e) {
+        var m = e.target.metadata;
+        
+        infobox.setOptions({
+            anchor:new Microsoft.Maps.Point(10, 135),
+            location:e.location,
+            visible: true,
+            htmlContent: '<div class="infobox"><div class="infoboxContent">Population: ' + m.aant_inw + '<br/>Men: ' + m.aant_man + '<br/>Women: ' + m.aant_vrouw
+                + '<br/>Married: ' + m.p_gehuwd
+                + ' %<br/>Divorced: ' + m.p_gescheid
+                + ' %<br/>Widowed: ' + m.p_verweduw
+                + ' %<br/>Unmarried: ' + m.p_ongehuwd
+                + ' %</div><div class="infoboxPoint"></div></div>'
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+    <style>
+        .infoboxContent{
+            background-color:rgba(0,0,0,0.8);
+            padding:10px;
+            color: white;
+            font-size:12px;
+        }
+
+        .infoboxPoint {
+            border-width:20px 0 0 10px;
+            position:relative;
+            float:left;
+            width:0;
+            height:0;
+            line-height:0;
+            border-style:solid;
+            border-color:rgba(0,0,0,0.8) transparent transparent transparent;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:700px;height:800px;"></div>
+</body>
+</html>

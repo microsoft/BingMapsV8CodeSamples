@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Calculate Transit Directions - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="The following example shows how to calculate transit directions leaving an hour from the current time." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-transitdirectionsexample2.png" />
+    
+    <script>
+        var map;
+        var directionsManager;
+
+        function GetMap()
+        {
+            map = new Microsoft.Maps.Map('#myMap', {});
+
+            //Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                //Create an instance of the directions manager.
+                var directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+                
+                //Calculate a date time that is 1 hour from now.
+                var departureTime  = new Date();
+                departureTime.setMinutes(departureTime.getHours() + 1);
+
+                //Set Route Mode to transit.
+                directionsManager.setRequestOptions({
+                    routeMode: Microsoft.Maps.Directions.RouteMode.transit,
+                    time: departureTime,
+                    timeType: Microsoft.Maps.Directions.TimeTypes.departure
+                });
+
+                //Add waypoints.
+                var waypoint1 = new Microsoft.Maps.Directions.Waypoint({ address: 'Redmond, WA' });
+                directionsManager.addWaypoint(waypoint1);
+
+                var waypoint2 = new Microsoft.Maps.Directions.Waypoint({ address: 'Seattle, WA' });                
+                directionsManager.addWaypoint(waypoint2);
+
+                //Set the element in which the itinerary will be rendered.
+                directionsManager.setRenderOptions({ itineraryContainer: document.getElementById('directionsItinerary') });
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+            });
+        }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id='directionsItinerary'></div>
+</body>
+</html>

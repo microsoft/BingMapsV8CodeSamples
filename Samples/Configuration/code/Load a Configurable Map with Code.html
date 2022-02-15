@@ -1,0 +1,51 @@
+﻿<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Load a Configurable Map with Code - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="In addition to being able to load a map configuration file via an iframe, they can also be loaded in your application code as well" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        Microsoft.Maps.ConfigurableMap.createFromConfig('#myMap',
+            'https://bingmapsisdk.blob.core.windows.net/isdksamples/configmap2.json',
+            false,
+            null, 
+            function (mapObj) {
+                //Store a reference to the map object instance.
+                map = mapObj;
+
+                //You can use the map object to just as you would normally.
+                //To demonstrate this, the following code will change the map view after 5 seconds.
+                setTimeout(function () {
+                    //Change the zoom level of the map.
+                    map.setView({ zoom: 5 });
+                }, 5000);
+            }, function (errorMsg) {
+                //An error occured, display it.
+                alert(message);
+            });
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]&branch=experimental' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Load a Configurable Map with Code Sample</legend>
+        This sample shows how to load a map using a configuration file. 
+        This is a good way to jump start development as it saves you the time of writing the code to load each data set individually. 
+        It also makes it easier to reuse a map implementation with different data sets simply by loading different configuration files.
+    </fieldset>
+</body>
+</html>

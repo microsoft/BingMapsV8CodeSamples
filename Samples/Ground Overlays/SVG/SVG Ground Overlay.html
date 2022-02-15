@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SVG Ground Overlay - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how using an SVG as a ground overlay ensures that no matter how much you zoom into the ground overlay, it stays crisp and clear." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, overlay;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(51, 7),
+            zoom: 9
+        });
+
+        overlay = new Microsoft.Maps.GroundOverlay({
+            bounds: Microsoft.Maps.LocationRect.fromEdges(52.552, 5.834, 50.315, 9.481),
+            imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/North_Rhine-Westphalia_location_map_06.svg',
+            backgroundColor: 'white'
+        });
+        map.layers.insert(overlay);
+    }
+    </script>
+    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>SVG Ground Overlay Sample</legend>
+        This sample shows how using an SVG as a ground overlay ensures that no matter how much you zoom into the ground overlay, it stays crisp and clear. 
+        However, a ground overlay is only as accurate as the scale at which it was drawn.
+        The ground overlay in this sample is sourced from <a href="https://commons.wikimedia.org/wiki/File:North_Rhine-Westphalia_location_map_06.svg/overlay.kml">Wikimedia Commons</a>.
+    </fieldset>
+</body>
+</html>

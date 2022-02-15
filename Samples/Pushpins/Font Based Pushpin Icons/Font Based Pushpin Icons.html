@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    
+    <script type='text/javascript' charset="utf-8">
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create a font pushpin of a truck. "&#xf0d1;" => "\uf0d1". List of icon hex values: http://fontawesome.io/3.2.1/cheatsheet/
+        var pin = createFontPushpin(map.getCenter(), '\uF0D1', 'FontAwesome', 30, 'red');
+
+        //Add the pushpin to the map
+        map.entities.push(pin);
+    }
+
+    function createFontPushpin(location, text, fontName, fontSizePx, color) {
+        var c = document.createElement('canvas');
+        var ctx = c.getContext('2d');
+
+        //Define font style
+        var font = fontSizePx + 'px ' + fontName;
+        ctx.font = font
+
+        //Resize canvas based on sie of text.
+        var size = ctx.measureText(text);
+        c.width = size.width;
+        c.height = fontSizePx;
+
+        //Reset font as it will be cleared by the resize.
+        ctx.font = font;
+        ctx.textBaseline = 'top';
+        ctx.fillStyle = color;
+
+        ctx.fillText(text, 0, 0);
+
+        return new Microsoft.Maps.Pushpin(location, {
+            icon: c.toDataURL(),
+            anchor: new Microsoft.Maps.Point(c.width / 2, c.height / 2) //Align center of pushpin with location.
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div style="font-family:FontAwesome;position:absolute;color:transparent;">Preload font, otherwise we may end up trying to use it before it is available.</div>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

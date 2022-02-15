@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contoso Coffee Locator - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <link rel="stylesheet" type="text/css" href="css/Locator.css" />
+
+    <script type="text/javascript" src="js/Locator.js"></script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div class="header">
+        <img src="images/logo.png" alt="Contoso Coffee" />
+    </div>
+
+    <div class="sidePanel">
+        <div class="searchBar">
+            <input id="searchBox" type="text" value="Seattle" />
+            <input id="searchBtn" type="button" value="Search" />
+        </div>
+        <div id="resultsPanel"></div>
+    </div>
+   
+    <div id="myMap"></div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Write Shape as GeoJSON - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how generate GeoJSON from an array of Bing Maps shapes." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-geojson-write.png" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(43, -107.55),
+            zoom: 5
+        });
+
+        //Create some shapes to convert into GeoJSON.
+        var polygon = new Microsoft.Maps.Polygon([
+            [new Microsoft.Maps.Location(41, -104.05),
+            new Microsoft.Maps.Location(45, -104.05),
+            new Microsoft.Maps.Location(45, -111.05),
+            new Microsoft.Maps.Location(41, -111.05),
+            new Microsoft.Maps.Location(41, -104.05)]]);
+
+        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(43, -107.55));
+
+        //Create an array of shapes.
+        var shapes = [polygon, pin];
+
+        //Add the shapes to the map so we can see them (optional).
+        map.entities.push(shapes);
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+            //Convert the array of shapes into a GeoJSON object.
+            var geoJson = Microsoft.Maps.GeoJson.write(shapes);
+
+            //Display the GeoJson in a new Window.
+            var myWindow = window.open('', '_blank', 'scrollbars=yes, resizable=yes, width=400, height=100');
+            myWindow.document.write(JSON.stringify(geoJson));
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoJson Write Sample</legend>
+        This sample shows how generate GeoJSON from an array of Bing Maps shapes.
+    </fieldset>
+</body>
+</html>

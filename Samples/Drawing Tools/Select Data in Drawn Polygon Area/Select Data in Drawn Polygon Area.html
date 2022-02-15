@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select Data in Drawn Polygon Area - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use the drawing tools to draw a polygon search area on the map and then search for all shapes on the map that are within that polygon." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, tools, searchArea, pinLayer;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Add some random pushpins to a layer on the map. 
+        pinLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(pinLayer);
+
+        var pushpins = Microsoft.Maps.TestDataGenerator.getPushpins(30, map.getBounds(), { color: 'purple' });
+        pinLayer.add(pushpins);
+
+        for (var i = 0; i < 30; i++){
+            pushpins[i].metadata = {
+                id: 'pin_' + i
+            };
+        }
+
+        //Load the Drawing Tools and Spatial Math modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.DrawingTools', 'Microsoft.Maps.SpatialMath'], function () {
+            tools = new Microsoft.Maps.DrawingTools(map);
+
+            //When the user presses 'esc', take the polygon out of edit mode and re-add to base map.
+            document.getElementById('myMap').onkeypress = function (e) {
+                if (e.charCode === 27) {
+                    tools.finish(searchArea);
+                }
+            };
+
+            //When ever the polygon search area has changed, a new Location added, or is editted, do a search.
+            Microsoft.Maps.Events.addHandler(tools, 'drawingChanged', findIntersectingData);
+        });
+    }
+
+    function drawSearchArea() {
+        //Complete any current drawing and complete a search for it.
+        if (searchArea) {
+            tools.finish(searchArea);
+            findIntersectingData(searchArea);
+            searchArea = null;
+        }
+
+        //Create a new polygon.
+        tools.create(Microsoft.Maps.DrawingTools.ShapeType.polygon, function (s) {
+            searchArea = s;
+        });
+    }
+
+    //Find all pushpins on the map that intersect with the drawn search area.
+    function findIntersectingData(searchArea) {
+        //Ensure that the search area is a valid polygon, should have 4 Locations in it's ring as it automatically closes.
+        if (searchArea && searchArea.getLocations().length >= 4) {
+            //Get all the pushpins from the pinLayer.
+            var pins = pinLayer.getPrimitives();
+
+            //Clear any previously selected data.
+            for (var i = 0; i < pins.length; i++) {
+                pins[i].setOptions({ color: 'purple' });
+            }
+
+            //Using spatial math find all pushpins that intersect with the drawn search area.
+            //The returned data is a copy of the intersecting data and not a reference to the original shapes, 
+            //so making edits to them will not cause any updates on the map.
+            var intersectingPins = Microsoft.Maps.SpatialMath.Geometry.intersection(pins, searchArea);
+
+            //The data returned by the intersection function can be null, a single shape, or an array of shapes. 
+            if (intersectingPins) {
+                //For ease of usem wrap individudal shapes in an array.
+                if (intersectingPins && !(intersectingPins instanceof Array)) {
+                    intersectingPins = [intersectingPins];
+                }
+
+                var selectedPins = [];
+
+                //Loop through and map the intersecting pushpins back to their original pushpins by comparing their coordinates.
+                for (var j = 0; j < intersectingPins.length; j++) {
+                    for (var i = 0; i < pins.length; i++) {
+                        if (Microsoft.Maps.Location.areEqual(pins[i].getLocation(), intersectingPins[j].getLocation())) {
+                            //Set the selected pin color to red.
+                            pins[i].setOptions({ color: 'red' });
+
+                            selectedPins.push(pins[i]);
+                            break;
+                        }
+                    }
+                }
+
+                //Return the pushpins that were selected.
+                return selectedPins;
+            }
+        }
+
+        return null;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <input type="button" onclick="drawSearchArea()" value="Select Data" />
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Select Data in Drawn Polygon Area Sample</legend>
+        This sample shows how to use the drawing tools to draw a polygon search area on the map and then search for all shapes on the map that are within that polygon.
+    </fieldset>
+</body>
+</html>

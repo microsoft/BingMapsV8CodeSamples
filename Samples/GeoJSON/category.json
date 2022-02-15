@@ -1,0 +1,4 @@
+{
+  "Title": "GeoJSON",
+  "Description": "GeoJSON is a common file format used for storing spatial data as a JSON object. The GeoJSON module makes it easy to import data that is in this format into Bing Maps."
+}

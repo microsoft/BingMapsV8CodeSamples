@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basic Clustering - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to implement basic pushpin clustering into your app." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-basicclusteringexample.png" />
+    
+    <script type="text/javascript">
+    var map, clusterLayer;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the Clustering module.
+        Microsoft.Maps.loadModule("Microsoft.Maps.Clustering", function () {
+            //Generate 1,000 random pushpins in the map view. 
+            var pins = Microsoft.Maps.TestDataGenerator.getPushpins(1000, map.getBounds());
+
+            //Create a ClusterLayer and add it to the map.
+            clusterLayer = new Microsoft.Maps.ClusterLayer(pins);
+            map.layers.insert(clusterLayer);
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Basic Clustering Sample</legend>
+        This sample shows how to implement basic pushpin clustering into your app. 
+        Zoom in and notice how the clusters break apart into their individual pushpins. 
+        Zoom out and see the pushpins group together into clusters. 
+        Clustering helps keep the map uncluttered while also reducing the number of objects being rendered which improves performance.
+    </fieldset>
+</body>
+</html>

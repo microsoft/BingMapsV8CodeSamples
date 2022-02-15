@@ -1,0 +1,4 @@
+{
+  "Title": "Polygons",
+  "Description": "A polygon is an area defined by a closed ring of locations. A simple polygon consists of an array of Location objects that form a boundary."
+}

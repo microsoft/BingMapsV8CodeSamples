@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GeoJson Cross Doamin without JSON - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to load GeoJSON data that is hosted on another domain, but does not support JSONP." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+        //URL to USGS Earthquake feed containing all earthquakes from the past day. This service wraps the response with a "eqfeed_callback" callback function.
+    var usgsRealtimeEarthquakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp';
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+                zoom: 1
+        });
+        
+        //Load the GeoJSON module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+            //Load the real-time earthquake data of the past day from usgs.gov
+            var script = document.createElement('script');
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute('src', usgsRealtimeEarthquakeUrl);
+            document.body.appendChild(script);
+        });
+    }
+
+    //Custom callback function using callback name used in feed.
+    function eqfeed_callback(data) {
+        //Parse the GeoJSON data into Bing Maps shapes and add to map.
+        var shapes = Microsoft.Maps.GeoJson.read(data);
+        map.entities.push(shapes);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoJson Cross Doamin without JSON Sample</legend>
+        This sample shows how to load GeoJSON data that is hosted on another domain, does not support JSONP, but does return a JSON response that is wrapped with a static callback function name.
+        The data in this sample is sourced from the <a href="https://earthquake.usgs.gov/">USGS Earthquake Hazards Program</a>.
+    </fieldset>
+</body>
+</html>

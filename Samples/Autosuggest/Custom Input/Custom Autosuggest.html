@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Custom Autosuggest - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custom input UI for Autosuggest." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <!-- Load JQuery UI -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+    var map, searchManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the Autosuggest and search modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.AutoSuggest', 'Microsoft.Maps.Search'], function () {
+            //Create instances of the Autosuggest and Search managers.
+            var autosuggestManager = new Microsoft.Maps.AutosuggestManager({ map: map });
+            searchManager = new Microsoft.Maps.Search.SearchManager(map);
+
+            //Create a jQuery autocomplete UI widget.
+            $("#queryTbx").autocomplete({
+                minLength: 3,   //Don't ask for suggestions until atleast 3 characters have been typed.
+                source: function (request, response) {
+                    //Get suggestions from the AutosuggestManager.
+                    autosuggestManager.getSuggestions(request.term, response);
+                },
+                select: function (event, ui) {
+                    //When a suggestion has been selected.
+
+                    //Check to see if the suggestion has a location value.
+                    if(ui.item.location){
+                        suggestionSelected(ui.item);
+                    } else {
+                        //If it doesn't, we need to geocode it.
+                        geocodeSuggestion(ui.item);
+                    }
+                }
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                //Format the displayed suggestion to show the formatted suggestion string.
+                return $("<li>")
+                .append("<a>" + item.formattedSuggestion + "</a>")
+                .appendTo(ul);
+            };
+        });
+    }
+
+    function geocodeSuggestion(suggestion){
+         var searchRequest = {
+                where: suggestion.formattedSuggestion,
+                callback: function (r) {
+                    //Add the first result to the map and zoom into it.
+                    if (r && r.results && r.results.length > 0) {
+                        //Enrich the suggestion with a location and best view information.
+                        suggestion.location = r.results[0].location;
+                        suggestion.bestView = r.results[0].bestView;
+
+                        //Return the enriched suggestion.
+                        suggestionSelected(suggestion);
+                    }
+                },
+                errorCallback: function (e) {
+                    //If there is an error, alert the user about it.
+                    alert("No results found.");
+                }
+            };
+
+            //Make the geocode request.
+            searchManager.geocode(searchRequest);
+    }
+
+    function suggestionSelected(suggestion) {
+        //Remove previously selected suggestions from the map.
+        map.entities.clear();
+
+        //Show the suggestion as a pushpin and center map over it.
+        var pin = new Microsoft.Maps.Pushpin(suggestion.location);
+        map.entities.push(pin);
+
+        //Set the map view to the best view for the result, if defined.
+        if(suggestion.bestView){
+            map.setView({ bounds: suggestion.bestView });
+        } else {
+            //If best map view is not known, approximate the zoom level based on the type of entity the result is.
+            var zoom = 12;
+
+            switch(suggestion.entitySubType){
+                case 'CountryRegion':
+                    zoom = 3;
+                    break;
+                case 'AdminDivision1':
+                    zoom = 6;
+                    break;
+                case 'AdminDivision2':
+                    zoom = 10;
+                    break;
+                default:
+                    break;
+            }
+
+            map.setView({center: suggestion.location, zoom: zoom });
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+
+    <style>
+    .ui-autocomplete-loading {
+        background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+    }
+
+    #queryTbx {
+        width: 25em;
+    }
+    </style>
+</head>
+<body>
+    <div class="ui-widget">
+        <label for="queryTbx">Your query: </label>
+        <input id="queryTbx">
+    </div>
+
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Custom Autosuggest Input with JQuery UI Sample</legend>
+        This sample shows how to create a custom input UI for Autosuggest using <a href="http://jqueryui.com/autocomplete/">JQuery UI's autocomplete widget</a>. 
+        The autosuggest manager in Bing Maps has a getSuggestions function which can be used to retrieve autosuggest suggestions without having to attach a textbox 
+        to the autoggestion manager. Currently the suggestions returned by this function do not have their bestView property set and address suggestions do not have 
+        location coordinates. These suggestions can easily be enriched by using the Search module to geocode the suggestion.
+    </fieldset>
+</body>
+</html>

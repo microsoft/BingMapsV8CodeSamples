@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 4
+        });
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath');
+    }
+
+    function DisplayQuadkey() {
+        map.entities.clear();
+
+        var quadkey = document.getElementById('quadkeyTbx').value;
+
+        var tile = Microsoft.Maps.PyramidTileId.fromQuadKey(quadkey);
+
+        //Calculate the bounding rectangle of the tile.
+        var tileLocRect = Microsoft.Maps.SpatialMath.Tiles.tileToLocationRect(tile);
+
+        //Create a polygon for the tile and add it to the map.
+        var poly = Microsoft.Maps.SpatialMath.locationRectToPolygon(tileLocRect);
+        map.entities.push(poly);
+
+        //Add a pushpin with the quadkey value set as the title.
+        var pin = new Microsoft.Maps.Pushpin(tileLocRect.center, {
+            title: tile.quadKey
+        });
+        map.entities.push(pin);
+
+        map.setView({ bounds: tileLocRect });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div><br/>
+    <input type="text" id="quadkeyTbx" />
+    <input type="button" value="Locate" onclick="DisplayQuadkey()"/>
+</body>
+</html>

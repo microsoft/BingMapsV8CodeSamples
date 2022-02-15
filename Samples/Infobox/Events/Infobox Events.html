@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Infobox Events - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Shows Infobox Events, like click, infoboxChanged, mouseenter and mouseleave." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+    var infobox;
+    var cnt = 0;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create an infobox and add it to the map.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), { title : 'Hello World!' , description: '<input type="button" value="test" onclick="alert(\'here\')"/>'});
+        infobox.setMap(map);
+
+        //Add mouse events to the infobox.
+        Microsoft.Maps.Events.addHandler(infobox, 'click', function () { highlight('infoboxClick'); });
+        Microsoft.Maps.Events.addHandler(infobox, 'infoboxChanged', function () { highlight('infoboxChanged'); });
+        Microsoft.Maps.Events.addHandler(infobox, 'mouseenter', function () { highlight('mouseenter'); });
+        Microsoft.Maps.Events.addHandler(infobox, 'mouseleave', function () { highlight('mouseleave'); });
+    }
+
+    function highlight(id) {
+        //Highlight the mouse event div to indicate that the event has fired.
+        document.getElementById(id).style.background = 'LightGreen';
+
+        //Remove the highlighting after a second.
+        setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div id="infoboxClick">click</div>
+    <div id="infoboxChanged">infoboxChanged</div>
+    <div id="mouseenter">mouseenter</div>
+    <div id="mouseleave">mouseleave</div>
+
+    <br/>
+    
+    <input type="button" value="Set infobox Title" onclick="cnt++;infobox.setOptions({title: 'New title ' + cnt});"/> 
+    <input type="button" value="Hide infobox" onclick="infobox.setOptions({ visible: false });" /> 
+    <input type="button" value="Show infobox" onclick="infobox.setOptions({ visible: true });" /> 
+</body>
+</html>

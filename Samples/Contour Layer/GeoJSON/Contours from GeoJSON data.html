@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contours from GeoJSON data - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This example downloads earthquake intensity contour data from the USGS for earthquake M7.0 - 1km WSW of Kumamoto-shi, Japan." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-contourlayer-fromgeojson.png" />
+    
+    <script>
+    var map;
+
+    //URL to the USGS for Earthquake intensity contours of M7.0 – 1km WSW of Kumamoto-shi, Japan.
+    var earthquakeIntensityDataUrl = '/data/geojson/USGS_M7EarthquakeContours.json';//'http://earthquake.usgs.gov/archive/product/shakemap/us20005iis/us/1467057010522/download/cont_psa03.json';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(32.944332, 131.074968),
+            zoom: 9
+        });
+
+        //Load the Contour and GeoJson modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.Contour', 'Microsoft.Maps.GeoJson'], function () {
+            //Download the contour data from the USGS. Parse the GeoJson earthquake intensity contour data and create contour lines out of them.
+            Microsoft.Maps.GeoJson.readFromUrl(earthquakeIntensityDataUrl, function (data) {
+
+                var contourLines = [];
+                for (var i = 0; i < data.length; i++) {
+                    contourLines.push(new Microsoft.Maps.ContourLine(data[i].getLocations(), data[i].metadata.value));
+                }
+
+                //Add the contour lines to a contour layer.
+                var layer = new Microsoft.Maps.ContourLayer(contourLines, {
+                    colorCallback: assignContourColor,
+                    polygonOptions: {
+                        //Make the outlines of the contour area transparent.
+                        strokeColor: 'rgba(0, 0, 0, 0)'
+                    }
+                });
+
+                //Add the contour layer to the map.
+                map.layers.insert(layer);
+            });
+        });
+    }
+
+    //A function that contains business logic that specifies which color to make a contour area based on it's value.
+    function assignContourColor(value) {
+        var color = 'rgba(25, 150, 65, 0.5)';
+
+        if (value >= 200) {
+            color = 'rgba(215, 25, 28, 0.5)';
+        }
+        else if (value >= 160) {
+            color = 'rgba(235, 140, 14, 0.5)';
+        }
+        else if (value >= 120) {
+            color = 'rgba(255, 255, 0, 0.5)';
+        }
+        else if (value >= 80) {
+            color = 'rgba(140, 202, 32, 0.5)';
+        }
+
+        return color;
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+    <style>
+        .contourLegend {
+            margin-left: 10px;
+            float: left;
+            text-align: center;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:600px;height:400px;float:left;"></div>
+
+    <div class="contourLegend">
+        <div style="background-color: rgba(215, 25, 28, 0.5)">200%g</div>
+        <div style="background-color: rgba(235, 140, 14, 0.5)">160%g</div>
+        <div style="background-color: rgba(255, 255, 0, 0.5)">120%g</div>
+        <div style="background-color: rgba(140, 202, 32, 0.5)">80%g</div>
+        <div style="background-color: rgba(25, 150, 65, 0.5)">40%g</div>
+    </div>
+</body>
+</html>

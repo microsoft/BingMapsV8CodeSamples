@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Custom Directions Input Panel - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a simple custom input panel for direction calculations." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, directionsManager;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the directions module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+            //Specify where to display the route instructions.
+            directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+
+            //Specify the where to display the input panel
+            directionsManager.showInputPanel('directionsPanel');
+        });
+    }
+
+    function GetDirections() {
+        //Clear any previously calculated directions.
+        directionsManager.clearAll();
+        directionsManager.clearDisplay();
+
+        //Create waypoints to route between.
+        var start = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('fromTbx').value });
+        directionsManager.addWaypoint(start);
+
+        var end = new Microsoft.Maps.Directions.Waypoint({ address: document.getElementById('toTbx').value });
+        directionsManager.addWaypoint(end);
+
+        //Calculate directions.
+        directionsManager.calculateDirections();
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <div style="margin-top:10px;">
+        From: <input id="fromTbx" type="text" value="Redmond, WA"/>
+        To: <input id="toTbx" type="text" value="Bellevue, WA"/>
+        <input type="button" onclick="GetDirections()" value="Calculate" />
+    </div>    
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Simple Custom Directions Input Panel Sample</legend>
+        This sample shows how to create a simple custom input panel for direction calculations.
+    </fieldset>
+</body>
+</html>

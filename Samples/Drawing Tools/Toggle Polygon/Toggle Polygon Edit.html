@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Toggle Polygon Edit - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="When the polygon is clicked, go into edit mode." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+    var tools;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the DrawingTools module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create an instance of the DrawingTools class and bind it to the map.
+            tools = new Microsoft.Maps.DrawingTools(map);
+        });
+
+        //Create a random 5 sided polyogn that fills a decent portion of the map.
+        var polygon = Microsoft.Maps.TestDataGenerator.getPolygons(1, map.getBounds(), 5, 0.8);
+        map.entities.push(polygon);
+
+        //When the polygon is clicked, go into edit mode.
+        Microsoft.Maps.Events.addHandler(polygon, 'click', function () {
+            //Remove the polygon from the map as the drawing tools will display it in the drawing layer.
+            map.entities.remove(polygon);
+
+            //Pass the polygon to the drawing tools to be edited.
+            tools.edit(polygon);
+        });
+
+        //When the user presses 'esc', take the polygon out of edit mode and re-add to base map.
+        document.addEventListener("keydown", function (e) {
+            if (e.keyCode === 27) {
+                tools.finish(function (s) {
+                    map.entities.push(s);
+                });
+            }
+        }, false);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

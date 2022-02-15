@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GeoJson Drag and Drop - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This code examples shows how to enable drag and drop a local GeoJSON file onto a map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-geojson-la.png" />
+    
+    <script>
+    var map;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 1
+        });
+
+        //Load the GeoJSON module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+
+            //Setup the drag & drop listeners on the map.
+            var dropZone = document.getElementById('myMap');
+            dropZone.addEventListener('dragover', handleDragOver, false);
+            dropZone.addEventListener('drop', handleFileSelect, false);
+        });
+    }
+
+    function handleDragOver(evt) {
+        //Stop the browser from performing its default behavior when a file is dragged and dropped.
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        evt.dataTransfer.dropEffect = 'copy';
+    }
+
+    function handleFileSelect(evt) {
+        //Stop the browser from performing its default behavior when a file is dragged and dropped.
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        //Remove any existing data from the map.
+        map.entities.clear();
+
+        //The list of files that have been dragged and dropped onto the map.
+        var files = evt.dataTransfer.files; 
+
+        //Keep track of the bounding box of all the data from all files dropped into the map.
+        var dataBounds = null;
+
+        //Loop through and attempt to read each file. 
+        for (var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                try {
+                    var geoJsonText = e.target.result;
+
+                    //Attempt to parse the file as GeoJSON and add the shapes to the map.
+                    var shapes = Microsoft.Maps.GeoJson.read(geoJsonText);
+                    map.entities.push(shapes);
+                    
+                    //Calculate the bounding box of the data in the single file. 
+                    var bounds = Microsoft.Maps.LocationRect.fromShapes(shapes);
+
+                    //If data is already loaded from another GeoJSON file, merge the bounding boxes together.
+                    if (dataBounds) {
+                        dataBounds = Microsoft.Maps.LocationRect.merge(dataBounds, bounds);
+                    } else {
+                        dataBounds = bounds;
+                    }
+
+                    //Update the map view to show the data.
+                    map.setView({ bounds: dataBounds, padding: 50 });
+                } catch (e) {
+                    alert('Unable to read file as GeoJSON.');
+                }
+            };
+
+            //Read the file as text.
+            reader.readAsText(files[i]);
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoJson Drag and Drop Sample</legend>
+        This sample shows how load add support for dragging and droping GeoJSON files on to the map and having them render.
+    </fieldset>
+</body>
+</html>

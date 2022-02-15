@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Read Geospatial XML String - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to read a string of geospatial XML data." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-basicgeoxml.png" />
+    
+    <script>
+    var map;
+    var georss = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"><entry><title>Sample Polygon</title><georss:polygon>46.31409 -122.22616 46.31113 -122.22968 46.31083 -122.23320</georss:polygon></entry></feed>';
+      
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the GeoXml module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoXml', function () {
+            //Parse the XML data.
+            var data = Microsoft.Maps.GeoXml.read(georss);
+
+            //Do something with the parsed XML data, in this case render it.
+            renderGeoXmlDataSet(data);
+        });
+    }
+
+    function renderGeoXmlDataSet(data) {
+        //Add all shapes that are not in layers to the map.
+        if (data.shapes) {
+            map.entities.push(data.shapes);
+        }
+
+        //Add all data layers to the map.
+        if (data.layers) {
+            for (var i = 0, len = data.layers.length; i < len; i++) {
+                map.layers.insert(data.layers[i]);
+            }
+        }
+
+        //Add all screen overlays to the map.
+        if (data.screenOverlays) {
+            for (var i = 0, len = data.screenOverlays.length; i < len; i++) {
+                map.layers.insert(data.screenOverlays[i]);
+            }
+        }
+
+        if (data.summary && data.summary.bounds) {
+            //Set the map view to focus show the data.
+            map.setView({ bounds: data.summary.bounds, padding: 30 });
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Read Geospatial XML String Sample</legend>
+        This sample shows how to read a string of geospatial XML data, in this case GeoRSS, as a data set and then manually add it to the map. 
+        This provides the option to fully customize the how the data is rendered.
+    </fieldset>
+</body>
+</html>

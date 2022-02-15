@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Topographic Overlay - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a Topographic Overlay, also commonly known to as an image overlay, using the Custom Overlay class." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(40.25, -123.25),
+            zoom: 8
+        });
+
+        //Define a custom overlay class that inherts from the CustomOverlay class.
+        TopographicOverlay.prototype = new Microsoft.Maps.CustomOverlay();
+
+        //Define a constructor for the custom overlay class.
+        function TopographicOverlay(bounds, image) {
+            this.bounds = bounds;
+            this.image = image;
+        }
+
+        //Implement the onAdd method to set up DOM elements, and use setHtmlElement to bind it with the overlay.
+        TopographicOverlay.prototype.onAdd = function () {
+            //Create an image element that will be used as the overlay.
+            img = document.createElement('img');
+            img.src = this.image;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.position = 'absolute';
+            this.setHtmlElement(img);
+        };
+
+        //Implement the onLoad method to perform custom operations after adding the overlay to the map.
+        TopographicOverlay.prototype.onLoad = function () {
+            repositionOverlay();
+
+            //Update the position of the image when the view changes.
+            Microsoft.Maps.Events.addHandler(map, 'viewchange', function () {
+                if (map.getMapTypeId() === Microsoft.Maps.MapTypeId.streetside) {
+                    img.style.display = 'none';
+                } else {
+                    img.style.display = '';
+                    repositionOverlay();
+                }
+            });
+
+            //Update the position of the overlay when the map is resized.
+            Microsoft.Maps.Events.addHandler(map, 'mapresize', repositionOverlay);
+        };
+
+        function repositionOverlay() {
+            //Streach and position the image based on the bounding box pixel coordinates.
+            var topLeft = map.tryLocationToPixel(bounds.getNorthwest(), Microsoft.Maps.PixelReference.control);
+            var bottomRight = map.tryLocationToPixel(bounds.getSoutheast(), Microsoft.Maps.PixelReference.control);
+
+            img.style.left = topLeft.x + 'px';
+            img.style.top = topLeft.y + 'px';
+            img.style.width = (bottomRight.x - topLeft.x) + 'px';
+            img.style.width = (bottomRight.x - topLeft.x) + 'px';
+            img.style.height = (bottomRight.y - topLeft.y) + 'px';
+        }
+
+        //The bounding box and url for the image to overlay.
+        var bounds = Microsoft.Maps.LocationRect.fromCorners(new Microsoft.Maps.Location(40.5, -123.5), new Microsoft.Maps.Location(40, -123));
+        var imageSrc = 'https://bingmapsisdk.blob.core.windows.net/isdksamples/topographicMap.gif';
+
+        //Implement the new custom overlay class. 
+        var overlay = new TopographicOverlay(bounds, imageSrc);
+
+        //Add the custom overlay to the map.
+        map.layers.insert(overlay);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Custom Overlay - Topographic Overlay Sample</legend>
+        This sample shows how to create a Topographic Overlay, also commonly known to as an image overlay, using the Custom Overlay class. 
+    </fieldset>
+</body>
+</html>

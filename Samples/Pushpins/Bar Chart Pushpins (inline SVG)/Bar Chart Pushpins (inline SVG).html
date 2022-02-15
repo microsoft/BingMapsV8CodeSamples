@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, infobox;
+
+    //This is the mock data to power the chart. 
+    var mockData = [
+        {
+            name: 'Location 1',
+            loc: { latitude: 45, longitude: -110 },
+            values: [20, 45, 70]  //The values for each bar in the bar chart for the location.
+        },
+        {
+            name: 'Location 2',
+            loc: { latitude: 40, longitude: -80 },
+            values: [35, 33, 10]
+        },
+        {
+            name: 'Location 3',
+            loc: { latitude: 51, longitude: -90 },
+            values: [15, 80, 30]
+        },
+    ];
+
+    var chartOptions = {
+        maxHeight: 40,  //Max height in pixels of chart when value = maxValue.
+        barWidth: 6,    //Width of a bar in pixels.
+        colors: ['red', 'blue', 'orange'], //The colors of each category in the bar chart. Should have a length >= to largest values array in data set.
+        legend: ['Apples', 'Blueberries', 'Oranges']    //A name for each bar in the chart. Should have a length >= to largest values array in data set.
+    };
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 2
+        });
+
+        //Create an infobox for displaying more information.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            offset: new Microsoft.Maps.Point(0, 10),
+            visible: false
+        });
+        infobox.setMap(map);
+
+        //Create a layer for the data.
+        var layer = new Microsoft.Maps.Layer();
+
+        var i, maxValue = 0;
+
+        //Loop through the mock data and calculate the max total value so that each bar of each bar chart is scaled relatively.
+        for (i = 0; i < mockData.length; i++) {
+            var val = mockData[i].values.reduce(function (a, b) {
+                return Math.max(a, b);
+            });
+
+            if (val > maxValue) {
+                maxValue = val;
+            }
+        }
+
+        //Loop through the mock data and create pushpins. 
+        for (var i = 0; i < mockData.length; i++) {
+            layer.add(createChartPushpin(mockData[i], maxValue));
+        }
+
+        //Add a click handler to the layer.
+        Microsoft.Maps.Events.addHandler(layer, 'click', displayInfobox);
+
+        map.layers.insert(layer);
+    }
+
+    function createChartPushpin(data, maxValue) {
+        var width = data.values.length * chartOptions.barWidth;
+
+        var svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="', width, 'px" height="', chartOptions.maxHeight, 'px">'];
+
+        var x, y, h;
+
+        for (var i = 0; i < data.values.length; i++) {
+            //Calculate the height of the bar in pixels.
+            h = Math.min(data.values[i] / maxValue * chartOptions.maxHeight, chartOptions.maxHeight);
+
+            //Calculate the x offset of the bar.
+            x = i * chartOptions.barWidth;
+
+            //Calculate the y offset of the bar such that the bottom aligns correctly.
+            y = chartOptions.maxHeight - h;
+
+            svg.push('<rect x="', x, 'px" y="', y, 'px" width="', chartOptions.barWidth, 'px" height="', h, 'px" fill="', chartOptions.colors[i], '"/>');
+        }
+
+        svg.push('</svg>');
+
+
+        var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(data.loc.latitude, data.loc.longitude), {
+            icon: svg.join(''),
+            anchor: new Microsoft.Maps.Point(width/2, chartOptions.maxHeight)
+        });
+
+        //Store a reference to the data in the metadata of the pushpin for access later.
+        pin.metadata = data;
+
+        return pin;
+    }
+
+    function displayInfobox(e) {
+        var data = e.target.metadata;
+
+        var description = ['<table><tr><td><b>Fruit</b></td><td><b>Value</b></td></tr>'];
+
+        for (var i = 0; i < data.values.length; i++) {
+            description.push('<tr><td><span style="color:', chartOptions.colors[i], '">', chartOptions.legend[i], '</span></td><td>', data.values[i], '</td></tr>');
+        }
+
+        description.push('</table>');
+
+        infobox.setOptions({
+            location: e.target.getLocation(),
+            title: data.name,
+            description: description.join(''),
+
+            visible: true
+        })
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Pushpin Bar Chart (inline SVG) Sample</legend>
+        This sample shows how to create pushpins that look like bar charts using inline SVG's. Click on a pushpin to view the data for each bar in the chart.
+    </fieldset>
+</body>
+</html>

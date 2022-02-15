@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HTML Pushpin Layer - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to create a custom layer for display HTML based pushpins using a Custom Overlay." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, infobox, layer;
+
+    //Create a simple reusable HTML template to keep things easy.
+    var htmlTemplate = '<div class="htmlPushpin">{text}</div>';
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Create an infobox at the center of the map but don't show it.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            offset: new Microsoft.Maps.Point(0, 12),
+            showCloseButton: false,
+            visible: false
+        });
+        infobox.setMap(map);
+
+        //Register the custom module.
+        Microsoft.Maps.registerModule('HtmlPushpinLayerModule', 'HtmlPushpinLayerModule.js');
+
+        //Load the module.
+        Microsoft.Maps.loadModule('HtmlPushpinLayerModule', function () {
+            //Create some HTML pushpins in random locations. 
+            var locs = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+                       
+            //Create an array of Html Pushpins.
+            var pins = [
+                new HtmlPushpin(locs[0], htmlTemplate.replace('{text}', 'Hello World!'), { anchor: new Microsoft.Maps.Point(50, 12) }),
+                new HtmlPushpin(locs[1], htmlTemplate.replace('{text}', 'My Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12) }),
+                new HtmlPushpin(locs[2], htmlTemplate.replace('{text}', 'HTML Rules!'), { anchor: new Microsoft.Maps.Point(50, 12) }),
+                new HtmlPushpin(locs[3], htmlTemplate.replace('{text}', 'Hoverable'), { anchor: new Microsoft.Maps.Point(50, 12) }),
+                new HtmlPushpin(locs[4], htmlTemplate.replace('{text}', 'Draggable Pushpin'), { anchor: new Microsoft.Maps.Point(50, 12), draggable: true })
+            ];
+
+            Microsoft.Maps.Events.addHandler(pins[3], 'mouseover', function (e) {
+                infobox.setOptions({
+                    location: e.target.getLocation(),
+                    title: 'Pin Hovered',
+                    visible: true
+                });
+            });
+
+            Microsoft.Maps.Events.addHandler(pins[3], 'mouseout', function (e) {
+                infobox.setOptions({ visible: false });
+            });
+
+            //Create an Html Pushpin Layer and pass in the array of pushpins.
+            layer = new HtmlPushpinLayer(pins);
+
+            //Add the HTML pushpin to the map.
+            map.layers.insert(layer);
+        });
+    }
+
+    var addedPinIdx = 1;
+
+    function AddPushpin() {
+        //Get a random location in the current map view. 
+        var loc = Microsoft.Maps.TestDataGenerator.getLocations(1, map.getBounds());
+
+        //Create an Html Pushpin and add it to the layer.
+        layer.add(new HtmlPushpin(loc, htmlTemplate.replace('{text}', 'Add Pin: ' + addedPinIdx), { anchor: new Microsoft.Maps.Point(50, 12) }));
+
+        addedPinIdx++;
+    }
+
+    function BringIntoView() {
+        var bounds = layer.getBounds();
+        if (bounds) {
+            map.setView({ bounds: bounds, padding: 100 });
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+    <style>
+        .htmlPushpin {
+            color:red;
+            background-color:white;
+            width:100px;
+            padding:2px;
+            text-align:center;
+
+            /* Disable the ability to select the text */
+            -webkit-user-select: none;  /* Chrome all / Safari all */
+            -moz-user-select: none;     /* Firefox all */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* Likely future */      
+        }
+    </style>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <br/>
+    <input type="button" value="Add Pushpin" onclick="AddPushpin()"/>
+    <input type="button" value="Clear Layer" onclick="layer.clear();" />
+    <input type="button" value="Bring into View" onclick="BringIntoView();" />
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>HTML Pushpin Layer Sample</legend>
+        This sample shows how to create a custom layer for display HTML based pushpins using a Custom Overlay.
+    </fieldset>
+</body>
+</html>

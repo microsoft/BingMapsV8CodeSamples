@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Clusters with a List and Linking - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This example shows how to dynamically create a list of the pushpins that are currently displayed in the clustering layer and also link each list item back to the clustered pushpin." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script type="text/javascript">
+    var map, clusterLayer, infobox;
+
+	function GetMap() {
+	    map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Add an infobox to the map.
+	    infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: false });
+	    infobox.setMap(map);
+
+        Microsoft.Maps.loadModule("Microsoft.Maps.Clustering", function () {
+            //Create a clustering layer
+            clusterLayer = new Microsoft.Maps.ClusterLayer(createCustomPushpins(100), {
+                clusteredPinCallback: createCustomClusterPushpins,
+                callback: createPushpinList
+            });
+
+            //Add a click event to the clustering layer.
+            Microsoft.Maps.Events.addHandler(clusterLayer, 'click', pushpinClicked);
+
+            map.layers.insert(clusterLayer);
+        });
+	}
+
+	function createCustomPushpins(size) {
+        //Generate 100 random pushpins within the map bounds.
+	    var pins = Microsoft.Maps.TestDataGenerator.getPushpins(size, map.getBounds());
+
+	    for (var i = 0; i < size; i++) {
+	        //Create a title for each pushpin.
+	        pins[i].setOptions({ title: 'Pushpin #' + i });
+	    }
+
+	    return pins;
+	}
+
+	function createCustomClusterPushpins(cluster) {
+	    //Create a title for the cluster.
+	    cluster.setOptions({
+	        title: 'Cluster of ' + cluster.containedPushpins.length + ' pins'
+	    });
+	}
+
+	function pushpinClicked(e) {
+        //Show an infobox when a pushpin is clicked.
+	    showInfobox(e.target);
+	}
+
+	function createPushpinList() {
+	    //Create a list of displayed pushpins each time clustering layer updates.
+
+	    if (clusterLayer != null) {
+	        infobox.setOptions({ visible: false });
+
+            //Get all pushpins that are currently displayed.
+	        var data = clusterLayer.getDisplayedPushpins();
+	        var output = [];
+
+            //Create a list of links for each pushpin that opens up the infobox for it.
+	        for (var i = 0; i < data.length; i++) {
+	            output.push("<a href='javascript:void(0);' onclick='showInfoboxByGridKey(", data[i].gridKey, ");'>");
+	            output.push(data[i].getTitle(), "</a><br/>");
+	        }
+
+	        document.getElementById('listOfPins').innerHTML = output.join('');
+	    }
+	}
+
+	function showInfoboxByGridKey(gridKey) {
+        //Look up the cluster or pushpin by gridKey.
+        var clusterPin = clusterLayer.getClusterPushpinByGridKey(gridKey);
+
+        //Show an infobox for the cluster or pushpin.
+	    showInfobox(clusterPin);
+	}
+
+	function showInfobox(pin) {
+	    var description = [];
+
+        //Check to see if the pushpin is a cluster.
+	    if (pin.containedPushpins) {
+
+	        //Create a list of all pushpins that are in the cluster.
+	        description.push('<div style="max-height:75px;overflow-y:auto;"><ul>');
+	        for (var i = 0; i < pin.containedPushpins.length; i++) {
+	            description.push('<li>', pin.containedPushpins[i].getTitle(), '</li>');
+	        }
+	        description.push('</ul></div>');
+	    }
+
+        //Display an infobox for the pushpin.
+	    infobox.setOptions({
+	        title: pin.getTitle(),
+	        location: pin.getLocation(),
+	        description: description.join(''),
+	        visible: true
+	    });
+	}
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative; width:600px; height:400px;"></div>
+    <br />
+    <div id="listOfPins" style="max-height:250px;width:250px;overflow-y:scroll;"></div>
+</body>
+</html>
+

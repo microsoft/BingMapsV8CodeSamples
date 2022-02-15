@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mouse Wheel Zoom Overide - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to override the mouse wheel behaviour so that it zooms into the center of the map rather than into the pointer location." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {});
+
+        overrideMouseWheelZoom(map);
+    }
+
+    function overrideMouseWheelZoom(map) {
+        //Disable the default mouse wheel zoom functionality on the map.
+        map.setOptions({ disableScrollWheelZoom: true });
+
+        //Create a mouse wheel event handler.
+        var onMouseWheelChanged = function (e) {
+            //Disable the default mouse wheel zoom functionality on the map.
+            var zoom = map.getZoom();
+
+            //Depending on if the wheel delta is +/- zoom in/out. (Firefox uses detail instead of wheel delta).
+            if (e.wheelDelta > 0 || e.detail < 0) {
+                zoom++;
+            } else {
+                zoom--;
+            }
+
+            //Make sure the zoom level value is a valid zoom level.
+            if (zoom <= 0) {
+                zoom = 1;
+            } else if (zoom >= 21) {
+                zoom = 21;
+            }
+
+            //Set the zoom level of the map.
+            map.setView({ zoom: zoom });
+
+            //Disable scrolling of the page when the mouse wheel is over the map.
+            e.preventDefault();
+        };
+
+        //Get the map div.
+        var mapDiv = map.getRootElement();
+
+        //Add a mouse wheel event to the map div.
+        mapDiv.addEventListener("mousewheel", onMouseWheelChanged, false);
+
+        //Use DOMMouseScroll to support FireFox
+        mapDiv.addEventListener("DOMMouseScroll", onMouseWheelChanged, false);
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Mouse Wheel Zoom Overide Sample</legend>
+        This sample shows how to override the mouse wheel behaviour so that it zooms into the center of the 
+        map rather than into the pointer location. Extra space added below so that we can verify page scrolling 
+        is disabled on the map when using mouse wheel.
+    </fieldset>
+</body>
+</html>

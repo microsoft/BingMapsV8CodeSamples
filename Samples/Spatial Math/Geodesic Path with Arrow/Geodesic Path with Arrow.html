@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, pins, pathLayer;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 2
+        });
+
+        //Create draggable start and end pushpins. 
+        pins = Microsoft.Maps.TestDataGenerator.getPushpins(2, map.getBounds());
+        pins[0].setOptions({ text: 'S', draggable: true });
+        pins[1].setOptions({ text: 'E', color: 'green', draggable: true });
+        map.entities.push(pins);
+
+        //Add drag events to the pushpins to update the path.
+        Microsoft.Maps.Events.addHandler(pins[0], 'drag', updatePath);
+        Microsoft.Maps.Events.addHandler(pins[1], 'drag', updatePath);
+
+        //Create a layer for rendering the path.
+        pathLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(pathLayer);
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath", function () {
+            updatePath();
+        });
+    }
+
+    function updatePath() {
+        pathLayer.clear();
+
+        //Calculate a geodesic path between the two points (line that follows curvature of the earth).
+        var path = Microsoft.Maps.SpatialMath.getGeodesicPath([pins[0].getLocation(), pins[1].getLocation()], 360);
+        var poly = new Microsoft.Maps.Polyline(path);
+        pathLayer.add(poly);
+
+        if (path.length >= 2) {
+            //Get the middle coordinate
+            var midIdx = Math.floor(path.length / 2);
+
+            //Calculate the heading from the middle coordinate to the next coordinate in the path.
+            var heading = Microsoft.Maps.SpatialMath.getHeading(path[midIdx], path[midIdx + 1]);
+
+            //Display a pushpin at the middle+1 cooridnate with an arrow icon, rotated to align with the heading.
+            var arrowPin = new Microsoft.Maps.Pushpin(path[midIdx + 1], {
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><path d="M10.5 31 L16 16 21.5 31" style="stroke:red;stroke-width:2px;fill:none;" transform="rotate(' + heading + ', 16, 16)"/></svg>',
+                anchor: new Microsoft.Maps.Point(16, 16)
+            });
+            pathLayer.add(arrowPin);
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Geodesic Path with Arrow Sample</legend>
+        This sample shows how to generate a geodesic path (path that follows the curvatur of the globe) between a start and end location and also draws an arrow in the middle ot the path to indicate the direction of travel. 
+        Drag the start or end points to see how the path changes.
+    </fieldset>
+</body>
+</html>

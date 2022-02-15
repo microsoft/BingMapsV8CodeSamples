@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GeoJson Shape Events - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add events to shapes loaded from the GeoJSON module and have an infobox displayed when they are clicked." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, infobox, dataLayer;
+    var usgsEarthquakeUrl = 'https://earthquake.usgs.gov/fdsnws/event/1/query?minmagnitude=3&format=geojson';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 2
+        });
+
+        //Create an infobox.
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: false });
+        infobox.setMap(map);
+
+        //Create a layer to add the GeoJSON data to.
+        dataLayer = new Microsoft.Maps.Layer();
+        map.layers.insert(dataLayer);
+
+        //Add click event to the layer.
+        Microsoft.Maps.Events.addHandler(dataLayer, 'click', showInfobox);
+               
+        //Load the GeoJSON module and read the GeoJSON feed.
+        Microsoft.Maps.loadModule('Microsoft.Maps.GeoJson', function () {
+            Microsoft.Maps.GeoJson.readFromUrl(usgsEarthquakeUrl, function (shapes) {
+                //Add shapes to the layer.
+                dataLayer.add(shapes);
+            }, 'callback');
+        });
+    }
+
+    function showInfobox(e){
+        var shape = e.target; //Get the clicked shape.
+        var loc = e.location; //Default to the location of the mouse event to show the infobox.
+
+        //If the shape is a pushpin, use it's location to display the infobox.
+        if(shape instanceof Microsoft.Maps.Pushpin){
+            loc = shape.getLocation();
+        }
+
+        //Display the infoboc
+        infobox.setOptions({location: loc, title: shape.metadata.title, visible: true });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>GeoJson Shape Events Sample</legend>
+        This sample shows how to add events to shapes loaded from the GeoJSON module and have an infobox displayed when they are clicked.
+        The data in this sample is sourced from the <a href="https://earthquake.usgs.gov/">USGS Earthquake Hazards Program</a>.
+    </fieldset>
+</body>
+</html>

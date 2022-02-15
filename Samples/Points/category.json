@@ -1,0 +1,4 @@
+{
+  "Title": "Points",
+  "Description": "Points are used to represent a pixel coordinate or offset. This is often used by pushpin anchors, and map location to pixel conversion calculations."
+}

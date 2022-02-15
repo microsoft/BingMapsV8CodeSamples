@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to add events to a shape that has just been drawn on the map." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map, baseLayer, drawingManager;
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the DrawingTools module
+        Microsoft.Maps.loadModule('Microsoft.Maps.DrawingTools', function () {
+            //Create a base layer to add drawn shapes.
+            baseLayer = new Microsoft.Maps.Layer();
+
+            //Add a click event to the base layer.
+            Microsoft.Maps.Events.addHandler(baseLayer, 'click', function (e) {
+                alert("shape clicked");
+            });
+
+            map.layers.insert(baseLayer);
+            
+            //Create an instance of the DrawingTools class and bind it to the map.
+            var tools = new Microsoft.Maps.DrawingTools(map);
+
+            //Show the drawing toolbar and enable editting on the map.
+            tools.showDrawingManager(function (manager) {
+                drawingManager = manager;
+
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingEnded', function (e) {
+                    //When use finisihes drawing a shape, removing it from the drawing layer and add it to the base layer.
+                    moveShapesBetweenLayers(drawingManager, baseLayer);
+                });
+
+                Microsoft.Maps.Events.addHandler(drawingManager, 'drawingModeChanged', function (e) {
+                    //When the mode changes to edit or erase, move all shapes in the baseLayer to the drawing layer.
+                    if (e === Microsoft.Maps.DrawingTools.DrawingMode.edit || e === Microsoft.Maps.DrawingTools.DrawingMode.erase) {
+                        moveShapesBetweenLayers(baseLayer, drawingManager);
+                    }
+                });
+            })
+        });
+    }
+
+    function moveShapesBetweenLayers(fromLayer, toLayer) {
+        var shapes = fromLayer.getPrimitives();
+
+        if (shapes) {
+            fromLayer.clear();
+            toLayer.add(shapes);
+        }
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>Add events to newly drawn shapes sample</legend>
+        This sample shows how to add events to a shape that has just been drawn on the map. This is achieved by moving a shape 
+        from the drawing layer to a seperate base layer which has the events on it. 
+    </fieldset>
+</body>
+</html>

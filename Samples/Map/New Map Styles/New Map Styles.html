@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>New Map Styles - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This sample shows how to use display the new map styles in the dropdown of Bing Maps; Canvas Dark, Canvas Light, and Grayscale." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {
+            supportedMapTypes: [
+                Microsoft.Maps.MapTypeId.road,
+                Microsoft.Maps.MapTypeId.aerial,
+                Microsoft.Maps.MapTypeId.streetside,
+                Microsoft.Maps.MapTypeId.grayscale,
+                Microsoft.Maps.MapTypeId.canvasDark,
+                Microsoft.Maps.MapTypeId.canvasLight,
+                Microsoft.Maps.MapTypeId.birdseye, //Will display a button in the future.
+                Microsoft.Maps.MapTypeId.ordnanceSurvey //Only appears when user is in UK.
+            ],
+            mapTypeId: Microsoft.Maps.MapTypeId.grayscale
+        });
+    }
+    </script>
+    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>New Map Styles Sample</legend>
+        This sample shows how to use display the new map styles in the dropdown of Bing Maps; Canvas Dark, Canvas Light, and Grayscale.
+    </fieldset>
+</body>
+</html>
