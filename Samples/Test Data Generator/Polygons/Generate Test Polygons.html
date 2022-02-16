@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> - Bing Maps Samples</title>
+    <title>Generate Test Polygons - Bing Maps Samples</title>
 
     <meta charset="utf-8" />
 	<link rel="shortcut icon" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
+    <meta name="description" content="This sample shows how to use the TestDataGenerator to create random polygons using the getPolygons function." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -17,19 +17,18 @@
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {});
 
-        // getPolylines(num?: number, bounds?: LocationRect, size?: number, scaleFactor?: number, options?: IPolylineOptions)
-        var polylines = Microsoft.Maps.TestDataGenerator.getPolylines(5, map.getBounds());
-        map.entities.push(polylines);
+        var polygons = Microsoft.Maps.TestDataGenerator.getPolygons(3, map.getBounds(), 5, null, null, true);
+        map.entities.push(polygons);
     }
     </script>
-    <script defer src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]'></script>
+    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
 
     <fieldset style="width:800px;margin-top:10px;">
-        <legend>TestDataGenerator Create Polylines Sample</legend>
-        This sample shows how to use the TestDataGenerator to create random polylines using the getPolylines function.
+        <legend>TestDataGenerator Create Polygons Sample</legend>
+        This sample shows how to use the TestDataGenerator to create random polygons using the getPolygons function. 
         <a href="https://msdn.microsoft.com/en-us/library/mt712874.aspx">TestDataGenerator documentation</a>
     </fieldset>
 </body>

@@ -89,7 +89,7 @@ function findNearbyLocations(location) {
         //Loop through results and add to map 
         for (var i = 0; i < results.length; i++) {
             results[i].setOptions({
-                icon: 'images/red_pin.png',
+                icon: '/tutorials/store-locator/images/red_pin.png',
                 text: (i + 1) + ''
             });
             // Add the location of the pushpin to the array of locations 
