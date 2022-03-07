@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+
+    <script type='text/javascript' src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
+    <script>
+    function geocode() {
+        var query = document.getElementById('input').value;
+
+        var geocodeRequest = "https://dev.virtualearth.net/REST/v1/Locations?query=" + encodeURIComponent(query) + "&key=" + '[YOUR_BING_MAPS_KEY]';
+
+        CallRestService(geocodeRequest, GeocodeCallback);
+    }
+
+    function GeocodeCallback(response) {
+        var output = document.getElementById('output');
+
+        if (response &&
+            response.resourceSets &&
+            response.resourceSets.length > 0 &&
+            response.resourceSets[0].resources) {
+
+            var results = response.resourceSets[0].resources;
+
+            var html = ['<table><tr><td>Name</td><td>Latitude</td><td>Longitude</td></tr>'];
+            
+            for (var i = 0; i < results.length; i++) {
+                html.push('<tr><td>', results[i].name, '</td><td>', results[i].point.coordinates[0], '</td><td>', results[i].point.coordinates[1], '</td></tr>');
+            }
+
+            html.push('</table>');
+
+            output.innerHTML = html.join('');
+        } else {
+            output.innerHTML = "No results found.";
+        }
+    }
+
+    function CallRestService(requestUrl, callback) {
+        $.ajax({
+            url: requestUrl,
+            dataType: "jsonp",
+            jsonp: "jsonp",
+            success: function (r) {
+                callback(r);
+            },
+            error: function (e) {
+                alert(e.statusText);
+            }
+        });
+    }
+    </script>
+</head>
+<body>
+    <input type="text" id="input" value="New York"/>
+    <input type="button" onClick="geocode()" value="Search" /><br/>
+    <div id="output" style="height:150px;"></div>
+
+    <fieldset style="width:800px;margin-top:10px;">
+        <legend>REST Services jQuery JSONP Sample</legend>
+        This sample shows how to call the Bing Maps REST services using jQuery and a JSONP request.<br /><br />
+        The Bing Maps REST services were initially released many years ago before browsers supported cross domain requests using <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>.
+        To get around this <a href="https://en.wikipedia.org/wiki/JSONP">JSONP</a> requests where made which would tell the server to wrap the response with a JavaScript function.
+        JSONP requests would then be loaded like a JavaScript file rather than queries like a API. The Bing Maps REST services now support CORS as well.
+    </fieldset>
+</body>
+</html>

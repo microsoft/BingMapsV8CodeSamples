@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> - Bing Maps Samples</title>
+    <title>Basic Intersection Search Query - Bing Maps Samples</title>
 
     <meta charset="utf-8" />
 	<link rel="shortcut icon" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
+    <meta name="description" content="This sample does a basic intersection query against a data source in the Bing Spatial Data Services by searching for locations that intersect with the current map view." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -15,7 +15,7 @@
     var map;
 
     //Query URL to the Fourth Coffe Shop data source
-    var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/20181f26d9e94c81acdf9496133d4f23/FourthCoffeeSample/FourthCoffeeShops';
+    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/20181f26d9e94c81acdf9496133d4f23/FourthCoffeeSample/FourthCoffeeShops';
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -54,7 +54,7 @@
         });
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=[YOUR_BING_MAPS_KEY]"></script>
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:600px;"></div>

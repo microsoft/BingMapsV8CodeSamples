@@ -11,7 +11,7 @@
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
     
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
     
     <script type='text/javascript' charset="utf-8">
     var map;
@@ -19,7 +19,7 @@
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {});
 
-        //Create a font pushpin of a truck. "&#xf0d1;" => "\uf0d1". List of icon hex values: http://fontawesome.io/3.2.1/cheatsheet/
+        //Create a font pushpin of a truck. "&#xf0d1;" => "\uf0d1". List of icon hex values: https://fontawesome.io/3.2.1/cheatsheet/
         var pin = createFontPushpin(map.getCenter(), '\uF0D1', 'FontAwesome', 30, 'red');
 
         //Add the pushpin to the map

@@ -18,7 +18,7 @@
 
             var usgsTopoTileLayer = new BasicTileLayer({
                 mercator: new Microsoft.Maps.TileSource({
-                    uriConstructor: 'http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{zoom}/{y}/{x}',
+                    uriConstructor: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{zoom}/{y}/{x}',
                     minZoom: 1,
                     maxZoom: 15
                 })
@@ -42,7 +42,7 @@
 
             var weatherTileLayer = new BasicTileLayer({
                 mercator: new Microsoft.Maps.TileSource({
-                    uriConstructor: 'http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
+                    uriConstructor: 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{zoom}/{x}/{y}.png'
                 })
             });
             map.layers.insert(weatherTileLayer);

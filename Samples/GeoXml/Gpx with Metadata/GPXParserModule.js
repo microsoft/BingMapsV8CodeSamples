@@ -1,9 +1,9 @@
 ﻿/****************************************************************************
 * Author: Ricky Brundritt
-* Website: http://rbrundritt.wordpress.com
+* Website: https://rbrundritt.wordpress.com
 * Date: January 19th, 2012
 *
-* Source: http://bingmapsv7modules.codeplex.com/
+* Source: https://bingmapsv7modules.codeplex.com/
 * 
 * Description:
 * This plugin allows you to import GPX files into Bing Maps. A GPX feed will be downloaded 

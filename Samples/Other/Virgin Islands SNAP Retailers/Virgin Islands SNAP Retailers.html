@@ -130,7 +130,7 @@
             }
 
             desc.push('<br/>', metadata.City, ', ', metadata.State);
-            desc.push('<br/><br/><a target="_blank" href="http://bing.com/maps/default.aspx?rtp=~pos.', loc.latitude, '_', loc.longitude, '_', encodeURIComponent(metadata.Store_Name), '">Directions</a>');
+            desc.push('<br/><br/><a target="_blank" href="https://bing.com/maps/default.aspx?rtp=~pos.', loc.latitude, '_', loc.longitude, '_', encodeURIComponent(metadata.Store_Name), '">Directions</a>');
 
             infobox.setOptions({ visible: true, location: loc, title: metadata.Store_Name, description: desc.join('') });
         }

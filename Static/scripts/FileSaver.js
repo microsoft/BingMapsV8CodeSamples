@@ -3,13 +3,13 @@
  * 1.3.2
  * 2016-06-16 18:25:19
  *
- * By Eli Grey, http://eligrey.com
+ * By Eli Grey, https://eligrey.com
  * License: MIT
  *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
  */
 /*global self */
 /*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
-/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+/*! @source https://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 var saveAs = saveAs || (function (view) {
     "use strict";
     // IE <10 is explicitly unsupported
@@ -18,7 +18,7 @@ var saveAs = saveAs || (function (view) {
     }
     var doc = view.document, get_URL = function () {
         return view.URL || view.webkitURL || view;
-    }, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a"), can_use_save_link = "download" in save_link, click = function (node) {
+    }, save_link = doc.createElementNS("https://www.w3.org/1999/xhtml", "a"), can_use_save_link = "download" in save_link, click = function (node) {
         var event = new MouseEvent("click");
         node.dispatchEvent(event);
     }, is_safari = /constructor/i.test(view.HTMLElement) || view.safari, is_chrome_ios = /CriOS\/[\d]+/.test(navigator.userAgent), throw_outside = function (ex) {

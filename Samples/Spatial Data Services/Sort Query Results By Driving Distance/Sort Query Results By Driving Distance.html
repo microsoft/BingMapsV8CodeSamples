@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> - Bing Maps Samples</title>
+    <title>Sort Query Results By Driving Distance - Bing Maps Samples</title>
 
     <meta charset="utf-8" />
 	<link rel="shortcut icon" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
+    <meta name="description" content="Sort Query Results By Driving Distance." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
@@ -15,7 +15,7 @@
     var map, sessionKey, results;
 
     //Query URL to the NAVTEQ POI data source
-    var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
+    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
 
     function GetMap() {
         map = new Microsoft.Maps.Map('#myMap', {
@@ -98,7 +98,7 @@
 
     function sortByDrivingDistance(center, callback) {
         //Generate a multi-waypoint route request from the center to each result.
-        var routeRequest = ['http://dev.virtualearth.net/REST/v1/Routes?'];
+        var routeRequest = ['https://dev.virtualearth.net/REST/v1/Routes?'];
 
         for (var i = 0; i < results.length; i++) {
             routeRequest.push('&wp.', (i * 2), '=', center.latitude, ',', center.longitude);

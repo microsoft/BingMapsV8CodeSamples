@@ -103,7 +103,7 @@ function findNearbyLocations(location) {
             listItems.push('<td>', convertSdsDistance(metadata.__Distance), ' ', distanceUnits, '</td></tr>');
             listItems.push('<tr><td colspan="2" class="listItem-address">', metadata.AddressLine, '<br/>', metadata.Locality, ', ');
             listItems.push(metadata.AdminDistrict, '<br/>', metadata.PostalCode, '</td></tr>');
-            listItems.push('<tr><td colspan="2"><a target="_blank" href="http://bing.com/maps/default.aspx?rtp=~pos.', metadata.Latitude, '_', metadata.Longitude, '_', encodeURIComponent(metadata.Name), '">Directions</a></td></tr>');
+            listItems.push('<tr><td colspan="2"><a target="_blank" href="https://bing.com/maps/default.aspx?rtp=~pos.', metadata.Latitude, '_', metadata.Longitude, '_', encodeURIComponent(metadata.Name), '">Directions</a></td></tr>');
             listItems.push('</table>');
         }
         // Add the pushpins to the map. 
@@ -155,7 +155,7 @@ function displayInfobox(pin) {
     desc.push('<tr><td><b>Hours:</b></td><td>', formatTime(metadata.Open), ' - ', formatTime(metadata.Close), '</td></tr>');
     desc.push('<tr><td><b>Store Type:</b></td><td>', metadata.StoreType, '</td></tr>');
     desc.push('<tr><td><b>Has Wifi:</b></td><td>', (metadata.IsWiFiHotSpot) ? 'Yes' : 'No', '</td></tr>');
-    desc.push('<tr><td colspan="2"><a target="_blank" href="http://bing.com/maps/default.aspx?rtp=~pos.', metadata.Latitude, '_', metadata.Longitude, '_', encodeURIComponent(metadata.Name), '">Directions</a></td></tr>');
+    desc.push('<tr><td colspan="2"><a target="_blank" href="https://bing.com/maps/default.aspx?rtp=~pos.', metadata.Latitude, '_', metadata.Longitude, '_', encodeURIComponent(metadata.Name), '">Directions</a></td></tr>');
     desc.push('</table>');
     infobox.setOptions({ visible: true, location: pin.getLocation(), title: metadata.Name, description: desc.join('') });
 }

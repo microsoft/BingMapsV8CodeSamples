@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cardinal Splines Basics - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Generate the locations of a cardinal spline that passes through these locations." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="screenshot.jpg" />
+    
+    <script>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Load the Spatial Math module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialMath', function () {
+            //Generate some random locations on the map.
+            var locs = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+
+            //Add pushpins to the map to show the random locations that were generated.
+            for (var i = 0; i < locs.length; i++) {
+                map.entities.push(new Microsoft.Maps.Pushpin(locs[i]));
+            }
+
+            //Generate the locations of a cardinal spline that passes through these locations.
+            locs = Microsoft.Maps.SpatialMath.getCardinalSpline(locs);
+
+            //Create a polyline from the cardinal spline locations.
+            var spline = new Microsoft.Maps.Polyline(locs, { strokeThickness: 3 });
+            map.entities.push(spline);
+        });
+    }
+    </script>
+    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

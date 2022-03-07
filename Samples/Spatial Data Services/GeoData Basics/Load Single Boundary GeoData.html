@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Load Single Boundary GeoData - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This examples renders a PopulatedPlace (city, town) boundary for the Location that is in the center of the map view when the map is loaded." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-geodatasingleboundary.png" />
+    
+    <script>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            center: new Microsoft.Maps.Location(43.7, -79.3834),
+            zoom: 10
+        });
+
+        //Create the request options.
+        var geoDataRequestOptions = {
+            entityType: 'PopulatedPlace'
+        };
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+
+            //Use the GeoData API manager to get the boundaries of the zip codes.
+            Microsoft.Maps.SpatialDataService.GeoDataAPIManager.getBoundary(
+                map.getCenter(),
+                geoDataRequestOptions,
+                map,
+                function (data) {
+                    //Add the polygons to the map.
+                    if (data.results && data.results.length > 0) {
+                        map.entities.push(data.results[0].Polygons);
+                    }
+                });
+        });
+    }
+    </script>
+    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

@@ -60,6 +60,27 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Static", "Static\", "{7A307
 		SlnRelativePath = "Static\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Temp", "..\..\..\Temp\", "{EF819940-1C16-4FC8-9836-61404B7ACE7E}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55352"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\Temp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55352\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55352"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\Temp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55352\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "55352"
+		SlnRelativePath = "..\..\..\Temp\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +95,10 @@ Global
 		{7A307B4D-EE85-49EB-A404-19366196B764}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A307B4D-EE85-49EB-A404-19366196B764}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{7A307B4D-EE85-49EB-A404-19366196B764}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{EF819940-1C16-4FC8-9836-61404B7ACE7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF819940-1C16-4FC8-9836-61404B7ACE7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF819940-1C16-4FC8-9836-61404B7ACE7E}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF819940-1C16-4FC8-9836-61404B7ACE7E}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

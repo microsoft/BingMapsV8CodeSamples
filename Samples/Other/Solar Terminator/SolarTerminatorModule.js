@@ -99,14 +99,14 @@ var SolarTerminator = (function (_super) {
         return (date.getTime() / 86400000) + 2440587.5;
     };
     SolarTerminator.prototype.getGMST = function (date) {
-        //Calculate Greenwich Mean Sidereal Time according to http://aa.usno.navy.mil/faq/docs/GAST.php
+        //Calculate Greenwich Mean Sidereal Time according to https://aa.usno.navy.mil/faq/docs/GAST.php
         var julianDay = this.getJulian(date);
         var d = julianDay - 2451545.0;
         // Low precision equation is good enough for our purposes.
         return (18.697374558 + 24.06570982441908 * d) % 24;
     };
     SolarTerminator.prototype.getSunEclipticPosition = function (julianDay) {
-        //Compute the position of the Sun in ecliptic coordinates at julianDay. Following http://en.wikipedia.org/wiki/Position_of_the_Sun
+        //Compute the position of the Sun in ecliptic coordinates at julianDay. Following https://en.wikipedia.org/wiki/Position_of_the_Sun
         // Days since start of J2000.0
         var n = julianDay - 2451545.0;
         // mean longitude of the Sun
@@ -120,7 +120,7 @@ var SolarTerminator = (function (_super) {
         return { lambda: lambda, R: R };
     };
     SolarTerminator.prototype.getEclipticObliquity = function (julianDay) {
-        // Following the short term expression in http://en.wikipedia.org/wiki/Axial_tilt#Obliquity_of_the_ecliptic_.28Earth.27s_axial_tilt.29
+        // Following the short term expression in https://en.wikipedia.org/wiki/Axial_tilt#Obliquity_of_the_ecliptic_.28Earth.27s_axial_tilt.29
         // Julian centuries since J2000.0
         var n = julianDay - 2451545.0;
         var T = n / 36525;

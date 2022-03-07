@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Find By Property - Bing Maps Samples</title>
+
+    <meta charset="utf-8" />
+	<link rel="shortcut icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="One of the simplest ways to query a data source is to do a property based search." />
+    <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
+    <meta name="author" content="Microsoft Bing Maps" />
+    <meta name="screenshot" content="bmv8-findbypropertyexample.png" />
+    
+    <script>
+    var map;
+
+    //Query URL to the NAVTEQ POI data source
+    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            zoom: 2
+        });
+
+        //Load the Bing Spatial Data Services module.
+        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+            findByProperty();
+        });
+    }
+
+    function findByProperty() {
+        //Remove any existing data from the map.
+        map.entities.clear();
+
+        //Create a query to get nearby data.
+        var queryOptions = {
+            queryUrl: sdsDataSourceUrl,
+            filter: new Microsoft.Maps.SpatialDataService.Filter('EntityTypeID', 'eq', 5540) //Filter to retrieve Gas Stations.
+        };
+
+        //Process the query.
+        Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
+            //Add results to the map.
+            map.entities.push(data);
+        });
+    }
+    </script>
+    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+</body>
+</html>

@@ -88,7 +88,7 @@
         map.entities.push(pin2);
 
         //Load a GeoJson file and render the data as a heatmap.
-        var usgsEarthquakeUrl = 'http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson';
+        var usgsEarthquakeUrl = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson';
         Microsoft.Maps.loadModule(['Microsoft.Maps.GeoJson', 'Microsoft.Maps.HeatMap'], function () {
             Microsoft.Maps.GeoJson.readFromUrl(usgsEarthquakeUrl,
                 function (shapes) {
