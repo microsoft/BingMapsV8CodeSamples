@@ -68,7 +68,7 @@
         return color;
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
     <style>
         .contourLegend {
             margin-left: 10px;
@@ -88,5 +88,16 @@
         <div style="background-color: rgba(140, 202, 32, 0.5)">80%g</div>
         <div style="background-color: rgba(25, 150, 65, 0.5)">40%g</div>
     </div>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

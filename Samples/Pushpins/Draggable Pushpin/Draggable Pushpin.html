@@ -46,10 +46,10 @@
         setTimeout(function () { document.getElementById(id).style.background = 'white'; }, 1000);
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
     <div id="pushpinDrag">drag</div>
     <div id="pushpinDragEnd">dragend</div>
     <div id="pushpinDragStart">dragstart</div>
@@ -60,5 +60,16 @@
         This sample shows three pushpins. The green pushpin is draggable and has events attached to it. For comparison, 
         the blue pushpin is draggable but no events attached, and the red pushpin is not draggable.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

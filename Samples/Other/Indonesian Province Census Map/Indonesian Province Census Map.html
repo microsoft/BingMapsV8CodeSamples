@@ -105,7 +105,7 @@
         }
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
     <style>
         .mapContainer {
             position: relative;
@@ -153,5 +153,16 @@
         This sample shows how to create a simple choropleth map which retrieves boundary data from the GeoData API in the Bing Spatial Data Services.
         The choropleth data is for 2010 census population data of Indonesian provinces.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

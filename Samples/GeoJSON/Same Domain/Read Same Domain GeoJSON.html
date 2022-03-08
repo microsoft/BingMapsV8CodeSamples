@@ -31,7 +31,7 @@
         });
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
     <div id="myMap" style="position:relative;width:1000px;height:800px;"></div>
@@ -40,5 +40,16 @@
         <legend>GeoJson Same Domain Sample</legend>
         This sample shows how load a GeoJSON file that is hosted on the same domain.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

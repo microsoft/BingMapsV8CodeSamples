@@ -101,7 +101,7 @@
         alert('No results found');
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:500px;"></div>
@@ -118,5 +118,16 @@
         This sample shows how to create a module that adds free from query support to a data source in the Bing Spatial Data Services. 
         In this case the NAVTEQ data sources are used to provide poi/business results for queries.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

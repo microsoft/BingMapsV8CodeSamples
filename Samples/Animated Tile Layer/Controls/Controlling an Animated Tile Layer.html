@@ -4,7 +4,7 @@
     <title>Controlling an Animated Tile Layer - Bing Maps Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="This example shows how to control an AnimatedTileLayer by using the play, pause and stop functions." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps, animation, tile" />
@@ -12,46 +12,55 @@
     <meta name="screenshot" content="bmv8-animatedtilelayer-controls.jpg" />
 
     <script>
-    var map, animatedLayer;
+        var map, animatedLayer;
 
-    //Weather tile url from Iowa Environmental Mesonet (IEM): https://mesonet.agron.iastate.edu/ogc/
-    var urlTemplate = 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-{timestamp}/{zoom}/{x}/{y}.png';
+        //Weather tile url from Iowa Environmental Mesonet (IEM): https://mesonet.agron.iastate.edu/ogc/
+        var urlTemplate = 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-{timestamp}/{zoom}/{x}/{y}.png';
 
-    //The time stamps values for the IEM service for the last 50 minutes broken up into 5 minute increments.
-    var timestamps = ['900913-m50m', '900913-m45m', '900913-m40m', '900913-m35m', '900913-m30m', '900913-m25m', '900913-m20m', '900913-m15m', '900913-m10m', '900913-m05m', '900913'];
+        //The time stamps values for the IEM service for the last 50 minutes broken up into 5 minute increments.
+        var timestamps = ['900913-m50m', '900913-m45m', '900913-m40m', '900913-m35m', '900913-m30m', '900913-m25m', '900913-m20m', '900913-m15m', '900913-m10m', '900913-m05m', '900913'];
 
-    function GetMap()
-    {
-        map = new Microsoft.Maps.Map('#myMap', {
-            center: new Microsoft.Maps.Location(39, -92),
-            zoom: 5
-        });
-
-        var tileSources = [];
-
-        //Create a tile source for each time stamp.
-        for (var i = 0; i < timestamps.length; i++) {
-            var tileSource = new Microsoft.Maps.TileSource({
-                uriConstructor: urlTemplate.replace('{timestamp}', timestamps[i])
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {
+                center: new Microsoft.Maps.Location(39, -92),
+                zoom: 5
             });
-            tileSources.push(tileSource);
-        }
 
-        //Create the animated tile layer and add it to the map.
-        animatedLayer = new Microsoft.Maps.AnimatedTileLayer({
-            mercator: tileSources,
-            frameRate: 500
-        });
-        map.layers.insert(animatedLayer);
-    }
+            var tileSources = [];
+
+            //Create a tile source for each time stamp.
+            for (var i = 0; i < timestamps.length; i++) {
+                var tileSource = new Microsoft.Maps.TileSource({
+                    uriConstructor: urlTemplate.replace('{timestamp}', timestamps[i])
+                });
+                tileSources.push(tileSource);
+            }
+
+            //Create the animated tile layer and add it to the map.
+            animatedLayer = new Microsoft.Maps.AnimatedTileLayer({
+                mercator: tileSources,
+                frameRate: 500
+            });
+            map.layers.insert(animatedLayer);
+        }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
 </head>
 <body>
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
-    <br/>
-    <input type="button" value="Pause" onclick="animatedLayer.pause();"/>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
+    <br />
+    <input type="button" value="Pause" onclick="animatedLayer.pause();" />
     <input type="button" value="Play" onclick="animatedLayer.play();" />
     <input type="button" value="Stop" onclick="animatedLayer.stop();" />
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

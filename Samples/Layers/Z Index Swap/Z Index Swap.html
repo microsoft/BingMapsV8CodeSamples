@@ -52,12 +52,23 @@
         }
     }
     </script>
-    <script type='text/javascript' src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]" async defer></script>
+    
 </head>
 <body>
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
     <div style="width:600px;">
         This code sample, uses two layers. When you click on a shape in a layer, it swaps the zIndex of the layers such that the layer the shape is in, is on top. Additional information zIndexing in Bing Maps V8 can be found <a href="https://msdn.microsoft.com/en-US/library/mt791033.aspx">here</a>.
     </div>    
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

@@ -26,10 +26,10 @@
         map.entities.push(pushpin);
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
     Pushpin Color: 
     <input type="button" value="Blue" onclick="pushpin.setOptions({ color: 'blue' })"/>
     <input type="button" value="Red" onclick="pushpin.setOptions({ color: 'red' })" />
@@ -40,5 +40,16 @@
         <legend>V7 SVG Pushpin Template Sample</legend>
         This sample provides and SVG that is very similar to the default pushpin from Bing Maps V7, however it supports setting the circle color using the color option of the pushpin.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

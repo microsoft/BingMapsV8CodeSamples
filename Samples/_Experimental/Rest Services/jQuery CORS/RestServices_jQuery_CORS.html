@@ -76,5 +76,16 @@
         To get around this <a href="https://en.wikipedia.org/wiki/JSONP">JSONP</a> requests where made which would tell the server to wrap the response with a JavaScript function.
         JSONP requests would then be loaded like a JavaScript file rather than queries like a API. The Bing Maps REST services now support CORS as well.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

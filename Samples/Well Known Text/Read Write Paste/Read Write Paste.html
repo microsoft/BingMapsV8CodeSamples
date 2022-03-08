@@ -41,11 +41,11 @@
         }
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
     
-    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
     <div style="display: flex; margin-top: 1em;">
         <textarea id="wktArea" style="width: 700px; height: 4em;"></textarea>
         <button id="btnRead" style="margin-left: 1em; padding: 0.5em;">Read WKT</button>
@@ -54,5 +54,16 @@
         <legend>WKT Read-Write-Paste</legend>
         This example shows how to read and write WKT. You can also paste your own WKT in the text area as long as the coordinates are in Latitude / Longitude (EPSG:4326)
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

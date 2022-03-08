@@ -54,7 +54,6 @@
             }
         }
     </script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]&branch=experimental' async defer></script>
     <style>
         #myMap, .mapContainer {
             position: relative;
@@ -146,5 +145,16 @@
         This sample shows how to create a templatable map page that is powered by a configuration file. 
         In this sample a layer menu is automatically generated from the data sets specified in the configuration file.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}&branch=experimental`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

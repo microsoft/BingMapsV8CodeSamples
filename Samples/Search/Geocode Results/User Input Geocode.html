@@ -9,7 +9,7 @@
     <meta name="description" content="When the user types in a query and presses the search button a check is done to see if the Search module is loaded. If it is loaded, the users query is then geocoded." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
-    <meta name="screenshot" content="bmv8-geocodeuserinputexample.png" />
+    <meta name="screenshot" content="bmv8-geocodeuserinputexample.jpg" />
     
     <script>
     var map, searchManager;
@@ -82,7 +82,7 @@
         searchManager.geocode(searchRequest);
     }
     </script>
-    <script defer src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
     <input id="searchTbx" type="text"/>
@@ -90,5 +90,16 @@
     <br/>
     <div id="myMap" style="position:relative;width:600px;height:400px;float:left;"></div>
     <div id="output" style="margin-left:10px;float:left;"></div>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>

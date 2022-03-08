@@ -95,7 +95,7 @@
         document.getElementById('rotationInput').innerText = elm.value;
     }
     </script>
-    <script async defer src="https://bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]"></script>
+    
 </head>
 <body>
     <div id="myMap" style="position:relative;width:800px;height:500px;"></div>
@@ -130,5 +130,16 @@
         This sample shows how to set an get all options for ground overlays. 
         The ground overlay in this sample is sourced from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>.
     </fieldset>
+
+    <script>
+        // Dynamic load the Bing Maps Key and Script
+        // Get your own Bing Maps key at https://www.microsoft.com/maps
+        (async () => {
+            let script = document.createElement("script");
+            let bingKey = await fetch("https://samples.azuremaps.com/api/GetBingMapsKey").then(r => r.text()).then(key => { return key });
+            script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
+            document.body.appendChild(script);
+        })();
+    </script>
 </body>
 </html>
