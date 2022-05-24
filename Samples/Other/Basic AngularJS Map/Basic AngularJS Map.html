@@ -10,22 +10,6 @@
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
-    <script>
-    var app = angular.module("myApp", []);
-    app.controller("bingMapsCtrl", function ($scope) {
-        $scope.map = null;
-        $scope.init = function () {
-            $scope.map = new Microsoft.Maps.Map('#myMap', {});
-        };
-
-        //Load the Bing Maps control when the document is ready as ng-init fires before the map script has downloaded.
-        angular.element(document).ready(function () {
-            $scope.init();
-        });
-    });
-    </script>
 </head>
 <body>
     <div ng-app="myApp" ng-controller="bingMapsCtrl" ng-cloak>
@@ -41,6 +25,22 @@
             script.setAttribute("src", `https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=${bingKey}`);
             document.body.appendChild(script);
         })();
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("bingMapsCtrl", function ($scope) {
+            $scope.map = null;
+            $scope.init = function () {
+                $scope.map = new Microsoft.Maps.Map('#myMap', {});
+            };
+
+            //Load the Bing Maps control when the document is ready as ng-init fires before the map script has downloaded.
+            angular.element(document).ready(function () {
+                $scope.init();
+            });
+        });
     </script>
 </body>
 </html>

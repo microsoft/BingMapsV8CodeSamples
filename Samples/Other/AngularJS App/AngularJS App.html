@@ -10,23 +10,16 @@
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="screenshot.jpg" />
-
-    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>	
-
-	<script src="app.js"></script>
-	<script src="directives.js"></script>
-	<script src="services.js"></script>
 </head>
 <body>
-	<div class="mainCont" ng-controller="MainCtrl">
-		<h1>{{title}}</h1>
+    <div class="mainCont" ng-controller="MainCtrl">
+        <h1>{{title}}</h1>
 
-		<map center="{{center}}" width="800px" height="600px">
-			<pushpin ng-repeat="pushpin in pushpins" lat="{{pushpin.latitude}}" lng="{{pushpin.longitude}}" text="{{pushpin.text}}" 
-					 color="{{pushpin.color}}" click="onPushpinClick({{pushpin}})"></pushpin>
-		</map>
-	</div>
+        <map center="{{center}}" width="800px" height="600px">
+            <pushpin ng-repeat="pushpin in pushpins" lat="{{pushpin.latitude}}" lng="{{pushpin.longitude}}" text="{{pushpin.text}}"
+                     color="{{pushpin.color}}" click="onPushpinClick({{pushpin}})"></pushpin>
+        </map>
+    </div>
 
     <script>
         // Dynamic load the Bing Maps Key and Script
@@ -38,5 +31,12 @@
             document.body.appendChild(script);
         })();
     </script>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
+
+    <script src="/other/angularjs-app/app.js"></script>
+    <script src="/other/angularjs-app/directives.js"></script>
+    <script src="/other/angularjs-app/services.js"></script>
 </body>
 </html>
