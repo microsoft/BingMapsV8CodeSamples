@@ -4,48 +4,56 @@
     <title>Find By Property - Bing Maps Samples</title>
 
     <meta charset="utf-8" />
-	<link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="One of the simplest ways to query a data source is to do a property based search." />
     <meta name="keywords" content="Microsoft maps, map, gis, API, SDK, Bing, Bing Maps" />
     <meta name="author" content="Microsoft Bing Maps" />
     <meta name="screenshot" content="bmv8-findbypropertyexample.jpg" />
-    
+
     <script>
-    var map;
+        var map;
 
-    //Query URL to the NAVTEQ POI data source
-    var sdsDataSourceUrl = 'https://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
+        //Query URL to the PointsOfInterest data source
+        var sdsDataSourceUrl = 'http://spatial.virtualearth.net/REST/v1/data/Microsoft/PointsOfInterest';
 
-    function GetMap() {
-        map = new Microsoft.Maps.Map('#myMap', {
-            zoom: 2
-        });
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {});
 
-        //Load the Bing Spatial Data Services module.
-        Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
-            findByProperty();
-        });
-    }
+            //Load the Bing Spatial Data Services module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.SpatialDataService', function () {
+                //Add an event handler for when the map moves.
+                Microsoft.Maps.Events.addHandler(map, 'viewchangeend', getNearByLocations);
 
-    function findByProperty() {
-        //Remove any existing data from the map.
-        map.entities.clear();
+                //Trigger an initial search.
+                getNearByLocations();
+            });
+        }
 
-        //Create a query to get nearby data.
-        var queryOptions = {
-            queryUrl: sdsDataSourceUrl,
-            filter: new Microsoft.Maps.SpatialDataService.Filter('EntityTypeID', 'eq', 5540) //Filter to retrieve Gas Stations.
-        };
+        function getNearByLocations() {
+            //Remove any existing data from the map.
+            map.entities.clear();
 
-        //Process the query.
-        Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
-            //Add results to the map.
-            map.entities.push(data);
-        });
-    }
+            //Create a query to get nearby data.
+            var queryOptions = {
+                queryUrl: sdsDataSourceUrl,
+                spatialFilter: {
+                    spatialFilterType: 'nearby',
+                    location: map.getCenter(),
+                    radius: 25
+                },
+                //Filter to retrieve Gas Stations.
+                filter: new Microsoft.Maps.SpatialDataService.Filter('EntityTypeID', 'eq', 5540)
+            };
+
+            //Process the query.
+            Microsoft.Maps.SpatialDataService.QueryAPIManager.search(queryOptions, map, function (data) {
+                //Add results to the map.
+                map.entities.push(data);
+            });
+        }
     </script>
-    
+
 </head>
 <body>
     <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;background-color:gray"></div>
