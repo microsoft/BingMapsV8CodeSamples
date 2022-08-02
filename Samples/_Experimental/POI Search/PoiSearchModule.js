@@ -435,8 +435,8 @@ var Microsoft;
                  * @param map A map instance to retreive a session key from and use to perform a query.
                  */
                 function PoiSearchManager(map) {
-                    this._navteqNA = 'https://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
-                    this._navteqEU = 'https://spatial.virtualearth.net/REST/v1/data/c2ae584bbccc4916a0acf75d1e6947b4/NavteqEU/NavteqPOIs';
+                    this._navteqNA = 'https://spatial.virtualearth.net/REST/v1/data/Microsoft/PointsOfInterest';
+                    this._navteqEU = 'https://spatial.virtualearth.net/REST/v1/data/Microsoft/PointsOfInterest';
                     //Words used to connect a "what" with a "where".
                     this._connectingWords = [" in ", " near ", " around ", " by ", "nearby"];
                     this._naPhoneRx = /([0-9]{3}-)([0-9]{3})([0-9]{4})/gi;

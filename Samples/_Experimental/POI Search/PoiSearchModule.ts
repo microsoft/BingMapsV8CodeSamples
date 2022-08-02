@@ -648,8 +648,8 @@ module Microsoft.Maps.Search {
         private _searchManager: SearchManager;
         private _sessionKey: string;
 
-        private _navteqNA = 'https://spatial.virtualearth.net/REST/v1/data/f22876ec257b474b82fe2ffcb8393150/NavteqNA/NavteqPOIs';
-        private _navteqEU = 'https://spatial.virtualearth.net/REST/v1/data/c2ae584bbccc4916a0acf75d1e6947b4/NavteqEU/NavteqPOIs';
+        private _navteqNA = 'https://spatial.virtualearth.net/REST/v1/data/Microsoft/PointsOfInterest';
+        private _navteqEU = 'https://spatial.virtualearth.net/REST/v1/data/Microsoft/PointsOfInterest';
 
         //Words used to connect a "what" with a "where".
         private _connectingWords = [" in ", " near ", " around ", " by ", "nearby"];
