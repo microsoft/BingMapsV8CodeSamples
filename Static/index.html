@@ -11,7 +11,9 @@
     <link href="/favicon.ico" rel="shortcut icon">
     <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .col { min-height: 350px }
+        .col {
+            min-height: 350px
+        }
     </style>
 </head>
 <body onload="Start()" class="d-flex flex-column h-100">
@@ -120,6 +122,17 @@
 
         <div class="album py-5 bg-light">
             <div class="container">
+
+                <div class="w-100">
+                    <div class="alert alert-primary" role="alert">
+                        <strong>Azure Maps</strong><br />
+                        Bing Maps for Enterprise unification with Azure Maps is underway, consider using <a href="https://azuremaps.com" class="alert-link">Azure Maps</a> instead, Microsoft's next-generation maps and geospatial services for developers.
+                        Azure Maps has many of the same features as Bing Maps for Enterprise, and much more.
+                        To get started with Azure Maps, simply create a <a href="https://azure.microsoft.com/free/" class="alert-link">free Azure subscription</a> and add an Azure Maps account by following the steps <a href="https://learn.microsoft.com/azure/azure-maps/how-to-manage-account-keys" class="alert-link">here</a>.
+                        See also our <a href="https://samples.azuremaps.com" class="alert-link">Azure Maps Samples</a> and <a href="https://learn.microsoft.com/en-us/azure/azure-maps/migrate-bing-maps-overview" class="alert-link">Bing Maps Migration</a> documents.
+</div>
+                </div>
+
                 <div id="sampleList" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
                     {sampleList}
                 </div>
